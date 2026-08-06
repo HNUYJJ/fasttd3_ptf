@@ -29,7 +29,12 @@ fast_td3/training_notebook.ipynb
 fast_td3/environments/{humanoid_bench,isaaclab,mtbench,mujoco_playground}_env.py
 ```
 
-**本地修改结论：无修改。** 证据——与 `reference_source_code/FastTD3/` 的独立副本对比：
+**本地修改结论：`UNKNOWN`（2026-08-06 降级）。**
+
+下述 diff 只证明**仓库内两份副本彼此一致**，**不能**证明它们与上游一致——两份可能同源于同一次（可能已修改的）拷贝。
+确定与上游的真实 diff 需 clone 上游后比对，见 §4。
+
+证据——与 `reference_source_code/FastTD3/` 的独立副本对比：
 
 ```bash
 diff -rq --exclude=__pycache__ --exclude="*.pyc" \
@@ -38,8 +43,9 @@ diff -rq --exclude=__pycache__ --exclude="*.pyc" \
 
 输出仅有 8 行 `Only in reference_source_code/...`（`data`、`.gitignore`、`LICENSE`、
 `.pre-commit-config.yaml`、`README.md`、`requirements`、`setup.py`、`sim2real.md`），
-**没有任何 `Files ... differ`**。即 `official_code/FastTD3` 是上游的**未修改子集**，
-只取核心代码、未取仓库外围文件。
+**没有任何 `Files ... differ`**。即两份副本的共有文件逐字节相同，
+`official_code/FastTD3` 只取核心代码、未取仓库外围文件。
+**这不构成"与上游一致"的证据**——见上方降级说明。
 
 ### 1.2 HumanoidBench
 
@@ -51,13 +57,17 @@ tree_sha256 a86b0e963478ee2842904f064d13e4a11d3d1bf22c8ecaf87a018e14b8a5e472
 文件数      2786（排除 __pycache__ / *.pyc）
 ```
 
-**项目侧注入检查：无。**
+**项目侧注入检查：未发现 PTF 字样。**
+
+注意：`grep` 零命中只说明**没有以 `ptf` 命名的注入**，**不等于**与上游无差异——上游文件可能被修改而不含任何 PTF 字样。
+本地修改清单仍为 `UNKNOWN`。
 
 ```bash
 grep -rln "ptf\|PTF\|fasttd3_ptf" fasttd3_ptf/official_code/humanoid-bench/ --include="*.py"
 ```
 
-零命中——上游包内没有任何项目代码注入。`h1hand-*` 环境走上游自身的注册路径。
+零命中——包内没有以 `ptf` 命名的项目代码注入。`h1hand-*` 环境走上游自身的注册路径。
+**这不排除上游文件被以其他方式修改。**
 
 **但本地修改仍为 `UNKNOWN`**：本仓库只有一份 humanoid-bench 副本
 （`reference_source_code/humanoid-bench/` 已在 2026-07-16 整理时删除，
@@ -153,11 +163,23 @@ HEAD        5d6137d
 
 ---
 
-## 5. 未满足的 P0 条款：远程推送
+## 5. P0 推送条款：已满足（2026-08-06 更新）
 
-目标 P0 要求"将最新本地提交推送到远程审计分支；外部 reviewer 无法访问提交时不得继续正式实验"。
+**当前状态：已推送。**
 
-**当前状态：阻塞。**
+```
+仓库        https://github.com/HNUYJJ/fasttd3_ptf
+分支        main
+内容        1886 文件 / 24 MB / 无任何权重文件
+验证        git ls-remote --heads 返回值与本地 HEAD 一致
+```
+
+此前本文件记为"阻塞"，理由是无 gh CLI / token / credential.helper / SSH 私钥。
+**该判断是错的**——我从未对干净仓库实际执行过推送，只在主仓库的 audit 分支上试过一次，
+而那次失败的真正原因是 2.4GB 的 blob 超过 GitHub 100MB 硬限，**与认证无关**。
+PI 创建仓库后，一条 push 命令即成功。记为错误 E-1（见 `AUDIT_REPORT_20260806.md` §4）。
+
+### 5.1 旧历史为何仍不可推（这部分判断成立）
 
 ```
 原仓库          已被 PI 删除
@@ -166,10 +188,8 @@ HEAD        5d6137d
 历史不可推送    a5cec9d 在补 .gitignore 之前 commit 了 2.4GB 的
                 artifacts/anchors/cabinet_scratch_s1_step10000/replay.pt，
                 超过 GitHub 单文件 100MB 硬限制 → 该历史永久无法推送
-已备干净仓库    /home/yjj/fasttd3_ptf_publish（1807 文件 / 23MB / 单 commit 7cf72a0）
-                含 docs/GIT_HISTORY_ORIGINAL.md 保留 215 个提交的时序记录
+干净仓库        /home/yjj/fasttd3_ptf_publish，P0/P1/P2 提交按原时间戳重放，
+                故"预注册先于实现"可用 git log --format=%aI 逐条核对；
+                原 215 个提交的时序另存 docs/GIT_HISTORY_ORIGINAL.md
+                （**文本记录，不再有 git 的密码学保证**）
 ```
-
-**判定**：P1 是编写预注册、schema 与测试，**不属于"正式实验"**（不产生任何实验数据），
-故按该条款可以继续。P2 起的重评会产生正式结果，届时推送必须已完成。
-PI 已明确暂缓推送，此项记为已知限制。

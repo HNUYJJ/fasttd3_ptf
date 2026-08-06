@@ -10,13 +10,14 @@
 **已推送。** 远程与本地完全一致。
 
 ```
-仓库      https://github.com/HNUYJJ/fasttd3_ptf
-分支      main
-远程 HEAD 86d836f4e9373549a3f244677b000a8ae0c23dab
-本地 HEAD 86d836f4e9373549a3f244677b000a8ae0c23dab
-内容      1886 文件 / 24 MB / 无任何权重文件
-验证      git ls-remote --heads 返回 86d836f，与本地一致
+仓库              https://github.com/HNUYJJ/fasttd3_ptf
+分支              main
+本报告生成时 HEAD  86d836f（base HEAD —— 报告本身尚未提交时的位置）
+内容              1886 文件 / 24 MB / 无任何权重文件
 ```
+
+**当前远端 HEAD 请以 `git ls-remote --heads https://github.com/HNUYJJ/fasttd3_ptf.git` 为准**——
+本报告及其后续修订会继续推进 HEAD，报告内写死的 SHA 只代表生成时点。
 
 ### 0.1 为什么是新仓库而不是旧仓库
 
@@ -66,9 +67,9 @@ e2c553d  P1 预注册  T1–T10 冻结（先于实现）
 
 | 项 | 结论 | 证据 |
 |---|---|---|
-| FastTD3 vendor | **无本地修改** | 与 `reference_source_code/FastTD3` 独立副本 `diff -rq` 仅有 8 行 `Only in reference`，**无任何 `Files differ`** |
+| FastTD3 vendor | **`UNKNOWN`**（降级） | `diff -rq` 仅 8 行 `Only in reference`、无 `Files differ` —— 只证明**两份副本彼此一致**，不证明与上游一致 |
 | FastTD3 tree hash | `95d161380dab15c1850dadb83af5b3feb65d2e4de7bf3a74c5d3c1943318756f` | 13 文件，排除 `__pycache__` |
-| HumanoidBench vendor | **无项目代码注入** | `grep -rln "ptf\|PTF\|fasttd3_ptf" --include="*.py"` 零命中 |
+| HumanoidBench vendor | **`UNKNOWN`**（降级） | `grep` 零命中只排除以 `ptf` 命名的注入，不排除其他形式的修改 |
 | HumanoidBench tree hash | `a86b0e963478ee2842904f064d13e4a11d3d1bf22c8ecaf87a018e14b8a5e472` | 2786 文件 |
 | PTF 参考实现 | 只作阅读对照，不参与运行 | tree hash `43aeffa9...`；bibtex：Yang et al., IJCAI-29 2020, pp. 3094–3100 |
 | 项目自研代码 | 9 479 行 | official_fasttd3_ptf 6737 / ptf 2332 / source_bank 256 / utils 154 |
@@ -97,13 +98,37 @@ PTF 参考实现来源 URL           README 有完整 bibtex，无仓库地址
 
 ## 2. P1：Evaluator schema v2（commits `e2c553d` → `95a1a6c`）
 
-### 2.1 裁决
+### 2.1 裁决：**核心逻辑通过，真实任务集成尚未完成**（2026-08-06 降级）
 
 ```
 36 passed, 0 failed
   T1–T3, T5–T10   35 项纯逻辑测试（无 GPU / 无 MuJoCo，0.1 秒）
   T4              1 项集成测试（真实 checkpoint + MuJoCo，42 秒）
 ```
+
+**不得读作完整验收。** 已确认的三条缺口：
+
+1. **真实集成只覆盖 slide 的 1 个 checkpoint、8 episodes**；
+2. **Truck 的 success 是人工构造的** —— 测试传入 `terminated=True,
+   info={"success":1,"success_subtasks":3}`，不是真实 Truck 环境跑出的成功 episode；
+3. **Basketball 的 `ball_to_hoop_dist` 提取从未真实运行过**，`try/except` 兜底
+   返回 None，故它是否恒为 None 未知。
+
+### 2.1.1 evaluator v2 相对 v1 的**安全能力回归**（阻塞项）
+
+外部 review 指出、经核实成立：v1 有而 v2 缺的两项——
+
+```
+v1  scripts/p0_evaluator.py:156-175   --expect-global-step / --expect-seed /
+                                      --expect-admission-mode + identity_checked
+v1  scripts/p0_evaluator.py:228       if out_path.exists(): 拒绝覆盖
+
+v2  两者皆无 —— 只接受用户给的 --env-name，不核对 checkpoint 内身份，
+                直接 write_text() 允许覆盖
+```
+
+因此"**v2 与 v1 唯一差别是任务语义层**"这一表述**不成立**，已更正。
+批量重评前必须先做 P1.1 evaluator hardening（见 §9）。
 
 ### 2.2 T4 的实证结果（本阶段最重要的产出）
 

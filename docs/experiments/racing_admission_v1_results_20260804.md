@@ -163,3 +163,21 @@ crawl 上这些可能性是被**实测数据**排除的，而非被 headroom 论
 **早期与终点同时为负**，故 source mismatch 的解释依然成立。
 
 出处：`docs/experiments/post_transfer_autonomy_site_screen_results_20260806.md` §3。
+
+---
+
+## 补注 2（2026-08-06，外部 review 后降级）
+
+上方补注引用的 `crawl J_best_known = 984.9 / 98.5% of theory max` **已降级为 `PROVISIONAL`**。
+
+该数字取自单个 checkpoint（`endtoend_v1/crawl/.../scratch_s3_step100000.json`），
+属 `best_observed_return` —— 跨 method/seed/step 的单点最大值。它**只能证明
+"曾有 checkpoint 达到过该水平"，不能证明固定预算、多 seed、固定方法下稳定接近上限**。
+在 evaluator v2 重评完成前不得引用。
+
+**本文件的主裁决 `ADMISSION_VIABLE` 不受影响**——它基于 racing 的 per-seed `U ± 2SE`，
+与饱和度无关。
+
+另一处措辞修正：正文的 "crawl 9/9 显著负" 应读作
+**"9 个 source–learner cells 的方向全部为负"**。这 9 个 cell 共享同一 student 基线，
+**不是 9 个独立实验**；独立单位是 3 个 learner seeds（M16）。
