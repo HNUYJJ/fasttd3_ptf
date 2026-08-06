@@ -69,13 +69,34 @@ def _make_env(env_name: str):
 
 
 def _basketball_state(env) -> dict | None:
-    """basketball 判定成败需要球心与 hoop 的距离（info 里没有）。"""
+    """basketball 判定成败需要球心与 hoop 的距离（info 里没有该字段）。
+
+    与 `basketball.py:143` 的判定式对齐：
+    ``norm(named.data.xpos["basketball"] - named.data.site_xpos["hoop_center"]) < 0.05``。
+
+    **访问路径**：`env.unwrapped` 是 `HumanoidEnv`，它**直接**持有 `named`；
+    初版误写为 `env.unwrapped._env.named`（`HumanoidEnv` 没有 `_env` 属性），
+    AttributeError 被 `except` 静默吞掉 → 恒返回 None → basketball 的
+    `task_success` 永远是 `INSUFFICIENT_STATE`。S5 smoke 抓到了这个缺陷。
+
+    异常不再静默：返回 None 的同时把原因写入 `_last_error`，
+    使"提取失败"与"该任务不需要 state"可区分。
+    """
     try:
-        named = env.unwrapped._env.named.data
-        dist = float(np.linalg.norm(named.xpos["basketball"] - named.site_xpos["hoop_center"]))
+        named = env.unwrapped.named.data
+        dist = float(np.linalg.norm(
+            named.xpos["basketball"] - named.site_xpos["hoop_center"]))
+        if not np.isfinite(dist):
+            _basketball_state._last_error = f"dist 非有限值: {dist}"
+            return None
         return {"ball_to_hoop_dist": dist}
-    except (AttributeError, KeyError):
+    except (AttributeError, KeyError, IndexError, TypeError) as exc:
+        # 不静默：记录具体原因，供 smoke 与调用方诊断
+        _basketball_state._last_error = f"{type(exc).__name__}: {exc}"
         return None
+
+
+_basketball_state._last_error = None
 
 
 @torch.no_grad()

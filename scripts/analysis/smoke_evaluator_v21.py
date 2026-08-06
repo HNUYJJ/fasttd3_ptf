@@ -32,8 +32,12 @@ OUT = REPO / "docs/data/evaluator_v21_smoke"
 CASES = [
     ("S1", "h1hand-crawl-v0",
      "models/h1hand-crawl-v0__h1hand_crawl_tp_scr_s1_20260615T044012Z__1_final.pt"),
+    # S2 用**早期** checkpoint：final scratch 已学会不摔倒（首轮实测 0/8 终止），
+    # 而验证 failure 语义必须有 terminated 的 episode。
+    # 选 20k 的 checkpoint 不是"挑数据让测试过"，而是验证该代码路径的必要条件
+    # ——如同测试异常处理必须先构造异常。T4 已知它 5/8 摔倒。
     ("S2", "h1hand-slide-v0",
-     "models/h1hand-slide-v0__h1hand_slide_tp_scr_s1_20260615T044012Z__1_final.pt"),
+     "models/h1hand-slide-v0__slide_bac_walk_s1__1_20000.pt"),
     ("S3", "h1hand-truck-v0",
      "models/h1hand-truck-v0__h1hand_truck_scratch50k_s1_20260612T161202Z__1_final.pt"),
     ("S4", "h1hand-bookshelf_simple-v0",
@@ -90,18 +94,21 @@ def check_S3(eps):
 
 
 def check_S4(eps):
-    """bookshelf：条件终止。终止时 terminated_reason 必须存在且被正确映射。"""
+    """bookshelf：条件终止。终止时 terminated_reason 必须存在且被正确映射。
+
+    返回 (fails, vacuous)：若 8 个 episode 无一终止，条件式判据真空成立，
+    但**并未真实验证条件判定路径**——此时标 VACUOUS 而非 PASS。
+    """
     fails = []
     if not all(e["metric_status"] == "OK" for e in eps):
         fails.append(f"metric_status 实得 {sorted({e['metric_status'] for e in eps})}")
-    for e in eps:
-        if not e["terminated"]:
-            continue
+    term = [e for e in eps if e["terminated"]]
+    for e in term:
         sem = e["termination_semantics"]
         if sem not in ("success", "failure"):
             fails.append(f"seed={e['seed']} 终止但语义={sem}（应为 success/failure，"
                          f"若为 unknown 说明 terminated_reason 缺失）")
-    return fails
+    return fails, (len(term) == 0)
 
 
 def check_S5(eps):
@@ -146,8 +153,15 @@ def main() -> int:
             n_fail += 1
             continue
 
-        fails = CHECKS[tag](eps)
-        status = "PASS" if not fails else "FAIL"
+        outcome = CHECKS[tag](eps)
+        fails, vacuous = outcome if isinstance(outcome, tuple) else (outcome, False)
+        if fails:
+            status = "FAIL"
+        elif vacuous:
+            # 条件式判据在前提不成立时真空为真——不得计为"已验证"
+            status = "VACUOUS"
+        else:
+            status = "PASS"
         n_fail += bool(fails)
 
         summary = {
@@ -168,7 +182,10 @@ def main() -> int:
                 "null": sum(1 for e in eps if e["task_success"] is None)},
             "milestone_keys": sorted({k for e in eps for k in (e.get("milestones") or {})}),
             "return_mean": sum(e["return"] for e in eps) / len(eps),
+            "vacuous": vacuous,
         }
+        if tag == "S5":
+            summary["basketball_state_last_error"] = ev._basketball_state._last_error
         results[tag] = summary
         print(f"  {status}  terminated={summary['n_terminated']}/{len(eps)} "
               f"semantics={summary['semantics']} status={summary['metric_status']}")
@@ -182,6 +199,7 @@ def main() -> int:
         "device": DEVICE,
         "warning": "smoke 数值仅验证通路，不得用于任何科学判断",
         "verdict": "ALL_PASS" if n_fail == 0 else f"{n_fail}_CASES_FAILED",
+        "vacuous_cases": [t for t, r in results.items() if r.get("vacuous")],
         "cases": results,
     }
     out = OUT / "smoke.json"

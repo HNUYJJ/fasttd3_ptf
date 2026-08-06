@@ -1,0 +1,147 @@
+{
+  "prereg": "docs/experiments/evaluator_v21_hardening_prereg_20260806.md",
+  "n_episodes_per_case": 8,
+  "device": "cpu",
+  "warning": "smoke 数值仅验证通路，不得用于任何科学判断",
+  "verdict": "ALL_PASS",
+  "vacuous_cases": [
+    "S4"
+  ],
+  "cases": {
+    "S1": {
+      "env": "h1hand-crawl-v0",
+      "status": "PASS",
+      "fails": [],
+      "checkpoint": "models/h1hand-crawl-v0__h1hand_crawl_tp_scr_s1_20260615T044012Z__1_final.pt",
+      "checkpoint_global_step": 100000,
+      "learner_seed": 1,
+      "n_episodes": 8,
+      "n_terminated": 0,
+      "n_truncated": 8,
+      "semantics": {
+        "neutral": 8
+      },
+      "metric_status": {
+        "OK": 8
+      },
+      "task_success": {
+        "true": 0,
+        "false": 8,
+        "null": 0
+      },
+      "milestone_keys": [],
+      "return_mean": 953.1065256556394,
+      "vacuous": false
+    },
+    "S2": {
+      "env": "h1hand-slide-v0",
+      "status": "PASS",
+      "fails": [],
+      "checkpoint": "models/h1hand-slide-v0__slide_bac_walk_s1__1_20000.pt",
+      "checkpoint_global_step": 20000,
+      "learner_seed": 1,
+      "n_episodes": 8,
+      "n_terminated": 5,
+      "n_truncated": 3,
+      "semantics": {
+        "failure": 5,
+        "neutral": 3
+      },
+      "metric_status": {
+        "OK": 8
+      },
+      "task_success": {
+        "true": 0,
+        "false": 8,
+        "null": 0
+      },
+      "milestone_keys": [],
+      "return_mean": 93.53713388347963,
+      "vacuous": false
+    },
+    "S3": {
+      "env": "h1hand-truck-v0",
+      "status": "PASS",
+      "fails": [],
+      "checkpoint": "models/h1hand-truck-v0__h1hand_truck_scratch50k_s1_20260612T161202Z__1_final.pt",
+      "checkpoint_global_step": 50000,
+      "learner_seed": 1,
+      "n_episodes": 8,
+      "n_terminated": 0,
+      "n_truncated": 8,
+      "semantics": {
+        "neutral": 8
+      },
+      "metric_status": {
+        "OK": 8
+      },
+      "task_success": {
+        "true": 0,
+        "false": 8,
+        "null": 0
+      },
+      "milestone_keys": [
+        "success",
+        "success_subtasks"
+      ],
+      "return_mean": 1230.2453062597258,
+      "vacuous": false
+    },
+    "S4": {
+      "env": "h1hand-bookshelf_simple-v0",
+      "status": "VACUOUS",
+      "fails": [],
+      "checkpoint": "models/h1hand-bookshelf_simple-v0__h1hand_bookshelf_simple_b2_scr_s1_20260705T153732Z__1_final.pt",
+      "checkpoint_global_step": 100000,
+      "learner_seed": 1,
+      "n_episodes": 8,
+      "n_terminated": 0,
+      "n_truncated": 8,
+      "semantics": {
+        "neutral": 8
+      },
+      "metric_status": {
+        "OK": 8
+      },
+      "task_success": {
+        "true": 0,
+        "false": 8,
+        "null": 0
+      },
+      "milestone_keys": [
+        "success",
+        "success_subtasks"
+      ],
+      "return_mean": 815.885223993711,
+      "vacuous": true
+    },
+    "S5": {
+      "env": "h1hand-basketball-v0",
+      "status": "PASS",
+      "fails": [],
+      "checkpoint": "models/h1hand-basketball-v0__h1hand_basketball_b2_scr_s1_20260705T153732Z__1_30000.pt",
+      "checkpoint_global_step": 30000,
+      "learner_seed": 1,
+      "n_episodes": 8,
+      "n_terminated": 8,
+      "n_truncated": 0,
+      "semantics": {
+        "failure": 8
+      },
+      "metric_status": {
+        "OK": 8
+      },
+      "task_success": {
+        "true": 0,
+        "false": 8,
+        "null": 0
+      },
+      "milestone_keys": [
+        "success_subtasks"
+      ],
+      "return_mean": 47.58876793774198,
+      "vacuous": false,
+      "basketball_state_last_error": null
+    }
+  }
+}
