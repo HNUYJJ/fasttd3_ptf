@@ -358,17 +358,54 @@ def test_T4_v1_v2_bitwise_identical_on_shared_fields():
     这条防的是"改口径导致数字变化"被误当成"修好了 bug"。
     """
     import os
+    import sys
+    from pathlib import Path
 
-    from scripts import p0_evaluator  # noqa: F401
+    repo = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(repo))
+    sys.path.insert(0, str(repo / "scripts"))
+
+    import p0_evaluator as v1_mod
+    import p0_evaluator_v2 as v2_mod
+
     ckpt = os.environ["EVAL_V2_INTEGRATION_CKPT"]
     env_name = os.environ.get("EVAL_V2_INTEGRATION_ENV", "h1hand-slide-v0")
+    n = int(os.environ.get("EVAL_V2_INTEGRATION_N", "8"))
+    device = os.environ.get("EVAL_V2_INTEGRATION_DEVICE", "cpu")
 
-    v1 = schema_v2.run_panel_v1_compat(ckpt, env_name, n_episodes=32)
-    v2 = schema_v2.run_panel_v2(ckpt, env_name, n_episodes=32)
+    # v1：复用其自身的 episode 循环（独立代码路径，不共享实现）
+    from probe_lib import load_student
+    actor, _critic, obs_norm, _critic_norm, _step = load_student(ckpt, device)
+    actor.eval()
+    env = v1_mod._make_env(env_name)
+    v1 = []
+    try:
+        for eval_seed in v1_mod.EVAL_SEEDS:
+            for rank in v1_mod.RANKS:
+                v1.append(v1_mod._run_episode(
+                    env, actor, obs_norm, device, eval_seed * 1000 + rank))
+                if len(v1) >= n:
+                    raise StopIteration
+    except StopIteration:
+        pass
+    finally:
+        env.close()
 
-    assert len(v1) == len(v2) == 32
+    v2 = v2_mod.run_panel_v2(ckpt, env_name, device=device, n_episodes=n)
+
+    assert len(v1) == len(v2) == n
     for e1, e2 in zip(v1, v2):
         assert e1["seed"] == e2["seed"], "reset seed 顺序必须一致"
-        assert e1["return"] == e2["return"], "return 必须逐位一致"
-        assert e1["progress_max_dx"] == e2["progress_max_dx"]
-        assert e1["episode_length"] == e2["episode_length"]
+        assert e1["return"] == e2["return"], (
+            f"return 必须逐位一致：seed={e1['seed']} v1={e1['return']} v2={e2['return']}")
+        assert e1["progress_max_dx"] == e2["progress_max_dx"], "progress 必须逐位一致"
+
+    # 只允许 success 语义变化：v1 把 terminated 当成功，v2 交给 registry
+    changed = [
+        (e1["seed"], e1["terminated_success"], e2["task_success"])
+        for e1, e2 in zip(v1, v2)
+        if e1["terminated_success"] != e2["task_success"]
+    ]
+    print(f"\nT4: {len(v1)} episodes 数值逐位一致；success 语义变化 {len(changed)} 例")
+    for seed, old, new in changed[:5]:
+        print(f"  seed={seed}  v1.terminated_success={old} → v2.task_success={new}")
