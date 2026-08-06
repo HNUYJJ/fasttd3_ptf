@@ -1,0 +1,910 @@
+{
+  "prereg": "docs/experiments/post_transfer_autonomy_site_screen_prereg_20260806.md",
+  "prereg_commit": "3070c78",
+  "excluded": {
+    "stand": "本项目的源，非 target",
+    "walk": "本项目的源，非 target",
+    "run": "本项目的源，非 target",
+    "reach": "本项目的源，非 target",
+    "door": "判决场已关闭（M31：U 符号跨 learner 反转）",
+    "kitchen": "success_bar=4，语义与其余任务不可比"
+  },
+  "rows": [
+    {
+      "target": "balance_hard",
+      "class": "BalanceHard",
+      "success_bar": 800,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/balance.py:13",
+      "success_bar_defined_in": "BalanceBase",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "balance_simple",
+      "class": "BalanceSimple",
+      "success_bar": 800,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/balance.py:13",
+      "success_bar_defined_in": "BalanceBase",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "basketball",
+      "class": "Basketball",
+      "success_bar": 1200,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/basketball.py:46",
+      "success_bar_defined_in": "Basketball",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 500,
+      "max_episode_steps_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/basketball.py:44",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "bookshelf_hard",
+      "class": "BookshelfHard",
+      "success_bar": 2000,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/bookshelf.py:100",
+      "success_bar_defined_in": "BookshelfBase",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "bookshelf_simple",
+      "class": "BookshelfSimple",
+      "success_bar": 2000,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/bookshelf.py:100",
+      "success_bar_defined_in": "BookshelfBase",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "cabinet",
+      "class": "Cabinet",
+      "success_bar": 2500,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/cabinet.py:53",
+      "success_bar_defined_in": "Cabinet",
+      "gates": {
+        "G2": "PASS",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']"
+      ],
+      "J_best_known": 100.61728579927896,
+      "J_best_known_source": "docs/data/cabinet_at10k_gate_v1/source_free_eval/walk_s1_step20000.json",
+      "n_eval_files": 12,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": 2399.383,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "crawl",
+      "class": "Crawl",
+      "success_bar": 700,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/basic_locomotion_envs.py:31",
+      "success_bar_defined_in": "Walk",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "FAIL",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "H_op ≤ 0 但 milestone 未测；预注册 §4 的 SATURATED 需H_op ≤ 0 **且** H_ms ≤ 0，故不得判定为已饱和",
+        "三源 9/9 显著负，racing 判全拒；无源提供前期收益"
+      ],
+      "J_best_known": 984.885788730717,
+      "J_best_known_source": "docs/data/endtoend_v1/crawl/source_free_eval/scratch_s3_step100000.json",
+      "n_eval_files": 36,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": 1000.0,
+      "reward_structure": "stand_reward * small_control * move，全为 [0,1] tolerance 相乘，无稀疏加项",
+      "reward_structure_source": "basic_locomotion_envs.py:173-214",
+      "H_raw": 15.114,
+      "pct_of_theory_max": 98.5,
+      "H_ms": null,
+      "H_op": -284.886,
+      "g1_source": "docs/experiments/racing_admission_v1_results_20260804.md",
+      "verdict": "NO_SCAFFOLD"
+    },
+    {
+      "target": "cube",
+      "class": "Cube",
+      "success_bar": 370,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/cube.py:45",
+      "success_bar_defined_in": "Cube",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 500,
+      "max_episode_steps_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/cube.py:43",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "highbar_hard",
+      "class": "HighBarHard",
+      "success_bar": 750,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/highbar.py:11",
+      "success_bar_defined_in": "HighBarBase",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "highbar_simple",
+      "class": "HighBarSimple",
+      "success_bar": 750,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/highbar.py:11",
+      "success_bar_defined_in": "HighBarBase",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "hurdle",
+      "class": "Hurdle",
+      "success_bar": 700,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/basic_locomotion_envs.py:31",
+      "success_bar_defined_in": "Walk",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "PASS",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "H_op ≤ 0 但 milestone 未测；预注册 §4 的 SATURATED 需H_op ≤ 0 **且** H_ms ≤ 0，故不得判定为已饱和",
+        "早期 3.5-4.4x，θ=200/300 各 3/3 seed，CONFIRMED"
+      ],
+      "J_best_known": 851.0663638958799,
+      "J_best_known_source": "docs/data/endtoend_v1/hurdle/source_free_eval/exit_s2_step100000.json",
+      "n_eval_files": 138,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": 1000.0,
+      "reward_structure": "stand_reward * small_control * move * wall_collision_discount，折扣项 ≤ 1",
+      "reward_structure_source": "basic_locomotion_envs.py:232-275",
+      "H_raw": 148.934,
+      "pct_of_theory_max": 85.1,
+      "H_ms": null,
+      "H_op": -151.066,
+      "g1_source": "docs/experiments/hurdle_speedup_v1_results_20260730.md",
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G3",
+        "G4"
+      ],
+      "role_locked": "早期加速与稳定性对照"
+    },
+    {
+      "target": "insert",
+      "class": "Insert",
+      "success_bar": 350,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/insert.py:47",
+      "success_bar_defined_in": "Insert",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 500,
+      "max_episode_steps_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/insert.py:45",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "maze",
+      "class": "Maze",
+      "success_bar": 1200,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/maze.py:142",
+      "success_bar_defined_in": "Maze",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "package",
+      "class": "Package",
+      "success_bar": 1500,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/package.py:50",
+      "success_bar_defined_in": "Package",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "pole",
+      "class": "Pole",
+      "success_bar": 700,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/pole.py:26",
+      "success_bar_defined_in": "Pole",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "powerlift",
+      "class": "Powerlift",
+      "success_bar": 800,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/powerlift.py:46",
+      "success_bar_defined_in": "Powerlift",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "push",
+      "class": "Push",
+      "success_bar": 700,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/push.py:26",
+      "success_bar_defined_in": "Push",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 500,
+      "max_episode_steps_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/push.py:20",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "room",
+      "class": "Room",
+      "success_bar": 400,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/room.py:63",
+      "success_bar_defined_in": "Room",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "sit",
+      "class": "Sit",
+      "success_bar": 750,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/basic_locomotion_envs.py:305",
+      "success_bar_defined_in": "Sit",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "sit_hard",
+      "class": "SitHard",
+      "success_bar": 750,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/basic_locomotion_envs.py:305",
+      "success_bar_defined_in": "Sit",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "slide",
+      "class": "Slide",
+      "success_bar": 700,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/basic_locomotion_envs.py:31",
+      "success_bar_defined_in": "Walk",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "PASS",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "H_op ≤ 0 但 milestone 未测；预注册 §4 的 SATURATED 需H_op ≤ 0 **且** H_ms ≤ 0，故不得判定为已饱和",
+        "10k-30k 优于 scratch；但 100k SPEEDUP_REFUTED（被反超 2.7x）"
+      ],
+      "J_best_known": 951.4976973739354,
+      "J_best_known_source": "docs/data/slide_hard_exit_v1/source_free_eval/exit_s1_step75000.json",
+      "n_eval_files": 105,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": 1000.0,
+      "reward_structure": "同 Walk 结构；Slide/Stair 均继承此实现（原理性反例 A 的基础）",
+      "reward_structure_source": "basic_locomotion_envs.py:172-218",
+      "H_raw": 48.502,
+      "pct_of_theory_max": 95.1,
+      "H_ms": null,
+      "H_op": -251.498,
+      "g1_source": "docs/experiments/slide_speedup_v1_results_20260804.md",
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G3",
+        "G4"
+      ],
+      "role_locked": "生命周期机制对照"
+    },
+    {
+      "target": "spoon",
+      "class": "Spoon",
+      "success_bar": 650,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/spoon.py:41",
+      "success_bar_defined_in": "Spoon",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "stair",
+      "class": "Stair",
+      "success_bar": 700,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/basic_locomotion_envs.py:31",
+      "success_bar_defined_in": "Walk",
+      "gates": {
+        "G2": "PASS",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']"
+      ],
+      "J_best_known": 67.01582580777969,
+      "J_best_known_source": "docs/data/stair_bac_gate_v1/source_free_eval/slidesrc_s1_step20000.json",
+      "n_eval_files": 18,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": 1000.0,
+      "reward_structure": "同 Walk 结构；Slide/Stair 均继承此实现（原理性反例 A 的基础）",
+      "reward_structure_source": "basic_locomotion_envs.py:172-218",
+      "H_raw": 932.984,
+      "pct_of_theory_max": 6.7,
+      "H_ms": null,
+      "H_op": 632.984,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "truck",
+      "class": "Truck",
+      "success_bar": 3000,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/truck.py:44",
+      "success_bar_defined_in": "Truck",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    },
+    {
+      "target": "window",
+      "class": "Window",
+      "success_bar": 650,
+      "success_bar_source": "fasttd3_ptf/official_code/humanoid-bench/humanoid_bench/envs/window.py:45",
+      "success_bar_defined_in": "Window",
+      "gates": {
+        "G2": "UNKNOWN_G2",
+        "G1": "UNKNOWN_G1",
+        "G3": "UNKNOWN_G3",
+        "G4": "UNKNOWN_G4"
+      },
+      "notes": [
+        "reward 结构未人工核实，按预注册 §2.1 不估算理论上限",
+        "现有 source-free 评估未采集 info['success'] / ['success_subtasks']",
+        "无任何 source-free 评估数据"
+      ],
+      "J_best_known": null,
+      "J_best_known_source": null,
+      "n_eval_files": 0,
+      "max_episode_steps": 1000,
+      "max_episode_steps_source": "tasks.py:12 (Task 基类默认)",
+      "J_theory_max": "NOT_AUDITED",
+      "H_raw": null,
+      "H_ms": null,
+      "H_op": null,
+      "verdict": "UNKNOWN",
+      "unknown_gates": [
+        "G2",
+        "G1",
+        "G3",
+        "G4"
+      ]
+    }
+  ],
+  "split": {
+    "development": null,
+    "holdout": null,
+    "status": "INSUFFICIENT_SITES",
+    "n_candidates": 0,
+    "rule": "CANDIDATE < 2，按预注册 §5 停止，不得降低门槛凑数"
+  },
+  "n_unknown": 24,
+  "unknown_targets": [
+    "balance_hard",
+    "balance_simple",
+    "basketball",
+    "bookshelf_hard",
+    "bookshelf_simple",
+    "cabinet",
+    "cube",
+    "highbar_hard",
+    "highbar_simple",
+    "hurdle",
+    "insert",
+    "maze",
+    "package",
+    "pole",
+    "powerlift",
+    "push",
+    "room",
+    "sit",
+    "sit_hard",
+    "slide",
+    "spoon",
+    "stair",
+    "truck",
+    "window"
+  ],
+  "counts": {
+    "SATURATED": 0,
+    "NO_SCAFFOLD": 1,
+    "SOURCE_SOLVES_IT": 0,
+    "UNMEASURABLE": 0,
+    "CANDIDATE": 0,
+    "UNKNOWN": 24
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "prereg": "docs/experiments/racing_reject_door_v4_prereg_20260731.md",
+  "prereg_commits": [
+    "38311fb"
+  ],
+  "run_id": "9e0aad8303a3",
+  "reject_rule": "REJECT ⟺ max_i U_i(K) <= 0  (R1)",
+  "dose": {
+    "holdout/stand_s4_12000": 0.4887,
+    "holdout/stand_s4_15000": 0.4924,
+    "holdout/stand_s4_20000": 0.4965,
+    "holdout/walk_s4_12000": 0.4909,
+    "holdout/walk_s4_15000": 0.4935,
+    "holdout/walk_s4_20000": 0.4965,
+    "holdout/run_s4_12000": 0.4912,
+    "holdout/run_s4_15000": 0.4935,
+    "holdout/run_s4_20000": 0.4972,
+    "holdout/stand_s5_12000": 0.5048,
+    "holdout/stand_s5_15000": 0.5032,
+    "holdout/stand_s5_20000": 0.4998,
+    "holdout/walk_s5_12000": 0.5017,
+    "holdout/walk_s5_15000": 0.5014,
+    "holdout/walk_s5_20000": 0.4985,
+    "holdout/run_s5_12000": 0.5036,
+    "holdout/run_s5_15000": 0.5018,
+    "holdout/run_s5_20000": 0.4986,
+    "holdout/stand_s6_12000": 0.4959,
+    "holdout/stand_s6_15000": 0.4991,
+    "holdout/stand_s6_20000": 0.4997,
+    "holdout/walk_s6_12000": 0.4951,
+    "holdout/walk_s6_15000": 0.4984,
+    "holdout/walk_s6_20000": 0.4987,
+    "holdout/run_s6_12000": 0.4939,
+    "holdout/run_s6_15000": 0.4977,
+    "holdout/run_s6_20000": 0.499,
+    "newbatch/stand_s7_12000": 0.5052,
+    "newbatch/stand_s7_15000": 0.4994,
+    "newbatch/stand_s7_20000": 0.4995,
+    "newbatch/walk_s7_12000": 0.503,
+    "newbatch/walk_s7_15000": 0.498,
+    "newbatch/walk_s7_20000": 0.4982,
+    "newbatch/run_s7_12000": 0.5019,
+    "newbatch/run_s7_15000": 0.4983,
+    "newbatch/run_s7_20000": 0.4991,
+    "newbatch/stand_s8_12000": 0.5098,
+    "newbatch/stand_s8_15000": 0.5017,
+    "newbatch/stand_s8_20000": 0.5025,
+    "newbatch/walk_s8_12000": 0.5089,
+    "newbatch/walk_s8_15000": 0.5009,
+    "newbatch/walk_s8_20000": 0.5016,
+    "newbatch/run_s8_12000": 0.5065,
+    "newbatch/run_s8_15000": 0.5007,
+    "newbatch/run_s8_20000": 0.5018,
+    "newbatch/stand_s9_12000": 0.5158,
+    "newbatch/stand_s9_15000": 0.5106,
+    "newbatch/stand_s9_20000": 0.5057,
+    "newbatch/walk_s9_12000": 0.5138,
+    "newbatch/walk_s9_15000": 0.5091,
+    "newbatch/walk_s9_20000": 0.5049,
+    "newbatch/run_s9_12000": 0.5115,
+    "newbatch/run_s9_15000": 0.508,
+    "newbatch/run_s9_20000": 0.505
+  },
+  "layer2_within_batch": {
+    "per_seed": {
+      "holdout_s4": {
+        "U": {
+          "stand": -3.62,
+          "walk": -2.75,
+          "run": -2.27
+        },
+        "argmax": "run",
+        "max_U": -2.27,
+        "reject": true
+      },
+      "holdout_s5": {
+        "U": {
+          "stand": -32.47,
+          "walk": -27.35,
+          "run": -41.42
+        },
+        "argmax": "walk",
+        "max_U": -27.35,
+        "reject": true
+      },
+      "holdout_s6": {
+        "U": {
+          "stand": -44.67,
+          "walk": -55.32,
+          "run": -104.56
+        },
+        "argmax": "stand",
+        "max_U": -44.67,
+        "reject": true
+      },
+      "newbatch_s7": {
+        "U": {
+          "stand": 3.51,
+          "walk": -54.03,
+          "run": -25.18
+        },
+        "argmax": "stand",
+        "max_U": 3.51,
+        "reject": false
+      },
+      "newbatch_s8": {
+        "U": {
+          "stand": -2.47,
+          "walk": -17.72,
+          "run": -41.58
+        },
+        "argmax": "stand",
+        "max_U": -2.47,
+        "reject": true
+      },
+      "newbatch_s9": {
+        "U": {
+          "stand": -0.2,
+          "walk": -36.51,
+          "run": 36.32
+        },
+        "argmax": "run",
+        "max_U": 36.32,
+        "reject": false
+      }
+    },
+    "pass": false
+  },
+  "verdict": "PARTICIPANT_DIVERGED"
+}

@@ -1,0 +1,789 @@
+{
+ "h1hand-balance_hard-v0": {
+  "target": "h1hand-balance_hard-v0",
+  "kind": "multiplicative",
+  "bottleneck_set": [
+   "stand_reward"
+  ],
+  "bottleneck_is_generic": [
+   "stand_reward"
+  ],
+  "headroom_share": {
+   "stand_reward": 0.8133144338666162
+  },
+  "sources": {
+   "stand": {
+    "Coverage": 0.08216461440389995,
+    "Damage": -0.01835578778418002,
+    "NET": 0.06380882661971993,
+    "return": 18.697145278008474,
+    "per_step": 0.82375,
+    "delta_bottleneck": {
+     "stand_reward": 0.08714999999999995
+    }
+   },
+   "walk": {
+    "Coverage": 0.0,
+    "Damage": -0.08851895636088009,
+    "NET": -0.08851895636088009,
+    "return": 10.357065282605294,
+    "per_step": 0.67637,
+    "delta_bottleneck": {
+     "stand_reward": -0.07200000000000006
+    }
+   },
+   "run": {
+    "Coverage": 0.0,
+    "Damage": -0.04367382258836,
+    "NET": -0.04367382258836,
+    "return": 10.847040623394513,
+    "per_step": 0.72147,
+    "delta_bottleneck": {
+     "stand_reward": -0.024680000000000035
+    }
+   }
+  },
+  "sign_prediction": "MIXED",
+  "spread": 0.1523277829806,
+  "rank_separable": true,
+  "rank_NET": [
+   "stand",
+   "run",
+   "walk"
+  ],
+  "rank_return": [
+   "stand",
+   "run",
+   "walk"
+  ],
+  "ranks_disagree": false,
+  "ranks_inverted": false
+ },
+ "h1hand-cabinet-v0": {
+  "target": "h1hand-cabinet-v0",
+  "kind": "unbounded",
+  "verdict": "UNMEASURABLE",
+  "reason": "return 被稀疏事件/无界距离项主导，分量层不足以定序"
+ },
+ "h1hand-crawl-v0": {
+  "target": "h1hand-crawl-v0",
+  "kind": "gated",
+  "bottleneck_set": [
+   "move"
+  ],
+  "bottleneck_is_generic": [],
+  "headroom_share": {
+   "move": 0.7356500624714847
+  },
+  "sources": {
+   "stand": {
+    "Coverage": 0.004979999999999996,
+    "Damage": -0.04901300000000001,
+    "NET": -0.04403300000000001,
+    "return": 151.47969287660894,
+    "per_step": 0.30296,
+    "delta_bottleneck": {
+     "move": 0.012449999999999989
+    }
+   },
+   "walk": {
+    "Coverage": 0.10418400000000001,
+    "Damage": -0.10844417315500003,
+    "NET": -0.004260173155000019,
+    "return": 142.41452420599956,
+    "per_step": 0.28483,
+    "delta_bottleneck": {
+     "move": 0.26046
+    }
+   },
+   "run": {
+    "Coverage": 0.11299999999999999,
+    "Damage": -0.124316321155,
+    "NET": -0.011316321155000017,
+    "return": 132.11939480183764,
+    "per_step": 0.26424,
+    "delta_bottleneck": {
+     "move": 0.2825
+    }
+   }
+  },
+  "sign_prediction": "MIXED",
+  "spread": 0.03977282684499999,
+  "rank_separable": true,
+  "rank_NET": [
+   "walk",
+   "run",
+   "stand"
+  ],
+  "rank_return": [
+   "stand",
+   "walk",
+   "run"
+  ],
+  "ranks_disagree": true,
+  "ranks_inverted": false
+ },
+ "h1hand-door-v0": {
+  "target": "h1hand-door-v0",
+  "kind": "additive",
+  "bottleneck_set": [
+   "door_openness_reward"
+  ],
+  "bottleneck_is_generic": [],
+  "headroom_share": {
+   "door_openness_reward": 0.5173187364076123
+  },
+  "sources": {
+   "stand": {
+    "Coverage": 0.0,
+    "Damage": -0.018167,
+    "NET": -0.018167,
+    "return": 58.59395017356308,
+    "per_step": 0.11719,
+    "delta_bottleneck": {
+     "door_openness_reward": 0.0
+    }
+   },
+   "walk": {
+    "Coverage": 9e-06,
+    "Damage": -0.026323057499999993,
+    "NET": -0.026314057499999995,
+    "return": 25.38762025648994,
+    "per_step": 0.13102,
+    "delta_bottleneck": {
+     "door_openness_reward": 1.9999999999999998e-05
+    }
+   },
+   "run": {
+    "Coverage": 0.0,
+    "Damage": -0.0008211970799999913,
+    "NET": -0.0008211970799999913,
+    "return": 100.5151026361984,
+    "per_step": 0.20616,
+    "delta_bottleneck": {
+     "door_openness_reward": 0.0
+    }
+   }
+  },
+  "sign_prediction": "MIXED",
+  "spread": 0.025492860420000003,
+  "rank_separable": true,
+  "rank_NET": [
+   "run",
+   "stand",
+   "walk"
+  ],
+  "rank_return": [
+   "run",
+   "stand",
+   "walk"
+  ],
+  "ranks_disagree": false,
+  "ranks_inverted": false
+ },
+ "h1hand-hurdle-v0": {
+  "target": "h1hand-hurdle-v0",
+  "kind": "multiplicative",
+  "bottleneck_set": [
+   "move",
+   "wall_collision_discount"
+  ],
+  "bottleneck_is_generic": [],
+  "headroom_share": {
+   "move": 0.49927531250809065,
+   "wall_collision_discount": 0.4792626051946204
+  },
+  "sources": {
+   "stand": {
+    "Coverage": 0.10297407672641389,
+    "Damage": -0.0005119102093548152,
+    "NET": 0.10246216651705907,
+    "return": 74.46124735147735,
+    "per_step": 0.14892,
+    "delta_bottleneck": {
+     "move": 0.0020899999999999808,
+     "wall_collision_discount": 0.74543
+    }
+   },
+   "walk": {
+    "Coverage": 0.13868535122127235,
+    "Damage": -0.007788429629907702,
+    "NET": 0.13089692159136465,
+    "return": 93.69439125759344,
+    "per_step": 0.24732,
+    "delta_bottleneck": {
+     "move": 0.17636,
+     "wall_collision_discount": 0.82441
+    }
+   },
+   "run": {
+    "Coverage": 0.16717003377951317,
+    "Damage": -0.010050263871138285,
+    "NET": 0.1571197699083749,
+    "return": 157.14011394750352,
+    "per_step": 0.35708,
+    "delta_bottleneck": {
+     "move": 0.39279,
+     "wall_collision_discount": 0.80731
+    }
+   }
+  },
+  "sign_prediction": "ALL_POSITIVE",
+  "spread": 0.054657603391315826,
+  "rank_separable": true,
+  "rank_NET": [
+   "run",
+   "walk",
+   "stand"
+  ],
+  "rank_return": [
+   "run",
+   "walk",
+   "stand"
+  ],
+  "ranks_disagree": false,
+  "ranks_inverted": false
+ },
+ "h1hand-maze-v0": {
+  "target": "h1hand-maze-v0",
+  "kind": "gated",
+  "bottleneck_set": [
+   "wall_collision_discount",
+   "checkpoint_proximity_reward"
+  ],
+  "bottleneck_is_generic": [],
+  "headroom_share": {
+   "wall_collision_discount": 0.4297284251596509,
+   "checkpoint_proximity_reward": 0.26311338541706136
+  },
+  "sources": {
+   "stand": {
+    "Coverage": 0.110486204410169,
+    "Damage": 0.0,
+    "NET": 0.110486204410169,
+    "return": 228.7020311063601,
+    "per_step": 0.4574,
+    "delta_bottleneck": {
+     "wall_collision_discount": 0.83047,
+     "checkpoint_proximity_reward": 0.0
+    }
+   },
+   "walk": {
+    "Coverage": 0.07597748877131699,
+    "Damage": 0.0,
+    "NET": 0.07597748877131699,
+    "return": 378.866785432122,
+    "per_step": 0.80379,
+    "delta_bottleneck": {
+     "wall_collision_discount": 0.5617099999999999,
+     "checkpoint_proximity_reward": 0.01843
+    }
+   },
+   "run": {
+    "Coverage": 0.065189647458047,
+    "Damage": 0.0,
+    "NET": 0.065189647458047,
+    "return": 340.18601113811917,
+    "per_step": 0.81051,
+    "delta_bottleneck": {
+     "wall_collision_discount": 0.48161000000000004,
+     "checkpoint_proximity_reward": 0.01649
+    }
+   }
+  },
+  "sign_prediction": "ALL_POSITIVE",
+  "spread": 0.045296556952121994,
+  "rank_separable": true,
+  "rank_NET": [
+   "stand",
+   "walk",
+   "run"
+  ],
+  "rank_return": [
+   "walk",
+   "run",
+   "stand"
+  ],
+  "ranks_disagree": true,
+  "ranks_inverted": false
+ },
+ "h1hand-package-v0": {
+  "target": "h1hand-package-v0",
+  "kind": "unbounded",
+  "verdict": "UNMEASURABLE",
+  "reason": "return 被稀疏事件/无界距离项主导，分量层不足以定序"
+ },
+ "h1hand-pole-v0": {
+  "target": "h1hand-pole-v0",
+  "kind": "gated",
+  "bottleneck_set": [
+   "move"
+  ],
+  "bottleneck_is_generic": [],
+  "headroom_share": {
+   "move": 0.8436758992149225
+  },
+  "sources": {
+   "stand": {
+    "Coverage": 0.007379999999999998,
+    "Damage": 0.0,
+    "NET": 0.007379999999999998,
+    "return": 286.35655692202937,
+    "per_step": 0.57271,
+    "delta_bottleneck": {
+     "move": 0.014759999999999995
+    }
+   },
+   "walk": {
+    "Coverage": 0.3386,
+    "Damage": -0.07083727374584002,
+    "NET": 0.26776272625416,
+    "return": 279.6598762421668,
+    "per_step": 0.77898,
+    "delta_bottleneck": {
+     "move": 0.6772
+    }
+   },
+   "run": {
+    "Coverage": 0.32004,
+    "Damage": -0.13473700864236005,
+    "NET": 0.18530299135763995,
+    "return": 114.6318607404629,
+    "per_step": 0.64587,
+    "delta_bottleneck": {
+     "move": 0.64008
+    }
+   }
+  },
+  "sign_prediction": "ALL_POSITIVE",
+  "spread": 0.26038272625416,
+  "rank_separable": true,
+  "rank_NET": [
+   "walk",
+   "run",
+   "stand"
+  ],
+  "rank_return": [
+   "stand",
+   "walk",
+   "run"
+  ],
+  "ranks_disagree": true,
+  "ranks_inverted": false
+ },
+ "h1hand-powerlift-v0": {
+  "target": "h1hand-powerlift-v0",
+  "kind": "additive",
+  "bottleneck_set": [
+   "reward_dumbbell_lifted"
+  ],
+  "bottleneck_is_generic": [],
+  "headroom_share": {
+   "reward_dumbbell_lifted": 0.9110716885211778
+  },
+  "sources": {
+   "stand": {
+    "Coverage": 1.59999999999938e-05,
+    "Damage": 0.0,
+    "NET": 1.59999999999938e-05,
+    "return": 171.21687831775535,
+    "per_step": 0.34243,
+    "delta_bottleneck": {
+     "reward_dumbbell_lifted": 1.9999999999992246e-05
+    }
+   },
+   "walk": {
+    "Coverage": 1.59999999999938e-05,
+    "Damage": 0.0,
+    "NET": 1.59999999999938e-05,
+    "return": 166.71185472935423,
+    "per_step": 0.33342,
+    "delta_bottleneck": {
+     "reward_dumbbell_lifted": 1.9999999999992246e-05
+    }
+   },
+   "run": {
+    "Coverage": 1.59999999999938e-05,
+    "Damage": 0.0,
+    "NET": 1.59999999999938e-05,
+    "return": 116.64250501118059,
+    "per_step": 0.30083,
+    "delta_bottleneck": {
+     "reward_dumbbell_lifted": 1.9999999999992246e-05
+    }
+   }
+  },
+  "sign_prediction": "ALL_NEGLIGIBLE",
+  "spread": 0.0,
+  "rank_separable": false,
+  "rank_NET": null,
+  "rank_return": [
+   "stand",
+   "walk",
+   "run"
+  ],
+  "ranks_disagree": false,
+  "ranks_inverted": false
+ },
+ "h1hand-push-v0": {
+  "target": "h1hand-push-v0",
+  "kind": "unbounded",
+  "verdict": "UNMEASURABLE",
+  "reason": "return 被稀疏事件/无界距离项主导，分量层不足以定序"
+ },
+ "h1hand-room-v0": {
+  "target": "h1hand-room-v0",
+  "kind": "additive",
+  "bottleneck_set": [
+   "room_object_organized"
+  ],
+  "bottleneck_is_generic": [],
+  "headroom_share": {
+   "room_object_organized": 0.9161981377570316
+  },
+  "sources": {
+   "stand": {
+    "Coverage": 0.0,
+    "Damage": -0.0007199999999999984,
+    "NET": -0.0007199999999999984,
+    "return": 90.23614914507652,
+    "per_step": 0.20109,
+    "delta_bottleneck": {
+     "room_object_organized": -0.000899999999999998
+    }
+   },
+   "walk": {
+    "Coverage": 0.0,
+    "Damage": -0.002048,
+    "NET": -0.002048,
+    "return": 24.331830392593112,
+    "per_step": 0.15874,
+    "delta_bottleneck": {
+     "room_object_organized": -0.0025599999999999998
+    }
+   },
+   "run": {
+    "Coverage": 0.0020320000000000004,
+    "Damage": 0.0,
+    "NET": 0.0020320000000000004,
+    "return": 88.23566523332994,
+    "per_step": 0.19724,
+    "delta_bottleneck": {
+     "room_object_organized": 0.0025400000000000006
+    }
+   }
+  },
+  "sign_prediction": "ALL_NEGLIGIBLE",
+  "spread": 0.00408,
+  "rank_separable": false,
+  "rank_NET": null,
+  "rank_return": [
+   "stand",
+   "run",
+   "walk"
+  ],
+  "ranks_disagree": false,
+  "ranks_inverted": false
+ },
+ "h1hand-sit_hard-v0": {
+  "target": "h1hand-sit_hard-v0",
+  "kind": "multiplicative",
+  "bottleneck_set": [
+   "sit_reward"
+  ],
+  "bottleneck_is_generic": [],
+  "headroom_share": {
+   "sit_reward": 0.977589923604989
+  },
+  "sources": {
+   "stand": {
+    "Coverage": 0.0,
+    "Damage": -0.09326485578474,
+    "NET": -0.09326485578474,
+    "return": 2.1620832456142423,
+    "per_step": 0.00432,
+    "delta_bottleneck": {
+     "sit_reward": -0.10851000000000001
+    }
+   },
+   "walk": {
+    "Coverage": 0.0,
+    "Damage": -0.11158326691256401,
+    "NET": -0.11158326691256401,
+    "return": 4.504719500867969,
+    "per_step": 0.01047,
+    "delta_bottleneck": {
+     "sit_reward": -0.09423000000000001
+    }
+   },
+   "run": {
+    "Coverage": 0.0,
+    "Damage": -0.126702118289676,
+    "NET": -0.126702118289676,
+    "return": 4.63810044059499,
+    "per_step": 0.01114,
+    "delta_bottleneck": {
+     "sit_reward": -0.08696000000000001
+    }
+   }
+  },
+  "sign_prediction": "ALL_NEGATIVE",
+  "spread": 0.033437262504936005,
+  "rank_separable": true,
+  "rank_NET": [
+   "stand",
+   "walk",
+   "run"
+  ],
+  "rank_return": [
+   "run",
+   "walk",
+   "stand"
+  ],
+  "ranks_disagree": true,
+  "ranks_inverted": true
+ },
+ "h1hand-slide-v0": {
+  "target": "h1hand-slide-v0",
+  "kind": "multiplicative",
+  "bottleneck_set": [
+   "move"
+  ],
+  "bottleneck_is_generic": [],
+  "headroom_share": {
+   "move": 0.9599419804555591
+  },
+  "sources": {
+   "stand": {
+    "Coverage": 0.015672444629424003,
+    "Damage": -0.002740725535856008,
+    "NET": 0.012931719093567995,
+    "return": 88.53495384168227,
+    "per_step": 0.17799,
+    "delta_bottleneck": {
+     "move": 0.018960000000000005
+    }
+   },
+   "walk": {
+    "Coverage": 0.538293917042574,
+    "Damage": -0.023021246014284007,
+    "NET": 0.51527267102829,
+    "return": 45.65200566390797,
+    "per_step": 0.58874,
+    "delta_bottleneck": {
+     "move": 0.6512100000000001
+    }
+   },
+   "run": {
+    "Coverage": 0.549915993597938,
+    "Damage": -0.041330174721251,
+    "NET": 0.508585818876687,
+    "return": 27.78820398649627,
+    "per_step": 0.46905,
+    "delta_bottleneck": {
+     "move": 0.66527
+    }
+   }
+  },
+  "sign_prediction": "ALL_POSITIVE",
+  "spread": 0.502340951934722,
+  "rank_separable": true,
+  "rank_NET": [
+   "walk",
+   "run",
+   "stand"
+  ],
+  "rank_return": [
+   "stand",
+   "walk",
+   "run"
+  ],
+  "ranks_disagree": true,
+  "ranks_inverted": false
+ },
+ "h1hand-spoon-v0": {
+  "target": "h1hand-spoon-v0",
+  "kind": "additive",
+  "bottleneck_set": [
+   "spoon_spinning_reward",
+   "reward_spoon_in_cup"
+  ],
+  "bottleneck_is_generic": [],
+  "headroom_share": {
+   "spoon_spinning_reward": 0.4014299146833102,
+   "reward_spoon_in_cup": 0.28681022400346246
+  },
+  "sources": {
+   "stand": {
+    "Coverage": 0.0,
+    "Damage": -0.0200665,
+    "NET": -0.0200665,
+    "return": 72.95832562754578,
+    "per_step": 0.14592,
+    "delta_bottleneck": {
+     "spoon_spinning_reward": -3.999999999999997e-05,
+     "reward_spoon_in_cup": 0.0
+    }
+   },
+   "walk": {
+    "Coverage": 0.0,
+    "Damage": -0.00362213841999998,
+    "NET": -0.00362213841999998,
+    "return": 8.111462523420776,
+    "per_step": 0.15879,
+    "delta_bottleneck": {
+     "spoon_spinning_reward": -1.999999999999997e-05,
+     "reward_spoon_in_cup": 0.0
+    }
+   },
+   "run": {
+    "Coverage": 0.0,
+    "Damage": -2.4499999999999986e-05,
+    "NET": -2.4499999999999986e-05,
+    "return": 13.836970686771641,
+    "per_step": 0.17745,
+    "delta_bottleneck": {
+     "spoon_spinning_reward": -6.999999999999997e-05,
+     "reward_spoon_in_cup": 0.0
+    }
+   }
+  },
+  "sign_prediction": "MIXED",
+  "spread": 0.020042,
+  "rank_separable": true,
+  "rank_NET": [
+   "run",
+   "walk",
+   "stand"
+  ],
+  "rank_return": [
+   "stand",
+   "run",
+   "walk"
+  ],
+  "ranks_disagree": true,
+  "ranks_inverted": false
+ },
+ "h1hand-stair-v0": {
+  "target": "h1hand-stair-v0",
+  "kind": "multiplicative",
+  "bottleneck_set": [
+   "move"
+  ],
+  "bottleneck_is_generic": [],
+  "headroom_share": {
+   "move": 0.9604531012059369
+  },
+  "sources": {
+   "stand": {
+    "Coverage": 0.007277090214944008,
+    "Damage": -0.0026858408118239966,
+    "NET": 0.004591249403120012,
+    "return": 84.94864490689368,
+    "per_step": 0.1699,
+    "delta_bottleneck": {
+     "move": 0.00878000000000001
+    }
+   },
+   "walk": {
+    "Coverage": 0.489065219035536,
+    "Damage": -0.027393854899112988,
+    "NET": 0.461671364136423,
+    "return": 31.80550583884026,
+    "per_step": 0.53663,
+    "delta_bottleneck": {
+     "move": 0.5900700000000001
+    }
+   },
+   "run": {
+    "Coverage": 0.4841834352808639,
+    "Damage": -0.026918988351547983,
+    "NET": 0.4572644469293159,
+    "return": 26.233707761587986,
+    "per_step": 0.49973,
+    "delta_bottleneck": {
+     "move": 0.5841799999999999
+    }
+   }
+  },
+  "sign_prediction": "MIXED",
+  "spread": 0.457080114733303,
+  "rank_separable": true,
+  "rank_NET": [
+   "walk",
+   "run",
+   "stand"
+  ],
+  "rank_return": [
+   "stand",
+   "walk",
+   "run"
+  ],
+  "ranks_disagree": true,
+  "ranks_inverted": false
+ },
+ "h1hand-truck-v0": {
+  "target": "h1hand-truck-v0",
+  "kind": "unbounded",
+  "verdict": "UNMEASURABLE",
+  "reason": "return 被稀疏事件/无界距离项主导，分量层不足以定序"
+ },
+ "h1hand-window-v0": {
+  "target": "h1hand-window-v0",
+  "kind": "additive",
+  "bottleneck_set": [
+   "window_contact_total_reward"
+  ],
+  "bottleneck_is_generic": [],
+  "headroom_share": {
+   "window_contact_total_reward": 0.6434890491033624
+  },
+  "sources": {
+   "stand": {
+    "Coverage": 0.0,
+    "Damage": 0.0,
+    "NET": 0.0,
+    "return": 4.149017758689288,
+    "per_step": 0.14359,
+    "delta_bottleneck": {
+     "window_contact_total_reward": 0.0
+    }
+   },
+   "walk": {
+    "Coverage": 0.004815,
+    "Damage": -0.03856400000000001,
+    "NET": -0.03374900000000001,
+    "return": 4.2097335374804405,
+    "per_step": 0.12646,
+    "delta_bottleneck": {
+     "window_contact_total_reward": 0.00963
+    }
+   },
+   "run": {
+    "Coverage": 0.001165,
+    "Damage": -0.032606,
+    "NET": -0.031441000000000004,
+    "return": 2.590382890526228,
+    "per_step": 0.10034,
+    "delta_bottleneck": {
+     "window_contact_total_reward": 0.00233
+    }
+   }
+  },
+  "sign_prediction": "MIXED",
+  "spread": 0.03374900000000001,
+  "rank_separable": true,
+  "rank_NET": [
+   "stand",
+   "run",
+   "walk"
+  ],
+  "rank_return": [
+   "walk",
+   "stand",
+   "run"
+  ],
+  "ranks_disagree": true,
+  "ranks_inverted": false
+ }
+}

@@ -1,0 +1,238 @@
+{
+ "created_utc": "2026-07-29T03:55:13.684210+00:00",
+ "experiment": "stair_bac_gate_v1",
+ "positioning": "forward test of Bottleneck-Aligned Coverage; predictions frozen in docs/experiments/bottleneck_aligned_coverage_v1_prereg_20260728.md before any slide arm was trained",
+ "prereg": {
+  "NET": {
+   "stand": 0.0046,
+   "walk": 0.4617,
+   "run": 0.4573
+  },
+  "zero_shot_return": {
+   "stand": 84.9,
+   "walk": 31.8,
+   "run": 26.2
+  },
+  "NET_rank": [
+   "walk",
+   "run",
+   "stand"
+  ],
+  "return_rank": [
+   "stand",
+   "walk",
+   "run"
+  ]
+ },
+ "label": "U_i(t=10k,K=10k) = J_sf@20k(source) - J_sf@20k(student), paired by seed",
+ "primary": "D_x = J(x) - J(stand), paired by learner seed, for x in {walk, run}",
+ "evaluator": "frozen source-free panel, 16 eval seeds x 8 ranks = 128 episodes",
+ "interval_rule": "90% t interval over 3 paired LEARNER seeds (df=2); episode-level SE diagnostic only",
+ "per_seed": {
+  "1": {
+   "J_student": 44.76615164543004,
+   "J_stand": 41.96423884467592,
+   "J_walk": 45.10808972908057,
+   "J_run": 40.35586410378048,
+   "D_walk": 3.1438508844046495,
+   "D_run": -1.6083747408954352,
+   "episode_se": {
+    "student": 0.3802002060354587,
+    "stand": 0.7508479136789579,
+    "walk": 0.8419992227291104,
+    "run": 1.2289916554562668
+   }
+  },
+  "2": {
+   "J_student": 45.8611191630992,
+   "J_stand": 30.12939175452077,
+   "J_walk": 42.69106283119489,
+   "J_run": 46.63971252536345,
+   "D_walk": 12.56167107667412,
+   "D_run": 16.51032077084268,
+   "episode_se": {
+    "student": 0.9678042706513609,
+    "stand": 1.5947506652764445,
+    "walk": 1.0294192574157726,
+    "run": 1.3958465984622188
+   }
+  },
+  "3": {
+   "J_student": 42.280451899162216,
+   "J_stand": 43.58547750403646,
+   "J_walk": 45.672422661300324,
+   "J_run": 42.574064280323654,
+   "D_walk": 2.0869451572638624,
+   "D_run": -1.0114132237128075,
+   "episode_se": {
+    "student": 0.658391114597304,
+    "stand": 1.4624304764400438,
+    "walk": 1.0912829745211383,
+    "run": 0.521220150554804
+   }
+  }
+ },
+ "D_walk": {
+  "mean": 5.930822372780877,
+  "sd": 5.766747638787202,
+  "lo": -3.7910762558319977,
+  "hi": 15.652721001393752,
+  "n": 3,
+  "significant": false
+ },
+ "D_run": {
+  "mean": 4.630177602078145,
+  "sd": 10.292834500078499,
+  "lo": -12.722045848417284,
+  "hi": 21.982401052573575,
+  "n": 3,
+  "significant": false
+ },
+ "U_vs_student": {
+  "stand": {
+   "mean": -5.742871534819435,
+   "sd": 8.890987966303488,
+   "lo": -20.73178541328386,
+   "hi": 9.24604234364499,
+   "n": 3,
+   "classification": "uncertain"
+  },
+  "walk": {
+   "mean": 0.1879508379614426,
+   "sd": 3.283722575007344,
+   "lo": -5.347928308888642,
+   "hi": 5.723829984811527,
+   "n": 3,
+   "classification": "uncertain"
+  },
+  "run": {
+   "mean": -1.1126939327412895,
+   "sd": 2.8660764723123426,
+   "lo": -5.9444824331191155,
+   "hi": 3.719094567636536,
+   "n": 3,
+   "classification": "uncertain"
+  }
+ },
+ "arm_means": {
+  "stand": 38.55970270107772,
+  "walk": 44.49052507385859,
+  "run": 43.18988030315586
+ },
+ "observed_rank": [
+  "walk",
+  "run",
+  "stand"
+ ],
+ "rank_matches_NET": true,
+ "rank_matches_return": false,
+ "stand_is_worst": true,
+ "treatment_audit": {
+  "stand": {
+   "1": {
+    "checkpoint": "h1hand-stair-v0__stair_bac_stand_s1__1_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.4794453125,
+    "critic_source_share": 0.4990423126220703,
+    "active_buffer_counts": [
+     613690,
+     1946310
+    ],
+    "sampling_phase": "authority_quota"
+   },
+   "2": {
+    "checkpoint": "h1hand-stair-v0__stair_bac_stand_s2__2_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.48291015625,
+    "critic_source_share": 0.49877321014404297,
+    "active_buffer_counts": [
+     618125,
+     1941875
+    ],
+    "sampling_phase": "authority_quota"
+   },
+   "3": {
+    "checkpoint": "h1hand-stair-v0__stair_bac_stand_s3__3_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.48148828125,
+    "critic_source_share": 0.4987930145263672,
+    "active_buffer_counts": [
+     616305,
+     1943695
+    ],
+    "sampling_phase": "authority_quota"
+   }
+  },
+  "walk": {
+   "1": {
+    "checkpoint": "h1hand-stair-v0__stair_bac_walk_s1__1_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.4651015625,
+    "critic_source_share": 0.49915662384033205,
+    "active_buffer_counts": [
+     595330,
+     1964670
+    ],
+    "sampling_phase": "authority_quota"
+   },
+   "2": {
+    "checkpoint": "h1hand-stair-v0__stair_bac_walk_s2__2_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.47330078125,
+    "critic_source_share": 0.4988911819458008,
+    "active_buffer_counts": [
+     605825,
+     1954175
+    ],
+    "sampling_phase": "authority_quota"
+   },
+   "3": {
+    "checkpoint": "h1hand-stair-v0__stair_bac_walk_s3__3_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.4721671875,
+    "critic_source_share": 0.4989457092285156,
+    "active_buffer_counts": [
+     604374,
+     1955626
+    ],
+    "sampling_phase": "authority_quota"
+   }
+  },
+  "run": {
+   "1": {
+    "checkpoint": "h1hand-stair-v0__stair_bac_run_s1__1_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.47448203125,
+    "critic_source_share": 0.49897791290283205,
+    "active_buffer_counts": [
+     607337,
+     1952663
+    ],
+    "sampling_phase": "authority_quota"
+   },
+   "2": {
+    "checkpoint": "h1hand-stair-v0__stair_bac_run_s2__2_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.480421875,
+    "critic_source_share": 0.4989325347900391,
+    "active_buffer_counts": [
+     614940,
+     1945060
+    ],
+    "sampling_phase": "authority_quota"
+   },
+   "3": {
+    "checkpoint": "h1hand-stair-v0__stair_bac_run_s3__3_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.4759875,
+    "critic_source_share": 0.49884273529052736,
+    "active_buffer_counts": [
+     609264,
+     1950736
+    ],
+    "sampling_phase": "authority_quota"
+   }
+  }
+ },
+ "verdict": "BAC_PARTIAL"
+}

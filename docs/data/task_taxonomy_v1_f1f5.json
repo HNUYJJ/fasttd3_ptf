@@ -1,0 +1,3228 @@
+{
+ "stand": {
+  "class": "Stand",
+  "F1": {
+   "reward_owner": "basic_locomotion_envs.py::Walk",
+   "reward_owner_line": 21,
+   "composition": {
+    "kind": "multiplicative",
+    "text": "= small_control*stand_reward*dont_move",
+    "uses_min": false,
+    "ops": [
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "<expr>"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "dont_move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "horizontal_velocity",
+       "bounds": "unknown",
+       "margin": 2,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(horizontal_velocity,margin=2).mean()"
+    },
+    "move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "com_velocity",
+       "bounds": [
+        0,
+        "unknown"
+       ],
+       "margin": 0,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(com_velocity,bounds=(self._move_speed,float('inf')),margin=self._move_speed,value_at_margin=0,sigmoid='linear')"
+    }
+   },
+   "class_constants": {
+    "_move_speed": 0
+   },
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65,
+    "_CRAWL_HEIGHT": 0.8,
+    "_WALK_SPEED": 1,
+    "_RUN_SPEED": 5
+   }
+  },
+  "F5": {
+   "owner": "basic_locomotion_envs.py::Walk",
+   "line": 96,
+   "text": "def get_terminated(self): return (self._env.data.qpos[2] < 0.2, {})"
+  }
+ },
+ "walk": {
+  "class": "Walk",
+  "F1": {
+   "reward_owner": "basic_locomotion_envs.py::Walk",
+   "reward_owner_line": 21,
+   "composition": {
+    "kind": "multiplicative",
+    "text": "= small_control*stand_reward*dont_move",
+    "uses_min": false,
+    "ops": [
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "<expr>"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "dont_move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "horizontal_velocity",
+       "bounds": "unknown",
+       "margin": 2,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(horizontal_velocity,margin=2).mean()"
+    },
+    "move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "com_velocity",
+       "bounds": [
+        1,
+        "unknown"
+       ],
+       "margin": 1,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(com_velocity,bounds=(self._move_speed,float('inf')),margin=self._move_speed,value_at_margin=0,sigmoid='linear')"
+    }
+   },
+   "class_constants": {
+    "_move_speed": 1
+   },
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65,
+    "_CRAWL_HEIGHT": 0.8,
+    "_WALK_SPEED": 1,
+    "_RUN_SPEED": 5
+   }
+  },
+  "F5": {
+   "owner": "basic_locomotion_envs.py::Walk",
+   "line": 96,
+   "text": "def get_terminated(self): return (self._env.data.qpos[2] < 0.2, {})"
+  }
+ },
+ "run": {
+  "class": "Run",
+  "F1": {
+   "reward_owner": "basic_locomotion_envs.py::Walk",
+   "reward_owner_line": 21,
+   "composition": {
+    "kind": "multiplicative",
+    "text": "= small_control*stand_reward*dont_move",
+    "uses_min": false,
+    "ops": [
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "<expr>"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "dont_move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "horizontal_velocity",
+       "bounds": "unknown",
+       "margin": 2,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(horizontal_velocity,margin=2).mean()"
+    },
+    "move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "com_velocity",
+       "bounds": [
+        5,
+        "unknown"
+       ],
+       "margin": 5,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(com_velocity,bounds=(self._move_speed,float('inf')),margin=self._move_speed,value_at_margin=0,sigmoid='linear')"
+    }
+   },
+   "class_constants": {
+    "_move_speed": 5
+   },
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65,
+    "_CRAWL_HEIGHT": 0.8,
+    "_WALK_SPEED": 1,
+    "_RUN_SPEED": 5
+   }
+  },
+  "F5": {
+   "owner": "basic_locomotion_envs.py::Walk",
+   "line": 96,
+   "text": "def get_terminated(self): return (self._env.data.qpos[2] < 0.2, {})"
+  }
+ },
+ "kitchen": {
+  "class": "Kitchen",
+  "F1": {
+   "reward_owner": "kitchen.py::Kitchen",
+   "reward_owner_line": 27,
+   "composition": {
+    "kind": "event_count",
+    "text": "= float(len(completions))",
+    "uses_min": false,
+    "ops": [],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "bonus"
+   },
+   "component_fingerprints": {},
+   "class_constants": {},
+   "module_constants": {}
+  },
+  "F5": {
+   "owner": "kitchen.py::Kitchen",
+   "line": 145,
+   "text": "def get_terminated(self): terminated = False if self.TERMINATE_ON_TASK_COMPLETE: terminated = not self.tasks_to_complete return (terminated, {})"
+  }
+ },
+ "maze": {
+  "class": "Maze",
+  "F1": {
+   "reward_owner": "maze.py::MazeBase",
+   "reward_owner_line": 14,
+   "composition": {
+    "kind": "gated",
+    "text": "= (0.2*(stand_reward*small_control)+0.4*move+0.4*checkpoint_proximity_reward)*wall_collision_discount+stage_convert_reward",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "move": {
+     "n_tolerance": 2,
+     "terms": [
+      {
+       "quantity": "self.robot.center_of_mass_velocity()[0]-self.move_direction[0]*_MOVE_SPEED",
+       "bounds": "unknown",
+       "margin": 1,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      },
+      {
+       "quantity": "self.robot.center_of_mass_velocity()[1]-self.move_direction[1]*_MOVE_SPEED",
+       "bounds": "unknown",
+       "margin": 1,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": true,
+     "expr": "rewards.tolerance(self.robot.center_of_mass_velocity()[0]-self.move_direction[0]*_MOVE_SPEED,margin=1,value_at_margin=0,sigmoid='linear')*rewards.tolerance(self.robot.center_of_mass_velocity()[1]-self"
+    },
+    "checkpoint_proximity_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "checkpoint_proximity",
+       "bounds": "unknown",
+       "margin": 1,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(checkpoint_proximity,margin=1)"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65,
+    "_MOVE_SPEED": 2.0
+   }
+  },
+  "F5": {
+   "owner": "maze.py::MazeBase",
+   "line": 129,
+   "text": "def get_terminated(self): return (self._env.data.qpos[2] < 0.2, {})"
+  }
+ },
+ "hurdle": {
+  "class": "Hurdle",
+  "F1": {
+   "reward_owner": "basic_locomotion_envs.py::Hurdle",
+   "reward_owner_line": 228,
+   "composition": {
+    "kind": "multiplicative",
+    "text": "= small_control*stand_reward*move*wall_collision_discount",
+    "uses_min": false,
+    "ops": [
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.8,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.8,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "com_velocity",
+       "bounds": [
+        5,
+        "unknown"
+       ],
+       "margin": 5,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(com_velocity,bounds=(self._move_speed,float('inf')),margin=self._move_speed,value_at_margin=0,sigmoid='linear')"
+    }
+   },
+   "class_constants": {
+    "_move_speed": 5
+   },
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65,
+    "_CRAWL_HEIGHT": 0.8,
+    "_WALK_SPEED": 1,
+    "_RUN_SPEED": 5
+   }
+  },
+  "F5": {
+   "owner": "basic_locomotion_envs.py::Walk",
+   "line": 96,
+   "text": "def get_terminated(self): return (self._env.data.qpos[2] < 0.2, {})"
+  }
+ },
+ "cube": {
+  "class": "Cube",
+  "F1": {
+   "reward_owner": "cube.py::Cube",
+   "reward_owner_line": 12,
+   "composition": {
+    "kind": "additive",
+    "text": "= 0.2*(small_control*stand_reward*dont_move)+0.5*orientation_alignment_reward+0.3*cube_closeness_reward",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "dont_move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "horizontal_velocity",
+       "bounds": "unknown",
+       "margin": 2,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(horizontal_velocity,margin=2).mean()"
+    },
+    "left_orientation_alignment_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "np.linalg.norm(left_cube_orientation-target_cube_orientation)",
+       "bounds": "unknown",
+       "margin": 0.3,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(np.linalg.norm(left_cube_orientation-target_cube_orientation),margin=0.3)"
+    },
+    "right_orientation_alignment_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "np.linalg.norm(right_cube_orientation-target_cube_orientation)",
+       "bounds": "unknown",
+       "margin": 0.3,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(np.linalg.norm(right_cube_orientation-target_cube_orientation),margin=0.3)"
+    },
+    "left_hand_cube_proximity": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "left_hand_cube_distance",
+       "bounds": [
+        0,
+        0.1
+       ],
+       "margin": 0.5,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(left_hand_cube_distance,bounds=(0,0.1),margin=0.5)"
+    },
+    "right_hand_cube_proximity": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "right_hand_cube_distance",
+       "bounds": [
+        0,
+        0.1
+       ],
+       "margin": 0.5,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(right_hand_cube_distance,bounds=(0,0.1),margin=0.5)"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "cube.py::Cube",
+   "line": 149,
+   "text": "def get_terminated(self): if self._env.data.qpos[2] < 0.58: return (True, {'terminated_reason': 0}) if self._env.named.data.xpos['left_cube_to_rotate', 'z'] < 0.6: return (True, {'terminated_reason': 1}) if self._env.named.data.xpos['right_"
+  }
+ },
+ "bookshelf_simple": {
+  "class": "BookshelfSimple",
+  "F1": {
+   "reward_owner": "bookshelf.py::BookshelfBase",
+   "reward_owner_line": 13,
+   "composition": {
+    "kind": "event_dominated",
+    "text": "= 0.2*(stand_reward*small_control)+0.4*reward_proximity+0.4*reward_hand_proximity Add 100*self.task_index",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [
+     100
+    ],
+    "n_assignments": 2,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "reward_proximity": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "obj_goal_dist",
+       "bounds": [
+        0,
+        0.15
+       ],
+       "margin": 1,
+       "sigmoid": "linear",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(obj_goal_dist,bounds=(0,0.15),margin=1,sigmoid='linear')"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "bookshelf.py::BookshelfBase",
+   "line": 190,
+   "text": "def get_terminated(self): if self._env.data.qpos[2] < 0.58: return (True, {'terminated_reason': 0}) if self.task_index == 5: return (True, {'terminated_reason': 1}) if self._env.named.data.xpos[self.bookshelf_objects[self.task_index], 'z'] "
+  }
+ },
+ "bookshelf_hard": {
+  "class": "BookshelfHard",
+  "F1": {
+   "reward_owner": "bookshelf.py::BookshelfBase",
+   "reward_owner_line": 13,
+   "composition": {
+    "kind": "event_dominated",
+    "text": "= 0.2*(stand_reward*small_control)+0.4*reward_proximity+0.4*reward_hand_proximity Add 100*self.task_index",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [
+     100
+    ],
+    "n_assignments": 2,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "reward_proximity": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "obj_goal_dist",
+       "bounds": [
+        0,
+        0.15
+       ],
+       "margin": 1,
+       "sigmoid": "linear",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(obj_goal_dist,bounds=(0,0.15),margin=1,sigmoid='linear')"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "bookshelf.py::BookshelfBase",
+   "line": 190,
+   "text": "def get_terminated(self): if self._env.data.qpos[2] < 0.58: return (True, {'terminated_reason': 0}) if self.task_index == 5: return (True, {'terminated_reason': 1}) if self._env.named.data.xpos[self.bookshelf_objects[self.task_index], 'z'] "
+  }
+ },
+ "highbar_simple": {
+  "class": "HighBarSimple",
+  "F1": {
+   "reward_owner": "highbar.py::HighBarBase",
+   "reward_owner_line": 9,
+   "composition": {
+    "kind": "multiplicative",
+    "text": "= upright_reward*feet_reward*small_control",
+    "uses_min": false,
+    "ops": [
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "upright_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "-self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(-self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "feet_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "(self.robot.left_foot_height()+self.robot.right_foot_height())/2",
+       "bounds": [
+        4.8,
+        "unknown"
+       ],
+       "margin": 2.0,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance((self.robot.left_foot_height()+self.robot.right_foot_height())/2,bounds=(4.8,float('inf')),sigmoid='linear',margin=2.0,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {}
+  },
+  "F5": {
+   "owner": "highbar.py::HighBarBase",
+   "line": 53,
+   "text": "def get_terminated(self): terminated = False if self.robot.head_height() < 2.0: terminated = True return (terminated, {})"
+  }
+ },
+ "highbar_hard": {
+  "class": "HighBarHard",
+  "F1": {
+   "reward_owner": "highbar.py::HighBarBase",
+   "reward_owner_line": 9,
+   "composition": {
+    "kind": "multiplicative",
+    "text": "= upright_reward*feet_reward*small_control",
+    "uses_min": false,
+    "ops": [
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "upright_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "-self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(-self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "feet_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "(self.robot.left_foot_height()+self.robot.right_foot_height())/2",
+       "bounds": [
+        4.8,
+        "unknown"
+       ],
+       "margin": 2.0,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance((self.robot.left_foot_height()+self.robot.right_foot_height())/2,bounds=(4.8,float('inf')),sigmoid='linear',margin=2.0,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {}
+  },
+  "F5": {
+   "owner": "highbar.py::HighBarBase",
+   "line": 53,
+   "text": "def get_terminated(self): terminated = False if self.robot.head_height() < 2.0: terminated = True return (terminated, {})"
+  }
+ },
+ "crawl": {
+  "class": "Crawl",
+  "F1": {
+   "reward_owner": "basic_locomotion_envs.py::Crawl",
+   "reward_owner_line": 109,
+   "composition": {
+    "kind": "gated",
+    "text": "= (0.1*small_control+0.25*min(crawling,crawling_head)+0.4*move+0.25*reward_xquat)*in_tunnel",
+    "uses_min": true,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "com_velocity",
+       "bounds": [
+        1,
+        "unknown"
+       ],
+       "margin": 1,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(com_velocity,bounds=(1,float('inf')),margin=1,value_at_margin=0,sigmoid='linear')"
+    },
+    "crawling_head": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        0.6000000000000001,
+        1.0
+       ],
+       "margin": 1,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_CRAWL_HEIGHT-0.2,_CRAWL_HEIGHT+0.2),margin=1)"
+    },
+    "crawling": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self._env.named.data.site_xpos['imu','z']",
+       "bounds": [
+        0.6000000000000001,
+        1.0
+       ],
+       "margin": 1,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self._env.named.data.site_xpos['imu','z'],bounds=(_CRAWL_HEIGHT-0.2,_CRAWL_HEIGHT+0.2),margin=1)"
+    },
+    "reward_xquat": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "np.linalg.norm(self._env.data.body('pelvis').xquat-np.array([0.75,0,0.65,0]))",
+       "bounds": "unknown",
+       "margin": 1,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(np.linalg.norm(self._env.data.body('pelvis').xquat-np.array([0.75,0,0.65,0])),margin=1)"
+    },
+    "in_tunnel": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self._env.named.data.site_xpos['imu','y']",
+       "bounds": [
+        -1,
+        1
+       ],
+       "margin": 0,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self._env.named.data.site_xpos['imu','y'],bounds=(-1,1),margin=0)"
+    }
+   },
+   "class_constants": {
+    "_move_speed": 1
+   },
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65,
+    "_CRAWL_HEIGHT": 0.8,
+    "_WALK_SPEED": 1,
+    "_RUN_SPEED": 5
+   }
+  },
+  "F5": {
+   "owner": "basic_locomotion_envs.py::Crawl",
+   "line": 168,
+   "text": "def get_terminated(self): return (False, {})"
+  }
+ },
+ "window": {
+  "class": "Window",
+  "F1": {
+   "reward_owner": "window.py::Window",
+   "reward_owner_line": 11,
+   "composition": {
+    "kind": "additive",
+    "text": "= 0.5*manipulation_reward+0.5*window_contact_total_reward",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "window_contact_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self._env.named.data.site_xpos[site_name,'x']",
+       "bounds": [
+        0.92,
+        0.92
+       ],
+       "margin": 0.4,
+       "sigmoid": "linear",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "np.min([rewards.tolerance(self._env.named.data.site_xpos[site_name,'x'],bounds=(0.92,0.92),margin=0.4,sigmoid='linear')forsite_namein['wipe_contact_site_a','wipe_contact_site_b','wipe_contact_site_c',"
+    },
+    "hand_tool_proximity_reward": {
+     "n_tolerance": 2,
+     "terms": [
+      {
+       "quantity": "left_hand_tool_distance",
+       "bounds": [
+        0,
+        0.2
+       ],
+       "margin": 0.5,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      },
+      {
+       "quantity": "right_hand_tool_distance",
+       "bounds": [
+        0,
+        0.2
+       ],
+       "margin": 0.5,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": true,
+     "expr": "min([rewards.tolerance(left_hand_tool_distance,bounds=(0,0.2),margin=0.5),rewards.tolerance(right_hand_tool_distance,bounds=(0,0.2),margin=0.5)])"
+    },
+    "moving_wipe_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "abs(self._env.named.data.sensordata['window_wiping_tool_subtreelinvel'][2])",
+       "bounds": [
+        0.5,
+        0.5
+       ],
+       "margin": 0.5,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(abs(self._env.named.data.sensordata['window_wiping_tool_subtreelinvel'][2]),bounds=(0.5,0.5),margin=0.5)"
+    },
+    "head_window_distance_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "np.linalg.norm(self._env.named.data.site_xpos['head']-self.head_pos0)",
+       "bounds": [
+        0.4,
+        0.4
+       ],
+       "margin": 0.1,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(np.linalg.norm(self._env.named.data.site_xpos['head']-self.head_pos0),bounds=(0.4,0.4),margin=0.1)"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "window.py::Window",
+   "line": 164,
+   "text": "def get_terminated(self): if self._env.data.qpos[2] < 0.58: return (True, {}) if self._env.named.data.xpos['window_wiping_tool'][2] < 0.58: return (True, {}) return (False, {})"
+  }
+ },
+ "spoon": {
+  "class": "Spoon",
+  "F1": {
+   "reward_owner": "spoon.py::Spoon",
+   "reward_owner_line": 11,
+   "composition": {
+    "kind": "additive",
+    "text": "= 0.15*(stand_reward*small_control)+0.25*hand_tool_proximity_reward+0.25*reward_spoon_in_cup+0.35*spoon_spinning_reward",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "hand_tool_proximity_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "min(left_hand_tool_distance,right_hand_tool_distance)",
+       "bounds": [
+        0,
+        0.2
+       ],
+       "margin": 0.5,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(min(left_hand_tool_distance,right_hand_tool_distance),bounds=(0,0.2),margin=0.5)"
+    },
+    "spoon_spinning_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "np.linalg.norm(spoon_plate_pos-spoon_target_pos)",
+       "bounds": "unknown",
+       "margin": 0.15,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(np.linalg.norm(spoon_plate_pos-spoon_target_pos),margin=0.15)"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "spoon.py::Spoon",
+   "line": 143,
+   "text": "def get_terminated(self): if self._env.data.qpos[2] < 0.58: return (True, {}) return (False, {})"
+  }
+ },
+ "door": {
+  "class": "Door",
+  "F1": {
+   "reward_owner": "door.py::Door",
+   "reward_owner_line": 12,
+   "composition": {
+    "kind": "additive",
+    "text": "= 0.1*stand_reward*small_control+0.45*door_openness_reward+0.05*door_hatch_openness_reward+0.05*hand_hatch_proximity_reward+0.35*passage_reward",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 0.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=0.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "door_hatch_openness_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self._env.data.qpos[-1]",
+       "bounds": [
+        0.75,
+        2
+       ],
+       "margin": 0.75,
+       "sigmoid": "linear",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self._env.data.qpos[-1],bounds=(0.75,2),margin=0.75,sigmoid='linear')"
+    },
+    "hand_hatch_proximity_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "min(right_hand_hatch_closeness,left_hand_hatch_closeness)",
+       "bounds": [
+        0,
+        0.25
+       ],
+       "margin": 1,
+       "sigmoid": "linear",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(min(right_hand_hatch_closeness,left_hand_hatch_closeness),bounds=(0,0.25),margin=1,sigmoid='linear')"
+    },
+    "passage_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self._env.named.data.site_xpos['imu','x']",
+       "bounds": [
+        1.2,
+        "unknown"
+       ],
+       "margin": 1,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self._env.named.data.site_xpos['imu','x'],bounds=(1.2,float('inf')),margin=1,value_at_margin=0,sigmoid='linear')"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "door.py::Door",
+   "line": 134,
+   "text": "def get_terminated(self): return (self._env.data.qpos[2] < 0.58, {})"
+  }
+ },
+ "push": {
+  "class": "Push",
+  "F1": {
+   "reward_owner": "push.py::Push",
+   "reward_owner_line": 12,
+   "composition": {
+    "kind": "penalty_unbounded",
+    "text": "= -hand_penalty-penalty_dist+reward_success",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Sub"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {},
+   "class_constants": {},
+   "module_constants": {}
+  },
+  "F5": {
+   "owner": "push.py::Push",
+   "line": 97,
+   "text": "def get_terminated(self): if self.reward_dict['terminate']: terminated = self.goal_dist() < 0.05 else: terminated = False return (terminated, {})"
+  }
+ },
+ "reach": {
+  "class": "Reach",
+  "F1": {
+   "reward_owner": "reach.py::Reach",
+   "reward_owner_line": 12,
+   "composition": {
+    "kind": "penalty_unbounded",
+    "text": "= healthy_reward-0.0001*motion_penalty+reward_close+reward_success",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult",
+     "Sub"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {},
+   "class_constants": {},
+   "module_constants": {}
+  },
+  "F5": {
+   "owner": "unknown",
+   "text": "unknown"
+  }
+ },
+ "basketball": {
+  "class": "Basketball",
+  "F1": {
+   "reward_owner": "basketball.py::Basketball",
+   "reward_owner_line": 12,
+   "composition": {
+    "kind": "event_dominated",
+    "text": "= 0.15*(stand_reward*small_control)+0.05*reward_hand_proximity+0.8*reward_ball_success Add 1000 = 0.5*(stand_reward*small_control)+0.5*reward_hand_proximity",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [
+     1000
+    ],
+    "n_assignments": 3,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "reward_hand_proximity": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "max([np.linalg.norm(left_hand_distance),np.linalg.norm(right_hand_distance)])",
+       "bounds": [
+        0,
+        0.2
+       ],
+       "margin": 1,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(max([np.linalg.norm(left_hand_distance),np.linalg.norm(right_hand_distance)]),bounds=(0,0.2),margin=1)"
+    },
+    "reward_ball_success": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "ball_hoop_distance",
+       "bounds": "unknown",
+       "margin": 7,
+       "sigmoid": "linear",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(ball_hoop_distance,margin=7,sigmoid='linear')"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "basketball.py::Basketball",
+   "line": 143,
+   "text": "def get_terminated(self): if self._env.data.qpos.flat[-5] < 0.5: return (True, {}) if self._env.data.qpos[2] < 0.5: return (True, {}) if np.linalg.norm(self._env.named.data.xpos['basketball'] - self._env.named.data.site_xpos['hoop_center'])"
+  }
+ },
+ "truck": {
+  "class": "Truck",
+  "F1": {
+   "reward_owner": "truck.py::Truck",
+   "reward_owner_line": 9,
+   "composition": {
+    "kind": "event_dominated",
+    "text": "= 0 Add upright*(1+reward_robot_package_truck+reward_robot_package_picked_up+reward_package_table) Add 1000 Add 100 Add 100 Sub 100",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [
+     100,
+     1000
+    ],
+    "n_assignments": 6,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "reward_robot_package_truck": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "np.min(dist_robot_package_truck)",
+       "bounds": [
+        0,
+        0.2
+       ],
+       "margin": 4,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(np.min(dist_robot_package_truck),bounds=(0,0.2),margin=4,value_at_margin=0,sigmoid='linear')"
+    },
+    "reward_robot_package_picked_up": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "np.min(dist_robot_package_picked_up)",
+       "bounds": [
+        0,
+        0.2
+       ],
+       "margin": 4,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(np.min(dist_robot_package_picked_up),bounds=(0,0.2),margin=4,value_at_margin=0,sigmoid='linear')"
+    },
+    "reward_package_table": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "np.min(dist_package_table)",
+       "bounds": [
+        0,
+        0.2
+       ],
+       "margin": 4,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(np.min(dist_package_table),bounds=(0,0.2),margin=4,value_at_margin=0,sigmoid='linear')"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {}
+  },
+  "F5": {
+   "owner": "truck.py::Truck",
+   "line": 207,
+   "text": "def get_terminated(self): terminated = False if len(self.packages_on_table) == len(self.package_list): terminated = True return (terminated, {})"
+  }
+ },
+ "package": {
+  "class": "Package",
+  "F1": {
+   "reward_owner": "package.py::Package",
+   "reward_owner_line": 15,
+   "composition": {
+    "kind": "event_dominated",
+    "text": "= stand_reward*small_control-3*dist_package_destination*1-(dist_hand_package_left+dist_hand_package_right)*0.1+package_height+reward_success*1000",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult",
+     "Sub"
+    ],
+    "big_constants": [
+     1000
+    ],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.8,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.8,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "package.py::Package",
+   "line": 147,
+   "text": "def get_terminated(self): dist_package_destination = np.linalg.norm(self._env.named.data.qpos['free_package'][:3] - self._env.named.data.site_xpos['destination_loc']) return (dist_package_destination < 0.1, {})"
+  }
+ },
+ "cabinet": {
+  "class": "Cabinet",
+  "F1": {
+   "reward_owner": "cabinet.py::Cabinet",
+   "reward_owner_line": 12,
+   "composition": {
+    "kind": "event_dominated",
+    "text": "= 0.2*stabilization_reward+0.8*reward Add 100*self.current_subtask",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [
+     100
+    ],
+    "n_assignments": 2,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "cabinet.py::Cabinet",
+   "line": 244,
+   "text": "def get_terminated(self): if self.current_subtask == 5: return (True, {}) return (False, {})"
+  }
+ },
+ "sit_simple": {
+  "class": "Sit",
+  "F1": {
+   "reward_owner": "basic_locomotion_envs.py::Sit",
+   "reward_owner_line": 296,
+   "composition": {
+    "kind": "multiplicative",
+    "text": "= small_control*sit_reward*dont_move",
+    "uses_min": false,
+    "ops": [
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "<expr>"
+   },
+   "component_fingerprints": {
+    "sitting": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self._env.data.qpos[2]",
+       "bounds": [
+        0.68,
+        0.72
+       ],
+       "margin": 0.2,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self._env.data.qpos[2],bounds=(0.68,0.72),margin=0.2)"
+    },
+    "on_chair": {
+     "n_tolerance": 2,
+     "terms": [
+      {
+       "quantity": "self._env.data.qpos[0]-chair_location[0]",
+       "bounds": [
+        -0.19,
+        0.19
+       ],
+       "margin": 0.2,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      },
+      {
+       "quantity": "self._env.data.qpos[1]-chair_location[1]",
+       "bounds": "unknown",
+       "margin": 0.1,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": true,
+     "expr": "rewards.tolerance(self._env.data.qpos[0]-chair_location[0],bounds=(-0.19,0.19),margin=0.2)*rewards.tolerance(self._env.data.qpos[1]-chair_location[1],margin=0.1)"
+    },
+    "sitting_posture": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()-self._env.named.data.site_xpos['imu','z']",
+       "bounds": [
+        0.35,
+        0.45
+       ],
+       "margin": 0.3,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height()-self._env.named.data.site_xpos['imu','z'],bounds=(0.35,0.45),margin=0.3)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.95,
+        "unknown"
+       ],
+       "margin": 0.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.95,float('inf')),sigmoid='linear',margin=0.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "dont_move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "horizontal_velocity",
+       "bounds": "unknown",
+       "margin": 2,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(horizontal_velocity,margin=2).mean()"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65,
+    "_CRAWL_HEIGHT": 0.8,
+    "_WALK_SPEED": 1,
+    "_RUN_SPEED": 5
+   }
+  },
+  "F5": {
+   "owner": "basic_locomotion_envs.py::Sit",
+   "line": 356,
+   "text": "def get_terminated(self): return (self._env.data.qpos[2] < 0.5, {})"
+  }
+ },
+ "sit_hard": {
+  "class": "SitHard",
+  "F1": {
+   "reward_owner": "basic_locomotion_envs.py::Sit",
+   "reward_owner_line": 296,
+   "composition": {
+    "kind": "multiplicative",
+    "text": "= small_control*sit_reward*dont_move",
+    "uses_min": false,
+    "ops": [
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "<expr>"
+   },
+   "component_fingerprints": {
+    "sitting": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self._env.data.qpos[2]",
+       "bounds": [
+        0.68,
+        0.72
+       ],
+       "margin": 0.2,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self._env.data.qpos[2],bounds=(0.68,0.72),margin=0.2)"
+    },
+    "on_chair": {
+     "n_tolerance": 2,
+     "terms": [
+      {
+       "quantity": "self._env.data.qpos[0]-chair_location[0]",
+       "bounds": [
+        -0.19,
+        0.19
+       ],
+       "margin": 0.2,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      },
+      {
+       "quantity": "self._env.data.qpos[1]-chair_location[1]",
+       "bounds": "unknown",
+       "margin": 0.1,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": true,
+     "expr": "rewards.tolerance(self._env.data.qpos[0]-chair_location[0],bounds=(-0.19,0.19),margin=0.2)*rewards.tolerance(self._env.data.qpos[1]-chair_location[1],margin=0.1)"
+    },
+    "sitting_posture": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()-self._env.named.data.site_xpos['imu','z']",
+       "bounds": [
+        0.35,
+        0.45
+       ],
+       "margin": 0.3,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height()-self._env.named.data.site_xpos['imu','z'],bounds=(0.35,0.45),margin=0.3)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.95,
+        "unknown"
+       ],
+       "margin": 0.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.95,float('inf')),sigmoid='linear',margin=0.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "dont_move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "horizontal_velocity",
+       "bounds": "unknown",
+       "margin": 2,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(horizontal_velocity,margin=2).mean()"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65,
+    "_CRAWL_HEIGHT": 0.8,
+    "_WALK_SPEED": 1,
+    "_RUN_SPEED": 5
+   }
+  },
+  "F5": {
+   "owner": "basic_locomotion_envs.py::Sit",
+   "line": 356,
+   "text": "def get_terminated(self): return (self._env.data.qpos[2] < 0.5, {})"
+  }
+ },
+ "balance_simple": {
+  "class": "BalanceSimple",
+  "F1": {
+   "reward_owner": "balance.py::BalanceBase",
+   "reward_owner_line": 11,
+   "composition": {
+    "kind": "multiplicative",
+    "text": "= small_control*stand_reward*dont_move",
+    "uses_min": false,
+    "ops": [
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "<expr>"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        2.02,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT+0.37,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "dont_move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "horizontal_velocity",
+       "bounds": "unknown",
+       "margin": 2,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(horizontal_velocity,margin=2).mean()"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "balance.py::BalanceBase",
+   "line": 62,
+   "text": "def get_terminated(self): if self._env.data.qpos[2] < 0.8: return (True, {}) sphere_collision_id = self._env.named.data.geom_xpos.axes.row.names.index('pivot_sphere_collision') board_collision_id = self._env.named.data.geom_xpos.axes.row.na"
+  }
+ },
+ "balance_hard": {
+  "class": "BalanceHard",
+  "F1": {
+   "reward_owner": "balance.py::BalanceBase",
+   "reward_owner_line": 11,
+   "composition": {
+    "kind": "multiplicative",
+    "text": "= small_control*stand_reward*dont_move",
+    "uses_min": false,
+    "ops": [
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "<expr>"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        2.02,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT+0.37,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "dont_move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "horizontal_velocity",
+       "bounds": "unknown",
+       "margin": 2,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(horizontal_velocity,margin=2).mean()"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "balance.py::BalanceBase",
+   "line": 62,
+   "text": "def get_terminated(self): if self._env.data.qpos[2] < 0.8: return (True, {}) sphere_collision_id = self._env.named.data.geom_xpos.axes.row.names.index('pivot_sphere_collision') board_collision_id = self._env.named.data.geom_xpos.axes.row.na"
+  }
+ },
+ "stair": {
+  "class": "Stair",
+  "F1": {
+   "reward_owner": "basic_locomotion_envs.py::ClimbingUpwards",
+   "reward_owner_line": 172,
+   "composition": {
+    "kind": "multiplicative",
+    "text": "= stand_reward*small_control*move",
+    "uses_min": false,
+    "ops": [
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "<expr>"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 2,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()-self.robot.left_foot_height()",
+       "bounds": [
+        1.2,
+        "unknown"
+       ],
+       "margin": 0.45,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      },
+      {
+       "quantity": "self.robot.head_height()-self.robot.right_foot_height()",
+       "bounds": [
+        1.2,
+        "unknown"
+       ],
+       "margin": 0.45,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": true,
+     "expr": "rewards.tolerance(self.robot.head_height()-self.robot.left_foot_height(),bounds=(1.2,float('inf')),margin=0.45)*rewards.tolerance(self.robot.head_height()-self.robot.right_foot_height(),bounds=(1.2,fl"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.5,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.5,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "com_velocity",
+       "bounds": [
+        1,
+        "unknown"
+       ],
+       "margin": 1,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(com_velocity,bounds=(_WALK_SPEED,float('inf')),margin=_WALK_SPEED,value_at_margin=0,sigmoid='linear')"
+    }
+   },
+   "class_constants": {
+    "_move_speed": 1
+   },
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65,
+    "_CRAWL_HEIGHT": 0.8,
+    "_WALK_SPEED": 1,
+    "_RUN_SPEED": 5
+   }
+  },
+  "F5": {
+   "owner": "basic_locomotion_envs.py::ClimbingUpwards",
+   "line": 216,
+   "text": "def get_terminated(self): return (self.robot.torso_upright() < 0.1, {})"
+  }
+ },
+ "slide": {
+  "class": "Slide",
+  "F1": {
+   "reward_owner": "basic_locomotion_envs.py::ClimbingUpwards",
+   "reward_owner_line": 172,
+   "composition": {
+    "kind": "multiplicative",
+    "text": "= stand_reward*small_control*move",
+    "uses_min": false,
+    "ops": [
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "<expr>"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 2,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()-self.robot.left_foot_height()",
+       "bounds": [
+        1.2,
+        "unknown"
+       ],
+       "margin": 0.45,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      },
+      {
+       "quantity": "self.robot.head_height()-self.robot.right_foot_height()",
+       "bounds": [
+        1.2,
+        "unknown"
+       ],
+       "margin": 0.45,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": true,
+     "expr": "rewards.tolerance(self.robot.head_height()-self.robot.left_foot_height(),bounds=(1.2,float('inf')),margin=0.45)*rewards.tolerance(self.robot.head_height()-self.robot.right_foot_height(),bounds=(1.2,fl"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.5,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.5,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "com_velocity",
+       "bounds": [
+        1,
+        "unknown"
+       ],
+       "margin": 1,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(com_velocity,bounds=(_WALK_SPEED,float('inf')),margin=_WALK_SPEED,value_at_margin=0,sigmoid='linear')"
+    }
+   },
+   "class_constants": {
+    "_move_speed": 1
+   },
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65,
+    "_CRAWL_HEIGHT": 0.8,
+    "_WALK_SPEED": 1,
+    "_RUN_SPEED": 5
+   }
+  },
+  "F5": {
+   "owner": "basic_locomotion_envs.py::ClimbingUpwards",
+   "line": 216,
+   "text": "def get_terminated(self): return (self.robot.torso_upright() < 0.1, {})"
+  }
+ },
+ "pole": {
+  "class": "Pole",
+  "F1": {
+   "reward_owner": "pole.py::Pole",
+   "reward_owner_line": 19,
+   "composition": {
+    "kind": "gated",
+    "text": "= (0.5*(small_control*stand_reward)+0.5*move)*collision_discount",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "move": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "com_velocity",
+       "bounds": [
+        0.5,
+        "unknown"
+       ],
+       "margin": 0.5,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(com_velocity,bounds=(self._move_speed,float('inf')),margin=self._move_speed,value_at_margin=0,sigmoid='linear')"
+    }
+   },
+   "class_constants": {
+    "_move_speed": 0.5
+   },
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65,
+    "_WALK_SPEED": 0.5
+   }
+  },
+  "F5": {
+   "owner": "pole.py::Pole",
+   "line": 98,
+   "text": "def get_terminated(self): return (self._env.data.qpos[2] < 0.5, {})"
+  }
+ },
+ "room": {
+  "class": "Room",
+  "F1": {
+   "reward_owner": "room.py::Room",
+   "reward_owner_line": 19,
+   "composition": {
+    "kind": "additive",
+    "text": "= 0.2*(small_control*stand_reward)+0.8*room_object_organized",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "room_object_organized": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "np.max(room_object_entropies)",
+       "bounds": "unknown",
+       "margin": 3,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(np.max(room_object_entropies),margin=3)"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65,
+    "_WALK_SPEED": 1
+   }
+  },
+  "F5": {
+   "owner": "room.py::Room",
+   "line": 133,
+   "text": "def get_terminated(self): return (self._env.data.qpos[2] < 0.3, {})"
+  }
+ },
+ "insert_normal": {
+  "class": "Insert",
+  "F1": {
+   "reward_owner": "insert.py::Insert",
+   "reward_owner_line": 11,
+   "composition": {
+    "kind": "gated",
+    "text": "= (0.5*(small_control*stand_reward)+0.5*cube_target_reward)*(0.5*peg_height_reward+0.5*hand_tool_proximity_reward)",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "cube_targets": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "np.linalg.norm(self._env.named.data.site_xpos[f'block_peg_{ch}']-self._env.named.data.site_xpos[f'peg_{ch}'])",
+       "bounds": "unknown",
+       "margin": 0.5,
+       "sigmoid": "linear",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "[rewards.tolerance(np.linalg.norm(self._env.named.data.site_xpos[f'block_peg_{ch}']-self._env.named.data.site_xpos[f'peg_{ch}']),margin=0.5,sigmoid='linear')forchin['a','b']]"
+    },
+    "peg_heights": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self._env.named.data.site_xpos[f'peg_{ch}','z']-1.1",
+       "bounds": "unknown",
+       "margin": 0.15,
+       "sigmoid": "linear",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "[rewards.tolerance(self._env.named.data.site_xpos[f'peg_{ch}','z']-1.1,margin=0.15,sigmoid='linear')forchin['a','b']]"
+    },
+    "hand_tool_proximity_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "min(left_hand_tool_distance,right_hand_tool_distance)",
+       "bounds": [
+        0,
+        0.2
+       ],
+       "margin": 0.5,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(min(left_hand_tool_distance,right_hand_tool_distance),bounds=(0,0.2),margin=0.5)"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "insert.py::Insert",
+   "line": 134,
+   "text": "def get_terminated(self): if self._env.data.qpos[2] < 0.5: return (True, {'terminated_reason': 0}) if self._env.named.data.site_xpos['block_peg_a', 'z'] < 0.5: return (True, {'terminated_reason': 1}) if self._env.named.data.site_xpos['block"
+  }
+ },
+ "insert_small": {
+  "class": "Insert",
+  "F1": {
+   "reward_owner": "insert.py::Insert",
+   "reward_owner_line": 11,
+   "composition": {
+    "kind": "gated",
+    "text": "= (0.5*(small_control*stand_reward)+0.5*cube_target_reward)*(0.5*peg_height_reward+0.5*hand_tool_proximity_reward)",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.4125,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/4)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.9,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.9,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "cube_targets": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "np.linalg.norm(self._env.named.data.site_xpos[f'block_peg_{ch}']-self._env.named.data.site_xpos[f'peg_{ch}'])",
+       "bounds": "unknown",
+       "margin": 0.5,
+       "sigmoid": "linear",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "[rewards.tolerance(np.linalg.norm(self._env.named.data.site_xpos[f'block_peg_{ch}']-self._env.named.data.site_xpos[f'peg_{ch}']),margin=0.5,sigmoid='linear')forchin['a','b']]"
+    },
+    "peg_heights": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self._env.named.data.site_xpos[f'peg_{ch}','z']-1.1",
+       "bounds": "unknown",
+       "margin": 0.15,
+       "sigmoid": "linear",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "[rewards.tolerance(self._env.named.data.site_xpos[f'peg_{ch}','z']-1.1,margin=0.15,sigmoid='linear')forchin['a','b']]"
+    },
+    "hand_tool_proximity_reward": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "min(left_hand_tool_distance,right_hand_tool_distance)",
+       "bounds": [
+        0,
+        0.2
+       ],
+       "margin": 0.5,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(min(left_hand_tool_distance,right_hand_tool_distance),bounds=(0,0.2),margin=0.5)"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "insert.py::Insert",
+   "line": 134,
+   "text": "def get_terminated(self): if self._env.data.qpos[2] < 0.5: return (True, {'terminated_reason': 0}) if self._env.named.data.site_xpos['block_peg_a', 'z'] < 0.5: return (True, {'terminated_reason': 1}) if self._env.named.data.site_xpos['block"
+  }
+ },
+ "powerlift": {
+  "class": "Powerlift",
+  "F1": {
+   "reward_owner": "powerlift.py::Powerlift",
+   "reward_owner_line": 16,
+   "composition": {
+    "kind": "additive",
+    "text": "= 0.2*(small_control*stand_reward)+0.8*reward_dumbbell_lifted",
+    "uses_min": false,
+    "ops": [
+     "Add",
+     "Mult"
+    ],
+    "big_constants": [],
+    "n_assignments": 1,
+    "return_var": "reward"
+   },
+   "component_fingerprints": {
+    "standing": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.head_height()",
+       "bounds": [
+        1.65,
+        "unknown"
+       ],
+       "margin": 0.5499999999999999,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.head_height(),bounds=(_STAND_HEIGHT,float('inf')),margin=_STAND_HEIGHT/3)"
+    },
+    "upright": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.torso_upright()",
+       "bounds": [
+        0.8,
+        "unknown"
+       ],
+       "margin": 1.9,
+       "sigmoid": "linear",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.torso_upright(),bounds=(0.8,float('inf')),sigmoid='linear',margin=1.9,value_at_margin=0)"
+    },
+    "small_control": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "self.robot.actuator_forces()",
+       "bounds": "unknown",
+       "margin": 10,
+       "sigmoid": "quadratic",
+       "value_at_margin": 0
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(self.robot.actuator_forces(),margin=10,value_at_margin=0,sigmoid='quadratic').mean()"
+    },
+    "reward_dumbbell_lifted": {
+     "n_tolerance": 1,
+     "terms": [
+      {
+       "quantity": "dumbbell_height",
+       "bounds": [
+        1.9,
+        2.1
+       ],
+       "margin": 2,
+       "sigmoid": "gaussian(default)",
+       "value_at_margin": "unknown"
+      }
+     ],
+     "expr_is_product_of_tolerances": false,
+     "expr": "rewards.tolerance(dumbbell_height,bounds=(1.9,2.1),margin=2)"
+    }
+   },
+   "class_constants": {},
+   "module_constants": {
+    "_STAND_HEIGHT": 1.65
+   }
+  },
+  "F5": {
+   "owner": "powerlift.py::Powerlift",
+   "line": 99,
+   "text": "def get_terminated(self): return (self._env.data.qpos[2] < 0.2, {})"
+  }
+ }
+}

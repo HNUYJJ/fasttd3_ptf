@@ -1,0 +1,68 @@
+{
+  "env": "h1hand-hurdle-v0",
+  "num_envs": 32,
+  "episode_steps": 1000,
+  "env_seed": 7,
+  "deterministic": true,
+  "sources": {
+    "run": {
+      "return_mean": 169.20697827068534,
+      "return_std": 97.20319544425837,
+      "return_se": 17.1832596629091,
+      "ep_len_mean": 618.0,
+      "fall_rate": 0.625,
+      "episodes": 32,
+      "info_means": {
+        "per_timestep_reward": 0.27379769946712085,
+        "stand_reward": 0.40662309316895584,
+        "small_control": 0.9490660341468125,
+        "move": 0.4765660542739854,
+        "standing": 0.40813458225069277,
+        "upright": 0.7959153929935284,
+        "wall_collision_discount": 0.985573422330098
+      }
+    },
+    "walk": {
+      "return_mean": 96.35449778878007,
+      "return_std": 14.476452101853889,
+      "return_se": 2.5590993621857834,
+      "ep_len_mean": 659.8125,
+      "fall_rate": 0.59375,
+      "episodes": 32,
+      "info_means": {
+        "per_timestep_reward": 0.14603315000667666,
+        "stand_reward": 0.3386602279116781,
+        "small_control": 0.9624864588704861,
+        "move": 0.2824557960203132,
+        "standing": 0.3389076125296733,
+        "upright": 0.67545072466159,
+        "wall_collision_discount": 0.9984654731457799
+      }
+    },
+    "stand": {
+      "return_mean": 146.93988548528665,
+      "return_std": 21.181589095548293,
+      "return_se": 3.744411321442307,
+      "ep_len_mean": 1000.0,
+      "fall_rate": 0.0,
+      "episodes": 32,
+      "info_means": {
+        "per_timestep_reward": 0.14693988548528625,
+        "stand_reward": 0.9999424997986878,
+        "small_control": 0.953966791133621,
+        "move": 0.16926172199610218,
+        "standing": 0.9999424997986878,
+        "upright": 1.0,
+        "wall_collision_discount": 0.90935312499994
+      }
+    }
+  },
+  "student_curve_for_reference": {
+    "10000": 64.75,
+    "20000": 241.72,
+    "30000": 396.01,
+    "50000": 435.51,
+    "75000": 645.88,
+    "100000": 479.07
+  }
+}

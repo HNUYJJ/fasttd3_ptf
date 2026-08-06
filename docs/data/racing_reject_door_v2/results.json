@@ -1,0 +1,134 @@
+{
+  "prereg": "docs/experiments/racing_reject_door_v2_prereg_20260730.md",
+  "prereg_commits": [
+    "ac1bd26",
+    "971b6af"
+  ],
+  "run_id": "2aada41d4b69",
+  "reject_rule": "REJECT ⟺ max_i U_i(K) <= 0  (R1)",
+  "dose": {
+    "batch1/stand_s1_12000": 0.4995,
+    "batch1/stand_s1_15000": 0.5013,
+    "batch1/stand_s1_20000": 0.4987,
+    "batch1/walk_s1_12000": 0.5,
+    "batch1/walk_s1_15000": 0.5015,
+    "batch1/walk_s1_20000": 0.4982,
+    "batch1/run_s1_12000": 0.4952,
+    "batch1/run_s1_15000": 0.4999,
+    "batch1/run_s1_20000": 0.498,
+    "batch1/stand_s2_12000": 0.5019,
+    "batch1/stand_s2_15000": 0.4986,
+    "batch1/stand_s2_20000": 0.5006,
+    "batch1/walk_s2_12000": 0.5013,
+    "batch1/walk_s2_15000": 0.4966,
+    "batch1/walk_s2_20000": 0.4992,
+    "batch1/run_s2_12000": 0.4989,
+    "batch1/run_s2_15000": 0.4968,
+    "batch1/run_s2_20000": 0.4994,
+    "batch1/stand_s3_12000": 0.5027,
+    "batch1/stand_s3_15000": 0.5012,
+    "batch1/stand_s3_20000": 0.4991,
+    "batch1/walk_s3_12000": 0.5008,
+    "batch1/walk_s3_15000": 0.4997,
+    "batch1/walk_s3_20000": 0.4981,
+    "batch1/run_s3_12000": 0.5036,
+    "batch1/run_s3_15000": 0.5008,
+    "batch1/run_s3_20000": 0.499,
+    "batch2/stand_s4_12000": 0.4887,
+    "batch2/stand_s4_15000": 0.4924,
+    "batch2/stand_s4_20000": 0.4965,
+    "batch2/walk_s4_12000": 0.4909,
+    "batch2/walk_s4_15000": 0.4935,
+    "batch2/walk_s4_20000": 0.4965,
+    "batch2/run_s4_12000": 0.4912,
+    "batch2/run_s4_15000": 0.4935,
+    "batch2/run_s4_20000": 0.4972,
+    "batch2/stand_s5_12000": 0.5048,
+    "batch2/stand_s5_15000": 0.5032,
+    "batch2/stand_s5_20000": 0.4998,
+    "batch2/walk_s5_12000": 0.5017,
+    "batch2/walk_s5_15000": 0.5014,
+    "batch2/walk_s5_20000": 0.4985,
+    "batch2/run_s5_12000": 0.5036,
+    "batch2/run_s5_15000": 0.5018,
+    "batch2/run_s5_20000": 0.4986,
+    "batch2/stand_s6_12000": 0.4959,
+    "batch2/stand_s6_15000": 0.4991,
+    "batch2/stand_s6_20000": 0.4997,
+    "batch2/walk_s6_12000": 0.4951,
+    "batch2/walk_s6_15000": 0.4984,
+    "batch2/walk_s6_20000": 0.4987,
+    "batch2/run_s6_12000": 0.4939,
+    "batch2/run_s6_15000": 0.4977,
+    "batch2/run_s6_20000": 0.499
+  },
+  "layer2_replication": {
+    "per_cell": {
+      "stand_s1": {
+        "U_new": -50.25,
+        "U_gate": -23.43,
+        "paired_se": 3.68,
+        "tol": 11.04,
+        "pass": false
+      },
+      "stand_s2": {
+        "U_new": -47.76,
+        "U_gate": -42.83,
+        "paired_se": 3.61,
+        "tol": 10.84,
+        "pass": true
+      },
+      "stand_s3": {
+        "U_new": -34.98,
+        "U_gate": -31.66,
+        "paired_se": 4.95,
+        "tol": 14.86,
+        "pass": true
+      },
+      "walk_s1": {
+        "U_new": -31.29,
+        "U_gate": -7.06,
+        "paired_se": 2.93,
+        "tol": 8.8,
+        "pass": false
+      },
+      "walk_s2": {
+        "U_new": -82.36,
+        "U_gate": -38.58,
+        "paired_se": 5.28,
+        "tol": 15.84,
+        "pass": false
+      },
+      "walk_s3": {
+        "U_new": -7.57,
+        "U_gate": -20.96,
+        "paired_se": 4.63,
+        "tol": 13.9,
+        "pass": true
+      },
+      "run_s1": {
+        "U_new": -50.4,
+        "U_gate": -17.78,
+        "paired_se": 3.77,
+        "tol": 11.31,
+        "pass": false
+      },
+      "run_s2": {
+        "U_new": -52.02,
+        "U_gate": -41.04,
+        "paired_se": 3.21,
+        "tol": 9.62,
+        "pass": false
+      },
+      "run_s3": {
+        "U_new": -8.67,
+        "U_gate": -33.08,
+        "paired_se": 4.76,
+        "tol": 14.27,
+        "pass": false
+      }
+    },
+    "pass": false
+  },
+  "verdict": "REPLICATION_DIVERGED"
+}

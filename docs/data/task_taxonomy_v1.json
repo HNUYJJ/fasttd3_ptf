@@ -1,0 +1,1574 @@
+{
+ "taxonomy": {
+  "stand": {
+   "reward_owner": "basic_locomotion_envs.py::Walk",
+   "composition_kind": "multiplicative",
+   "uses_min": false,
+   "class_constants": {
+    "_move_speed": 0
+   },
+   "terrain_class": "flat_floor_only",
+   "n_freejoint": 0,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "velocity": 2
+    },
+    "task_specific": {
+     "posture": 2,
+     "velocity": 2
+    }
+   },
+   "termination": "def get_terminated(self): return (self._env.data.qpos[2] < 0.2, {})",
+   "evidence": {
+    "reward": "basic_locomotion_envs.py::Walk:21",
+    "scene": null,
+    "env": "envs/h1hand_pos_stand.xml"
+   }
+  },
+  "walk": {
+   "reward_owner": "basic_locomotion_envs.py::Walk",
+   "composition_kind": "multiplicative",
+   "uses_min": false,
+   "class_constants": {
+    "_move_speed": 1
+   },
+   "terrain_class": "flat_floor_only",
+   "n_freejoint": 0,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "velocity": 2
+    },
+    "task_specific": {
+     "posture": 2,
+     "velocity": 2
+    }
+   },
+   "termination": "def get_terminated(self): return (self._env.data.qpos[2] < 0.2, {})",
+   "evidence": {
+    "reward": "basic_locomotion_envs.py::Walk:21",
+    "scene": null,
+    "env": "envs/h1hand_pos_walk.xml"
+   }
+  },
+  "run": {
+   "reward_owner": "basic_locomotion_envs.py::Walk",
+   "composition_kind": "multiplicative",
+   "uses_min": false,
+   "class_constants": {
+    "_move_speed": 5
+   },
+   "terrain_class": "flat_floor_only",
+   "n_freejoint": 0,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "velocity": 2
+    },
+    "task_specific": {
+     "posture": 2,
+     "velocity": 2
+    }
+   },
+   "termination": "def get_terminated(self): return (self._env.data.qpos[2] < 0.2, {})",
+   "evidence": {
+    "reward": "basic_locomotion_envs.py::Walk:21",
+    "scene": null,
+    "env": "envs/h1hand_pos_run.xml"
+   }
+  },
+  "kitchen": {
+   "reward_owner": "kitchen.py::Kitchen",
+   "composition_kind": "event_count",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "mixed_mesh_and_slabs",
+   "n_freejoint": 1,
+   "articulated": true,
+   "joint_types": {
+    "hinge(default)": 15,
+    "hinge": 4,
+    "slide": 6
+   },
+   "F4": {
+    "all": {
+     "sparse_completion_event": 1
+    },
+    "task_specific": {
+     "sparse_completion_event": 1
+    }
+   },
+   "termination": "def get_terminated(self): terminated = False if self.TERMINATE_ON_TASK_COMPLETE: terminated = not self.tasks_to_complete",
+   "evidence": {
+    "reward": "kitchen.py::Kitchen:27",
+    "scene": "tasks/kitchen.xml",
+    "env": "envs/h1hand_pos_kitchen.xml"
+   }
+  },
+  "maze": {
+   "reward_owner": "maze.py::MazeBase",
+   "composition_kind": "gated",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "flat_floor_with_objects",
+   "n_freejoint": 0,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "velocity": 2,
+     "goal_or_object_distance": 1
+    },
+    "task_specific": {
+     "posture": 2,
+     "velocity": 2,
+     "goal_or_object_distance": 1
+    }
+   },
+   "termination": "def get_terminated(self): return (self._env.data.qpos[2] < 0.2, {})",
+   "evidence": {
+    "reward": "maze.py::MazeBase:14",
+    "scene": "tasks/maze.xml",
+    "env": "envs/h1hand_pos_maze.xml"
+   }
+  },
+  "hurdle": {
+   "reward_owner": "basic_locomotion_envs.py::Hurdle",
+   "composition_kind": "multiplicative",
+   "uses_min": false,
+   "class_constants": {
+    "_move_speed": 5
+   },
+   "terrain_class": "flat_floor_with_objects",
+   "n_freejoint": 0,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "velocity": 1
+    },
+    "task_specific": {
+     "posture": 2,
+     "velocity": 1
+    }
+   },
+   "termination": "def get_terminated(self): return (self._env.data.qpos[2] < 0.2, {})",
+   "evidence": {
+    "reward": "basic_locomotion_envs.py::Hurdle:228",
+    "scene": "tasks/hurdle.xml",
+    "env": "envs/h1hand_pos_hurdle.xml"
+   }
+  },
+  "cube": {
+   "reward_owner": "cube.py::Cube",
+   "composition_kind": "additive",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "flat_floor_with_objects",
+   "n_freejoint": 2,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "velocity": 1,
+     "goal_or_object_distance": 4
+    },
+    "task_specific": {
+     "posture": 2,
+     "velocity": 1,
+     "goal_or_object_distance": 4
+    }
+   },
+   "termination": "def get_terminated(self): if self._env.data.qpos[2] < 0.58: return (True, {'terminated_reason': 0}) if self._env.named.d",
+   "evidence": {
+    "reward": "cube.py::Cube:12",
+    "scene": "tasks/cube.xml",
+    "env": "envs/h1hand_pos_cube.xml"
+   }
+  },
+  "bookshelf_simple": {
+   "reward_owner": "bookshelf.py::BookshelfBase",
+   "composition_kind": "event_dominated",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "discrete_slabs",
+   "n_freejoint": 12,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "goal_or_object_distance": 1,
+     "sparse_completion_event": 1
+    },
+    "task_specific": {
+     "posture": 2,
+     "goal_or_object_distance": 1,
+     "sparse_completion_event": 1
+    }
+   },
+   "termination": "def get_terminated(self): if self._env.data.qpos[2] < 0.58: return (True, {'terminated_reason': 0}) if self.task_index =",
+   "evidence": {
+    "reward": "bookshelf.py::BookshelfBase:13",
+    "scene": "tasks/bookshelf_simple.xml",
+    "env": "envs/h1hand_pos_bookshelf_simple.xml"
+   }
+  },
+  "bookshelf_hard": {
+   "reward_owner": "bookshelf.py::BookshelfBase",
+   "composition_kind": "event_dominated",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "discrete_slabs",
+   "n_freejoint": 12,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "goal_or_object_distance": 1,
+     "sparse_completion_event": 1
+    },
+    "task_specific": {
+     "posture": 2,
+     "goal_or_object_distance": 1,
+     "sparse_completion_event": 1
+    }
+   },
+   "termination": "def get_terminated(self): if self._env.data.qpos[2] < 0.58: return (True, {'terminated_reason': 0}) if self.task_index =",
+   "evidence": {
+    "reward": "bookshelf.py::BookshelfBase:13",
+    "scene": "tasks/bookshelf_hard.xml",
+    "env": "envs/h1hand_pos_bookshelf_hard.xml"
+   }
+  },
+  "highbar_simple": {
+   "reward_owner": "highbar.py::HighBarBase",
+   "composition_kind": "multiplicative",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "flat_floor_with_objects",
+   "n_freejoint": 0,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 1,
+     "control_effort": 1
+    },
+    "task_specific": {
+     "posture": 1
+    }
+   },
+   "termination": "def get_terminated(self): terminated = False if self.robot.head_height() < 2.0: terminated = True return (terminated, {}",
+   "evidence": {
+    "reward": "highbar.py::HighBarBase:9",
+    "scene": "tasks/highbar_simple.xml",
+    "env": null
+   }
+  },
+  "highbar_hard": {
+   "reward_owner": "highbar.py::HighBarBase",
+   "composition_kind": "multiplicative",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "flat_floor_with_objects",
+   "n_freejoint": 0,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 1,
+     "control_effort": 1
+    },
+    "task_specific": {
+     "posture": 1
+    }
+   },
+   "termination": "def get_terminated(self): terminated = False if self.robot.head_height() < 2.0: terminated = True return (terminated, {}",
+   "evidence": {
+    "reward": "highbar.py::HighBarBase:9",
+    "scene": "tasks/highbar_hard.xml",
+    "env": null
+   }
+  },
+  "crawl": {
+   "reward_owner": "basic_locomotion_envs.py::Crawl",
+   "composition_kind": "gated",
+   "uses_min": true,
+   "class_constants": {
+    "_move_speed": 1
+   },
+   "terrain_class": "few_slabs",
+   "n_freejoint": 0,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "control_effort": 1,
+     "velocity": 1,
+     "posture": 4
+    },
+    "task_specific": {
+     "velocity": 1,
+     "posture": 4
+    }
+   },
+   "termination": "def get_terminated(self): return (False, {})",
+   "evidence": {
+    "reward": "basic_locomotion_envs.py::Crawl:109",
+    "scene": "tasks/crawl.xml",
+    "env": "envs/h1hand_pos_crawl.xml"
+   }
+  },
+  "window": {
+   "reward_owner": "window.py::Window",
+   "composition_kind": "additive",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "few_slabs",
+   "n_freejoint": 1,
+   "articulated": true,
+   "joint_types": {
+    "ball": 1
+   },
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "object_state": 1,
+     "goal_or_object_distance": 3
+    },
+    "task_specific": {
+     "posture": 2,
+     "object_state": 1,
+     "goal_or_object_distance": 3
+    }
+   },
+   "termination": "def get_terminated(self): if self._env.data.qpos[2] < 0.58: return (True, {}) if self._env.named.data.xpos['window_wipin",
+   "evidence": {
+    "reward": "window.py::Window:11",
+    "scene": "tasks/window.xml",
+    "env": "envs/h1hand_pos_window.xml"
+   }
+  },
+  "spoon": {
+   "reward_owner": "spoon.py::Spoon",
+   "composition_kind": "additive",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "few_slabs",
+   "n_freejoint": 1,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "goal_or_object_distance": 2
+    },
+    "task_specific": {
+     "posture": 2,
+     "goal_or_object_distance": 2
+    }
+   },
+   "termination": "def get_terminated(self): if self._env.data.qpos[2] < 0.58: return (True, {}) return (False, {})",
+   "evidence": {
+    "reward": "spoon.py::Spoon:11",
+    "scene": "tasks/spoon.xml",
+    "env": "envs/h1hand_pos_spoon.xml"
+   }
+  },
+  "door": {
+   "reward_owner": "door.py::Door",
+   "composition_kind": "additive",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "flat_floor_with_objects",
+   "n_freejoint": 0,
+   "articulated": true,
+   "joint_types": {
+    "hinge(default)": 2
+   },
+   "F4": {
+    "all": {
+     "posture": 3,
+     "control_effort": 1,
+     "object_state": 1
+    },
+    "task_specific": {
+     "posture": 3,
+     "object_state": 1
+    }
+   },
+   "termination": "def get_terminated(self): return (self._env.data.qpos[2] < 0.58, {})",
+   "evidence": {
+    "reward": "door.py::Door:12",
+    "scene": "tasks/door.xml",
+    "env": "envs/h1hand_pos_door.xml"
+   }
+  },
+  "push": {
+   "reward_owner": "push.py::Push",
+   "composition_kind": "penalty_unbounded",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "few_slabs",
+   "n_freejoint": 1,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {},
+    "task_specific": {
+     "unknown": 1
+    }
+   },
+   "termination": "def get_terminated(self): if self.reward_dict['terminate']: terminated = self.goal_dist() < 0.05 else: terminated = Fals",
+   "evidence": {
+    "reward": "push.py::Push:12",
+    "scene": "tasks/push.xml",
+    "env": "envs/h1hand_pos_push.xml"
+   }
+  },
+  "reach": {
+   "reward_owner": "reach.py::Reach",
+   "composition_kind": "penalty_unbounded",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "flat_floor_only",
+   "n_freejoint": 0,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {},
+    "task_specific": {
+     "unknown": 1
+    }
+   },
+   "termination": "unknown",
+   "evidence": {
+    "reward": "reach.py::Reach:12",
+    "scene": "tasks/reach.xml",
+    "env": "envs/h1hand_pos_reach.xml"
+   }
+  },
+  "basketball": {
+   "reward_owner": "basketball.py::Basketball",
+   "composition_kind": "event_dominated",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "few_slabs",
+   "n_freejoint": 1,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "goal_or_object_distance": 2,
+     "sparse_completion_event": 1
+    },
+    "task_specific": {
+     "posture": 2,
+     "goal_or_object_distance": 2,
+     "sparse_completion_event": 1
+    }
+   },
+   "termination": "def get_terminated(self): if self._env.data.qpos.flat[-5] < 0.5: return (True, {}) if self._env.data.qpos[2] < 0.5: retu",
+   "evidence": {
+    "reward": "basketball.py::Basketball:12",
+    "scene": "tasks/basketball.xml",
+    "env": "envs/h1hand_pos_basketball.xml"
+   }
+  },
+  "truck": {
+   "reward_owner": "truck.py::Truck",
+   "composition_kind": "event_dominated",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "discrete_slabs",
+   "n_freejoint": 5,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 1,
+     "sparse_completion_event": 1
+    },
+    "task_specific": {
+     "posture": 1,
+     "sparse_completion_event": 1
+    }
+   },
+   "termination": "def get_terminated(self): terminated = False if len(self.packages_on_table) == len(self.package_list): terminated = True",
+   "evidence": {
+    "reward": "truck.py::Truck:9",
+    "scene": "tasks/truck.xml",
+    "env": "envs/h1hand_pos_truck.xml"
+   }
+  },
+  "package": {
+   "reward_owner": "package.py::Package",
+   "composition_kind": "event_dominated",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "flat_floor_with_objects",
+   "n_freejoint": 1,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "sparse_completion_event": 1
+    },
+    "task_specific": {
+     "posture": 2,
+     "sparse_completion_event": 1
+    }
+   },
+   "termination": "def get_terminated(self): dist_package_destination = np.linalg.norm(self._env.named.data.qpos['free_package'][:3] - self",
+   "evidence": {
+    "reward": "package.py::Package:15",
+    "scene": "tasks/package.xml",
+    "env": "envs/h1hand_pos_package.xml"
+   }
+  },
+  "cabinet": {
+   "reward_owner": "cabinet.py::Cabinet",
+   "composition_kind": "event_dominated",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "discrete_slabs",
+   "n_freejoint": 4,
+   "articulated": true,
+   "joint_types": {
+    "slide": 2,
+    "hinge": 3
+   },
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "sparse_completion_event": 1
+    },
+    "task_specific": {
+     "posture": 2,
+     "sparse_completion_event": 1
+    }
+   },
+   "termination": "def get_terminated(self): if self.current_subtask == 5: return (True, {}) return (False, {})",
+   "evidence": {
+    "reward": "cabinet.py::Cabinet:12",
+    "scene": "tasks/cabinet.xml",
+    "env": "envs/h1hand_pos_cabinet.xml"
+   }
+  },
+  "sit_simple": {
+   "reward_owner": "basic_locomotion_envs.py::Sit",
+   "composition_kind": "multiplicative",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "flat_floor_with_objects",
+   "n_freejoint": 0,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 3,
+     "object_state": 2,
+     "control_effort": 1,
+     "velocity": 1
+    },
+    "task_specific": {
+     "posture": 3,
+     "object_state": 2,
+     "velocity": 1
+    }
+   },
+   "termination": "def get_terminated(self): return (self._env.data.qpos[2] < 0.5, {})",
+   "evidence": {
+    "reward": "basic_locomotion_envs.py::Sit:296",
+    "scene": "tasks/sit_simple.xml",
+    "env": "envs/h1hand_pos_sit_simple.xml"
+   }
+  },
+  "sit_hard": {
+   "reward_owner": "basic_locomotion_envs.py::Sit",
+   "composition_kind": "multiplicative",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "flat_floor_with_objects",
+   "n_freejoint": 1,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 3,
+     "object_state": 2,
+     "control_effort": 1,
+     "velocity": 1
+    },
+    "task_specific": {
+     "posture": 3,
+     "object_state": 2,
+     "velocity": 1
+    }
+   },
+   "termination": "def get_terminated(self): return (self._env.data.qpos[2] < 0.5, {})",
+   "evidence": {
+    "reward": "basic_locomotion_envs.py::Sit:296",
+    "scene": "tasks/sit_hard.xml",
+    "env": "envs/h1hand_pos_sit_hard.xml"
+   }
+  },
+  "balance_simple": {
+   "reward_owner": "balance.py::BalanceBase",
+   "composition_kind": "multiplicative",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "few_slabs",
+   "n_freejoint": 1,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "velocity": 1
+    },
+    "task_specific": {
+     "posture": 2,
+     "velocity": 1
+    }
+   },
+   "termination": "def get_terminated(self): if self._env.data.qpos[2] < 0.8: return (True, {}) sphere_collision_id = self._env.named.data.",
+   "evidence": {
+    "reward": "balance.py::BalanceBase:11",
+    "scene": "tasks/balance_simple.xml",
+    "env": "envs/h1hand_pos_balance_simple.xml"
+   }
+  },
+  "balance_hard": {
+   "reward_owner": "balance.py::BalanceBase",
+   "composition_kind": "multiplicative",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "few_slabs",
+   "n_freejoint": 2,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "velocity": 1
+    },
+    "task_specific": {
+     "posture": 2,
+     "velocity": 1
+    }
+   },
+   "termination": "def get_terminated(self): if self._env.data.qpos[2] < 0.8: return (True, {}) sphere_collision_id = self._env.named.data.",
+   "evidence": {
+    "reward": "balance.py::BalanceBase:11",
+    "scene": "tasks/balance_hard.xml",
+    "env": "envs/h1hand_pos_balance_hard.xml"
+   }
+  },
+  "stair": {
+   "reward_owner": "basic_locomotion_envs.py::ClimbingUpwards",
+   "composition_kind": "multiplicative",
+   "uses_min": false,
+   "class_constants": {
+    "_move_speed": 1
+   },
+   "terrain_class": "discrete_slabs",
+   "n_freejoint": 0,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 3,
+     "control_effort": 1,
+     "velocity": 1
+    },
+    "task_specific": {
+     "posture": 3,
+     "velocity": 1
+    }
+   },
+   "termination": "def get_terminated(self): return (self.robot.torso_upright() < 0.1, {})",
+   "evidence": {
+    "reward": "basic_locomotion_envs.py::ClimbingUpwards:172",
+    "scene": "tasks/stair.xml",
+    "env": "envs/h1hand_pos_stair.xml"
+   }
+  },
+  "slide": {
+   "reward_owner": "basic_locomotion_envs.py::ClimbingUpwards",
+   "composition_kind": "multiplicative",
+   "uses_min": false,
+   "class_constants": {
+    "_move_speed": 1
+   },
+   "terrain_class": "continuous_mesh",
+   "n_freejoint": 0,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 3,
+     "control_effort": 1,
+     "velocity": 1
+    },
+    "task_specific": {
+     "posture": 3,
+     "velocity": 1
+    }
+   },
+   "termination": "def get_terminated(self): return (self.robot.torso_upright() < 0.1, {})",
+   "evidence": {
+    "reward": "basic_locomotion_envs.py::ClimbingUpwards:172",
+    "scene": "tasks/slide.xml",
+    "env": "envs/h1hand_pos_slide.xml"
+   }
+  },
+  "pole": {
+   "reward_owner": "pole.py::Pole",
+   "composition_kind": "gated",
+   "uses_min": false,
+   "class_constants": {
+    "_move_speed": 0.5
+   },
+   "terrain_class": "flat_floor_with_objects",
+   "n_freejoint": 0,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "velocity": 1
+    },
+    "task_specific": {
+     "posture": 2,
+     "velocity": 1
+    }
+   },
+   "termination": "def get_terminated(self): return (self._env.data.qpos[2] < 0.5, {})",
+   "evidence": {
+    "reward": "pole.py::Pole:19",
+    "scene": "tasks/pole.xml",
+    "env": "envs/h1hand_pos_pole.xml"
+   }
+  },
+  "room": {
+   "reward_owner": "room.py::Room",
+   "composition_kind": "additive",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "discrete_slabs",
+   "n_freejoint": 6,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1
+    },
+    "task_specific": {
+     "posture": 2
+    }
+   },
+   "termination": "def get_terminated(self): return (self._env.data.qpos[2] < 0.3, {})",
+   "evidence": {
+    "reward": "room.py::Room:19",
+    "scene": "tasks/room.xml",
+    "env": "envs/h1hand_pos_room.xml"
+   }
+  },
+  "insert_normal": {
+   "reward_owner": "insert.py::Insert",
+   "composition_kind": "gated",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "few_slabs",
+   "n_freejoint": 3,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "goal_or_object_distance": 2,
+     "object_state": 1
+    },
+    "task_specific": {
+     "posture": 2,
+     "goal_or_object_distance": 2,
+     "object_state": 1
+    }
+   },
+   "termination": "def get_terminated(self): if self._env.data.qpos[2] < 0.5: return (True, {'terminated_reason': 0}) if self._env.named.da",
+   "evidence": {
+    "reward": "insert.py::Insert:11",
+    "scene": "tasks/insert_normal.xml",
+    "env": "envs/h1hand_pos_insert_normal.xml"
+   }
+  },
+  "insert_small": {
+   "reward_owner": "insert.py::Insert",
+   "composition_kind": "gated",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "few_slabs",
+   "n_freejoint": 3,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1,
+     "goal_or_object_distance": 2,
+     "object_state": 1
+    },
+    "task_specific": {
+     "posture": 2,
+     "goal_or_object_distance": 2,
+     "object_state": 1
+    }
+   },
+   "termination": "def get_terminated(self): if self._env.data.qpos[2] < 0.5: return (True, {'terminated_reason': 0}) if self._env.named.da",
+   "evidence": {
+    "reward": "insert.py::Insert:11",
+    "scene": "tasks/insert_small.xml",
+    "env": "envs/h1hand_pos_insert_small.xml"
+   }
+  },
+  "powerlift": {
+   "reward_owner": "powerlift.py::Powerlift",
+   "composition_kind": "additive",
+   "uses_min": false,
+   "class_constants": {},
+   "terrain_class": "flat_floor_with_objects",
+   "n_freejoint": 1,
+   "articulated": false,
+   "joint_types": {},
+   "F4": {
+    "all": {
+     "posture": 2,
+     "control_effort": 1
+    },
+    "task_specific": {
+     "posture": 2
+    }
+   },
+   "termination": "def get_terminated(self): return (self._env.data.qpos[2] < 0.2, {})",
+   "evidence": {
+    "reward": "powerlift.py::Powerlift:16",
+    "scene": "tasks/powerlift.xml",
+    "env": "envs/h1hand_pos_powerlift.xml"
+   }
+  }
+ },
+ "families": {
+  "by_exact_reward_implementation": {
+   "basic_locomotion_envs.py::Walk": [
+    "stand",
+    "walk",
+    "run"
+   ],
+   "bookshelf.py::BookshelfBase": [
+    "bookshelf_simple",
+    "bookshelf_hard"
+   ],
+   "highbar.py::HighBarBase": [
+    "highbar_simple",
+    "highbar_hard"
+   ],
+   "basic_locomotion_envs.py::Sit": [
+    "sit_simple",
+    "sit_hard"
+   ],
+   "balance.py::BalanceBase": [
+    "balance_simple",
+    "balance_hard"
+   ],
+   "basic_locomotion_envs.py::ClimbingUpwards": [
+    "stair",
+    "slide"
+   ],
+   "insert.py::Insert": [
+    "insert_normal",
+    "insert_small"
+   ],
+   "kitchen.py::Kitchen": [
+    "kitchen"
+   ],
+   "maze.py::MazeBase": [
+    "maze"
+   ],
+   "basic_locomotion_envs.py::Hurdle": [
+    "hurdle"
+   ],
+   "cube.py::Cube": [
+    "cube"
+   ],
+   "basic_locomotion_envs.py::Crawl": [
+    "crawl"
+   ],
+   "window.py::Window": [
+    "window"
+   ],
+   "spoon.py::Spoon": [
+    "spoon"
+   ],
+   "door.py::Door": [
+    "door"
+   ],
+   "push.py::Push": [
+    "push"
+   ],
+   "reach.py::Reach": [
+    "reach"
+   ],
+   "basketball.py::Basketball": [
+    "basketball"
+   ],
+   "truck.py::Truck": [
+    "truck"
+   ],
+   "package.py::Package": [
+    "package"
+   ],
+   "cabinet.py::Cabinet": [
+    "cabinet"
+   ],
+   "pole.py::Pole": [
+    "pole"
+   ],
+   "room.py::Room": [
+    "room"
+   ],
+   "powerlift.py::Powerlift": [
+    "powerlift"
+   ]
+  },
+  "by_terrain": {
+   "flat_floor_with_objects": [
+    "maze",
+    "hurdle",
+    "cube",
+    "highbar_simple",
+    "highbar_hard",
+    "door",
+    "package",
+    "sit_simple",
+    "sit_hard",
+    "pole",
+    "powerlift"
+   ],
+   "few_slabs": [
+    "crawl",
+    "window",
+    "spoon",
+    "push",
+    "basketball",
+    "balance_simple",
+    "balance_hard",
+    "insert_normal",
+    "insert_small"
+   ],
+   "discrete_slabs": [
+    "bookshelf_simple",
+    "bookshelf_hard",
+    "truck",
+    "cabinet",
+    "stair",
+    "room"
+   ],
+   "flat_floor_only": [
+    "stand",
+    "walk",
+    "run",
+    "reach"
+   ],
+   "mixed_mesh_and_slabs": [
+    "kitchen"
+   ],
+   "continuous_mesh": [
+    "slide"
+   ]
+  },
+  "by_composition": {
+   "multiplicative": [
+    "stand",
+    "walk",
+    "run",
+    "hurdle",
+    "highbar_simple",
+    "highbar_hard",
+    "sit_simple",
+    "sit_hard",
+    "balance_simple",
+    "balance_hard",
+    "stair",
+    "slide"
+   ],
+   "additive": [
+    "cube",
+    "window",
+    "spoon",
+    "door",
+    "room",
+    "powerlift"
+   ],
+   "event_dominated": [
+    "bookshelf_simple",
+    "bookshelf_hard",
+    "basketball",
+    "truck",
+    "package",
+    "cabinet"
+   ],
+   "gated": [
+    "maze",
+    "crawl",
+    "pole",
+    "insert_normal",
+    "insert_small"
+   ],
+   "penalty_unbounded": [
+    "push",
+    "reach"
+   ],
+   "event_count": [
+    "kitchen"
+   ]
+  },
+  "by_object_or_articulation_present": {
+   "has_object_or_articulation": [
+    "kitchen",
+    "cube",
+    "bookshelf_simple",
+    "bookshelf_hard",
+    "window",
+    "spoon",
+    "door",
+    "push",
+    "basketball",
+    "truck",
+    "package",
+    "cabinet",
+    "sit_hard",
+    "balance_simple",
+    "balance_hard",
+    "room",
+    "insert_normal",
+    "insert_small",
+    "powerlift"
+   ],
+   "no_free_object": [
+    "stand",
+    "walk",
+    "run",
+    "maze",
+    "hurdle",
+    "highbar_simple",
+    "highbar_hard",
+    "crawl",
+    "reach",
+    "sit_simple",
+    "stair",
+    "slide",
+    "pole"
+   ]
+  }
+ },
+ "source_bank_coverage": {
+  "by_exact_reward_implementation": {
+   "source_groups": [
+    "basic_locomotion_envs.py::Walk"
+   ],
+   "targets_in_source_groups": [],
+   "targets_in_uncovered_groups": [
+    {
+     "bookshelf.py::BookshelfBase": [
+      "bookshelf_simple",
+      "bookshelf_hard"
+     ]
+    },
+    {
+     "highbar.py::HighBarBase": [
+      "highbar_simple",
+      "highbar_hard"
+     ]
+    },
+    {
+     "basic_locomotion_envs.py::Sit": [
+      "sit_simple",
+      "sit_hard"
+     ]
+    },
+    {
+     "balance.py::BalanceBase": [
+      "balance_simple",
+      "balance_hard"
+     ]
+    },
+    {
+     "basic_locomotion_envs.py::ClimbingUpwards": [
+      "stair",
+      "slide"
+     ]
+    },
+    {
+     "insert.py::Insert": [
+      "insert_normal",
+      "insert_small"
+     ]
+    },
+    {
+     "kitchen.py::Kitchen": [
+      "kitchen"
+     ]
+    },
+    {
+     "maze.py::MazeBase": [
+      "maze"
+     ]
+    },
+    {
+     "basic_locomotion_envs.py::Hurdle": [
+      "hurdle"
+     ]
+    },
+    {
+     "cube.py::Cube": [
+      "cube"
+     ]
+    },
+    {
+     "basic_locomotion_envs.py::Crawl": [
+      "crawl"
+     ]
+    },
+    {
+     "window.py::Window": [
+      "window"
+     ]
+    },
+    {
+     "spoon.py::Spoon": [
+      "spoon"
+     ]
+    },
+    {
+     "door.py::Door": [
+      "door"
+     ]
+    },
+    {
+     "push.py::Push": [
+      "push"
+     ]
+    },
+    {
+     "reach.py::Reach": [
+      "reach"
+     ]
+    },
+    {
+     "basketball.py::Basketball": [
+      "basketball"
+     ]
+    },
+    {
+     "truck.py::Truck": [
+      "truck"
+     ]
+    },
+    {
+     "package.py::Package": [
+      "package"
+     ]
+    },
+    {
+     "cabinet.py::Cabinet": [
+      "cabinet"
+     ]
+    },
+    {
+     "pole.py::Pole": [
+      "pole"
+     ]
+    },
+    {
+     "room.py::Room": [
+      "room"
+     ]
+    },
+    {
+     "powerlift.py::Powerlift": [
+      "powerlift"
+     ]
+    }
+   ]
+  },
+  "by_terrain": {
+   "source_groups": [
+    "flat_floor_only"
+   ],
+   "targets_in_source_groups": [
+    {
+     "flat_floor_only": [
+      "reach"
+     ]
+    }
+   ],
+   "targets_in_uncovered_groups": [
+    {
+     "flat_floor_with_objects": [
+      "maze",
+      "hurdle",
+      "cube",
+      "highbar_simple",
+      "highbar_hard",
+      "door",
+      "package",
+      "sit_simple",
+      "sit_hard",
+      "pole",
+      "powerlift"
+     ]
+    },
+    {
+     "few_slabs": [
+      "crawl",
+      "window",
+      "spoon",
+      "push",
+      "basketball",
+      "balance_simple",
+      "balance_hard",
+      "insert_normal",
+      "insert_small"
+     ]
+    },
+    {
+     "discrete_slabs": [
+      "bookshelf_simple",
+      "bookshelf_hard",
+      "truck",
+      "cabinet",
+      "stair",
+      "room"
+     ]
+    },
+    {
+     "mixed_mesh_and_slabs": [
+      "kitchen"
+     ]
+    },
+    {
+     "continuous_mesh": [
+      "slide"
+     ]
+    }
+   ]
+  },
+  "by_composition": {
+   "source_groups": [
+    "multiplicative"
+   ],
+   "targets_in_source_groups": [
+    {
+     "multiplicative": [
+      "hurdle",
+      "highbar_simple",
+      "highbar_hard",
+      "sit_simple",
+      "sit_hard",
+      "balance_simple",
+      "balance_hard",
+      "stair",
+      "slide"
+     ]
+    }
+   ],
+   "targets_in_uncovered_groups": [
+    {
+     "additive": [
+      "cube",
+      "window",
+      "spoon",
+      "door",
+      "room",
+      "powerlift"
+     ]
+    },
+    {
+     "event_dominated": [
+      "bookshelf_simple",
+      "bookshelf_hard",
+      "basketball",
+      "truck",
+      "package",
+      "cabinet"
+     ]
+    },
+    {
+     "gated": [
+      "maze",
+      "crawl",
+      "pole",
+      "insert_normal",
+      "insert_small"
+     ]
+    },
+    {
+     "penalty_unbounded": [
+      "push",
+      "reach"
+     ]
+    },
+    {
+     "event_count": [
+      "kitchen"
+     ]
+    }
+   ]
+  },
+  "by_object_or_articulation_present": {
+   "source_groups": [
+    "no_free_object"
+   ],
+   "targets_in_source_groups": [
+    {
+     "no_free_object": [
+      "maze",
+      "hurdle",
+      "highbar_simple",
+      "highbar_hard",
+      "crawl",
+      "reach",
+      "sit_simple",
+      "stair",
+      "slide",
+      "pole"
+     ]
+    }
+   ],
+   "targets_in_uncovered_groups": [
+    {
+     "has_object_or_articulation": [
+      "kitchen",
+      "cube",
+      "bookshelf_simple",
+      "bookshelf_hard",
+      "window",
+      "spoon",
+      "door",
+      "push",
+      "basketball",
+      "truck",
+      "package",
+      "cabinet",
+      "sit_hard",
+      "balance_simple",
+      "balance_hard",
+      "room",
+      "insert_normal",
+      "insert_small",
+      "powerlift"
+     ]
+    }
+   ]
+  }
+ },
+ "held_out_splits": {
+  "exact_reward_implementation_held_out": {
+   "groups": {
+    "bookshelf.py::BookshelfBase": [
+     "bookshelf_simple",
+     "bookshelf_hard"
+    ],
+    "highbar.py::HighBarBase": [
+     "highbar_simple",
+     "highbar_hard"
+    ],
+    "basic_locomotion_envs.py::Sit": [
+     "sit_simple",
+     "sit_hard"
+    ],
+    "balance.py::BalanceBase": [
+     "balance_simple",
+     "balance_hard"
+    ],
+    "basic_locomotion_envs.py::ClimbingUpwards": [
+     "stair",
+     "slide"
+    ],
+    "insert.py::Insert": [
+     "insert_normal",
+     "insert_small"
+    ],
+    "kitchen.py::Kitchen": [
+     "kitchen"
+    ],
+    "maze.py::MazeBase": [
+     "maze"
+    ],
+    "basic_locomotion_envs.py::Hurdle": [
+     "hurdle"
+    ],
+    "cube.py::Cube": [
+     "cube"
+    ],
+    "basic_locomotion_envs.py::Crawl": [
+     "crawl"
+    ],
+    "window.py::Window": [
+     "window"
+    ],
+    "spoon.py::Spoon": [
+     "spoon"
+    ],
+    "door.py::Door": [
+     "door"
+    ],
+    "push.py::Push": [
+     "push"
+    ],
+    "reach.py::Reach": [
+     "reach"
+    ],
+    "basketball.py::Basketball": [
+     "basketball"
+    ],
+    "truck.py::Truck": [
+     "truck"
+    ],
+    "package.py::Package": [
+     "package"
+    ],
+    "cabinet.py::Cabinet": [
+     "cabinet"
+    ],
+    "pole.py::Pole": [
+     "pole"
+    ],
+    "room.py::Room": [
+     "room"
+    ],
+    "powerlift.py::Powerlift": [
+     "powerlift"
+    ]
+   },
+   "rule": "留出整个族作为 test；同族任务不得跨 train/test 分割"
+  },
+  "terrain_family_held_out": {
+   "groups": {
+    "flat_floor_with_objects": [
+     "maze",
+     "hurdle",
+     "cube",
+     "highbar_simple",
+     "highbar_hard",
+     "door",
+     "package",
+     "sit_simple",
+     "sit_hard",
+     "pole",
+     "powerlift"
+    ],
+    "few_slabs": [
+     "crawl",
+     "window",
+     "spoon",
+     "push",
+     "basketball",
+     "balance_simple",
+     "balance_hard",
+     "insert_normal",
+     "insert_small"
+    ],
+    "discrete_slabs": [
+     "bookshelf_simple",
+     "bookshelf_hard",
+     "truck",
+     "cabinet",
+     "stair",
+     "room"
+    ],
+    "flat_floor_only": [
+     "reach"
+    ],
+    "mixed_mesh_and_slabs": [
+     "kitchen"
+    ],
+    "continuous_mesh": [
+     "slide"
+    ]
+   },
+   "rule": "留出整个族作为 test；同族任务不得跨 train/test 分割"
+  },
+  "object_articulation_held_out": {
+   "groups": {
+    "has_object_or_articulation": [
+     "kitchen",
+     "cube",
+     "bookshelf_simple",
+     "bookshelf_hard",
+     "window",
+     "spoon",
+     "door",
+     "push",
+     "basketball",
+     "truck",
+     "package",
+     "cabinet",
+     "sit_hard",
+     "balance_simple",
+     "balance_hard",
+     "room",
+     "insert_normal",
+     "insert_small",
+     "powerlift"
+    ],
+    "no_free_object": [
+     "maze",
+     "hurdle",
+     "highbar_simple",
+     "highbar_hard",
+     "crawl",
+     "reach",
+     "sit_simple",
+     "stair",
+     "slide",
+     "pole"
+    ]
+   },
+   "rule": "留出整个族作为 test；同族任务不得跨 train/test 分割"
+  }
+ }
+}

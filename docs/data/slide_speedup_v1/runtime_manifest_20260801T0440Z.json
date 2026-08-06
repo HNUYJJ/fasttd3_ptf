@@ -1,0 +1,73 @@
+{
+  "schema": "slide_speedup_runtime_manifest.v1",
+  "experiment": "slide_speedup_v1",
+  "launch_utc": "2026-08-01T03:57:06Z",
+  "capture_utc": "2026-08-01T04:42:52Z",
+  "capture_timing": "post-launch while scratch seeds 1 and 2 were training",
+  "git": {
+    "head": "d90d9b1cbb53ffd401b2f614bc4ff3e66286e54b",
+    "dirty": true,
+    "tracked_binary_diff_sha256": "5bb0d1350f7d6b5e2be40514de1234a4ba9d5ebc38199478498a9bfad21102f1"
+  },
+  "runtime_source_snapshot": {
+    "path": "docs/data/slide_speedup_v1/runtime_source_snapshot_20260801T0440Z.tar.gz",
+    "sha256": "7f6c617265e3ff86a67789555bea2cdddfffa4080dc8cc7b9986238be06017ff",
+    "bytes": 114658,
+    "scope": "project FastTD3/PTF implementation, source-bank implementation, training wrapper, Slide run/eval/adjudication scripts, arm configs, and preregistration; excludes checkpoints and logs"
+  },
+  "aggregate_source_hashes": {
+    "project_python_core_sha256": "756ac75b4e29f2e6efacc271d30af8dabc9ff2bbb2daa0bc8401405fa8416e8a",
+    "vendored_fasttd3_python_sha256": "86db13e0898c34130ebb31f35075292a3ac97fb772289712f7f343ab6068744e",
+    "vendored_humanoidbench_python_xml_sha256": "1c28456fe0a63192800894f9fa78e1373bfce1a004afe0a803a74cd175d76117"
+  },
+  "file_hashes": {
+    "scripts/official_fasttd3_train_target_ptf.sh": "267098ac78cc8358a1b51d14944374d14f5b0994563e6748e9642f02c656a0e3",
+    "scripts/run_slide_speedup_v1.sh": "bcd28a1a8e3434acb1e0d5ca93a00c781896c25dbfa15587897f81938b420bd4",
+    "scripts/eval_slide_speedup_v1.sh": "405b450fdb80f61221bf193726bb4403b9979c164daf71b78e1e734faf799a55",
+    "scripts/analysis/analyze_slide_speedup_v1.py": "bbc903b0e7ec15a15d6094523744cf465b7f624ccdf29a97c77b6515f66d4d6b",
+    "configs/source_banks/empty.yaml": "700b5e00fb960572fb92c8729f637955577bba8e8c926ed7709b33dc7b75c628",
+    "configs/source_banks/calibration/h1hand_slide_rbo_walk.yaml": "e6d4a27ffd8a55ea65ce441c60eb7cceed7ba3c144a7dc515d2427dc23a1dc8a",
+    "checkpoints/official_sources/h1hand_walk/manifest.json": "8bb1723453f6f74872fcaf693fc58840abbed8c54ef6ee5ab651f54ba760b6cc",
+    "models/h1hand-walk-v0__h1hand_walk_source_official__1_final.pt": "63489c2b0d539fc815525380ff7fa1c5019d116cd38967a9b634cb0c05937fe3"
+  },
+  "environment": {
+    "python": "3.10.19",
+    "torch": "2.10.0+cu128",
+    "cuda_build": "12.8",
+    "gymnasium": "0.29.1",
+    "mujoco": "3.1.6",
+    "stable_baselines3": "2.7.1",
+    "numpy": "1.26.4"
+  },
+  "execution_identity": {
+    "target": "h1hand-slide-v0",
+    "seeds": [1, 2, 3],
+    "arms": ["scratch", "walk_bootstrap_package"],
+    "total_timesteps": 100000,
+    "num_envs": 128,
+    "batch_size": 32768,
+    "buffer_size": 51200,
+    "num_updates": 2,
+    "checkpoint_steps": [10000, 20000, 30000, 50000, 75000, 100000],
+    "source_free_eval_episodes": 128
+  },
+  "claim_boundary": "The treatment is one fixed composite walk bootstrap/admission package, not a one-key bank substitution.",
+  "validator_hardening": {
+    "completed_before_first_eval": true,
+    "eval_json_count_at_freeze": 0,
+    "checks": [
+      "checkpoint path and SHA256 match current artifact",
+      "complete frozen 128-episode protocol identity",
+      "critical checkpoint args and arm-specific ptf_cfg",
+      "raw unrounded threshold and endpoint adjudication",
+      "existing eval artifacts cause refusal rather than silent reuse"
+    ],
+    "synthetic_regression": "36 valid eval/checkpoint identities accepted; wrong SHA256, episode_steps, and walk warmup_mode rejected"
+  },
+  "known_execution_risks": [
+    "This is a post-launch snapshot; it records the running source state but cannot by itself prove that no file changed between launch and capture.",
+    "Output names have no run id. This first run began with empty Slide output directories; the hardened evaluator now refuses any existing JSON, so a rerun requires explicit archival rather than silent reuse.",
+    "The outer orchestrator does not use set -e around adjudication, so its final success line or exit code is not authoritative; the adjudication JSON and verifier must be inspected directly.",
+    "Per-seed evaluation files become visible before the full matrix completes, so strict whole-matrix blinding is procedural rather than technically enforced."
+  ]
+}

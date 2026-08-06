@@ -1,0 +1,291 @@
+{
+  "prereg": "docs/experiments/hurdle_speedup_v1_prereg_20260730.md",
+  "prereg_commit": "ba7a7de",
+  "curves": {
+    "scratch": {
+      "1": [
+        [
+          10000,
+          3.447905103143966
+        ],
+        [
+          20000,
+          5.300728493796546
+        ],
+        [
+          30000,
+          7.244185544712149
+        ],
+        [
+          50000,
+          37.541339397721714
+        ],
+        [
+          75000,
+          138.27545652720926
+        ],
+        [
+          100000,
+          349.56825966348356
+        ]
+      ],
+      "2": [
+        [
+          10000,
+          12.90675719041029
+        ],
+        [
+          20000,
+          15.463065808480986
+        ],
+        [
+          30000,
+          37.76116090821905
+        ],
+        [
+          50000,
+          128.09064311315615
+        ],
+        [
+          75000,
+          192.10731123350206
+        ],
+        [
+          100000,
+          352.42867673946495
+        ]
+      ],
+      "3": [
+        [
+          10000,
+          3.9759777066927082
+        ],
+        [
+          20000,
+          8.037404097925352
+        ],
+        [
+          30000,
+          19.479060620891726
+        ],
+        [
+          50000,
+          49.80637113426437
+        ],
+        [
+          75000,
+          226.41185822944777
+        ],
+        [
+          100000,
+          460.2093087529123
+        ]
+      ]
+    },
+    "source": {
+      "1": [
+        [
+          10000,
+          57.20277852721242
+        ],
+        [
+          20000,
+          219.82409288320935
+        ],
+        [
+          30000,
+          332.51256133929115
+        ],
+        [
+          50000,
+          114.53709179852476
+        ],
+        [
+          75000,
+          536.3426764082371
+        ],
+        [
+          100000,
+          569.9327097433555
+        ]
+      ],
+      "2": [
+        [
+          10000,
+          93.78108623584717
+        ],
+        [
+          20000,
+          254.6650461009177
+        ],
+        [
+          30000,
+          443.3439070528382
+        ],
+        [
+          50000,
+          565.2769668786063
+        ],
+        [
+          75000,
+          698.5391222845751
+        ],
+        [
+          100000,
+          111.2701281425426
+        ]
+      ],
+      "3": [
+        [
+          10000,
+          43.27933799529038
+        ],
+        [
+          20000,
+          250.6749879579183
+        ],
+        [
+          30000,
+          412.16050828305066
+        ],
+        [
+          50000,
+          626.7041464159877
+        ],
+        [
+          75000,
+          702.771981187629
+        ],
+        [
+          100000,
+          756.0189246196021
+        ]
+      ]
+    }
+  },
+  "thresholds": {
+    "200": {
+      "per_seed": [
+        {
+          "seed": 1,
+          "steps_scratch": 82303,
+          "steps_source": 18781,
+          "speedup": 4.382,
+          "censored": {
+            "scratch": false,
+            "source": false
+          }
+        },
+        {
+          "seed": 2,
+          "steps_scratch": 76231,
+          "steps_source": 16602,
+          "speedup": 4.592,
+          "censored": {
+            "scratch": false,
+            "source": false
+          }
+        },
+        {
+          "seed": 3,
+          "steps_scratch": 71261,
+          "steps_source": 17557,
+          "speedup": 4.059,
+          "censored": {
+            "scratch": false,
+            "source": false
+          }
+        }
+      ],
+      "speedup_median": 4.382,
+      "speedup_mean": 4.344,
+      "all_seeds_ge_1.5": true,
+      "pass": true,
+      "has_censored": false
+    },
+    "300": {
+      "per_seed": [
+        {
+          "seed": 1,
+          "steps_scratch": 94135,
+          "steps_source": 27115,
+          "speedup": 3.472,
+          "censored": {
+            "scratch": false,
+            "source": false
+          }
+        },
+        {
+          "seed": 2,
+          "steps_scratch": 91824,
+          "steps_source": 22403,
+          "speedup": 4.099,
+          "censored": {
+            "scratch": false,
+            "source": false
+          }
+        },
+        {
+          "seed": 3,
+          "steps_scratch": 82869,
+          "steps_source": 23054,
+          "speedup": 3.594,
+          "censored": {
+            "scratch": false,
+            "source": false
+          }
+        }
+      ],
+      "speedup_median": 3.594,
+      "speedup_mean": 3.722,
+      "all_seeds_ge_1.5": true,
+      "pass": true,
+      "has_censored": false
+    },
+    "400": {
+      "per_seed": [
+        {
+          "seed": 1,
+          "steps_scratch": 100000,
+          "steps_source": 66919,
+          "speedup": 1.494,
+          "censored": {
+            "scratch": true,
+            "source": false
+          }
+        },
+        {
+          "seed": 2,
+          "steps_scratch": 100000,
+          "steps_source": 27703,
+          "speedup": 3.61,
+          "censored": {
+            "scratch": true,
+            "source": false
+          }
+        },
+        {
+          "seed": 3,
+          "steps_scratch": 93562,
+          "steps_source": 29247,
+          "speedup": 3.199,
+          "censored": {
+            "scratch": false,
+            "source": false
+          }
+        }
+      ],
+      "speedup_median": 3.199,
+      "speedup_mean": 2.768,
+      "all_seeds_ge_1.5": false,
+      "pass": false,
+      "has_censored": true
+    }
+  },
+  "endpoint_100k": {
+    "scratch": 387.4,
+    "source": 479.07
+  },
+  "scratch_overtook_source": false,
+  "verdict": "SPEEDUP_CONFIRMED"
+}

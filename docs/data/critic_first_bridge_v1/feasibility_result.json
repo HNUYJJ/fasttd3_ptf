@@ -1,0 +1,170 @@
+{
+  "protocol": "critic-first bridge v1; single-seed feasibility only",
+  "engineering_gate": "PASS",
+  "returns": {
+    "slide": {
+      "student_freeze": 49.528460470540374,
+      "interleaved": 109.26859014402733,
+      "critic_first": 44.54670311015006
+    },
+    "door": {
+      "student_freeze": 266.57975153584295,
+      "interleaved": 282.67864123715844,
+      "critic_first": 248.21109036696885
+    }
+  },
+  "contrasts": {
+    "slide": {
+      "critic_first_minus_interleaved": -64.72188703387727,
+      "critic_first_minus_student_freeze": -4.981757360390311
+    },
+    "door": {
+      "critic_first_minus_interleaved": -34.4675508701896,
+      "critic_first_minus_student_freeze": -18.368661168874098
+    }
+  },
+  "decision_bits": {
+    "slide_positive_preserved": false,
+    "door_better_than_interleaved": false,
+    "door_not_worse_than_student_freeze": false
+  },
+  "verdict": "FAIL",
+  "engineering": {
+    "slide": {
+      "student_freeze": {
+        "anchor_critic_updates": 19978,
+        "anchor_actor_updates": 9989,
+        "bridge_training_audit": {
+          "critic_update_count": 23978,
+          "actor_update_count": 9989,
+          "actor_update_start_step": 12000
+        },
+        "final_training_audit": {
+          "critic_update_count": 39978,
+          "actor_update_count": 17989,
+          "actor_update_start_step": 12000
+        }
+      },
+      "interleaved": {
+        "anchor_critic_updates": 19978,
+        "anchor_actor_updates": 9989,
+        "bridge_training_audit": {
+          "critic_update_count": 23978,
+          "actor_update_count": 11989,
+          "actor_update_start_step": null
+        },
+        "final_training_audit": {
+          "critic_update_count": 39978,
+          "actor_update_count": 19989,
+          "actor_update_start_step": null
+        },
+        "source_behavior_counts_at_exit": [
+          120236,
+          135764
+        ],
+        "source_critic_counts_at_exit": [
+          64920809,
+          66151191
+        ],
+        "behavior_source_share": 0.469671875,
+        "critic_source_share": 0.4953064651489258,
+        "post_exit_source_execution_delta": 0,
+        "post_exit_source_critic_delta": 0
+      },
+      "critic_first": {
+        "anchor_critic_updates": 19978,
+        "anchor_actor_updates": 9989,
+        "bridge_training_audit": {
+          "critic_update_count": 23978,
+          "actor_update_count": 9989,
+          "actor_update_start_step": 12000
+        },
+        "final_training_audit": {
+          "critic_update_count": 39978,
+          "actor_update_count": 17989,
+          "actor_update_start_step": 12000
+        },
+        "source_behavior_counts_at_exit": [
+          119651,
+          136349
+        ],
+        "source_critic_counts_at_exit": [
+          64875278,
+          66196722
+        ],
+        "behavior_source_share": 0.46738671875,
+        "critic_source_share": 0.4949590911865234,
+        "post_exit_source_execution_delta": 0,
+        "post_exit_source_critic_delta": 0
+      }
+    },
+    "door": {
+      "student_freeze": {
+        "anchor_critic_updates": 19978,
+        "anchor_actor_updates": 9989,
+        "bridge_training_audit": {
+          "critic_update_count": 23978,
+          "actor_update_count": 9989,
+          "actor_update_start_step": 12000
+        },
+        "final_training_audit": {
+          "critic_update_count": 39978,
+          "actor_update_count": 17989,
+          "actor_update_start_step": 12000
+        }
+      },
+      "interleaved": {
+        "anchor_critic_updates": 19978,
+        "anchor_actor_updates": 9989,
+        "bridge_training_audit": {
+          "critic_update_count": 23978,
+          "actor_update_count": 11989,
+          "actor_update_start_step": null
+        },
+        "final_training_audit": {
+          "critic_update_count": 39978,
+          "actor_update_count": 19989,
+          "actor_update_start_step": null
+        },
+        "source_behavior_counts_at_exit": [
+          127597,
+          128403
+        ],
+        "source_critic_counts_at_exit": [
+          64938363,
+          66133637
+        ],
+        "behavior_source_share": 0.49842578125,
+        "critic_source_share": 0.4954403915405273,
+        "post_exit_source_execution_delta": 0,
+        "post_exit_source_critic_delta": 0
+      },
+      "critic_first": {
+        "anchor_critic_updates": 19978,
+        "anchor_actor_updates": 9989,
+        "bridge_training_audit": {
+          "critic_update_count": 23978,
+          "actor_update_count": 9989,
+          "actor_update_start_step": 12000
+        },
+        "final_training_audit": {
+          "critic_update_count": 39978,
+          "actor_update_count": 17989,
+          "actor_update_start_step": 12000
+        },
+        "source_behavior_counts_at_exit": [
+          127915,
+          128085
+        ],
+        "source_critic_counts_at_exit": [
+          64922792,
+          66149208
+        ],
+        "behavior_source_share": 0.49966796875,
+        "critic_source_share": 0.49532159423828126,
+        "post_exit_source_execution_delta": 0,
+        "post_exit_source_critic_delta": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,1306 @@
+{
+ "stand": {
+  "F2_F3_scene": {
+   "scene_file": null,
+   "note": "无独立场景文件（任务可能只用 floor）",
+   "geom_types": {},
+   "n_freejoint": 0,
+   "joint_types": {},
+   "n_body": 0,
+   "mesh_names": []
+  },
+  "F2_terrain_class": "flat_floor_only",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_stand.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml"
+   ],
+   "qpos0_dim": 76,
+   "qpos0_sha": "bb84827b91ce"
+  }
+ },
+ "walk": {
+  "F2_F3_scene": {
+   "scene_file": null,
+   "note": "无独立场景文件（任务可能只用 floor）",
+   "geom_types": {},
+   "n_freejoint": 0,
+   "joint_types": {},
+   "n_body": 0,
+   "mesh_names": []
+  },
+  "F2_terrain_class": "flat_floor_only",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_walk.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml"
+   ],
+   "qpos0_dim": 76,
+   "qpos0_sha": "bb84827b91ce"
+  }
+ },
+ "run": {
+  "F2_F3_scene": {
+   "scene_file": null,
+   "note": "无独立场景文件（任务可能只用 floor）",
+   "geom_types": {},
+   "n_freejoint": 0,
+   "joint_types": {},
+   "n_body": 0,
+   "mesh_names": []
+  },
+  "F2_terrain_class": "flat_floor_only",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_run.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml"
+   ],
+   "qpos0_dim": 76,
+   "qpos0_sha": "bb84827b91ce"
+  }
+ },
+ "kitchen": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/kitchen.xml",
+   "included_files": [
+    "tasks/kitchen.xml",
+    "kitchen/adept_models/scenes/basic_scene.xml",
+    "kitchen/adept_models/kitchen/assets/oven_asset.xml",
+    "kitchen/adept_models/kitchen/assets/counters_asset.xml",
+    "kitchen/adept_models/kitchen/assets/backwall_asset.xml",
+    "kitchen/adept_models/kitchen/assets/slidecabinet_asset.xml",
+    "kitchen/adept_models/kitchen/assets/hingecabinet_asset.xml",
+    "kitchen/adept_models/kitchen/assets/microwave_asset.xml",
+    "kitchen/adept_models/kitchen/assets/kettle_asset.xml",
+    "kitchen/adept_models/kitchen/assets/counters_chain_scaled.xml",
+    "kitchen/adept_models/kitchen/assets/oven_chain_scaled.xml",
+    "kitchen/adept_models/kitchen/assets/backwall_chain.xml",
+    "kitchen/adept_models/kitchen/assets/slidecabinet_chain.xml",
+    "kitchen/adept_models/kitchen/assets/hingecabinet_chain.xml",
+    "kitchen/adept_models/kitchen/assets/microwave_chain.xml",
+    "kitchen/adept_models/kitchen/assets/kettle_chain.xml"
+   ],
+   "geom_types": {
+    "box": 79,
+    "mesh": 28,
+    "box_or_default": 6,
+    "cylinder": 67,
+    "capsule": 25,
+    "sphere": 1
+   },
+   "joint_types": {
+    "hinge(default)": 15,
+    "hinge": 4,
+    "slide": 6
+   },
+   "n_freejoint": 1,
+   "n_body": 33,
+   "mesh_defs": [
+    {
+     "name": "hood",
+     "vertex": null,
+     "file": "../kitchen/adept_models/kitchen/meshes/hood.stl"
+    },
+    {
+     "name": "lightswitch",
+     "vertex": null,
+     "file": "../kitchen/adept_models/kitchen/meshes/lightswitch.stl"
+    },
+    {
+     "name": "lightswitchbase",
+     "vertex": null,
+     "file": "../kitchen/adept_models/kitchen/meshes/lightswitchbase.stl"
+    },
+    {
+     "name": "knob",
+     "vertex": null,
+     "file": "../kitchen/adept_models/kitchen/meshes/knob.stl"
+    },
+    {
+     "name": "stoverim",
+     "vertex": null,
+     "file": "../kitchen/adept_models/kitchen/meshes/stoverim.stl"
+    },
+    {
+     "name": "burnerplate",
+     "vertex": null,
+     "file": "../kitchen/adept_models/kitchen/meshes/burnerplate.stl"
+    }
+   ],
+   "box_sizes_sample": [
+    "0.02 0.10 0.03",
+    "0.463 1.08 0.03",
+    "0.46 1.07 0.46",
+    "0.304 0.606 0.46",
+    "0.463 1.08 0.03",
+    "0.051 0.611 0.03"
+   ],
+   "box_roles": {
+    "object_or_structure": 21,
+    "horizontal_slab": 25,
+    "vertical_wall": 33
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "mixed_mesh_and_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_kitchen.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/kitchen.xml"
+   ],
+   "qpos0_dim": 97,
+   "qpos0_sha": "0764a07bbcee"
+  }
+ },
+ "maze": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/maze.xml",
+   "included_files": [
+    "tasks/maze.xml",
+    "locomotion/generated_xml_maze.xml"
+   ],
+   "geom_types": {
+    "box_or_default": 4,
+    "box": 30
+   },
+   "joint_types": {},
+   "n_freejoint": 0,
+   "n_body": 1,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.05",
+    "0.05",
+    "0.05",
+    "0.05",
+    "0.75 0.75 0.6",
+    "0.75 0.75 0.6"
+   ],
+   "box_roles": {
+    "unknown": 4,
+    "object_or_structure": 30
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "flat_floor_with_objects",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_maze.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/maze.xml"
+   ],
+   "qpos0_dim": 76,
+   "qpos0_sha": "bb84827b91ce"
+  }
+ },
+ "hurdle": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/hurdle.xml",
+   "included_files": [
+    "tasks/hurdle.xml",
+    "locomotion/generated_xml_hurdles.xml"
+   ],
+   "geom_types": {
+    "box": 13
+   },
+   "joint_types": {},
+   "n_freejoint": 0,
+   "n_body": 94,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "35.5 0.275 1",
+    "35.5 0.275 1",
+    "0.05 5 1",
+    "0.03 5 0.1875",
+    "0.03 5 0.1875",
+    "0.03 5 0.1875"
+   ],
+   "box_roles": {
+    "vertical_wall": 13
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "flat_floor_with_objects",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_hurdle.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/hurdle.xml"
+   ],
+   "qpos0_dim": 76,
+   "qpos0_sha": "bb84827b91ce"
+  }
+ },
+ "cube": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/cube.xml",
+   "included_files": [
+    "tasks/cube.xml"
+   ],
+   "geom_types": {
+    "box": 2
+   },
+   "joint_types": {},
+   "n_freejoint": 2,
+   "n_body": 3,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.025 0.025 0.025",
+    "0.025 0.025 0.025"
+   ],
+   "box_roles": {
+    "object_or_structure": 2
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "flat_floor_with_objects",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_cube.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/cube.xml"
+   ],
+   "qpos0_dim": 90,
+   "qpos0_sha": "811f6ec4ecb2"
+  }
+ },
+ "bookshelf_simple": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/bookshelf_simple.xml",
+   "included_files": [
+    "tasks/bookshelf_simple.xml"
+   ],
+   "geom_types": {
+    "box": 20,
+    "cylinder": 7,
+    "sphere": 2
+   },
+   "joint_types": {},
+   "n_freejoint": 12,
+   "n_body": 25,
+   "mesh_defs": [
+    {
+     "name": "book",
+     "vertex": null,
+     "file": "../tasks/assets/book.stl"
+    },
+    {
+     "name": "dict",
+     "vertex": null,
+     "file": "../tasks/assets/book.stl"
+    }
+   ],
+   "box_sizes_sample": [
+    "0.3 0.4 0.025",
+    "0.3 0.4 0.025",
+    "0.3 0.4 0.025",
+    "0.3 0.4 0.025",
+    "0.3 0.4 0.025",
+    "0.3 0.4 0.025"
+   ],
+   "box_roles": {
+    "horizontal_slab": 10,
+    "vertical_wall": 10
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "discrete_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_bookshelf_simple.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/bookshelf_simple.xml"
+   ],
+   "qpos0_dim": 160,
+   "qpos0_sha": "ad256f2a3612"
+  }
+ },
+ "bookshelf_hard": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/bookshelf_hard.xml",
+   "included_files": [
+    "tasks/bookshelf_hard.xml"
+   ],
+   "geom_types": {
+    "box": 20,
+    "cylinder": 7,
+    "sphere": 2
+   },
+   "joint_types": {},
+   "n_freejoint": 12,
+   "n_body": 25,
+   "mesh_defs": [
+    {
+     "name": "book",
+     "vertex": null,
+     "file": "../tasks/assets/book.stl"
+    },
+    {
+     "name": "dict",
+     "vertex": null,
+     "file": "../tasks/assets/book.stl"
+    }
+   ],
+   "box_sizes_sample": [
+    "0.3 0.4 0.025",
+    "0.3 0.4 0.025",
+    "0.3 0.4 0.025",
+    "0.3 0.4 0.025",
+    "0.3 0.4 0.025",
+    "0.3 0.4 0.025"
+   ],
+   "box_roles": {
+    "horizontal_slab": 10,
+    "vertical_wall": 10
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "discrete_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_bookshelf_hard.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/bookshelf_hard.xml"
+   ],
+   "qpos0_dim": 160,
+   "qpos0_sha": "ad256f2a3612"
+  }
+ },
+ "highbar_simple": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/highbar_simple.xml",
+   "included_files": [
+    "tasks/highbar_simple.xml"
+   ],
+   "geom_types": {
+    "cylinder": 3
+   },
+   "joint_types": {},
+   "n_freejoint": 0,
+   "n_body": 1,
+   "mesh_defs": [],
+   "box_sizes_sample": [],
+   "box_roles": {},
+   "hfields": []
+  },
+  "F2_terrain_class": "flat_floor_with_objects",
+  "F6_robot": {
+   "env_file": null,
+   "robot": "unknown",
+   "includes": []
+  }
+ },
+ "highbar_hard": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/highbar_hard.xml",
+   "included_files": [
+    "tasks/highbar_hard.xml"
+   ],
+   "geom_types": {
+    "cylinder": 3
+   },
+   "joint_types": {},
+   "n_freejoint": 0,
+   "n_body": 1,
+   "mesh_defs": [],
+   "box_sizes_sample": [],
+   "box_roles": {},
+   "hfields": []
+  },
+  "F2_terrain_class": "flat_floor_with_objects",
+  "F6_robot": {
+   "env_file": null,
+   "robot": "unknown",
+   "includes": []
+  }
+ },
+ "crawl": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/crawl.xml",
+   "included_files": [
+    "tasks/crawl.xml"
+   ],
+   "geom_types": {
+    "box": 3
+   },
+   "joint_types": {},
+   "n_freejoint": 0,
+   "n_body": 1,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "8 0.2 0.775",
+    "8 0.2 0.775",
+    "8 1.15 0.2"
+   ],
+   "box_roles": {
+    "vertical_wall": 2,
+    "horizontal_slab": 1
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "few_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_crawl.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/crawl.xml"
+   ],
+   "qpos0_dim": 76,
+   "qpos0_sha": "bb84827b91ce"
+  }
+ },
+ "window": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/window.xml",
+   "included_files": [
+    "tasks/window.xml"
+   ],
+   "geom_types": {
+    "box": 13,
+    "cylinder": 1,
+    "sphere": 1
+   },
+   "joint_types": {
+    "ball": 1
+   },
+   "n_freejoint": 1,
+   "n_body": 3,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.1 1 0.35",
+    "0.1 0.025 0.4",
+    "0.1 0.025 0.4",
+    "0.1 0.025 0.4",
+    "0.1 0.025 0.4",
+    "0.1 1 0.025"
+   ],
+   "box_roles": {
+    "vertical_wall": 11,
+    "horizontal_slab": 2
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "few_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_window.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/window.xml"
+   ],
+   "qpos0_dim": 87,
+   "qpos0_sha": "4bb72d10dba1"
+  }
+ },
+ "spoon": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/spoon.xml",
+   "included_files": [
+    "tasks/spoon.xml"
+   ],
+   "geom_types": {
+    "box": 12,
+    "cylinder": 3
+   },
+   "joint_types": {},
+   "n_freejoint": 1,
+   "n_body": 3,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.5 0.5 0.05",
+    "0.05 0.05 0.4",
+    "0.05 0.05 0.4",
+    "0.05 0.05 0.4",
+    "0.05 0.05 0.4",
+    "0.12 0.02 0.1"
+   ],
+   "box_roles": {
+    "horizontal_slab": 4,
+    "vertical_wall": 8
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "few_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_spoon.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/spoon.xml"
+   ],
+   "qpos0_dim": 83,
+   "qpos0_sha": "e81496577121"
+  }
+ },
+ "door": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/door.xml",
+   "included_files": [
+    "tasks/door.xml"
+   ],
+   "geom_types": {
+    "box": 7,
+    "cylinder": 6
+   },
+   "joint_types": {
+    "hinge(default)": 2
+   },
+   "n_freejoint": 0,
+   "n_body": 3,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.07 0.48 0.99",
+    "0.12 0.14 1",
+    "0.12 0.14 1",
+    "0.12 0.82 0.19",
+    "1.19 0.12 1.19",
+    "1.19 0.12 1.19"
+   ],
+   "box_roles": {
+    "vertical_wall": 6,
+    "object_or_structure": 1
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "flat_floor_with_objects",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_door.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/door.xml"
+   ],
+   "qpos0_dim": 78,
+   "qpos0_sha": "d42d8bf81c8f"
+  }
+ },
+ "push": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/push.xml",
+   "included_files": [
+    "tasks/push.xml"
+   ],
+   "geom_types": {
+    "box": 6
+   },
+   "joint_types": {},
+   "n_freejoint": 1,
+   "n_body": 2,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.5 1 0.05",
+    "0.05 0.05 0.4",
+    "0.05 0.05 0.4",
+    "0.05 0.05 0.4",
+    "0.05 0.05 0.4",
+    ".1 .1 .1"
+   ],
+   "box_roles": {
+    "horizontal_slab": 1,
+    "vertical_wall": 4,
+    "object_or_structure": 1
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "few_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_push.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/push.xml"
+   ],
+   "qpos0_dim": 83,
+   "qpos0_sha": "1c55bd16830c"
+  }
+ },
+ "reach": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/reach.xml",
+   "included_files": [
+    "tasks/reach.xml"
+   ],
+   "geom_types": {},
+   "joint_types": {},
+   "n_freejoint": 0,
+   "n_body": 0,
+   "mesh_defs": [],
+   "box_sizes_sample": [],
+   "box_roles": {},
+   "hfields": []
+  },
+  "F2_terrain_class": "flat_floor_only",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_reach.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/reach.xml"
+   ],
+   "qpos0_dim": 76,
+   "qpos0_sha": "bb84827b91ce"
+  }
+ },
+ "basketball": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/basketball.xml",
+   "included_files": [
+    "tasks/basketball.xml"
+   ],
+   "geom_types": {
+    "box": 10,
+    "cylinder": 1,
+    "sphere": 1
+   },
+   "joint_types": {},
+   "n_freejoint": 1,
+   "n_body": 3,
+   "mesh_defs": [
+    {
+     "name": "baskethoop",
+     "vertex": null,
+     "file": "../tasks/assets/hoop.obj"
+    },
+    {
+     "name": "visual_hoop",
+     "vertex": null,
+     "file": "../tasks/assets/hoop.stl"
+    }
+   ],
+   "box_sizes_sample": [
+    "0.01 0.2 0.2",
+    "0.15 0.01 0.2",
+    "0.15 0.01 0.2",
+    "0.01 0.2 0.2",
+    "0.15 0.01 0.2",
+    "0.15 0.01 0.2"
+   ],
+   "box_roles": {
+    "vertical_wall": 9,
+    "horizontal_slab": 1
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "few_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_basketball.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/basketball.xml"
+   ],
+   "qpos0_dim": 83,
+   "qpos0_sha": "5c36e50b7d2b"
+  }
+ },
+ "truck": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/truck.xml",
+   "included_files": [
+    "tasks/truck.xml"
+   ],
+   "geom_types": {
+    "box": 17
+   },
+   "joint_types": {},
+   "n_freejoint": 5,
+   "n_body": 8,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "4 1.2 0.5",
+    "4 0.05 1",
+    "4 0.05 1",
+    "0.05 1.2 1",
+    "4 1.2 0.05",
+    "0.85 1.2 0.1"
+   ],
+   "box_roles": {
+    "horizontal_slab": 7,
+    "vertical_wall": 8,
+    "object_or_structure": 2
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "discrete_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_truck.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/truck.xml"
+   ],
+   "qpos0_dim": 111,
+   "qpos0_sha": "7f0a456dc5ed"
+  }
+ },
+ "package": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/package.xml",
+   "included_files": [
+    "tasks/package.xml"
+   ],
+   "geom_types": {
+    "box": 1
+   },
+   "joint_types": {},
+   "n_freejoint": 1,
+   "n_body": 2,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.2 0.1 0.35"
+   ],
+   "box_roles": {
+    "vertical_wall": 1
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "flat_floor_with_objects",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_package.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/package.xml"
+   ],
+   "qpos0_dim": 83,
+   "qpos0_sha": "d4307ee250b5"
+  }
+ },
+ "cabinet": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/cabinet.xml",
+   "included_files": [
+    "tasks/cabinet.xml"
+   ],
+   "geom_types": {
+    "box": 30,
+    "cylinder": 10
+   },
+   "joint_types": {
+    "slide": 2,
+    "hinge": 3
+   },
+   "n_freejoint": 4,
+   "n_body": 12,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.3 0.6 0.25",
+    "0.009 0.6 0.84",
+    "0.3 0.58 0.01",
+    "0.01 0.58 0.14",
+    "0.01 0.58 0.14",
+    "0.3 0.01 0.14"
+   ],
+   "box_roles": {
+    "horizontal_slab": 8,
+    "vertical_wall": 18,
+    "object_or_structure": 4
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "discrete_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_cabinet.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/cabinet.xml"
+   ],
+   "qpos0_dim": 109,
+   "qpos0_sha": "83cd4f720305"
+  }
+ },
+ "sit_simple": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/sit_simple.xml",
+   "included_files": [
+    "tasks/sit_simple.xml"
+   ],
+   "geom_types": {
+    "box": 2
+   },
+   "joint_types": {},
+   "n_freejoint": 0,
+   "n_body": 1,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.02 0.21 0.2",
+    "0.21 0.21 0.2375"
+   ],
+   "box_roles": {
+    "vertical_wall": 1,
+    "object_or_structure": 1
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "flat_floor_with_objects",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_sit_simple.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/sit_simple.xml"
+   ],
+   "qpos0_dim": 76,
+   "qpos0_sha": "bb84827b91ce"
+  }
+ },
+ "sit_hard": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/sit_hard.xml",
+   "included_files": [
+    "tasks/sit_hard.xml"
+   ],
+   "geom_types": {
+    "box": 2
+   },
+   "joint_types": {},
+   "n_freejoint": 1,
+   "n_body": 1,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.02 0.21 0.2",
+    "0.21 0.21 0.2375"
+   ],
+   "box_roles": {
+    "vertical_wall": 1,
+    "object_or_structure": 1
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "flat_floor_with_objects",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_sit_hard.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/sit_hard.xml"
+   ],
+   "qpos0_dim": 83,
+   "qpos0_sha": "09a0a1c7a992"
+  }
+ },
+ "balance_simple": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/balance_simple.xml",
+   "included_files": [
+    "tasks/balance_simple.xml"
+   ],
+   "geom_types": {
+    "box": 1,
+    "sphere": 1
+   },
+   "joint_types": {},
+   "n_freejoint": 1,
+   "n_body": 2,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.15 0.55 0.03"
+   ],
+   "box_roles": {
+    "horizontal_slab": 1
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "few_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_balance_simple.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/balance_simple.xml"
+   ],
+   "qpos0_dim": 83,
+   "qpos0_sha": "14d4ce20ccce"
+  }
+ },
+ "balance_hard": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/balance_hard.xml",
+   "included_files": [
+    "tasks/balance_hard.xml"
+   ],
+   "geom_types": {
+    "box": 1,
+    "sphere": 1
+   },
+   "joint_types": {},
+   "n_freejoint": 2,
+   "n_body": 2,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.15 0.55 0.03"
+   ],
+   "box_roles": {
+    "horizontal_slab": 1
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "few_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_balance_hard.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/balance_hard.xml"
+   ],
+   "qpos0_dim": 90,
+   "qpos0_sha": "a4b625cda0a5"
+  }
+ },
+ "stair": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/stair.xml",
+   "included_files": [
+    "tasks/stair.xml",
+    "locomotion/generated_xml_stairs.xml"
+   ],
+   "geom_types": {
+    "box": 23
+   },
+   "joint_types": {},
+   "n_freejoint": 0,
+   "n_body": 5,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "2.700 5.0 0.09",
+    "2.100 5.0 0.09",
+    "1.500 5.0 0.09",
+    "0.900 5.0 0.09",
+    "0.300 5.0 0.09",
+    "2.700 5.0 0.09"
+   ],
+   "box_roles": {
+    "horizontal_slab": 20,
+    "vertical_wall": 3
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "discrete_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_stair.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/stair.xml"
+   ],
+   "qpos0_dim": 76,
+   "qpos0_sha": "bb84827b91ce"
+  }
+ },
+ "slide": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/slide.xml",
+   "included_files": [
+    "tasks/slide.xml"
+   ],
+   "geom_types": {
+    "mesh": 9,
+    "box": 3
+   },
+   "joint_types": {},
+   "n_freejoint": 0,
+   "n_body": 1,
+   "mesh_defs": [
+    {
+     "name": "slide",
+     "vertex": "0.3 5 0  0.3 -5 0  5.3 5 1.75  5.3 -5 1.75  10.3 5 0  10.3 -5 0",
+     "file": null
+    }
+   ],
+   "box_sizes_sample": [
+    "53 0.15 4",
+    "53 0.15 4",
+    "0.15 5.15 4"
+   ],
+   "box_roles": {
+    "vertical_wall": 3
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "continuous_mesh",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_slide.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/slide.xml"
+   ],
+   "qpos0_dim": 76,
+   "qpos0_sha": "bb84827b91ce"
+  }
+ },
+ "pole": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/pole.xml",
+   "included_files": [
+    "tasks/pole.xml",
+    "locomotion/generated_xml_poles.xml"
+   ],
+   "geom_types": {
+    "box": 3,
+    "cylinder": 144
+   },
+   "joint_types": {},
+   "n_freejoint": 0,
+   "n_body": 45,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "20.75 0.15 1",
+    "20.75 0.15 1",
+    "0.15 3 1"
+   ],
+   "box_roles": {
+    "vertical_wall": 3
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "flat_floor_with_objects",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_pole.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/pole.xml"
+   ],
+   "qpos0_dim": 76,
+   "qpos0_sha": "bb84827b91ce"
+  }
+ },
+ "room": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/room.xml",
+   "included_files": [
+    "tasks/room.xml"
+   ],
+   "geom_types": {
+    "box": 26,
+    "cylinder": 5,
+    "sphere": 2
+   },
+   "joint_types": {},
+   "n_freejoint": 6,
+   "n_body": 9,
+   "mesh_defs": [
+    {
+     "name": "prism",
+     "vertex": "-0.1 0 0  0.1 0 0  0 0.086 0  -0.1 0 0.2  0.1 0 0.2  0 0.086 0.2",
+     "file": null
+    },
+    {
+     "name": "tetrahedron",
+     "vertex": "-0.1 0 0  0.1 0 0  0 0.086 0  0 0.043 0.25",
+     "file": null
+    },
+    {
+     "name": "octahedron",
+     "vertex": "-0.05 -0.05 0.2  -0.05 0.05 0.2  0.05 0.05 0.2  0.05 -0.05 0.2  0 0 0.4  0 0 0",
+     "file": null
+    }
+   ],
+   "box_sizes_sample": [
+    "0.15 4 1.5",
+    "0.15 4 1.5",
+    "4 0.15 1.5",
+    "4 0.15 1.5",
+    "0.5 0.5 0.05",
+    "0.05 0.05 0.5"
+   ],
+   "box_roles": {
+    "vertical_wall": 12,
+    "horizontal_slab": 12,
+    "object_or_structure": 2
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "discrete_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_room.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/room.xml"
+   ],
+   "qpos0_dim": 118,
+   "qpos0_sha": "d947b06811d4"
+  }
+ },
+ "insert_normal": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/insert_normal.xml",
+   "included_files": [
+    "tasks/insert_normal.xml"
+   ],
+   "geom_types": {
+    "box": 16
+   },
+   "joint_types": {},
+   "n_freejoint": 3,
+   "n_body": 4,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.5 0.5 0.05",
+    "0.05 0.05 0.5",
+    "0.05 0.05 0.5",
+    "0.05 0.05 0.5",
+    "0.05 0.05 0.5",
+    "0.04 0.04 0.005"
+   ],
+   "box_roles": {
+    "horizontal_slab": 4,
+    "vertical_wall": 12
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "few_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_insert_normal.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/insert_normal.xml"
+   ],
+   "qpos0_dim": 97,
+   "qpos0_sha": "d54536a7f20f"
+  }
+ },
+ "insert_small": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/insert_small.xml",
+   "included_files": [
+    "tasks/insert_small.xml"
+   ],
+   "geom_types": {
+    "box": 16
+   },
+   "joint_types": {},
+   "n_freejoint": 3,
+   "n_body": 4,
+   "mesh_defs": [],
+   "box_sizes_sample": [
+    "0.5 0.5 0.05",
+    "0.05 0.05 0.5",
+    "0.05 0.05 0.5",
+    "0.05 0.05 0.5",
+    "0.05 0.05 0.5",
+    "0.02 0.02 0.005"
+   ],
+   "box_roles": {
+    "horizontal_slab": 4,
+    "vertical_wall": 4,
+    "object_or_structure": 8
+   },
+   "hfields": []
+  },
+  "F2_terrain_class": "few_slabs",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_insert_small.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/insert_small.xml"
+   ],
+   "qpos0_dim": 97,
+   "qpos0_sha": "d54536a7f20f"
+  }
+ },
+ "powerlift": {
+  "F2_F3_scene": {
+   "scene_file": "tasks/powerlift.xml",
+   "included_files": [
+    "tasks/powerlift.xml"
+   ],
+   "geom_types": {
+    "cylinder": 3
+   },
+   "joint_types": {},
+   "n_freejoint": 1,
+   "n_body": 1,
+   "mesh_defs": [],
+   "box_sizes_sample": [],
+   "box_roles": {},
+   "hfields": []
+  },
+  "F2_terrain_class": "flat_floor_with_objects",
+  "F6_robot": {
+   "env_file": "envs/h1hand_pos_powerlift.xml",
+   "robot": "../robots/h1hand_pos.xml",
+   "includes": [
+    "../common/visual.xml",
+    "../common/floor.xml",
+    "../robots/h1hand_pos.xml",
+    "../tasks/powerlift.xml"
+   ],
+   "qpos0_dim": 83,
+   "qpos0_sha": "3a1d372d2ee3"
+  }
+ }
+}

@@ -1,0 +1,260 @@
+{
+ "created_utc": "2026-07-27T06:40:12.061942+00:00",
+ "purpose": "t=0 pre-injection feature reconstruction for the six EQD30K source-level labels",
+ "reconstruction_basis": {
+  "method": "torch.manual_seed(train seed) then rebuild Actor/Critic in the training construction order",
+  "audit": "vendored FastTD3 unmodified; no new RNG consumption between manual_seed and actor construction in the working tree",
+  "determinism": {
+   "same_seed_bitwise_identical": true,
+   "different_seed_differs": true
+  },
+  "caveat": "not verified against a stored t=0 checkpoint (none exists); validity rests on construction-order equivalence"
+ },
+ "protocol": {
+  "reset_seeds": [
+   11001,
+   23001,
+   37001,
+   53001
+  ],
+  "occupancy_ages": [
+   0,
+   5,
+   10,
+   25,
+   50,
+   100,
+   150,
+   200
+  ],
+  "horizon": 25,
+  "panel_size": 32,
+  "normalizer": "identity at t=0 (EmpiricalNormalization initial mean=0 std=1)"
+ },
+ "units": [
+  {
+   "env_name": "h1hand-hurdle-v0",
+   "seed": 1,
+   "stage_t": 0,
+   "panel_size": 32,
+   "student_action_l2_mean": 0.05832266737706959,
+   "critic_stats_t0": {
+    "twin_disagreement": 0.3396416902542114,
+    "degenerate": true,
+    "reason": "critic is randomly initialised at t=0; recorded for completeness, must not be used as a standalone admission signal"
+   },
+   "sources": {
+    "stand": {
+     "dR_mean": 2.441808881014311,
+     "dR_lcb90": 1.8439916089678914,
+     "dP_mean": 0.1732459680798037,
+     "dP_lcb90": 0.15233816282168708,
+     "dFeasibility_mean": {
+      "upright_support": 0.1037115496105219,
+      "obstacle_clearance": 0.347625
+     },
+     "action_distance_mean": 6.881742611527443,
+     "state_coverage_nn_mean": 42.73279619216919,
+     "source_survival_steps_mean": 25.0,
+     "student_survival_steps_mean": 25.0
+    },
+    "walk": {
+     "dR_mean": 3.5567502934284234,
+     "dR_lcb90": 3.1433892255865126,
+     "dP_mean": 0.35565062760385074,
+     "dP_lcb90": 0.3246806677621622,
+     "dFeasibility_mean": {
+      "upright_support": 0.06422992736461419,
+      "obstacle_clearance": 0.280125
+     },
+     "action_distance_mean": 6.808462098240852,
+     "state_coverage_nn_mean": 52.81176245212555,
+     "source_survival_steps_mean": 25.0,
+     "student_survival_steps_mean": 25.0
+    },
+    "run": {
+     "dR_mean": 3.357082708723088,
+     "dR_lcb90": 2.8075656248136247,
+     "dP_mean": 0.36280421045725686,
+     "dP_lcb90": 0.3299711926274198,
+     "dFeasibility_mean": {
+      "upright_support": -0.03742222687775671,
+      "obstacle_clearance": 0.21262499999999995
+     },
+     "action_distance_mean": 7.1441395580768585,
+     "state_coverage_nn_mean": 52.903066992759705,
+     "source_survival_steps_mean": 25.0,
+     "student_survival_steps_mean": 25.0
+    }
+   }
+  },
+  {
+   "env_name": "h1hand-hurdle-v0",
+   "seed": 2,
+   "stage_t": 0,
+   "panel_size": 32,
+   "student_action_l2_mean": 0.057347659836523235,
+   "critic_stats_t0": {
+    "twin_disagreement": 0.3023247718811035,
+    "degenerate": true,
+    "reason": "critic is randomly initialised at t=0; recorded for completeness, must not be used as a standalone admission signal"
+   },
+   "sources": {
+    "stand": {
+     "dR_mean": 2.2396762214463966,
+     "dR_lcb90": 1.6551089858048167,
+     "dP_mean": 0.15124000146463026,
+     "dP_lcb90": 0.13447017311103177,
+     "dFeasibility_mean": {
+      "upright_support": 0.10140136323026142,
+      "obstacle_clearance": 0.35550000000000004
+     },
+     "action_distance_mean": 6.885316893458366,
+     "state_coverage_nn_mean": 41.565523743629456,
+     "source_survival_steps_mean": 25.0,
+     "student_survival_steps_mean": 25.0
+    },
+    "walk": {
+     "dR_mean": 3.9319735738513693,
+     "dR_lcb90": 3.512783240153252,
+     "dP_mean": 0.3728701147316756,
+     "dP_lcb90": 0.3480915031838757,
+     "dFeasibility_mean": {
+      "upright_support": 0.06058477549091469,
+      "obstacle_clearance": 0.34087500000000004
+     },
+     "action_distance_mean": 6.811347231268883,
+     "state_coverage_nn_mean": 52.0597620010376,
+     "source_survival_steps_mean": 25.0,
+     "student_survival_steps_mean": 25.0
+    },
+    "run": {
+     "dR_mean": 3.7842539504964385,
+     "dR_lcb90": 3.1677795222574967,
+     "dP_mean": 0.3863934000656868,
+     "dP_lcb90": 0.3575088979767229,
+     "dFeasibility_mean": {
+      "upright_support": -0.021079155812952142,
+      "obstacle_clearance": 0.23737499999999995
+     },
+     "action_distance_mean": 7.153339520096779,
+     "state_coverage_nn_mean": 53.324491024017334,
+     "source_survival_steps_mean": 25.0,
+     "student_survival_steps_mean": 25.0
+    }
+   }
+  },
+  {
+   "env_name": "h1hand-hurdle-v0",
+   "seed": 3,
+   "stage_t": 0,
+   "panel_size": 32,
+   "student_action_l2_mean": 0.047521063475869596,
+   "critic_stats_t0": {
+    "twin_disagreement": 1.0028268098831177,
+    "degenerate": true,
+    "reason": "critic is randomly initialised at t=0; recorded for completeness, must not be used as a standalone admission signal"
+   },
+   "sources": {
+    "stand": {
+     "dR_mean": 2.2956171608285407,
+     "dR_lcb90": 1.719592264465193,
+     "dP_mean": 0.1557372894484442,
+     "dP_lcb90": 0.14022893693827126,
+     "dFeasibility_mean": {
+      "upright_support": 0.09704117060710256,
+      "obstacle_clearance": 0.36562500000000003
+     },
+     "action_distance_mean": 6.879182696342468,
+     "state_coverage_nn_mean": 42.87377858161926,
+     "source_survival_steps_mean": 25.0,
+     "student_survival_steps_mean": 25.0
+    },
+    "walk": {
+     "dR_mean": 3.8857471434448905,
+     "dR_lcb90": 3.4491102352695995,
+     "dP_mean": 0.379567315157058,
+     "dP_lcb90": 0.3541906629090155,
+     "dFeasibility_mean": {
+      "upright_support": 0.05274977257446943,
+      "obstacle_clearance": 0.31275
+     },
+     "action_distance_mean": 6.836732387542725,
+     "state_coverage_nn_mean": 52.063262701034546,
+     "source_survival_steps_mean": 25.0,
+     "student_survival_steps_mean": 25.0
+    },
+    "run": {
+     "dR_mean": 4.271163083491214,
+     "dR_lcb90": 3.551367880035664,
+     "dP_mean": 0.43524936000922276,
+     "dP_lcb90": 0.40161155851985963,
+     "dFeasibility_mean": {
+      "upright_support": -0.010722479669798203,
+      "obstacle_clearance": 0.29812500000000003
+     },
+     "action_distance_mean": 7.172688335180283,
+     "state_coverage_nn_mean": 52.4968740940094,
+     "source_survival_steps_mean": 25.0,
+     "student_survival_steps_mean": 25.0
+    }
+   }
+  },
+  {
+   "env_name": "h1hand-crawl-v0",
+   "seed": 1,
+   "stage_t": 0,
+   "panel_size": 32,
+   "student_action_l2_mean": 0.06067618797533214,
+   "critic_stats_t0": {
+    "twin_disagreement": 0.3396416902542114,
+    "degenerate": true,
+    "reason": "critic is randomly initialised at t=0; recorded for completeness, must not be used as a standalone admission signal"
+   },
+   "sources": {
+    "stand": {
+     "dR_mean": 0.7326455508672026,
+     "dR_lcb90": 0.1588063269344583,
+     "dP_mean": 0.07286892138848243,
+     "dP_lcb90": 0.041668102966163495,
+     "dFeasibility_mean": {
+      "crawl_posture": 0.0015752296239889274,
+      "tunnel_occupancy": 0.0
+     },
+     "action_distance_mean": 7.03096966445446,
+     "state_coverage_nn_mean": 44.9332395195961,
+     "source_survival_steps_mean": 25.0,
+     "student_survival_steps_mean": 25.0
+    },
+    "walk": {
+     "dR_mean": 2.5238881655176355,
+     "dR_lcb90": 1.9194023756085326,
+     "dP_mean": 0.09462970937464302,
+     "dP_lcb90": 0.05204125021837927,
+     "dFeasibility_mean": {
+      "crawl_posture": 0.05333687979615974,
+      "tunnel_occupancy": 0.0
+     },
+     "action_distance_mean": 7.07717664539814,
+     "state_coverage_nn_mean": 54.23277544975281,
+     "source_survival_steps_mean": 25.0,
+     "student_survival_steps_mean": 25.0
+    },
+    "run": {
+     "dR_mean": 1.964694100861031,
+     "dR_lcb90": 1.358190828198141,
+     "dP_mean": 0.07930086699196912,
+     "dP_lcb90": 0.03688722198323029,
+     "dFeasibility_mean": {
+      "crawl_posture": 0.030576636507947837,
+      "tunnel_occupancy": 0.0
+     },
+     "action_distance_mean": 7.258943498134613,
+     "state_coverage_nn_mean": 55.25124549865723,
+     "source_survival_steps_mean": 25.0,
+     "student_survival_steps_mean": 25.0
+    }
+   }
+  }
+ ]
+}

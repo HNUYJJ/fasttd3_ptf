@@ -1,0 +1,167 @@
+{
+  "analysis_type": "posthoc_engineering_sensitivity_simulation",
+  "method": "expectation over real _admission_slot_weights (v3, frozen-config masses)",
+  "git_head": "3012b1fb075f817fa6e49d9aed39cdd16b50ee97",
+  "inputs": {
+    "crawl": {
+      "bank_yaml": "configs/source_banks/h1hand_loco_wfix_crawl.yaml",
+      "bank_yaml_sha256": "f261fd6d1c5c8904fb889089865dafab72168ac1b40d52fcc188da4d3d4f3d0f",
+      "student_logit": 16.6823567039,
+      "source_names": [
+        "stand",
+        "walk",
+        "run"
+      ],
+      "recomputed_candidate_masses": [
+        5.11902662481134e-08,
+        0.056094538420438766,
+        0.04390545189380646,
+        0.8999999761581421
+      ]
+    },
+    "truck": {
+      "bank_yaml": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+      "bank_yaml_sha256": "a570bae86f835b856371d991de3f4b4aaac0cc2bc3ed403cd09f95e1f0df5b11",
+      "student_logit": 16.4139012941,
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle"
+      ],
+      "recomputed_candidate_masses": [
+        1.2136888472014107e-05,
+        0.024643035605549812,
+        0.020115572959184647,
+        0.05522935092449188,
+        0.8999999761581421
+      ]
+    }
+  },
+  "tasks": {
+    "crawl": {
+      "per_seed": {
+        "101": {
+          "750": {
+            "segment": 0.05177736542498072,
+            "cumulative": 0.05177736542498072
+          },
+          "1500": {
+            "segment": 0.09117033203442891,
+            "cumulative": 0.07147384872970482
+          },
+          "2250": {
+            "segment": 0.09850394998987516,
+            "cumulative": 0.08048388248309493
+          },
+          "3000": {
+            "segment": 0.0994833779335022,
+            "cumulative": 0.08523375634569674
+          }
+        },
+        "102": {
+          "750": {
+            "segment": 0.056199884116649626,
+            "cumulative": 0.056199884116649626
+          },
+          "1500": {
+            "segment": 0.08996834874153137,
+            "cumulative": 0.0730841164290905
+          },
+          "2250": {
+            "segment": 0.09771065796415011,
+            "cumulative": 0.0812929636074437
+          },
+          "3000": {
+            "segment": 0.09917314698298772,
+            "cumulative": 0.08576300945132971
+          }
+        },
+        "103": {
+          "750": {
+            "segment": 0.052965536632885536,
+            "cumulative": 0.052965536632885536
+          },
+          "1500": {
+            "segment": 0.08868507102131844,
+            "cumulative": 0.07082530382710199
+          },
+          "2250": {
+            "segment": 0.0971915094057719,
+            "cumulative": 0.07961403901999195
+          },
+          "3000": {
+            "segment": 0.09924659207463264,
+            "cumulative": 0.08452217728365213
+          }
+        }
+      },
+      "cumulative_at_3000_realization_range": [
+        0.08452217728365213,
+        0.08576300945132971
+      ]
+    },
+    "truck": {
+      "per_seed": {
+        "101": {
+          "750": {
+            "segment": 0.04557856767127911,
+            "cumulative": 0.04557856767127911
+          },
+          "1500": {
+            "segment": 0.08169756491978963,
+            "cumulative": 0.06363806629553437
+          },
+          "2250": {
+            "segment": 0.09100515847404798,
+            "cumulative": 0.0727604303550389
+          },
+          "3000": {
+            "segment": 0.09577088102698326,
+            "cumulative": 0.07851304302302499
+          }
+        },
+        "102": {
+          "750": {
+            "segment": 0.04690160339387755,
+            "cumulative": 0.04690160339387755
+          },
+          "1500": {
+            "segment": 0.08123823558290799,
+            "cumulative": 0.06406991948839277
+          },
+          "2250": {
+            "segment": 0.0919207938015461,
+            "cumulative": 0.07335354425944388
+          },
+          "3000": {
+            "segment": 0.09637695158521334,
+            "cumulative": 0.07910939609088624
+          }
+        },
+        "103": {
+          "750": {
+            "segment": 0.044569956927249826,
+            "cumulative": 0.044569956927249826
+          },
+          "1500": {
+            "segment": 0.07892813240488371,
+            "cumulative": 0.06174904466606677
+          },
+          "2250": {
+            "segment": 0.09064344967405001,
+            "cumulative": 0.07138051300206118
+          },
+          "3000": {
+            "segment": 0.09605427061518033,
+            "cumulative": 0.07754895240534097
+          }
+        }
+      },
+      "cumulative_at_3000_realization_range": [
+        0.07754895240534097,
+        0.07910939609088624
+      ]
+    }
+  }
+}

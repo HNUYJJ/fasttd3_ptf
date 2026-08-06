@@ -1,0 +1,163 @@
+{
+ "created_utc": "2026-07-29T07:45:40.127431+00:00",
+ "experiment": "sibling_source_gate_v1",
+ "hypothesis": "sibling source sharing the exact reward implementation (ClimbingUpwards) outperforms the generic walk source",
+ "primary": "D_sib = J(sibling arm) - J(walk arm), paired by learner seed",
+ "evaluator": "frozen source-free panel, 16 eval seeds x 8 ranks = 128 episodes",
+ "interval_rule": "90% t interval over 3 paired LEARNER seeds (df=2)",
+ "directions": {
+  "slide_to_stair": {
+   "target": "stair",
+   "sibling_arm": "slidesrc",
+   "control_arm": "walk",
+   "per_seed": {
+    "1": {
+     "J_sibling": 67.01582580777966,
+     "J_walk": 45.10808972908057,
+     "J_student": 44.76615164543004,
+     "D_sib": 21.907736078699095,
+     "U_sibling_vs_student": 22.24967416234962,
+     "episode_se": {
+      "sibling": 2.609307568490416,
+      "walk": 0.8419992227291104
+     }
+    },
+    "2": {
+     "J_sibling": 55.923773130666234,
+     "J_walk": 42.69106283119489,
+     "J_student": 45.8611191630992,
+     "D_sib": 13.232710299471343,
+     "U_sibling_vs_student": 10.062653967567037,
+     "episode_se": {
+      "sibling": 1.8985550707331185,
+      "walk": 1.0294192574157726
+     }
+    },
+    "3": {
+     "J_sibling": 56.72397209960469,
+     "J_walk": 45.672422661300324,
+     "J_student": 42.280451899162216,
+     "D_sib": 11.051549438304363,
+     "U_sibling_vs_student": 14.443520200442471,
+     "episode_se": {
+      "sibling": 1.7736446407621096,
+      "walk": 1.0912829745211383
+     }
+    }
+   },
+   "D_sib": {
+    "mean": 15.397331938824934,
+    "sd": 5.74268118773275,
+    "lo": 5.716005849909854,
+    "hi": 25.078658027740012,
+    "n": 3
+   },
+   "n_positive_seeds": 3,
+   "direction_passed": true,
+   "U_sibling_vs_student": {
+    "mean": 15.585282776786377,
+    "sd": 6.173214854722314,
+    "lo": 5.178139480521162,
+    "hi": 25.99242607305159,
+    "n": 3
+   },
+   "treatment_audit": {
+    "1": {
+     "checkpoint": "h1hand-stair-v0__stair_bac_slidesrc_s1__1_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.49557421875,
+     "critic_source_share": 0.4991371353149414
+    },
+    "2": {
+     "checkpoint": "h1hand-stair-v0__stair_bac_slidesrc_s2__2_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.49914921875,
+     "critic_source_share": 0.4989028289794922
+    },
+    "3": {
+     "checkpoint": "h1hand-stair-v0__stair_bac_slidesrc_s3__3_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.498275,
+     "critic_source_share": 0.4988652984619141
+    }
+   }
+  },
+  "stair_to_slide": {
+   "target": "slide",
+   "sibling_arm": "stairsrc",
+   "control_arm": "walk",
+   "per_seed": {
+    "1": {
+     "J_sibling": 90.68318488210467,
+     "J_walk": 105.04335070026988,
+     "J_student": 39.37617939946556,
+     "D_sib": -14.360165818165214,
+     "U_sibling_vs_student": 51.307005482639106,
+     "episode_se": {
+      "sibling": 3.923999879381743,
+      "walk": 2.4181005379246114
+     }
+    },
+    "2": {
+     "J_sibling": 84.02097672399171,
+     "J_walk": 111.21756827817411,
+     "J_student": 63.61400998107169,
+     "D_sib": -27.196591554182405,
+     "U_sibling_vs_student": 20.40696674292002,
+     "episode_se": {
+      "sibling": 3.2775217689705305,
+      "walk": 1.603224405706721
+     }
+    },
+    "3": {
+     "J_sibling": 87.3011215313018,
+     "J_walk": 108.11202220231351,
+     "J_student": 50.53752095132876,
+     "D_sib": -20.81090067101171,
+     "U_sibling_vs_student": 36.763600579973044,
+     "episode_se": {
+      "sibling": 3.180902976928146,
+      "walk": 2.4667588023807863
+     }
+    }
+   },
+   "D_sib": {
+    "mean": -20.789219347786442,
+    "sd": 6.4182403335262945,
+    "lo": -31.60943999988001,
+    "hi": -9.968998695692873,
+    "n": 3
+   },
+   "n_positive_seeds": 0,
+   "direction_passed": false,
+   "U_sibling_vs_student": {
+    "mean": 36.15919093517739,
+    "sd": 15.458883588185682,
+    "lo": 10.097759332896338,
+    "hi": 62.220622537458446,
+    "n": 3
+   },
+   "treatment_audit": {
+    "1": {
+     "checkpoint": "h1hand-slide-v0__slide_bac_stairsrc_s1__1_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.5006015625,
+     "critic_source_share": 0.49916073455810545
+    },
+    "2": {
+     "checkpoint": "h1hand-slide-v0__slide_bac_stairsrc_s2__2_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.50374921875,
+     "critic_source_share": 0.4988097198486328
+    },
+    "3": {
+     "checkpoint": "h1hand-slide-v0__slide_bac_stairsrc_s3__3_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.50099375,
+     "critic_source_share": 0.4988212646484375
+    }
+   }
+  }
+ },
+ "verdict": "SIBLING_DIRECTION_DEPENDENT"
+}

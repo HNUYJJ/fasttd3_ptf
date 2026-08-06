@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fasttd3-ptf"
+version = "0.1.0"
+description = "FastTD3 with Policy Transfer Framework for humanoid control"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{name = "OpenAI generated implementation"}]
+dependencies = [
+  "numpy>=1.24",
+  "torch>=2.1",
+  "gymnasium>=0.29",
+  "PyYAML>=6.0",
+  "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+logging = ["wandb>=0.16"]
+test = ["pytest>=7.4"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["fasttd3_ptf*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

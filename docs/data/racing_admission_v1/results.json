@@ -1,0 +1,357 @@
+{
+  "prereg": "docs/experiments/racing_admission_v1_prereg_20260804.md",
+  "K": 10000,
+  "delta_rule": "U_i > 2 * paired_SE_i",
+  "negative_targets": [
+    "crawl"
+  ],
+  "positive_targets": [
+    "hurdle",
+    "slide"
+  ],
+  "per_target": {
+    "crawl": [
+      {
+        "seed": 1,
+        "U": {
+          "stand": -44.061,
+          "walk": -258.7743,
+          "run": -79.1691
+        },
+        "SE": {
+          "stand": 7.8442,
+          "walk": 18.4536,
+          "run": 9.6551
+        },
+        "significant_positive": [],
+        "admit": false
+      },
+      {
+        "seed": 2,
+        "U": {
+          "stand": -186.761,
+          "walk": -196.2168,
+          "run": -181.8631
+        },
+        "SE": {
+          "stand": 12.5082,
+          "walk": 15.2144,
+          "run": 12.4932
+        },
+        "significant_positive": [],
+        "admit": false
+      },
+      {
+        "seed": 3,
+        "U": {
+          "stand": -162.9832,
+          "walk": -60.3091,
+          "run": -70.353
+        },
+        "SE": {
+          "stand": 10.1331,
+          "walk": 13.8604,
+          "run": 11.6392
+        },
+        "significant_positive": [],
+        "admit": false
+      }
+    ],
+    "hurdle": [
+      {
+        "seed": 1,
+        "U": {
+          "stand": 2.5701,
+          "walk": 62.9474,
+          "run": 102.1943
+        },
+        "SE": {
+          "stand": 0.8732,
+          "walk": 2.0273,
+          "run": 3.8233
+        },
+        "significant_positive": [
+          "stand",
+          "walk",
+          "run"
+        ],
+        "admit": true
+      },
+      {
+        "seed": 2,
+        "U": {
+          "stand": 18.669,
+          "walk": 42.3176,
+          "run": 110.512
+        },
+        "SE": {
+          "stand": 0.9039,
+          "walk": 2.7757,
+          "run": 3.7001
+        },
+        "significant_positive": [
+          "stand",
+          "walk",
+          "run"
+        ],
+        "admit": true
+      },
+      {
+        "seed": 3,
+        "U": {
+          "stand": 7.1631,
+          "walk": 36.6737,
+          "run": 81.156
+        },
+        "SE": {
+          "stand": 0.9034,
+          "walk": 2.7933,
+          "run": 4.4069
+        },
+        "significant_positive": [
+          "stand",
+          "walk",
+          "run"
+        ],
+        "admit": true
+      }
+    ],
+    "slide": [
+      {
+        "seed": 1,
+        "U": {
+          "stand": -0.6481,
+          "walk": 48.595,
+          "run": 6.6658
+        },
+        "SE": {
+          "stand": 1.2691,
+          "walk": 1.7681,
+          "run": 1.6966
+        },
+        "significant_positive": [
+          "walk",
+          "run"
+        ],
+        "admit": true
+      },
+      {
+        "seed": 2,
+        "U": {
+          "stand": 7.0136,
+          "walk": 73.5012,
+          "run": 15.5539
+        },
+        "SE": {
+          "stand": 1.7985,
+          "walk": 2.2898,
+          "run": 1.2163
+        },
+        "significant_positive": [
+          "stand",
+          "walk",
+          "run"
+        ],
+        "admit": true
+      },
+      {
+        "seed": 3,
+        "U": {
+          "stand": 2.8124,
+          "walk": 75.8329,
+          "run": 26.1348
+        },
+        "SE": {
+          "stand": 0.8061,
+          "walk": 1.8597,
+          "run": 1.4501
+        },
+        "significant_positive": [
+          "stand",
+          "walk",
+          "run"
+        ],
+        "admit": true
+      }
+    ]
+  },
+  "false_admit": 0,
+  "false_reject": 0,
+  "engineering_audit": {
+    "crawl|stand|s1": {
+      "behavior_share": 0.49853515625,
+      "source_names": [
+        "stand"
+      ]
+    },
+    "crawl|stand|s2": {
+      "behavior_share": 0.50017578125,
+      "source_names": [
+        "stand"
+      ]
+    },
+    "crawl|stand|s3": {
+      "behavior_share": 0.49904296875,
+      "source_names": [
+        "stand"
+      ]
+    },
+    "crawl|walk|s1": {
+      "behavior_share": 0.49853515625,
+      "source_names": [
+        "walk"
+      ]
+    },
+    "crawl|walk|s2": {
+      "behavior_share": 0.50017578125,
+      "source_names": [
+        "walk"
+      ]
+    },
+    "crawl|walk|s3": {
+      "behavior_share": 0.49904296875,
+      "source_names": [
+        "walk"
+      ]
+    },
+    "crawl|run|s1": {
+      "behavior_share": 0.49853515625,
+      "source_names": [
+        "run"
+      ]
+    },
+    "crawl|run|s2": {
+      "behavior_share": 0.50017578125,
+      "source_names": [
+        "run"
+      ]
+    },
+    "crawl|run|s3": {
+      "behavior_share": 0.49904296875,
+      "source_names": [
+        "run"
+      ]
+    },
+    "crawl|arm_share_gap": 0.0,
+    "hurdle|stand|s1": {
+      "behavior_share": 0.502009375,
+      "source_names": [
+        "stand",
+        "null"
+      ]
+    },
+    "hurdle|stand|s2": {
+      "behavior_share": 0.50468125,
+      "source_names": [
+        "stand",
+        "null"
+      ]
+    },
+    "hurdle|stand|s3": {
+      "behavior_share": 0.50404609375,
+      "source_names": [
+        "stand",
+        "null"
+      ]
+    },
+    "hurdle|walk|s1": {
+      "behavior_share": 0.50036953125,
+      "source_names": [
+        "walk",
+        "null"
+      ]
+    },
+    "hurdle|walk|s2": {
+      "behavior_share": 0.501875,
+      "source_names": [
+        "walk",
+        "null"
+      ]
+    },
+    "hurdle|walk|s3": {
+      "behavior_share": 0.5024703125,
+      "source_names": [
+        "walk",
+        "null"
+      ]
+    },
+    "hurdle|run|s1": {
+      "behavior_share": 0.50089140625,
+      "source_names": [
+        "run",
+        "null"
+      ]
+    },
+    "hurdle|run|s2": {
+      "behavior_share": 0.5027375,
+      "source_names": [
+        "run",
+        "null"
+      ]
+    },
+    "hurdle|run|s3": {
+      "behavior_share": 0.50212578125,
+      "source_names": [
+        "run",
+        "null"
+      ]
+    },
+    "hurdle|arm_share_gap": 0.001920312500000021,
+    "slide|stand|s1": {
+      "behavior_share": 0.483446875,
+      "source_names": [
+        "stand"
+      ]
+    },
+    "slide|stand|s2": {
+      "behavior_share": 0.4913453125,
+      "source_names": [
+        "stand"
+      ]
+    },
+    "slide|stand|s3": {
+      "behavior_share": 0.4807375,
+      "source_names": [
+        "stand"
+      ]
+    },
+    "slide|walk|s1": {
+      "behavior_share": 0.47788671875,
+      "source_names": [
+        "walk"
+      ]
+    },
+    "slide|walk|s2": {
+      "behavior_share": 0.48191328125,
+      "source_names": [
+        "walk"
+      ]
+    },
+    "slide|walk|s3": {
+      "behavior_share": 0.479275,
+      "source_names": [
+        "walk"
+      ]
+    },
+    "slide|run|s1": {
+      "behavior_share": 0.47984765625,
+      "source_names": [
+        "run"
+      ]
+    },
+    "slide|run|s2": {
+      "behavior_share": 0.47289296875,
+      "source_names": [
+        "run"
+      ]
+    },
+    "slide|run|s3": {
+      "behavior_share": 0.4771625,
+      "source_names": [
+        "run"
+      ]
+    },
+    "slide|arm_share_gap": 0.003574999999999995
+  },
+  "verdict": "ADMISSION_VIABLE"
+}

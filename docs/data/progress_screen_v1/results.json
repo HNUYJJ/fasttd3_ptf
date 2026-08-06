@@ -1,0 +1,66 @@
+{
+  "prereg": "docs/experiments/progress_screen_v1_prereg_20260804.md",
+  "design": {
+    "crawl_progress": {
+      "stand": {
+        "mean": 0.221406099683112,
+        "se": 0.024375653543604898
+      },
+      "walk": {
+        "mean": 3.664288151674802,
+        "se": 0.8958316343748542
+      },
+      "run": {
+        "mean": 14.302246479972284,
+        "se": 3.8189603078145558
+      }
+    },
+    "lo_source": "run",
+    "lo": 14.302246479972284,
+    "hurdle_run": {
+      "mean": 22.52117587251992,
+      "se": 2.05675444790276
+    },
+    "hi": 22.52117587251992,
+    "theta": 17.947239574585968
+  },
+  "holdout": {
+    "slide_walk": {
+      "mean": 1.81424519988173,
+      "se": 0.12576746798635569
+    },
+    "passes_theta": false
+  },
+  "reference_only_not_in_criterion": {
+    "slide_all": {
+      "stand": 0.18308530291108654,
+      "walk": 1.81424519988173,
+      "run": 1.7527332499236086
+    },
+    "hurdle_all": {
+      "stand": 0.18796532768709656,
+      "walk": 8.716580764385984,
+      "run": 22.52117587251992
+    },
+    "flat_walk_env": {
+      "stand": 0.17300302637019385,
+      "walk": 31.38831260696285,
+      "run": 115.46978950740544
+    },
+    "return_mean": {
+      "h1hand-crawl-v0|stand": 300.150268059602,
+      "h1hand-crawl-v0|walk": 257.96452119019636,
+      "h1hand-crawl-v0|run": 174.55597371558554,
+      "h1hand-hurdle-v0|stand": 148.38658781248938,
+      "h1hand-hurdle-v0|walk": 93.55578394015231,
+      "h1hand-hurdle-v0|run": 163.77888274934134,
+      "h1hand-slide-v0|stand": 160.9012131665785,
+      "h1hand-slide-v0|walk": 54.17764242577812,
+      "h1hand-slide-v0|run": 27.821398697407954,
+      "h1hand-walk-v0|stand": 170.19455048488413,
+      "h1hand-walk-v0|walk": 934.057160386093,
+      "h1hand-walk-v0|run": 924.2471621021788
+    }
+  },
+  "verdict": "HOLDOUT_FAILED"
+}

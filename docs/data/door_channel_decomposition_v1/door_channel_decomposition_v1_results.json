@@ -1,0 +1,121 @@
+{
+ "created_utc": "2026-07-28T03:45:56.146148+00:00",
+ "experiment": "door_channel_decomposition_v1",
+ "source": "run",
+ "decomposition": "U^BR = U^B + Delta^{R|B}  (exact identity)",
+ "definitions": {
+  "U^B": "J(B-only) - J(student); behavior authority under a fixed interaction budget, including the opportunity cost of source consuming student interactions",
+  "Delta^{R|B}": "J(joint) - J(B-only); conditional increment of allowing source transitions into critic replay, given the same behavior authority"
+ },
+ "evaluator": "frozen source-free panel, 16 eval seeds x 8 ranks = 128 episodes",
+ "interval_rule": "90% t interval over 3 paired LEARNER seeds (df=2); episode-level SE is diagnostic only",
+ "per_seed": {
+  "1": {
+   "J_student": 265.46701232283294,
+   "J_Bonly": 206.25634223523164,
+   "J_joint": 247.68473032741355,
+   "U_B": -59.2106700876013,
+   "Delta_R_given_B": 41.428388092181905,
+   "U_BR": -17.782281995419396,
+   "episode_se": {
+    "student": 3.2556734108320238,
+    "Bonly": 3.450900654724415,
+    "joint": 1.774644475262428
+   }
+  },
+  "2": {
+   "J_student": 275.4545465196962,
+   "J_Bonly": 274.1105798646922,
+   "J_joint": 234.41946951000702,
+   "U_B": -1.3439666550039533,
+   "Delta_R_given_B": -39.69111035468521,
+   "U_BR": -41.03507700968916,
+   "episode_se": {
+    "student": 0.9321026611083595,
+    "Bonly": 2.5209759772210587,
+    "joint": 1.9746845089259566
+   }
+  },
+  "3": {
+   "J_student": 261.6878144369645,
+   "J_Bonly": 160.18488900998554,
+   "J_joint": 228.6070233501602,
+   "U_B": -101.50292542697898,
+   "Delta_R_given_B": 68.42213434017467,
+   "U_BR": -33.08079108680431,
+   "episode_se": {
+    "student": 2.0519856305251083,
+    "Bonly": 4.592882607184097,
+    "joint": 3.0374857628028558
+   }
+  }
+ },
+ "U_B": {
+  "mean": -54.01918738986141,
+  "sd": 50.2808897596517,
+  "lo": -138.7854618687282,
+  "hi": 30.747087089005383,
+  "n": 3,
+  "sign": "unc"
+ },
+ "Delta_R_given_B": {
+  "mean": 23.386470692557122,
+  "sd": 56.269454477574456,
+  "lo": -71.47565378101777,
+  "hi": 118.24859516613202,
+  "n": 3,
+  "sign": "unc"
+ },
+ "U_BR": {
+  "mean": -30.63271669730429,
+  "sd": 11.818118300148575,
+  "lo": -50.55634701575576,
+  "hi": -10.709086378852817,
+  "n": 3,
+  "sign": "neg"
+ },
+ "identity_max_abs_error": 0.0,
+ "joint_significant_but_components_not": true,
+ "treatment_audit": {
+  "1": {
+   "checkpoint": "h1hand-door-v0__door_Bonly_run_s1__1_20000.pt",
+   "global_step": 20000,
+   "replay_mode": "student_only",
+   "active_buffer_counts": [
+    636980,
+    1923020
+   ],
+   "sampling_phase": "authority_quota",
+   "behavior_source_share": 0.497640625,
+   "critic_source_sample_count": 0,
+   "critic_student_sample_count": 655360000
+  },
+  "2": {
+   "checkpoint": "h1hand-door-v0__door_Bonly_run_s2__2_20000.pt",
+   "global_step": 20000,
+   "replay_mode": "student_only",
+   "active_buffer_counts": [
+    641094,
+    1918906
+   ],
+   "sampling_phase": "authority_quota",
+   "behavior_source_share": 0.5008546875,
+   "critic_source_sample_count": 0,
+   "critic_student_sample_count": 655360000
+  },
+  "3": {
+   "checkpoint": "h1hand-door-v0__door_Bonly_run_s3__3_20000.pt",
+   "global_step": 20000,
+   "replay_mode": "student_only",
+   "active_buffer_counts": [
+    639334,
+    1920666
+   ],
+   "sampling_phase": "authority_quota",
+   "behavior_source_share": 0.4994796875,
+   "critic_source_sample_count": 0,
+   "critic_student_sample_count": 655360000
+  }
+ },
+ "verdict": "UNRESOLVED"
+}

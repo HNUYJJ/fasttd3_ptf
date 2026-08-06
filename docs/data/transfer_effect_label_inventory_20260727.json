@@ -1,0 +1,1229 @@
+{
+ "schema_version": "1.1",
+ "created_utc": "2026-07-27",
+ "purpose": "Stage-conditioned downstream transfer label audit (SCTU feasibility). Read-only inventory; no training, no model fitting.",
+ "label_definition": {
+  "estimand": "U_i(t,d,K) = J_sf(theta^{source_i,d}_{t+K}) - J_sf(theta^{student}_{t+K})",
+  "J_sf": "source-free deterministic student evaluation (frozen panel return and/or task progress)",
+  "note": "A comparator that is another source or another bank (not student-only) does not instantiate U_i."
+ },
+ "grades": {
+  "A": "standardized source-level causal label: same stage, same dose, same training protocol, matched student-only comparator",
+  "B": "bank/intervention-level causal label: whole-package effect measurable, not attributable to a single source",
+  "C": "descriptive: configuration/implementation/evaluation not fully comparable; direction reference only",
+  "D": "not usable for modeling: missing matched comparator, missing future source-free outcome, or missing key provenance"
+ },
+ "protocol_families": {
+  "EQD30K": {
+   "id": "equal_dose_single_source_rbo_v1",
+   "checkout_date": "2026-07-23",
+   "intervention_window": "t=0 to 30000",
+   "behavior_dose_nominal": 0.5,
+   "replay_dose_nominal": 0.5,
+   "segment_horizon": 25,
+   "execution_semantics": "full-action source rollout, bootstrap_only (no distillation, no MCG)",
+   "candidate_structure": "single source and student in one categorical, both logits 0",
+   "revocation_semantics": "none (source active for the whole window)",
+   "comparator": "same-checkout scratch (empty bank, exact abstention)",
+   "outcome": "5k-25k normalized AUC (trapezoid over source-free deterministic evals) and 30k frozen source-free 32-episode panel"
+  },
+  "STAGE10K": {
+   "id": "stage_conditioned_target_evidence_online_v1",
+   "checkout_date": "2026-07-26/27",
+   "intervention_window": "decisions at 10000 and 20000; 0-10000 exact abstention",
+   "behavior_dose_nominal": 0.5,
+   "replay_dose_nominal": 0.5,
+   "segment_horizon": 25,
+   "execution_semantics": "full-action source rollout, bootstrap_only",
+   "revocation_semantics": "superseded/rejected source leaves active replay immediately",
+   "comparator": "same-checkout scratch",
+   "outcome": "5k-25k normalized AUC and 30k frozen source-free 32-episode panel; 10k-20k within-window segment nAUC available"
+  },
+  "SAFE_WFIX": {
+   "id": "safe_wfix_era_static_rbo",
+   "checkout_date": "2026-06 to 2026-07-05",
+   "note": "external teacher floor 0.5 plus T0-weighted within-teacher source choice; fixed replay quota (pre authority-handoff fix, repetition-divergence bug present); evaluation protocol differs from EQD30K",
+   "comparator": "scratch or random-allocation bank"
+  }
+ },
+ "cells": [
+  {
+   "id": "EQD30K.hurdle.run",
+   "grade": "A",
+   "target_task": "h1hand-hurdle-v0",
+   "identity_level": "source",
+   "identity": "run",
+   "protocol": "EQD30K",
+   "stage_t": 0,
+   "K": 30000,
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "dose_nominal": {
+    "behavior": 0.5,
+    "replay": 0.5
+   },
+   "dose_actual_behavior": [
+    0.5,
+    0.500304,
+    0.502153
+   ],
+   "dose_actual_critic": [
+    0.5,
+    0.50002,
+    0.500135
+   ],
+   "comparator": "student_only_scratch_same_checkout",
+   "effect_auc_mean": 146.398,
+   "effect_auc_ci90": [
+    102.783,
+    190.013
+   ],
+   "effect_endpoint_mean": 379.659,
+   "effect_endpoint_ci90": [
+    271.466,
+    487.851
+   ],
+   "direction": "positive",
+   "evidence_paths": [
+    "docs/experiments/hurdle_equal_dose_source_calibration_multiseed_v1_results_20260723.md",
+    "docs/experiments/hurdle_equal_dose_source_calibration_v1_results_20260723.md",
+    "logs/train/hurdle_equal_dose_source_calibration_confirm_v1_20260723T151810Z/"
+   ],
+   "attribution_granularity": "single source vs student, whole 0-30k window",
+   "protocol_family": "EQD30K",
+   "independent_anchor_id": "hurdle|t0|s1,s2,s3",
+   "label_horizon_K": 30000,
+   "feature_materialized": true,
+   "feature_source": "docs/data/transfer_effect_label_inventory_t0_features_20260727.json",
+   "model_eligible": "eqd30k_pool",
+   "multi_seed_supported": true
+  },
+  {
+   "id": "EQD30K.hurdle.walk",
+   "grade": "A",
+   "target_task": "h1hand-hurdle-v0",
+   "identity_level": "source",
+   "identity": "walk",
+   "protocol": "EQD30K",
+   "stage_t": 0,
+   "K": 30000,
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "dose_nominal": {
+    "behavior": 0.5,
+    "replay": 0.5
+   },
+   "dose_actual_behavior": [
+    0.501,
+    0.501084,
+    0.49922
+   ],
+   "comparator": "student_only_scratch_same_checkout",
+   "effect_auc_mean": 68.351,
+   "effect_auc_ci90": [
+    55.477,
+    81.225
+   ],
+   "effect_endpoint_mean": 104.885,
+   "effect_endpoint_ci90": [
+    75.479,
+    134.291
+   ],
+   "direction": "positive",
+   "evidence_paths": [
+    "docs/experiments/hurdle_equal_dose_source_calibration_multiseed_v1_results_20260723.md",
+    "logs/train/hurdle_equal_dose_source_calibration_confirm_v1_20260723T151810Z/"
+   ],
+   "attribution_granularity": "single source vs student, whole 0-30k window",
+   "protocol_family": "EQD30K",
+   "independent_anchor_id": "hurdle|t0|s1,s2,s3",
+   "label_horizon_K": 30000,
+   "feature_materialized": true,
+   "feature_source": "docs/data/transfer_effect_label_inventory_t0_features_20260727.json",
+   "model_eligible": "eqd30k_pool",
+   "multi_seed_supported": true
+  },
+  {
+   "id": "EQD30K.hurdle.stand",
+   "grade": "A",
+   "target_task": "h1hand-hurdle-v0",
+   "identity_level": "source",
+   "identity": "stand",
+   "protocol": "EQD30K",
+   "stage_t": 0,
+   "K": 30000,
+   "seeds": [
+    1
+   ],
+   "dose_nominal": {
+    "behavior": 0.5,
+    "replay": 0.5
+   },
+   "dose_actual_behavior": [
+    0.5
+   ],
+   "comparator": "student_only_scratch_same_checkout",
+   "effect_auc_mean": 31.271,
+   "effect_endpoint_mean": 51.278,
+   "direction": "positive",
+   "single_seed": true,
+   "evidence_paths": [
+    "docs/experiments/hurdle_equal_dose_source_calibration_v1_results_20260723.md"
+   ],
+   "attribution_granularity": "single source vs student, whole 0-30k window",
+   "protocol_family": "EQD30K",
+   "independent_anchor_id": "hurdle|t0|s1",
+   "label_horizon_K": 30000,
+   "feature_materialized": true,
+   "feature_source": "docs/data/transfer_effect_label_inventory_t0_features_20260727.json",
+   "model_eligible": "eqd30k_pool",
+   "multi_seed_supported": false
+  },
+  {
+   "id": "EQD30K.crawl.stand",
+   "grade": "A",
+   "target_task": "h1hand-crawl-v0",
+   "identity_level": "source",
+   "identity": "stand",
+   "protocol": "EQD30K",
+   "stage_t": 0,
+   "K": 30000,
+   "seeds": [
+    1
+   ],
+   "dose_nominal": {
+    "behavior": 0.5,
+    "replay": 0.5
+   },
+   "dose_actual_behavior": [
+    0.5
+   ],
+   "comparator": "student_only_scratch_same_checkout",
+   "effect_auc_mean": -116.183,
+   "effect_endpoint_mean": -448.48,
+   "direction": "negative",
+   "single_seed": true,
+   "evidence_paths": [
+    "docs/experiments/crawl_equal_dose_source_calibration_v1_results_20260723.md",
+    "logs/train/crawl_equal_dose_source_calibration_v1_20260723T172024Z/"
+   ],
+   "attribution_granularity": "single source vs student, whole 0-30k window",
+   "protocol_family": "EQD30K",
+   "independent_anchor_id": "crawl|t0|s1",
+   "label_horizon_K": 30000,
+   "feature_materialized": true,
+   "feature_source": "docs/data/transfer_effect_label_inventory_t0_features_20260727.json",
+   "model_eligible": "eqd30k_pool",
+   "multi_seed_supported": false
+  },
+  {
+   "id": "EQD30K.crawl.walk",
+   "grade": "A",
+   "target_task": "h1hand-crawl-v0",
+   "identity_level": "source",
+   "identity": "walk",
+   "protocol": "EQD30K",
+   "stage_t": 0,
+   "K": 30000,
+   "seeds": [
+    1
+   ],
+   "dose_nominal": {
+    "behavior": 0.5,
+    "replay": 0.5
+   },
+   "dose_actual_behavior": [
+    0.5
+   ],
+   "comparator": "student_only_scratch_same_checkout",
+   "effect_auc_mean": -115.975,
+   "effect_endpoint_mean": -216.604,
+   "direction": "negative",
+   "single_seed": true,
+   "evidence_paths": [
+    "docs/experiments/crawl_equal_dose_source_calibration_v1_results_20260723.md",
+    "logs/train/crawl_equal_dose_source_calibration_v1_20260723T172024Z/"
+   ],
+   "attribution_granularity": "single source vs student, whole 0-30k window",
+   "protocol_family": "EQD30K",
+   "independent_anchor_id": "crawl|t0|s1",
+   "label_horizon_K": 30000,
+   "feature_materialized": true,
+   "feature_source": "docs/data/transfer_effect_label_inventory_t0_features_20260727.json",
+   "model_eligible": "eqd30k_pool",
+   "multi_seed_supported": false
+  },
+  {
+   "id": "EQD30K.crawl.run",
+   "grade": "A",
+   "target_task": "h1hand-crawl-v0",
+   "identity_level": "source",
+   "identity": "run",
+   "protocol": "EQD30K",
+   "stage_t": 0,
+   "K": 30000,
+   "seeds": [
+    1
+   ],
+   "dose_nominal": {
+    "behavior": 0.5,
+    "replay": 0.5
+   },
+   "dose_actual_behavior": [
+    0.5
+   ],
+   "comparator": "student_only_scratch_same_checkout",
+   "effect_auc_mean": -83.239,
+   "effect_endpoint_mean": -208.07,
+   "direction": "negative",
+   "single_seed": true,
+   "evidence_paths": [
+    "docs/experiments/crawl_equal_dose_source_calibration_v1_results_20260723.md",
+    "logs/train/crawl_equal_dose_source_calibration_v1_20260723T172024Z/"
+   ],
+   "attribution_granularity": "single source vs student, whole 0-30k window",
+   "protocol_family": "EQD30K",
+   "independent_anchor_id": "crawl|t0|s1",
+   "label_horizon_K": 30000,
+   "feature_materialized": true,
+   "feature_source": "docs/data/transfer_effect_label_inventory_t0_features_20260727.json",
+   "model_eligible": "eqd30k_pool",
+   "multi_seed_supported": false
+  },
+  {
+   "id": "STAGE10K.hurdle.s2.run",
+   "grade": "A",
+   "target_task": "h1hand-hurdle-v0",
+   "identity_level": "source",
+   "identity": "run",
+   "protocol": "STAGE10K",
+   "stage_t": 10000,
+   "K": 20000,
+   "seeds": [
+    2
+   ],
+   "dose_nominal": {
+    "behavior": 0.5,
+    "replay": 0.5
+   },
+   "execution_counts_stand_walk_run_student": [
+    0,
+    0,
+    638401,
+    3201599
+   ],
+   "comparator": "student_only_scratch_same_checkout",
+   "effect_window_nauc_10k_20k": 19.79,
+   "effect_auc_5k_25k": 42.975,
+   "effect_endpoint": 199.49,
+   "direction": "positive",
+   "single_seed": true,
+   "revocation": "exact abstention from 20k (run withdrawn, active replay zeroed)",
+   "decision_time_features_available": true,
+   "evidence_paths": [
+    "docs/experiments/stage_conditioned_target_evidence_online_v1_multiseed_results_20260727.md",
+    "logs/train/stage_target_evidence_online_v1_confirm_20260726T114555Z/",
+    "logs/train/stage_target_evidence_online_v1_confirm_retry_20260726T162834Z/quarantine/"
+   ],
+   "attribution_granularity": "single source over 10k-20k, then exact abstention",
+   "protocol_family": "STAGE10K",
+   "independent_anchor_id": "hurdle|t10k|s2",
+   "label_horizon_K": 10000,
+   "primary_label_U_K10k": 86.678,
+   "feature_materialized": true,
+   "feature_source": "logs/train/stage_target_evidence_online_v1*/quarantine/*/step_010000.json",
+   "model_eligible": "stage10k_pool",
+   "multi_seed_supported": false
+  },
+  {
+   "id": "STAGE10K.hurdle.s3.walk",
+   "grade": "A",
+   "target_task": "h1hand-hurdle-v0",
+   "identity_level": "source",
+   "identity": "walk",
+   "protocol": "STAGE10K",
+   "stage_t": 10000,
+   "K": 20000,
+   "seeds": [
+    3
+   ],
+   "dose_nominal": {
+    "behavior": 0.5,
+    "replay": 0.5
+   },
+   "execution_counts_stand_walk_run_student": [
+    0,
+    1274959,
+    0,
+    2565041
+   ],
+   "comparator": "student_only_scratch_same_checkout",
+   "effect_window_nauc_10k_20k": 9.92,
+   "effect_auc_5k_25k": 17.775,
+   "effect_endpoint": 67.96,
+   "direction": "positive",
+   "single_seed": true,
+   "revocation": "walk retained at 20k (same source throughout)",
+   "decision_time_features_available": true,
+   "evidence_paths": [
+    "docs/experiments/stage_conditioned_target_evidence_online_v1_multiseed_results_20260727.md",
+    "logs/train/stage_target_evidence_online_v1_confirm_retry_20260726T162834Z/"
+   ],
+   "attribution_granularity": "single source over 10k-30k",
+   "protocol_family": "STAGE10K",
+   "independent_anchor_id": "hurdle|t10k|s3",
+   "label_horizon_K": 10000,
+   "primary_label_U_K10k": 42.332,
+   "feature_materialized": true,
+   "feature_source": "logs/train/stage_target_evidence_online_v1*/quarantine/*/step_010000.json",
+   "model_eligible": "stage10k_pool",
+   "multi_seed_supported": false
+  },
+  {
+   "id": "STAGE10K.crawl.s3.run",
+   "grade": "A",
+   "target_task": "h1hand-crawl-v0",
+   "identity_level": "source",
+   "identity": "run",
+   "protocol": "STAGE10K",
+   "stage_t": 10000,
+   "K": 20000,
+   "seeds": [
+    3
+   ],
+   "dose_nominal": {
+    "behavior": 0.5,
+    "replay": 0.5
+   },
+   "execution_counts_stand_walk_run_student": [
+    0,
+    0,
+    638706,
+    3201294
+   ],
+   "comparator": "student_only_scratch_same_checkout",
+   "effect_window_nauc_10k_20k": -211.06,
+   "effect_auc_5k_25k": -156.992,
+   "effect_endpoint": -142.91,
+   "effect_endpoint_maxdx": -8.07,
+   "direction": "negative",
+   "single_seed": true,
+   "revocation": "exact abstention from 20k (run withdrawn, active replay zeroed)",
+   "decision_time_features_available": true,
+   "evidence_paths": [
+    "docs/experiments/stage_conditioned_target_evidence_online_v1_multiseed_results_20260727.md",
+    "logs/train/stage_target_evidence_online_v1_confirm_retry_20260726T162834Z/",
+    "docs/experiments/influence_gate_v1_results_20260727.md"
+   ],
+   "attribution_granularity": "single source over 10k-20k, then exact abstention",
+   "note": "decisive counterexample: positive target-semantic evidence at 10k, strong negative downstream effect",
+   "protocol_family": "STAGE10K",
+   "independent_anchor_id": "crawl|t10k|s3",
+   "label_horizon_K": 10000,
+   "primary_label_U_K10k": -104.036,
+   "feature_materialized": true,
+   "feature_source": "logs/train/stage_target_evidence_online_v1*/quarantine/*/step_010000.json",
+   "model_eligible": "stage10k_pool",
+   "multi_seed_supported": false
+  },
+  {
+   "id": "STAGE10K.hurdle.s1.walk_window",
+   "grade": "A",
+   "target_task": "h1hand-hurdle-v0",
+   "identity_level": "source",
+   "identity": "walk",
+   "protocol": "STAGE10K",
+   "stage_t": 10000,
+   "K": 10000,
+   "seeds": [
+    1
+   ],
+   "comparator": "student_only_scratch_same_checkout",
+   "effect_window_nauc_10k_20k": 8.48,
+   "direction": "positive",
+   "single_seed": true,
+   "window_only": false,
+   "decision_time_features_available": true,
+   "evidence_paths": [
+    "docs/experiments/stage_conditioned_target_evidence_online_v1_multiseed_results_20260727.md"
+   ],
+   "attribution_granularity": "single source over 10k-20k only; 30k endpoint is contaminated by the 20k switch to run and is recorded separately as a B cell",
+   "protocol_family": "STAGE10K",
+   "independent_anchor_id": "hurdle|t10k|s1",
+   "label_horizon_K": 10000,
+   "primary_label_U_K10k": 11.173,
+   "feature_materialized": true,
+   "feature_source": "logs/train/stage_target_evidence_online_v1*/quarantine/*/step_010000.json",
+   "model_eligible": "stage10k_pool",
+   "multi_seed_supported": false,
+   "note_v1_1": "with K=10k the label ends exactly at the 20k decision boundary, so the later switch to run no longer contaminates it; upgraded from window-only"
+  },
+  {
+   "id": "STAGE10K.hurdle.s1.sequence",
+   "grade": "B",
+   "target_task": "h1hand-hurdle-v0",
+   "identity_level": "sequence",
+   "identity": "walk(10k-20k) -> run(20k-30k)",
+   "protocol": "STAGE10K",
+   "stage_t": 10000,
+   "K": 20000,
+   "seeds": [
+    1
+   ],
+   "comparator": "student_only_scratch_same_checkout",
+   "effect_auc_5k_25k": 13.027,
+   "effect_endpoint": 89.71,
+   "direction": "positive",
+   "evidence_paths": [
+    "docs/experiments/stage_conditioned_target_evidence_online_v1_multiseed_results_20260727.md"
+   ],
+   "attribution_granularity": "two-source sequence; not attributable to a single source",
+   "protocol_family": "STAGE10K",
+   "independent_anchor_id": null,
+   "label_horizon_K": 20000,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": false
+  },
+  {
+   "id": "STAGE10K.crawl.s1_s2.abstain",
+   "grade": "B",
+   "target_task": "h1hand-crawl-v0",
+   "identity_level": "bank",
+   "identity": "exact abstention (no source admitted at 10k or 20k)",
+   "protocol": "STAGE10K",
+   "stage_t": 10000,
+   "seeds": [
+    1,
+    2
+   ],
+   "comparator": "student_only_scratch_same_checkout (s1 only)",
+   "direction": "null_by_construction",
+   "evidence_paths": [
+    "docs/experiments/stage_conditioned_target_evidence_online_v1_multiseed_results_20260727.md"
+   ],
+   "attribution_granularity": "verifies zero source exposure; contributes an abstention decision label, not a source effect label",
+   "protocol_family": "STAGE10K",
+   "independent_anchor_id": null,
+   "label_horizon_K": null,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": false
+  },
+  {
+   "id": "SAFE_WFIX.breadth.bank_vs_scratch",
+   "grade": "B",
+   "target_task": [
+    "h1hand-maze-v0",
+    "h1hand-truck-v0",
+    "h1hand-cabinet-v0",
+    "h1hand-door-v0",
+    "h1hand-spoon-v0"
+   ],
+   "identity_level": "bank",
+   "identity": "loco/multi-source bank (WFix or OBRW allocation)",
+   "protocol": "SAFE_WFIX",
+   "stage_t": 0,
+   "K": 95000,
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "comparator": "student_only_scratch",
+   "effects_95k_auc": {
+    "maze": {
+     "scratch": 267.7,
+     "wfix": 351.0,
+     "obrw": 341.7
+    },
+    "truck": {
+     "scratch": 1156.3,
+     "wfix": 1191.4,
+     "obrw": 1304.8
+    },
+    "cabinet": {
+     "scratch": 121.0,
+     "wfix": 235.3,
+     "obrw": 219.6
+    },
+    "door": {
+     "scratch": 295.0,
+     "wfix": 285.9,
+     "obrw": 295.8
+    },
+    "spoon": {
+     "scratch": 315.4,
+     "wfix": 346.9,
+     "obrw": 354.2
+    }
+   },
+   "direction": "mixed_positive",
+   "evidence_paths": [
+    "docs/archive/breadth_expansion_20260704.md",
+    "docs/EXPERIMENT_LOG.md"
+   ],
+   "attribution_granularity": "whole bank; per-source attribution not identified",
+   "protocol_family": "SAFE_WFIX",
+   "independent_anchor_id": null,
+   "label_horizon_K": 95000,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": true
+  },
+  {
+   "id": "SAFE_WFIX.std9.powerlift_basketball",
+   "grade": "B",
+   "target_task": [
+    "h1hand-powerlift-v0",
+    "h1hand-basketball-v0"
+   ],
+   "identity_level": "bank",
+   "identity": "WFix bank",
+   "protocol": "SAFE_WFIX",
+   "stage_t": 0,
+   "K": 95000,
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "comparator": "student_only_scratch",
+   "effects": {
+    "powerlift": {
+     "delta": 77.6,
+     "t": 14.78,
+     "sign_consistency": "3/3 positive"
+    },
+    "basketball": {
+     "delta": -101.5,
+     "t": -2.58,
+     "sign_consistency": "3/3 negative"
+    }
+   },
+   "direction": "powerlift positive, basketball negative",
+   "evidence_paths": [
+    "docs/EXPERIMENT_LOG.md"
+   ],
+   "attribution_granularity": "whole bank; basketball is the strongest bank-level negative label available",
+   "protocol_family": "SAFE_WFIX",
+   "independent_anchor_id": null,
+   "label_horizon_K": 95000,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": true
+  },
+  {
+   "id": "SAFE_WFIX.wfix_vs_random",
+   "grade": "B",
+   "target_task": [
+    "terrain family x4"
+   ],
+   "identity_level": "allocation_rule",
+   "identity": "WFix weighted allocation vs uniform random allocation",
+   "protocol": "SAFE_WFIX",
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "comparator": "random_allocation_bank (NOT student-only)",
+   "effect_auc_mean": 77.9,
+   "effect_sign_consistency": "11/12 task-seed cells positive, paired t=3.08",
+   "direction": "positive",
+   "evidence_paths": [
+    "docs/EXPERIMENT_LOG.md",
+    "docs/科研课题完整工作总结_20260727.md"
+   ],
+   "attribution_granularity": "allocation-rule contrast; comparator is a bank, so it does not instantiate U_i",
+   "protocol_family": "SAFE_WFIX",
+   "independent_anchor_id": null,
+   "label_horizon_K": null,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": true
+  },
+  {
+   "id": "ADMISSION_HANDOFF.powerlift_truck",
+   "grade": "B",
+   "target_task": [
+    "h1hand-powerlift-v0",
+    "h1hand-truck-v0"
+   ],
+   "identity_level": "lifecycle_rule",
+   "identity": "authority-coupled physical handoff vs fixed quota",
+   "stage_t": 0,
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "comparator": "fixed_quota arm and scratch",
+   "effects": {
+    "powerlift_fix_minus_fixed_35k_80k": 20.075,
+    "truck_fix_minus_scratch": {
+     "delta": 227.827,
+     "t": 4.741,
+     "sign_consistency": "3/3"
+    }
+   },
+   "direction": "positive",
+   "evidence_paths": [
+    "docs/archive/admission_handoff_v1_results.md"
+   ],
+   "attribution_granularity": "replay lifecycle rule; not a source-value label",
+   "protocol_family": "other",
+   "independent_anchor_id": null,
+   "label_horizon_K": null,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": true
+  },
+  {
+   "id": "PHASE1.bounded_bank_lease",
+   "grade": "B",
+   "target_task": [
+    "h1hand-basketball-v0",
+    "h1hand-truck-v0"
+   ],
+   "identity_level": "lifecycle_rule",
+   "identity": "hard-exit vs retention of post-30k replay tail",
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "comparator": "retention arm (NOT student-only)",
+   "effects": {
+    "basketball_delta_exit": {
+     "per_seed": [
+      1.875,
+      53.652,
+      -70.745
+     ],
+     "mean": -5.073,
+     "ci90": [
+      -73.101,
+      62.956
+     ],
+     "verdict": "HETEROGENEOUS"
+    },
+    "truck_delta_exit": {
+     "per_seed": [
+      -9.091,
+      49.796,
+      -112.674
+     ],
+     "mean": -23.99,
+     "ci90": [
+      -113.535,
+      65.556
+     ],
+     "verdict": "HETEROGENEOUS"
+    }
+   },
+   "direction": "heterogeneous",
+   "evidence_paths": [
+    "docs/phase1_bounded_bank_lease_results_20260720.md"
+   ],
+   "attribution_granularity": "replay-tail rule contrast; comparator is another intervention arm",
+   "protocol_family": "other",
+   "independent_anchor_id": null,
+   "label_horizon_K": null,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": true
+  },
+  {
+   "id": "STABILITY.cabinet.run_stand_vs_scratch",
+   "grade": "C",
+   "target_task": "h1hand-cabinet-v0",
+   "identity_level": "source",
+   "identity": [
+    "run",
+    "stand"
+   ],
+   "protocol": "SAFE_WFIX",
+   "stage_t": 0,
+   "K": [
+    10000,
+    30000,
+    100000
+   ],
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "comparator": "scratch (episode-paired)",
+   "effects_common_prefix_progress_delta": {
+    "run_30k": 0.5,
+    "run_100k": 0.4688,
+    "stand_30k": 0.05208,
+    "stand_100k": -0.05208
+   },
+   "direction": "run positive, stand weak/mixed; run > stand 3/3 same direction",
+   "downgrade_reasons": [
+    "documented validity correction: legacy env.unwrapped.seed did not seed HumanoidBench reset noise, so episode pairs are not exact same-state counterfactuals",
+    "SAFE_WFIX-era replay lifecycle (fixed quota, pre authority-handoff fix, repetition-divergence bug present)",
+    "evaluation protocol (episode-paired progress at 10k/30k/100k) differs from the frozen 32-episode source-free panel used by EQD30K",
+    "dose not audited to the EQD30K standard; a later dose-matched arm (run24) flipped direction to mixed"
+   ],
+   "evidence_paths": [
+    "docs/archive/stability_deconfounded_audit_p1_cabinet_s123_results.md",
+    "docs/archive/stability_deconfounded_audit_p1_cabinet_run_vs_stand_s123_results.md",
+    "docs/archive/stability_deconfounded_audit_p2_cabinet_run24_findings.md"
+   ],
+   "attribution_granularity": "source-level direction reference only; not protocol-comparable to EQD30K",
+   "protocol_family": "SAFE_WFIX",
+   "independent_anchor_id": null,
+   "label_horizon_K": [
+    10000,
+    30000,
+    100000
+   ],
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": true
+  },
+  {
+   "id": "CLASSIC_PTF.hurdle.fixed_walk_distillation",
+   "grade": "C",
+   "target_task": "h1hand-hurdle-v0",
+   "identity_level": "source",
+   "identity": "walk",
+   "protocol": "classic_ptf_distillation",
+   "stage_t": 0,
+   "K": 100000,
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "comparator": "student_only_scratch",
+   "effect_auc_5k_95k": 100.993,
+   "effect_endpoint": -9.9,
+   "direction": "positive AUC, neutral endpoint",
+   "downgrade_reasons": [
+    "different intervention channel: action distillation, not reward-bearing replay injection; project ruling states transferability is intervention-specific, so this label must not be merged with RBO labels"
+   ],
+   "evidence_paths": [
+    "docs/experiments/classic_ptf_hurdle_single_source_v1_results.md"
+   ],
+   "attribution_granularity": "single source via distillation channel",
+   "protocol_family": "classic_ptf_distillation",
+   "independent_anchor_id": null,
+   "label_horizon_K": 100000,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": true
+  },
+  {
+   "id": "TRANSFER_MAP.probe_scores",
+   "grade": "C",
+   "target_task": [
+    "multiple"
+   ],
+   "identity_level": "source",
+   "identity": [
+    "stand",
+    "walk",
+    "run",
+    "crawl",
+    "pole",
+    "slide",
+    "stair"
+   ],
+   "direction": "n/a",
+   "downgrade_reasons": [
+    "these are decision-time probe scores, not downstream outcomes",
+    "crawl entries used baseline=zero and had no task progress keys configured",
+    "must be treated as candidate input features, never as labels"
+   ],
+   "evidence_paths": [
+    "docs/archive/breadth_expansion_20260704.md",
+    "docs/archive/source_target_effect_map_v1.md"
+   ],
+   "attribution_granularity": "feature, not label",
+   "protocol_family": "other",
+   "independent_anchor_id": null,
+   "label_horizon_K": null,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": false
+  },
+  {
+   "id": "MCG.window_door_push",
+   "grade": "C",
+   "target_task": [
+    "h1hand-window-v0",
+    "h1hand-door-v0",
+    "h1hand-push-v0"
+   ],
+   "identity_level": "bank",
+   "identity": "MCG body-group gated transfer",
+   "direction": "window negative (-153, calibrated to -80), door/push approximately neutral",
+   "downgrade_reasons": [
+    "different intervention channel (modular action authority); effect sizes near noise; superseded protocol"
+   ],
+   "evidence_paths": [
+    "docs/EXPERIMENT_LOG.md"
+   ],
+   "attribution_granularity": "bank-level, different channel",
+   "protocol_family": "other",
+   "independent_anchor_id": null,
+   "label_horizon_K": null,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": false
+  },
+  {
+   "id": "ADAPTIVE_REVOCATION.v1",
+   "grade": "D",
+   "target_task": [
+    "h1hand-crawl-v0",
+    "h1hand-truck-v0",
+    "h1hand-powerlift-v0",
+    "h1hand-basketball-v0"
+   ],
+   "identity_level": "mechanism",
+   "identity": "segment-window UCB/LCB revocation",
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "exclusion_reasons": [
+    "comparator is another mechanism arm, not student-only",
+    "revocation timing varies per seed, so the realized intervention differs across units and no single (source, dose, window) is held fixed"
+   ],
+   "evidence_paths": [
+    "docs/archive/adaptive_admission_v1_results.md"
+   ],
+   "attribution_granularity": "mechanism contrast",
+   "protocol_family": "other",
+   "independent_anchor_id": null,
+   "label_horizon_K": null,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": true
+  },
+  {
+   "id": "SIV.2x2",
+   "grade": "D",
+   "target_task": [
+    "h1hand-cabinet-v0"
+   ],
+   "identity_level": "source",
+   "exclusion_reasons": [
+    "measurement failed its own detectability gate (all components below the 0.10 practical threshold)",
+    "outcome horizon too short to instantiate a future source-free J_sf"
+   ],
+   "evidence_paths": [
+    "docs/EXPERIMENT_LOG.md",
+    "docs/archive/paper_core_contribution_reconstruction_v2.md"
+   ],
+   "attribution_granularity": "failed measurement record",
+   "protocol_family": "other",
+   "independent_anchor_id": null,
+   "label_horizon_K": null,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": false
+  },
+  {
+   "id": "SHU.handoff",
+   "grade": "D",
+   "identity_level": "source",
+   "exclusion_reasons": [
+    "behavior-space outcome only; no downstream source-free learning outcome"
+   ],
+   "evidence_paths": [
+    "docs/EXPERIMENT_LOG.md"
+   ],
+   "attribution_granularity": "failed measurement record",
+   "protocol_family": "other",
+   "independent_anchor_id": null,
+   "label_horizon_K": null,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": false
+  },
+  {
+   "id": "P0.counterfactual_lease_oracle",
+   "grade": "D",
+   "target_task": [
+    "h1hand-crawl-v0",
+    "h1hand-truck-v0"
+   ],
+   "identity_level": "bank",
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "exclusion_reasons": [
+    "pre-registered verdict ENGINEERING_INVALID: truck cumulative critic source share 0.0773-0.0793 fell outside the required [0.08, 0.12] band",
+    "conditional analysis returned UNCERTAIN / UNCERTAIN_NUMERIC; delayed utility not measurable at L=3000 with 3 seeds",
+    "a pre-registered invalid verdict may not be overridden post hoc"
+   ],
+   "evidence_paths": [
+    "docs/run_card_p0_siv_v2_counterfactual_oracle.md",
+    "docs/p0_posthoc_engineering_sensitivity_20260718.md"
+   ],
+   "attribution_granularity": "invalidated bank-level lease",
+   "protocol_family": "other",
+   "independent_anchor_id": null,
+   "label_horizon_K": null,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": true
+  },
+  {
+   "id": "INFLUENCE_GATE.v1",
+   "grade": "D",
+   "target_task": [
+    "h1hand-hurdle-v0",
+    "h1hand-crawl-v0"
+   ],
+   "identity_level": "source",
+   "exclusion_reasons": [
+    "produces a decision-time proxy score, not a downstream outcome",
+    "verdict FAIL with rank inversion; family re-sealed 2026-07-27"
+   ],
+   "evidence_paths": [
+    "docs/experiments/influence_gate_v1_results_20260727.md",
+    "docs/data/influence_gate_v1/influence_gate_v1_results.json"
+   ],
+   "attribution_granularity": "failed proxy record; its four anchors are reusable assets",
+   "protocol_family": "other",
+   "independent_anchor_id": null,
+   "label_horizon_K": null,
+   "feature_materialized": false,
+   "model_eligible": false,
+   "multi_seed_supported": false
+  }
+ ],
+ "deployable_input_features": [
+  {
+   "name": "target_semantic_probe_full_statistics",
+   "content": "matched-state 25-step source vs student fork: delta target return and delta target-achievement progress, per-panel records, bootstrap LCB/UCB, feasibility intervals, hard-constraint flags",
+   "availability": "materialized for hurdle and crawl at t=10000 and t=20000, all online seeds",
+   "paths": [
+    "logs/train/stage_target_evidence_online_v1*/quarantine/*/step_0*.json"
+   ],
+   "leakage_risk": "none (computed strictly before injection)"
+  },
+  {
+   "name": "student_stage_descriptors",
+   "content": "global step, recent source-free deterministic eval returns and their slope prior to the decision point",
+   "availability": "materialized in training logs for all EQD30K and STAGE10K runs",
+   "paths": [
+    "logs/train/*/*.log"
+   ],
+   "leakage_risk": "must use only evals strictly before t"
+  },
+  {
+   "name": "critic_uncertainty_and_coverage",
+   "content": "twin-critic disagreement on source next-states vs student next-states, TD magnitude, state-coverage/novelty statistics",
+   "availability": "computable zero-training from a decision-point anchor plus a probe rollout; four such anchors already exist",
+   "paths": [
+    "artifacts/influence_gate_v1/anchors/hurdle_s1",
+    "artifacts/influence_gate_v1/anchors/hurdle_s2",
+    "artifacts/influence_gate_v1/anchors/hurdle_s3",
+    "artifacts/influence_gate_v1/anchors/crawl_s3"
+   ],
+   "leakage_risk": "none, but must not be re-named as a transferability metric on its own"
+  },
+  {
+   "name": "source_student_behavior_descriptors",
+   "content": "action distance distribution, masked compatibility, episode survival within the probe horizon, posture/contact component vectors",
+   "availability": "computable from existing probe artifacts and source checkpoints",
+   "paths": [
+    "configs/source_banks/calibration/h1hand_loco3_rbo_equal_h25.yaml",
+    "checkpoints/official_sources/"
+   ],
+   "leakage_risk": "none"
+  },
+  {
+   "name": "planned_intervention_descriptors",
+   "content": "planned behavior dose, replay dose, segment horizon, execution semantics, revocation policy",
+   "availability": "from configs; identical across the EQD30K family by design",
+   "paths": [
+    "configs/experiments/"
+   ],
+   "leakage_risk": "none; note that constant-by-design features carry no discriminative signal inside one protocol family"
+  },
+  {
+   "name": "task_context_descriptors",
+   "content": "target evidence contract semantics (what progress means, which constraints are necessary)",
+   "availability": "configs/target_evidence/*.yaml for hurdle and crawl",
+   "paths": [
+    "configs/target_evidence/"
+   ],
+   "leakage_risk": "MUST NOT include the raw task name; only structural/semantic descriptors are admissible"
+  }
+ ],
+ "forbidden_features": [
+  "target task name or any one-hot task identity",
+  "post-injection statistics of any kind",
+  "future AUC or endpoint of the run being predicted",
+  "T_critic sign, TD-error gate, KL/novelty gate as standalone admission rules"
+ ],
+ "counts": {
+  "A": 10,
+  "B": 7,
+  "C": 4,
+  "D": 5,
+  "A_cells_by_task": {
+   "h1hand-hurdle-v0": 6,
+   "h1hand-crawl-v0": 4
+  },
+  "A_tasks": 2,
+  "A_sources": [
+   "stand",
+   "walk",
+   "run"
+  ],
+  "A_stages": [
+   0,
+   10000
+  ]
+ },
+ "verdict": "READY_FOR_CABINET_GATE",
+ "revision_note": "v1.1 per PI 2026-07-27: t=0 features reconstructed (not absent); A-grade split into model_eligible subsets by protocol/horizon; counting switched to independent anchors; primary STAGE10K label horizon unified to K=10k.",
+ "primary_label_definition_v1": {
+  "stage10k": "U_i(t=10000, d=0.5, K=10000) = J_sf@20k(source arm) - J_sf@20k(student arm), from the online source-free deterministic eval at step 20000",
+  "rationale": "ends exactly at the 20k decision boundary, so a source switch at 20k cannot contaminate the label; rescues the hurdle s1 cell",
+  "secondary": "10k-20k window normalized AUC (robustness) and 30k frozen 32-episode endpoint (persistence, NOT the v1 supervised label)",
+  "eqd30k": "U_i(t=0, d=0.5, K=30000) = 30k frozen 32-episode source-free panel difference; different protocol family and horizon, kept separate"
+ },
+ "independent_unit_accounting": {
+  "rule": "an independent unit is one (target task, training seed, stage anchor); sources sharing an anchor share the learner and environment conditions and are NOT independent samples",
+  "t0_eqd30k": {
+   "anchors": 4,
+   "anchor_ids": [
+    "hurdle|t0|s1",
+    "hurdle|t0|s2",
+    "hurdle|t0|s3",
+    "crawl|t0|s1"
+   ],
+   "source_arm_runs": 10,
+   "source_cells": 6,
+   "arms_per_anchor": {
+    "hurdle|t0|s1": [
+     "stand",
+     "walk",
+     "run"
+    ],
+    "hurdle|t0|s2": [
+     "walk",
+     "run"
+    ],
+    "hurdle|t0|s3": [
+     "walk",
+     "run"
+    ],
+    "crawl|t0|s1": [
+     "stand",
+     "walk",
+     "run"
+    ]
+   }
+  },
+  "t10k_stage10k": {
+   "anchors": 4,
+   "anchor_ids": [
+    "hurdle|t10k|s1",
+    "hurdle|t10k|s2",
+    "hurdle|t10k|s3",
+    "crawl|t10k|s3"
+   ],
+   "source_arm_runs": 4,
+   "source_cells": 4,
+   "note": "each online anchor admitted exactly one source, so anchors and cells coincide"
+  },
+  "totals": {
+   "independent_anchors": 8,
+   "source_arm_runs": 14,
+   "tasks": 2
+  },
+  "within_task_source_heterogeneity": {
+   "hurdle_t0": {
+    "sign": "homogeneous positive",
+    "magnitude": "heterogeneous: stand +51.3 < walk +104.9 < run +379.7 (30k endpoint delta)"
+   },
+   "crawl_t0": {
+    "sign": "homogeneous negative",
+    "magnitude": "heterogeneous: stand -448.5 < walk -216.6 < run -208.1"
+   },
+   "conclusion": "no target task currently contains both a helpful and a harmful source"
+  },
+  "label_sign_task_collinearity": {
+   "t0_pool": "perfect: all 3 hurdle cells positive, all 3 crawl cells negative",
+   "t10k_pool": "perfect: all 3 hurdle cells positive, the single crawl cell negative",
+   "implication": "label sign is fully predictable from task identity, so any learned separation on the current pool cannot be distinguished from task-context memorisation"
+  }
+ },
+ "t0_feature_reconstruction": {
+  "status": "RECONSTRUCTED",
+  "artifact": "docs/data/transfer_effect_label_inventory_t0_features_20260727.json",
+  "script": "scripts/analysis/t0_feature_reconstruction_v1.py",
+  "determinism": {
+   "same_seed_bitwise_identical": true,
+   "different_seed_differs": true
+  },
+  "student_at_t0": {
+   "action_l2_mean_range": [
+    0.0475,
+    0.0607
+   ],
+   "note": "the t=0 student is operationally close to a no-op policy for every seed, so a matched student baseline at t=0 is numerically close to the zero-action baseline that previously misled the crawl probe; this is measured, not assumed"
+  },
+  "admission_rule_replay": {
+   "cells_that_would_be_admitted": 6,
+   "cells_with_positive_label": 3,
+   "false_admissions": [
+    "EQD30K.crawl.stand",
+    "EQD30K.crawl.walk",
+    "EQD30K.crawl.run"
+   ],
+   "note": "all six t=0 cells have positive dR and dP lower bounds, so the current feasibility layer admits every one of them; the three crawl cells are hard negatives and are retained as supervision"
+  },
+  "within_task_ranking": {
+   "hurdle": "t=0 dP orders run > walk > stand in 3/3 seeds, matching the RBO label order",
+   "crawl": "t=0 dP orders walk > run > stand; stand is correctly identified as the most harmful, walk and run are swapped"
+  },
+  "between_task_separation": {
+   "dP_lcb90_hurdle_range": [
+    0.1345,
+    0.4016
+   ],
+   "dP_lcb90_crawl_range": [
+    0.0369,
+    0.052
+   ],
+   "warning": "the gap is perfectly collinear with task identity on two tasks and must NOT be read as a discovered threshold"
+  }
+ },
+ "cabinet_prerequisites": {
+  "target_evidence_contract": {
+   "status": "MISSING",
+   "required": "configs/target_evidence/humanoidbench_cabinet_v1.yaml",
+   "basis": "cabinet exposes door_openness_reward and subtask_complete in info; contract must define achievement progress and any necessary constraints",
+   "boundary": "task contract config, not a core-algorithm task branch"
+  },
+  "source_bank": {
+   "status": "ADAPTER_CHANGE_REQUIRED",
+   "reason": "cabinet observation dim is 213, so the calibration bank identity adapter (output_dim 151) does not apply",
+   "proven_pattern": "configs/source_banks/h1hand_loco_sources_cabinet.yaml uses hb_robot_qpos_qvel with qpos_dim 109 and output_dim 151",
+   "record_as": "necessary observation adapter difference; must be recorded per cell, it is not an intervention-protocol difference"
+  }
+ }
+}

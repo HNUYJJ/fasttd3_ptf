@@ -1,0 +1,216 @@
+{
+  "analysis_type": "posthoc_economics_audit",
+  "inputs": {
+    "speedup": "docs/data/hurdle_speedup_v1/hurdle_speedup_v1_results.json",
+    "racing": "docs/data/racing_min_horizon_v1/correct_lr/results.json",
+    "racing_verdict": "RACING_VIABLE",
+    "racing_K_star": 10000
+  },
+  "units": {
+    "reported_training_step": "vector step",
+    "num_envs": 128,
+    "environment_transitions_per_vector_step": 128,
+    "K_vector_steps": 10000,
+    "K_environment_transitions_per_arm": 1280000
+  },
+  "threshold_audit": {
+    "200": {
+      "per_seed": [
+        {
+          "seed": 1,
+          "first": {
+            "scratch": 82303.1999382607,
+            "source": 18780.965892342247,
+            "benefit": 63522.234045918456,
+            "scratch_censored": false,
+            "source_censored": false
+          },
+          "sustained_observed_checkpoints": {
+            "scratch": 82303.1999382607,
+            "source": 55065.30207989969,
+            "benefit_upper_if_censored": 27237.897858361015,
+            "scratch_censored": false,
+            "source_censored": false
+          }
+        },
+        {
+          "seed": 2,
+          "first": {
+            "scratch": 76230.76059475746,
+            "source": 16602.206575051736,
+            "benefit": 59628.55401970573,
+            "scratch_censored": false,
+            "source_censored": false
+          },
+          "sustained_observed_checkpoints": {
+            "scratch": 76230.76059475746,
+            "source": 100000.0,
+            "benefit_upper_if_censored": -23769.239405242537,
+            "scratch_censored": false,
+            "source_censored": true
+          }
+        },
+        {
+          "seed": 3,
+          "first": {
+            "scratch": 71261.17814006357,
+            "source": 17556.603141529256,
+            "benefit": 53704.57499853431,
+            "scratch_censored": false,
+            "source_censored": false
+          },
+          "sustained_observed_checkpoints": {
+            "scratch": 71261.17814006357,
+            "source": 17556.603141529256,
+            "benefit_upper_if_censored": 53704.57499853431,
+            "scratch_censored": false,
+            "source_censored": false
+          }
+        }
+      ],
+      "median_first_benefit_vector_steps": 59628.55401970573,
+      "median_sustained_benefit_vector_steps_upper_if_censored": 27237.897858361015
+    },
+    "300": {
+      "per_seed": [
+        {
+          "seed": 1,
+          "first": {
+            "scratch": 94135.12209979128,
+            "source": 27114.82800460969,
+            "benefit": 67020.29409518158,
+            "scratch_censored": false,
+            "source_censored": false
+          },
+          "sustained_observed_checkpoints": {
+            "scratch": 94135.12209979128,
+            "source": 60992.20321923192,
+            "benefit_upper_if_censored": 33142.91888055936,
+            "scratch_censored": false,
+            "source_censored": false
+          }
+        },
+        {
+          "seed": 2,
+          "first": {
+            "scratch": 91824.44015275135,
+            "source": 22402.757450959736,
+            "benefit": 69421.68270179162,
+            "scratch_censored": false,
+            "source_censored": false
+          },
+          "sustained_observed_checkpoints": {
+            "scratch": 91824.44015275135,
+            "source": 100000.0,
+            "benefit_upper_if_censored": -8175.559847248645,
+            "scratch_censored": false,
+            "source_censored": true
+          }
+        },
+        {
+          "seed": 3,
+          "first": {
+            "scratch": 82868.79215382705,
+            "source": 23054.454166712378,
+            "benefit": 59814.33798711467,
+            "scratch_censored": false,
+            "source_censored": false
+          },
+          "sustained_observed_checkpoints": {
+            "scratch": 82868.79215382705,
+            "source": 23054.454166712378,
+            "benefit_upper_if_censored": 59814.33798711467,
+            "scratch_censored": false,
+            "source_censored": false
+          }
+        }
+      ],
+      "median_first_benefit_vector_steps": 67020.29409518158,
+      "median_sustained_benefit_vector_steps_upper_if_censored": 33142.91888055936
+    }
+  },
+  "selection_evaluation_cost": {
+    "lower": 1.0,
+    "upper": 1000.0,
+    "exact_observable": false,
+    "reason": "p0_evaluator records episode_steps cap but not realized episode length"
+  },
+  "cost_scenarios": {
+    "identity_screen_then_restart_selected_source": {
+      "meaning": "all source pilots are discarded; a fresh selected-source learner is trained",
+      "race_overhead_vector_steps_without_eval": 30000,
+      "selection_eval_vector_steps_equivalent": {
+        "lower": 3.0,
+        "upper": 3000.0
+      }
+    },
+    "winner_state_continuation_source_only": {
+      "meaning": "three source branches race and the realized winning learner state continues",
+      "race_overhead_vector_steps_without_eval": 20000,
+      "selection_eval_vector_steps_equivalent": {
+        "lower": 3.0,
+        "upper": 3000.0
+      },
+      "evidence_status": "not executed; existing racing branches were not faithfully continued"
+    },
+    "winner_state_continuation_with_student_abstention_arm": {
+      "meaning": "three source branches plus one student branch race; winner continues",
+      "race_overhead_vector_steps_without_eval": 30000,
+      "selection_eval_vector_steps_equivalent": {
+        "lower": 4.0,
+        "upper": 4000.0
+      },
+      "evidence_status": "not executed; no full-state winner continuation or matched scratch population"
+    }
+  },
+  "scratch_population_descriptive": {
+    "population_size": 3,
+    "return_at_K": {
+      "1": 3.447905103143966,
+      "2": 12.90675719041029,
+      "3": 3.9759777066927082
+    },
+    "selected_seed_at_K": 2,
+    "selected_seed_thresholds": {
+      "200": {
+        "vector_steps": 76230.76059475746,
+        "censored": false
+      },
+      "300": {
+        "vector_steps": 91824.44015275135,
+        "censored": false
+      }
+    },
+    "hindsight_fastest_seed_thresholds": {
+      "200": {
+        "seed": 3,
+        "vector_steps": 71261.17814006357,
+        "censored": false
+      },
+      "300": {
+        "seed": 3,
+        "vector_steps": 82868.79215382705,
+        "censored": false
+      }
+    },
+    "status": "descriptive_only",
+    "limitations": [
+      "different learner initializations, not same-anchor paired branches",
+      "only three full scratch curves; a 3-source plus student portfolio requires four candidates",
+      "source racing winners were not continued, so no matched end-to-end portfolio comparison exists"
+    ]
+  },
+  "verdict": "END_TO_END_ECONOMICS_NOT_IDENTIFIED",
+  "why_not_identified": [
+    "the existing source racing branches were evaluated but not faithfully continued",
+    "the available long-horizon run arm is an independent source-identity validation, not the realized racing winner",
+    "no equal-candidate same-anchor scratch population with winner continuation exists",
+    "realized evaluation episode lengths were not recorded, so selection interaction cost is bounded rather than exact"
+  ],
+  "bounded_conclusions": [
+    "evaluation cost was omitted from prior arithmetic, but its per-arm maximum is 1000 vector-step equivalents, not 128000 vector steps",
+    "first-crossing savings overstate deployment-stable savings when the source arm later falls below threshold",
+    "with a student abstention arm, the no-evaluation racing overhead is 30000 vector steps for three sources",
+    "a new experiment must continue the realized winner and include a same-candidate-count scratch population before claiming net portfolio benefit"
+  ]
+}

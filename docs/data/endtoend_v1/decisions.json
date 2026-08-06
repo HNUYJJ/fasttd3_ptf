@@ -1,0 +1,80 @@
+{
+  "source": "docs/data/racing_admission_v1/results.json",
+  "upstream_verdict": "ADMISSION_VIABLE",
+  "rule": "admit = ∃i U_i > 2·SE_i ; source = argmax_i U_i ; exit at 30k",
+  "racing_cost_steps_per_run": 40000,
+  "decisions": {
+    "crawl|s1": {
+      "admit": false,
+      "source": null,
+      "exit_step": null,
+      "U": -44.061,
+      "SE": null,
+      "racing_cost_steps": 40000
+    },
+    "crawl|s2": {
+      "admit": false,
+      "source": null,
+      "exit_step": null,
+      "U": -181.8631,
+      "SE": null,
+      "racing_cost_steps": 40000
+    },
+    "crawl|s3": {
+      "admit": false,
+      "source": null,
+      "exit_step": null,
+      "U": -60.3091,
+      "SE": null,
+      "racing_cost_steps": 40000
+    },
+    "hurdle|s1": {
+      "admit": true,
+      "source": "run",
+      "exit_step": 30000,
+      "U": 102.1943,
+      "SE": 3.8233,
+      "racing_cost_steps": 40000
+    },
+    "hurdle|s2": {
+      "admit": true,
+      "source": "run",
+      "exit_step": 30000,
+      "U": 110.512,
+      "SE": 3.7001,
+      "racing_cost_steps": 40000
+    },
+    "hurdle|s3": {
+      "admit": true,
+      "source": "run",
+      "exit_step": 30000,
+      "U": 81.156,
+      "SE": 4.4069,
+      "racing_cost_steps": 40000
+    },
+    "slide|s1": {
+      "admit": true,
+      "source": "walk",
+      "exit_step": 30000,
+      "U": 48.595,
+      "SE": 1.7681,
+      "racing_cost_steps": 40000
+    },
+    "slide|s2": {
+      "admit": true,
+      "source": "walk",
+      "exit_step": 30000,
+      "U": 73.5012,
+      "SE": 2.2898,
+      "racing_cost_steps": 40000
+    },
+    "slide|s3": {
+      "admit": true,
+      "source": "walk",
+      "exit_step": 30000,
+      "U": 75.8329,
+      "SE": 1.8597,
+      "racing_cost_steps": 40000
+    }
+  }
+}

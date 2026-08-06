@@ -1,0 +1,296 @@
+{
+  "prereg": "docs/experiments/slide_speedup_v1_prereg_20260731.md",
+  "threshold_source": "preregistered r@end fractions; theta=250,375,500",
+  "dose": {
+    "walk_s1_execution_counts": 0.4788,
+    "walk_s1_critic_sample_counts": 0.5,
+    "walk_s2_execution_counts": 0.4766,
+    "walk_s2_critic_sample_counts": 0.5,
+    "walk_s3_execution_counts": 0.4774,
+    "walk_s3_critic_sample_counts": 0.5
+  },
+  "curves": {
+    "scratch": {
+      "1": [
+        [
+          10000,
+          26.565755856191643
+        ],
+        [
+          20000,
+          49.273728729067685
+        ],
+        [
+          30000,
+          86.34597929115309
+        ],
+        [
+          50000,
+          259.1348633339537
+        ],
+        [
+          75000,
+          486.41042845343605
+        ],
+        [
+          100000,
+          912.9145603882382
+        ]
+      ],
+      "2": [
+        [
+          10000,
+          37.29784046258308
+        ],
+        [
+          20000,
+          41.054090679976554
+        ],
+        [
+          30000,
+          55.722344987228155
+        ],
+        [
+          50000,
+          274.5931190644867
+        ],
+        [
+          75000,
+          317.98266838340453
+        ],
+        [
+          100000,
+          601.4365953505031
+        ]
+      ],
+      "3": [
+        [
+          10000,
+          31.744455407121336
+        ],
+        [
+          20000,
+          45.28329942057201
+        ],
+        [
+          30000,
+          103.3643275243108
+        ],
+        [
+          50000,
+          364.3463795772436
+        ],
+        [
+          75000,
+          915.5867795637394
+        ],
+        [
+          100000,
+          862.8653462659554
+        ]
+      ]
+    },
+    "walk": {
+      "1": [
+        [
+          10000,
+          111.96298234182201
+        ],
+        [
+          20000,
+          152.2262447976468
+        ],
+        [
+          30000,
+          234.39802364183913
+        ],
+        [
+          50000,
+          246.773593526522
+        ],
+        [
+          75000,
+          257.53516139112264
+        ],
+        [
+          100000,
+          279.7977857658748
+        ]
+      ],
+      "2": [
+        [
+          10000,
+          119.26111294870913
+        ],
+        [
+          20000,
+          201.18397522617474
+        ],
+        [
+          30000,
+          223.53629325330832
+        ],
+        [
+          50000,
+          272.1330156140391
+        ],
+        [
+          75000,
+          283.3263081710902
+        ],
+        [
+          100000,
+          311.44862233779827
+        ]
+      ],
+      "3": [
+        [
+          10000,
+          122.49837707324627
+        ],
+        [
+          20000,
+          221.71516364633135
+        ],
+        [
+          30000,
+          248.0674698902837
+        ],
+        [
+          50000,
+          248.38649744258197
+        ],
+        [
+          75000,
+          280.6664680260069
+        ],
+        [
+          100000,
+          288.789401602724
+        ]
+      ]
+    }
+  },
+  "thresholds": {
+    "250": {
+      "per_seed": [
+        {
+          "seed": 1,
+          "steps_scratch": 48943,
+          "steps_walk": 57495,
+          "speedup": 0.851,
+          "censored": {
+            "scratch": false,
+            "walk": false
+          }
+        },
+        {
+          "seed": 2,
+          "steps_scratch": 47753,
+          "steps_walk": 40891,
+          "speedup": 1.168,
+          "censored": {
+            "scratch": false,
+            "walk": false
+          }
+        },
+        {
+          "seed": 3,
+          "steps_scratch": 41237,
+          "steps_walk": 51250,
+          "speedup": 0.805,
+          "censored": {
+            "scratch": false,
+            "walk": false
+          }
+        }
+      ],
+      "speedup_median": 0.851,
+      "speedup_mean": 0.941,
+      "all_seeds_ge_1.5": false,
+      "pass": false
+    },
+    "375": {
+      "per_seed": [
+        {
+          "seed": 1,
+          "steps_scratch": 62745,
+          "steps_walk": 100000,
+          "speedup": 0.627,
+          "censored": {
+            "scratch": false,
+            "walk": true
+          }
+        },
+        {
+          "seed": 2,
+          "steps_scratch": 80029,
+          "steps_walk": 100000,
+          "speedup": 0.8,
+          "censored": {
+            "scratch": false,
+            "walk": true
+          }
+        },
+        {
+          "seed": 3,
+          "steps_scratch": 50483,
+          "steps_walk": 100000,
+          "speedup": 0.505,
+          "censored": {
+            "scratch": false,
+            "walk": true
+          }
+        }
+      ],
+      "speedup_median": 0.627,
+      "speedup_mean": 0.644,
+      "all_seeds_ge_1.5": false,
+      "pass": false
+    },
+    "500": {
+      "per_seed": [
+        {
+          "seed": 1,
+          "steps_scratch": 75797,
+          "steps_walk": 100000,
+          "speedup": 0.758,
+          "censored": {
+            "scratch": false,
+            "walk": true
+          }
+        },
+        {
+          "seed": 2,
+          "steps_scratch": 91054,
+          "steps_walk": 100000,
+          "speedup": 0.911,
+          "censored": {
+            "scratch": false,
+            "walk": true
+          }
+        },
+        {
+          "seed": 3,
+          "steps_scratch": 56152,
+          "steps_walk": 100000,
+          "speedup": 0.562,
+          "censored": {
+            "scratch": false,
+            "walk": true
+          }
+        }
+      ],
+      "speedup_median": 0.758,
+      "speedup_mean": 0.743,
+      "all_seeds_ge_1.5": false,
+      "pass": false
+    }
+  },
+  "endpoint_100k": {
+    "scratch": 792.406,
+    "walk": 293.345
+  },
+  "scratch_overtook_walk": true,
+  "verdict": "SPEEDUP_REFUTED"
+}

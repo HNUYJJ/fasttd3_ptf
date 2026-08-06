@@ -1,0 +1,201 @@
+{
+ "rows": [
+  {
+   "target": "h1hand-hurdle-v0",
+   "component": "move",
+   "truth_rank": [
+    "run",
+    "walk"
+   ],
+   "P1_return": {
+    "rank": [
+     "run",
+     "walk"
+    ],
+    "full": true,
+    "worst": true
+   },
+   "P2_per_step": {
+    "rank": [
+     "run",
+     "walk"
+    ],
+    "full": true,
+    "worst": true
+   },
+   "P3_progress": {
+    "rank": [
+     "run",
+     "walk"
+    ],
+    "full": true,
+    "worst": true
+   },
+   "P4_BAC": {
+    "rank": [
+     "run",
+     "walk"
+    ],
+    "full": true,
+    "worst": true
+   }
+  },
+  {
+   "target": "h1hand-crawl-v0",
+   "component": "move",
+   "truth_rank": [
+    "run",
+    "walk",
+    "stand"
+   ],
+   "P1_return": {
+    "rank": [
+     "stand",
+     "walk",
+     "run"
+    ],
+    "full": false,
+    "worst": false
+   },
+   "P2_per_step": {
+    "rank": [
+     "stand",
+     "walk",
+     "run"
+    ],
+    "full": false,
+    "worst": false
+   },
+   "P3_progress": {
+    "rank": [
+     "run",
+     "walk",
+     "stand"
+    ],
+    "full": true,
+    "worst": true
+   },
+   "P4_BAC": {
+    "rank": [
+     "walk",
+     "run",
+     "stand"
+    ],
+    "full": false,
+    "worst": true
+   }
+  },
+  {
+   "target": "h1hand-door-v0",
+   "component": "door_openness_reward",
+   "truth_rank": [
+    "walk",
+    "run",
+    "stand"
+   ],
+   "P1_return": {
+    "rank": [
+     "run",
+     "stand",
+     "walk"
+    ],
+    "full": false,
+    "worst": false
+   },
+   "P2_per_step": {
+    "rank": [
+     "run",
+     "walk",
+     "stand"
+    ],
+    "full": false,
+    "worst": true
+   },
+   "P3_progress": {
+    "rank": [
+     "walk",
+     "stand",
+     "run"
+    ],
+    "full": false,
+    "worst": false
+   },
+   "P4_BAC": {
+    "rank": [
+     "run",
+     "stand",
+     "walk"
+    ],
+    "full": false,
+    "worst": false
+   }
+  },
+  {
+   "target": "h1hand-slide-v0",
+   "component": "move",
+   "truth_rank": [
+    "walk",
+    "run",
+    "stand"
+   ],
+   "P1_return": {
+    "rank": [
+     "stand",
+     "walk",
+     "run"
+    ],
+    "full": false,
+    "worst": false
+   },
+   "P2_per_step": {
+    "rank": [
+     "walk",
+     "run",
+     "stand"
+    ],
+    "full": true,
+    "worst": true
+   },
+   "P3_progress": {
+    "rank": [
+     "run",
+     "walk",
+     "stand"
+    ],
+    "full": false,
+    "worst": true
+   },
+   "P4_BAC": {
+    "rank": [
+     "walk",
+     "run",
+     "stand"
+    ],
+    "full": true,
+    "worst": true
+   }
+  }
+ ],
+ "score": {
+  "P1_return": {
+   "full": 1,
+   "worst": 1,
+   "n": 4
+  },
+  "P2_per_step": {
+   "full": 2,
+   "worst": 3,
+   "n": 4
+  },
+  "P3_progress": {
+   "full": 2,
+   "worst": 3,
+   "n": 4
+  },
+  "P4_BAC": {
+   "full": 2,
+   "worst": 3,
+   "n": 4
+  }
+ }
+}

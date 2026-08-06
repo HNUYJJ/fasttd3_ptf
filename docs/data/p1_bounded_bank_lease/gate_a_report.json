@@ -1,0 +1,49 @@
+{
+  "actor_index_draws": 12800,
+  "bank": "configs/source_banks/h1hand_std9_wfix_basketball.yaml",
+  "bank_sha256": "02ffb1ffd35b391972e6a9e52fc9c1139190d2c1af83d420d5d9a2a0da3a9555",
+  "candidate_masses": [
+    0.2134484499692917,
+    0.021187162026762962,
+    0.06226475164294243,
+    0.024714631959795952,
+    0.013810033909976482,
+    0.10441730916500092,
+    0.013810033909976482,
+    0.03253757581114769,
+    0.013810033909976482,
+    0.5
+  ],
+  "claim": "Before step 30000, static all and schedule step-0 admit-all produce the same admission, MCG behavior, provenance, and replay sampling trace.",
+  "critic_index_draws": 12800,
+  "dynamic_trace_steps": 100,
+  "forced_done_steps": [
+    37,
+    74
+  ],
+  "gate": "phase1_gate_a_basketball_all_vs_schedule_step0_all",
+  "git_head": "5a60e98af1aa8fdde84ed54a91391b53a0642054",
+  "num_envs": 8,
+  "schema_version": 1,
+  "segment_boundaries_crossed": 4,
+  "source_names": [
+    "stand",
+    "walk",
+    "run",
+    "hurdle",
+    "stair",
+    "slide",
+    "crawl",
+    "pole",
+    "reach"
+  ],
+  "static_steps_checked": [
+    0,
+    25,
+    29999,
+    30000
+  ],
+  "status": "PASS",
+  "student_logit": 3.5892126423877646,
+  "transition_trace_sha256": "cf8893410d048159433363e8374d4b41983bb9e65d123becd8e61df198e1bcea"
+}

@@ -1,0 +1,1080 @@
+{
+  "protocol": {
+    "eval_seeds": [
+      11,
+      23,
+      37,
+      53,
+      71,
+      89,
+      103,
+      113,
+      131,
+      149,
+      163,
+      179,
+      193,
+      211,
+      227,
+      241
+    ],
+    "ranks": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "compat_subpanel_episodes": 32,
+    "episode_steps": 1000,
+    "deterministic": true,
+    "source_free": "structural (no bank/option/admission components constructed)"
+  },
+  "checkpoint": {
+    "path": "/home/yjj/fasttd3_ptf/models/h1hand-hurdle-v0__hspd_source_s1__1_20000.pt",
+    "sha256": "2827490c3bca6af200b7ac63b77faa5e21f4148040de2277f04d1c5f4fe1fb54",
+    "global_step": 20000,
+    "identity_checked": true
+  },
+  "env_name": "h1hand-hurdle-v0",
+  "git_head": "d66cee1a1f773d21ba7db1becd4156b04573beec",
+  "utc": "2026-07-30T10:46:22.925170+00:00",
+  "episodes": [
+    {
+      "seed": 11000,
+      "return": 148.7459561726568,
+      "progress_max_dx": 17.692095015974175,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 11001,
+      "return": 415.1096161846002,
+      "progress_max_dx": 48.03967098659806,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 11002,
+      "return": 353.66583637732015,
+      "progress_max_dx": 39.764882898992816,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 11003,
+      "return": 192.69150317318943,
+      "progress_max_dx": 22.027342787349674,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 11004,
+      "return": 105.6918285389063,
+      "progress_max_dx": 11.847162191498164,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 11005,
+      "return": 144.75005858806836,
+      "progress_max_dx": 16.71723802380431,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 11006,
+      "return": 140.87964128237448,
+      "progress_max_dx": 23.061079789001713,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 11007,
+      "return": 185.69102575088826,
+      "progress_max_dx": 23.099857494223823,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 23000,
+      "return": 399.1757517073236,
+      "progress_max_dx": 46.0393339699115,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 23001,
+      "return": 107.0824214044028,
+      "progress_max_dx": 13.189220979895953,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 23002,
+      "return": 294.2958334764662,
+      "progress_max_dx": 30.97138966714711,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 23003,
+      "return": 235.49272829953424,
+      "progress_max_dx": 22.196592623634107,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 23004,
+      "return": 357.9342299385014,
+      "progress_max_dx": 38.40515468809292,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 23005,
+      "return": 196.29119654053787,
+      "progress_max_dx": 23.45595584389905,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 23006,
+      "return": 367.8160278743566,
+      "progress_max_dx": 38.99250651491535,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 23007,
+      "return": 149.99771257173362,
+      "progress_max_dx": 16.09798557259185,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 37000,
+      "return": 278.0541067240433,
+      "progress_max_dx": 38.50404970596503,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 37001,
+      "return": 121.8780537769999,
+      "progress_max_dx": 16.544406310428098,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 37002,
+      "return": 330.0337280351197,
+      "progress_max_dx": 32.9117356640116,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 37003,
+      "return": 231.8882014527828,
+      "progress_max_dx": 23.618484466492202,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 37004,
+      "return": 221.59141240986435,
+      "progress_max_dx": 25.014488012401433,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 37005,
+      "return": 299.84501955156327,
+      "progress_max_dx": 32.16732045790091,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 37006,
+      "return": 138.56011530247486,
+      "progress_max_dx": 16.491924980598778,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 37007,
+      "return": 125.70198630739912,
+      "progress_max_dx": 18.295163536150735,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 53000,
+      "return": 123.04460560874263,
+      "progress_max_dx": 17.941143873378746,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 53001,
+      "return": 105.44889747522821,
+      "progress_max_dx": 13.401257492154278,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 53002,
+      "return": 157.56477430886602,
+      "progress_max_dx": 20.627944516489126,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 53003,
+      "return": 202.84123249949786,
+      "progress_max_dx": 22.278950842321432,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 53004,
+      "return": 130.47132607694854,
+      "progress_max_dx": 16.858201913105866,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 53005,
+      "return": 338.2123197236376,
+      "progress_max_dx": 41.30563570979623,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 53006,
+      "return": 140.88853338328397,
+      "progress_max_dx": 16.754755191633937,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 53007,
+      "return": 227.76967884401972,
+      "progress_max_dx": 26.26970243137776,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 71000,
+      "return": 296.73551649056964,
+      "progress_max_dx": 34.80558161255561,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 71001,
+      "return": 70.7578834899216,
+      "progress_max_dx": 10.302349492550292,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 71002,
+      "return": 321.69039400718896,
+      "progress_max_dx": 36.1083356119903,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 71003,
+      "return": 215.51087842021354,
+      "progress_max_dx": 23.613696741916495,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 71004,
+      "return": 243.02226096048489,
+      "progress_max_dx": 26.928533125560875,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 71005,
+      "return": 283.1765572308792,
+      "progress_max_dx": 31.953842405922828,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 71006,
+      "return": 162.29739045453485,
+      "progress_max_dx": 18.928260363184766,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 71007,
+      "return": 296.1526197072027,
+      "progress_max_dx": 29.656586809228298,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 89000,
+      "return": 89.74631545149228,
+      "progress_max_dx": 11.041483289233916,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 89001,
+      "return": 217.07122112355805,
+      "progress_max_dx": 22.604926125461436,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 89002,
+      "return": 324.3059862158198,
+      "progress_max_dx": 32.09122436100425,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 89003,
+      "return": 267.9601447414459,
+      "progress_max_dx": 30.106274379555316,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 89004,
+      "return": 81.60182632254799,
+      "progress_max_dx": 13.453558814086364,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 89005,
+      "return": 176.96971519382933,
+      "progress_max_dx": 22.66789994690778,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 89006,
+      "return": 129.58311681382114,
+      "progress_max_dx": 15.7466888958834,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 89007,
+      "return": 100.83436294970141,
+      "progress_max_dx": 11.55252879666248,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 103000,
+      "return": 181.08875368099933,
+      "progress_max_dx": 23.00339607750597,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 103001,
+      "return": 59.05686404336246,
+      "progress_max_dx": 8.823654609815542,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 103002,
+      "return": 274.1205333413342,
+      "progress_max_dx": 38.32576009220562,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 103003,
+      "return": 214.6971474366948,
+      "progress_max_dx": 21.500565811763927,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 103004,
+      "return": 226.13004967368272,
+      "progress_max_dx": 21.410478611930696,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 103005,
+      "return": 380.667299304327,
+      "progress_max_dx": 37.84039575745769,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 103006,
+      "return": 303.77241263773277,
+      "progress_max_dx": 33.04488335444126,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 103007,
+      "return": 340.77868494976065,
+      "progress_max_dx": 37.454962049495954,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 113000,
+      "return": 75.31021085486638,
+      "progress_max_dx": 9.426464689717028,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 113001,
+      "return": 258.10540544655896,
+      "progress_max_dx": 27.455083293400453,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 113002,
+      "return": 124.96941868532345,
+      "progress_max_dx": 14.20793374948004,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 113003,
+      "return": 105.79684997438828,
+      "progress_max_dx": 11.890619579220235,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 113004,
+      "return": 280.3029615298621,
+      "progress_max_dx": 29.533223352934755,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 113005,
+      "return": 310.6387654740265,
+      "progress_max_dx": 32.41630993059301,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 113006,
+      "return": 278.0024278024538,
+      "progress_max_dx": 29.448198285921396,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 113007,
+      "return": 80.59623036861939,
+      "progress_max_dx": 8.866159694459554,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 131000,
+      "return": 214.38059933639315,
+      "progress_max_dx": 24.64627284462777,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 131001,
+      "return": 241.69914141775624,
+      "progress_max_dx": 25.089549187971002,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 131002,
+      "return": 431.8384065228535,
+      "progress_max_dx": 45.664959862123666,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 131003,
+      "return": 233.55566828749272,
+      "progress_max_dx": 27.906413036141196,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 131004,
+      "return": 94.64188396450233,
+      "progress_max_dx": 12.628320316633491,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 131005,
+      "return": 64.73664182215103,
+      "progress_max_dx": 8.966704681113166,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 131006,
+      "return": 287.255880552927,
+      "progress_max_dx": 27.960100709400777,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 131007,
+      "return": 135.44104445059492,
+      "progress_max_dx": 16.737016476064554,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 149000,
+      "return": 335.96871626151636,
+      "progress_max_dx": 36.11142238956965,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 149001,
+      "return": 123.06352674367713,
+      "progress_max_dx": 9.883281445514369,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 149002,
+      "return": 246.20156754261814,
+      "progress_max_dx": 26.61525505497508,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 149003,
+      "return": 147.22136917827956,
+      "progress_max_dx": 19.542745850387867,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 149004,
+      "return": 195.12231434503377,
+      "progress_max_dx": 25.128494424848817,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 149005,
+      "return": 169.4389202722701,
+      "progress_max_dx": 19.799483829056427,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 149006,
+      "return": 342.36878803246765,
+      "progress_max_dx": 38.16897899081506,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 149007,
+      "return": 145.5279775621544,
+      "progress_max_dx": 16.910795920779538,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 163000,
+      "return": 151.87981055936567,
+      "progress_max_dx": 16.76446811186217,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 163001,
+      "return": 184.63426556745796,
+      "progress_max_dx": 22.68375657016804,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 163002,
+      "return": 485.3656746663989,
+      "progress_max_dx": 54.93281025322759,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 163003,
+      "return": 164.21575656608422,
+      "progress_max_dx": 21.158419590101822,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 163004,
+      "return": 126.86838563368852,
+      "progress_max_dx": 16.608350488197942,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 163005,
+      "return": 98.95000746625517,
+      "progress_max_dx": 17.898877184174697,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 163006,
+      "return": 153.27540865338878,
+      "progress_max_dx": 22.69298050419491,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 163007,
+      "return": 56.07586355593504,
+      "progress_max_dx": 9.088475630700481,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 179000,
+      "return": 205.22754702422088,
+      "progress_max_dx": 22.97636280759215,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 179001,
+      "return": 399.3040042856383,
+      "progress_max_dx": 48.51749333482555,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 179002,
+      "return": 111.94129507075999,
+      "progress_max_dx": 13.32850020049889,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 179003,
+      "return": 302.44823035464015,
+      "progress_max_dx": 33.356668013603226,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 179004,
+      "return": 225.38038854851416,
+      "progress_max_dx": 29.18995888793603,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 179005,
+      "return": 96.06369939369755,
+      "progress_max_dx": 13.949564136809625,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 179006,
+      "return": 153.7774779316776,
+      "progress_max_dx": 17.78487682055842,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 179007,
+      "return": 322.1588410763754,
+      "progress_max_dx": 34.267930618378294,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 193000,
+      "return": 192.04969191837583,
+      "progress_max_dx": 22.793909248736465,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 193001,
+      "return": 325.7420005523317,
+      "progress_max_dx": 35.92036556079713,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 193002,
+      "return": 172.8226604852621,
+      "progress_max_dx": 17.083485976694828,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 193003,
+      "return": 485.43597157261894,
+      "progress_max_dx": 51.428687583964106,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 193004,
+      "return": 82.89117840569448,
+      "progress_max_dx": 10.210026452462316,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 193005,
+      "return": 142.86373249439453,
+      "progress_max_dx": 16.200330247572385,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 193006,
+      "return": 447.18925812046206,
+      "progress_max_dx": 48.699986610132605,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 193007,
+      "return": 337.7702947937182,
+      "progress_max_dx": 36.979685102683675,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 211000,
+      "return": 44.766713180618005,
+      "progress_max_dx": 5.997074916089688,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 211001,
+      "return": 229.11393797240274,
+      "progress_max_dx": 30.216457715884424,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 211002,
+      "return": 174.18636685983807,
+      "progress_max_dx": 23.296171077350444,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 211003,
+      "return": 368.37563249945663,
+      "progress_max_dx": 41.561147455151065,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 211004,
+      "return": 244.77694376178576,
+      "progress_max_dx": 34.31586275212835,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 211005,
+      "return": 112.22495827955352,
+      "progress_max_dx": 12.548728231043581,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 211006,
+      "return": 148.91101222567204,
+      "progress_max_dx": 17.09180331986574,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 211007,
+      "return": 331.08525322677656,
+      "progress_max_dx": 37.10319736531951,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 227000,
+      "return": 362.31495961748385,
+      "progress_max_dx": 40.84455031726565,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 227001,
+      "return": 154.9453368557343,
+      "progress_max_dx": 28.180835882519585,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 227002,
+      "return": 365.6007243311336,
+      "progress_max_dx": 38.578143861311524,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 227003,
+      "return": 408.53084906665225,
+      "progress_max_dx": 44.02650165850233,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 227004,
+      "return": 356.4328737018408,
+      "progress_max_dx": 37.21981142104762,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 227005,
+      "return": 285.3648004344271,
+      "progress_max_dx": 29.040433481011924,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 227006,
+      "return": 183.40569713722476,
+      "progress_max_dx": 23.51200177431732,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 227007,
+      "return": 204.61639154042712,
+      "progress_max_dx": 22.421589105376,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 241000,
+      "return": 125.21910590174042,
+      "progress_max_dx": 16.394146453839795,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 241001,
+      "return": 141.6908613214757,
+      "progress_max_dx": 18.822413065369986,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 241002,
+      "return": 466.7518535470014,
+      "progress_max_dx": 54.900431962880745,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 241003,
+      "return": 146.7667228980644,
+      "progress_max_dx": 19.361348152163604,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 241004,
+      "return": 207.40987370071488,
+      "progress_max_dx": 22.425861354468594,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    },
+    {
+      "seed": 241005,
+      "return": 153.16216687622207,
+      "progress_max_dx": 18.19039099585053,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 241006,
+      "return": 138.9220752219504,
+      "progress_max_dx": 16.400091808615453,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": true
+    },
+    {
+      "seed": 241007,
+      "return": 209.55932376441734,
+      "progress_max_dx": 26.88862571739827,
+      "posture_mean": null,
+      "package_reward_mean": null,
+      "terminated_success": false
+    }
+  ],
+  "aggregate": {
+    "return_mean": 219.82409288320935,
+    "return_std": 104.69941125000673,
+    "progress_max_dx_mean": 25.33129592706603,
+    "posture_mean": null,
+    "package_reward_mean": null,
+    "success_count": 58,
+    "episode_count": 128
+  }
+}

@@ -1,0 +1,193 @@
+{
+ "created_utc": "2026-07-27T09:13:54.413439+00:00",
+ "experiment": "cabinet_at10k_gate_v1",
+ "label": "U_i(t=10k,K=10k) = J_sf@20k(source) - J_sf@20k(student), paired by seed",
+ "evaluator": "frozen source-free panel, 4 eval seeds x 8 ranks = 32 episodes",
+ "interval_rule": "90% t interval over 3 paired seeds (df=2)",
+ "arms": {
+  "student": {
+   "1": 42.926222114285636,
+   "2": 33.83870647109567,
+   "3": 18.164442738152747
+  },
+  "stand": {
+   "1": 35.31126661523917,
+   "2": 27.338884171804274,
+   "3": 24.12835097127968
+  },
+  "walk": {
+   "1": 100.61728579927896,
+   "2": 29.25863242108916,
+   "3": 13.750750933917644
+  },
+  "run": {
+   "1": 19.29415820682361,
+   "2": 71.11124771169567,
+   "3": 41.43851577370204
+  }
+ },
+ "sources": {
+  "stand": {
+   "per_seed_return": {
+    "1": 35.31126661523917,
+    "2": 27.338884171804274,
+    "3": 24.12835097127968
+   },
+   "per_seed_U": {
+    "1": -7.6149554990464665,
+    "2": -6.499822299291395,
+    "3": 5.963908233126933
+   },
+   "U_mean": -2.7169565217369764,
+   "U_sd": 7.538497209820922,
+   "U_lo90": -15.425767497445499,
+   "U_hi90": 9.991854453971545,
+   "classification": "uncertain",
+   "treatment_audit": {
+    "1": {
+     "checkpoint": "h1hand-cabinet-v0__cabinet_at10k_stand_s1__1_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.49853515625,
+     "critic_source_share": 0.49903890075683593,
+     "active_buffer_counts": [
+      638125,
+      1921875
+     ],
+     "sampling_phase": "authority_quota"
+    },
+    "2": {
+     "checkpoint": "h1hand-cabinet-v0__cabinet_at10k_stand_s2__2_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.50017578125,
+     "critic_source_share": 0.49885519409179685,
+     "active_buffer_counts": [
+      640225,
+      1919775
+     ],
+     "sampling_phase": "authority_quota"
+    },
+    "3": {
+     "checkpoint": "h1hand-cabinet-v0__cabinet_at10k_stand_s3__3_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.49904296875,
+     "critic_source_share": 0.49875228118896486,
+     "active_buffer_counts": [
+      638775,
+      1921225
+     ],
+     "sampling_phase": "authority_quota"
+    }
+   }
+  },
+  "walk": {
+   "per_seed_return": {
+    "1": 100.61728579927896,
+    "2": 29.25863242108916,
+    "3": 13.750750933917644
+   },
+   "per_seed_U": {
+    "1": 57.691063684993324,
+    "2": -4.580074050006509,
+    "3": -4.413691804235103
+   },
+   "U_mean": 16.23243261025057,
+   "U_sd": 35.90432409483078,
+   "U_lo90": -44.29704102772148,
+   "U_hi90": 76.76190624822262,
+   "classification": "uncertain",
+   "treatment_audit": {
+    "1": {
+     "checkpoint": "h1hand-cabinet-v0__cabinet_at10k_walk_s1__1_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.49853515625,
+     "critic_source_share": 0.49903890075683593,
+     "active_buffer_counts": [
+      638125,
+      1921875
+     ],
+     "sampling_phase": "authority_quota"
+    },
+    "2": {
+     "checkpoint": "h1hand-cabinet-v0__cabinet_at10k_walk_s2__2_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.50017578125,
+     "critic_source_share": 0.49885519409179685,
+     "active_buffer_counts": [
+      640225,
+      1919775
+     ],
+     "sampling_phase": "authority_quota"
+    },
+    "3": {
+     "checkpoint": "h1hand-cabinet-v0__cabinet_at10k_walk_s3__3_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.49904296875,
+     "critic_source_share": 0.49875228118896486,
+     "active_buffer_counts": [
+      638775,
+      1921225
+     ],
+     "sampling_phase": "authority_quota"
+    }
+   }
+  },
+  "run": {
+   "per_seed_return": {
+    "1": 19.29415820682361,
+    "2": 71.11124771169567,
+    "3": 41.43851577370204
+   },
+   "per_seed_U": {
+    "1": -23.632063907462026,
+    "2": 37.2725412406,
+    "3": 23.274073035549296
+   },
+   "U_mean": 12.304850122895758,
+   "U_sd": 31.899617874528662,
+   "U_lo90": -41.47327069892624,
+   "U_hi90": 66.08297094471776,
+   "classification": "uncertain",
+   "treatment_audit": {
+    "1": {
+     "checkpoint": "h1hand-cabinet-v0__cabinet_at10k_run_s1__1_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.49853515625,
+     "critic_source_share": 0.49903890075683593,
+     "active_buffer_counts": [
+      638125,
+      1921875
+     ],
+     "sampling_phase": "authority_quota"
+    },
+    "2": {
+     "checkpoint": "h1hand-cabinet-v0__cabinet_at10k_run_s2__2_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.50017578125,
+     "critic_source_share": 0.49885519409179685,
+     "active_buffer_counts": [
+      640225,
+      1919775
+     ],
+     "sampling_phase": "authority_quota"
+    },
+    "3": {
+     "checkpoint": "h1hand-cabinet-v0__cabinet_at10k_run_s3__3_20000.pt",
+     "global_step": 20000,
+     "behavior_source_share": 0.49904296875,
+     "critic_source_share": 0.49875228118896486,
+     "active_buffer_counts": [
+      638775,
+      1921225
+     ],
+     "sampling_phase": "authority_quota"
+    }
+   }
+  }
+ },
+ "classifications": {
+  "stand": "uncertain",
+  "walk": "uncertain",
+  "run": "uncertain"
+ },
+ "verdict": "CABINET_UNCERTAIN"
+}

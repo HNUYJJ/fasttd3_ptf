@@ -1,0 +1,779 @@
+{
+  "epsilon": {
+    "formula": "eps(N) = sqrt(ln(2M/alpha) / (2N))  [Hoeffding two-sided]",
+    "M_comparisons": 24,
+    "alpha": 0.001,
+    "N_min_interval_critic_samples": 655360000,
+    "N_derivation": "new-arm min interval 10000 steps x num_updates 2 x batch 32768; historical-arm min interval was 1966080000 (recorded for reference only, NOT used for eps)",
+    "N_historical_min_reference": 1966080000,
+    "eps_raw": 9.068456879241901e-05,
+    "eps_frozen": 0.001,
+    "note": "statistical sampling tolerance only; NOT an engineering margin"
+  },
+  "ckpt_schedule": {
+    "historical_arms": [
+      "30000",
+      "60000",
+      "90000",
+      "final"
+    ],
+    "new_arms": [
+      "30000",
+      "60000",
+      "80000",
+      "90000",
+      "100000"
+    ],
+    "note": "historical basketball/truck retention have no 80k checkpoint; 80k asserted only on new arms"
+  },
+  "hard_exit_asserts": {
+    "post_30k_source_execution_increment": 0,
+    "post_30k_source_critic_increment": 0,
+    "60k_80k_main_source_gt0_active_source_eq0": true,
+    "90k_100k_no_main_source_requirement": "physical data already covered to zero by 81.2k"
+  },
+  "per_task": {
+    "basketball": {
+      "num_sources": 9,
+      "behavior_source_share_30k": {
+        "min": 0.48962091888603715,
+        "max": 0.49100889345355153,
+        "mean": 0.490340686560448
+      },
+      "critic_source_share_30k": {
+        "min": 0.4973353997434366,
+        "max": 0.4974487421710557,
+        "mean": 0.49739656905220575
+      },
+      "q_physical_share": {
+        "30000": {
+          "min": 0.48962091888603715,
+          "max": 0.49100889345355153,
+          "mean": 0.490340686560448
+        },
+        "60000": {
+          "min": 0.20103164672851562,
+          "max": 0.20222320556640624,
+          "mean": 0.20172999064127606
+        },
+        "90000": {
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0
+        },
+        "final": {
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0
+        },
+        "80000": "NA (historical arms have no 80k checkpoint)"
+      },
+      "r_interval_critic_share": {
+        "30_60": {
+          "min": 0.33327831471761066,
+          "max": 0.3342404820760091,
+          "mean": 0.3337955796983507
+        },
+        "60_90": {
+          "min": 0.0705558822631836,
+          "max": 0.07125281270345052,
+          "mean": 0.0708789031982422
+        }
+      },
+      "active_equals_main_all_ckpts": true,
+      "envelope_exceedance_observed_max": 0.0,
+      "candidate_masses_identical_across_all_ckpts_and_seeds": true,
+      "candidate_masses": [
+        0.2134484499692917,
+        0.021187162026762962,
+        0.06226474791765213,
+        0.024714631959795952,
+        0.013810033909976482,
+        0.10441730916500092,
+        0.013810033909976482,
+        0.03253757581114769,
+        0.013810033909976482,
+        0.5
+      ],
+      "dose_band_engineering_risk_budget": {
+        "note": "historical min/max ± 0.02; a pre-registered ENGINEERING RISK BUDGET, not a mechanism-simulation derivation",
+        "behavior_source_share_30k": [
+          0.4696,
+          0.511
+        ],
+        "critic_source_share_30k": [
+          0.4773,
+          0.5174
+        ]
+      }
+    },
+    "truck": {
+      "num_sources": 4,
+      "behavior_source_share_30k": {
+        "min": 0.4994875170827639,
+        "max": 0.5010252262424586,
+        "mean": 0.5001932227259092
+      },
+      "critic_source_share_30k": {
+        "min": 0.4990586507554927,
+        "max": 0.4991791626261488,
+        "mean": 0.49911741753001876
+      },
+      "q_physical_share": {
+        "30000": {
+          "min": 0.4994875170827639,
+          "max": 0.5010252262424586,
+          "mean": 0.5001932227259092
+        },
+        "60000": {
+          "min": 0.20663970947265625,
+          "max": 0.20758514404296874,
+          "mean": 0.20710789998372395
+        },
+        "90000": {
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0
+        },
+        "final": {
+          "min": 0.0,
+          "max": 0.0,
+          "mean": 0.0
+        },
+        "80000": "NA (historical arms have no 80k checkpoint)"
+      },
+      "r_interval_critic_share": {
+        "30_60": {
+          "min": 0.34022969767252603,
+          "max": 0.34135704091389973,
+          "mean": 0.34074931352403426
+        },
+        "60_90": {
+          "min": 0.07294168904622396,
+          "max": 0.07333655751546224,
+          "mean": 0.07312085673014324
+        }
+      },
+      "active_equals_main_all_ckpts": true,
+      "envelope_exceedance_observed_max": 0.0,
+      "candidate_masses_identical_across_all_ckpts_and_seeds": true,
+      "candidate_masses": [
+        6.068438960937783e-05,
+        0.12321507930755615,
+        0.10057777166366577,
+        0.2761465013027191,
+        0.5
+      ],
+      "dose_band_engineering_risk_budget": {
+        "note": "historical min/max ± 0.02; a pre-registered ENGINEERING RISK BUDGET, not a mechanism-simulation derivation",
+        "behavior_source_share_30k": [
+          0.4795,
+          0.521
+        ],
+        "critic_source_share_30k": [
+          0.4791,
+          0.5192
+        ]
+      }
+    }
+  },
+  "input_identities": [
+    {
+      "path": "models/h1hand-basketball-v0__h1hand_basketball_adaptive_admission_v1_static_s1_20260714T110054Z__1_30000.pt",
+      "sha256": "870e6f4482f6b12f0681d4de55e494b5aa22ab56fc329c5e145adf0e3a48695f",
+      "env_name": "h1hand-basketball-v0",
+      "seed": 1,
+      "global_step": 30000,
+      "source_bank": "configs/source_banks/h1hand_std9_wfix_basketball.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 3.5892126423877646,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": false
+      },
+      "candidate_masses": [
+        0.2134484499692917,
+        0.021187162026762962,
+        0.06226474791765213,
+        0.024714631959795952,
+        0.013810033909976482,
+        0.10441730916500092,
+        0.013810033909976482,
+        0.03253757581114769,
+        0.013810033909976482,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-basketball-v0__h1hand_basketball_adaptive_admission_v1_static_s1_20260714T110054Z__1_60000.pt",
+      "sha256": "f91eb0ba903f29ad9c14cc81e9fe4310955cdf4bcb401e56515bdedc1c8d7ca1",
+      "env_name": "h1hand-basketball-v0",
+      "seed": 1,
+      "global_step": 60000,
+      "source_bank": "configs/source_banks/h1hand_std9_wfix_basketball.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 3.5892126423877646,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": false
+      },
+      "candidate_masses": [
+        0.2134484499692917,
+        0.021187162026762962,
+        0.06226474791765213,
+        0.024714631959795952,
+        0.013810033909976482,
+        0.10441730916500092,
+        0.013810033909976482,
+        0.03253757581114769,
+        0.013810033909976482,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-basketball-v0__h1hand_basketball_adaptive_admission_v1_static_s1_20260714T110054Z__1_90000.pt",
+      "sha256": "a13b8bedffe136669d4f2e5a2e843bbc928065609d6ac570f497c8f54ebc3ea5",
+      "env_name": "h1hand-basketball-v0",
+      "seed": 1,
+      "global_step": 90000,
+      "source_bank": "configs/source_banks/h1hand_std9_wfix_basketball.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 3.5892126423877646,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": false
+      },
+      "candidate_masses": [
+        0.2134484499692917,
+        0.021187162026762962,
+        0.06226474791765213,
+        0.024714631959795952,
+        0.013810033909976482,
+        0.10441730916500092,
+        0.013810033909976482,
+        0.03253757581114769,
+        0.013810033909976482,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-basketball-v0__h1hand_basketball_adaptive_admission_v1_static_s1_20260714T110054Z__1_final.pt",
+      "sha256": "90a7825efeeb4c662fd1fcc045316dcf5122af83ecd6482780e36c0a5f9b7f33",
+      "env_name": "h1hand-basketball-v0",
+      "seed": 1,
+      "global_step": 100000,
+      "source_bank": "configs/source_banks/h1hand_std9_wfix_basketball.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 3.5892126423877646,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": false
+      },
+      "candidate_masses": [
+        0.2134484499692917,
+        0.021187162026762962,
+        0.06226474791765213,
+        0.024714631959795952,
+        0.013810033909976482,
+        0.10441730916500092,
+        0.013810033909976482,
+        0.03253757581114769,
+        0.013810033909976482,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-basketball-v0__h1hand_basketball_adaptive_admission_v1_static_s2_20260714T110054Z__2_30000.pt",
+      "sha256": "cbae7db513d3d5143fa7360dea187f754a4ff4304e86a531871b0427a7d34900",
+      "env_name": "h1hand-basketball-v0",
+      "seed": 2,
+      "global_step": 30000,
+      "source_bank": "configs/source_banks/h1hand_std9_wfix_basketball.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 3.5892126423877646,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": false
+      },
+      "candidate_masses": [
+        0.2134484499692917,
+        0.021187162026762962,
+        0.06226474791765213,
+        0.024714631959795952,
+        0.013810033909976482,
+        0.10441730916500092,
+        0.013810033909976482,
+        0.03253757581114769,
+        0.013810033909976482,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-basketball-v0__h1hand_basketball_adaptive_admission_v1_static_s2_20260714T110054Z__2_60000.pt",
+      "sha256": "7e3a2226b6b439fe2e39aa3c045c1fa999d4db11eee660f487553ffa88a2df88",
+      "env_name": "h1hand-basketball-v0",
+      "seed": 2,
+      "global_step": 60000,
+      "source_bank": "configs/source_banks/h1hand_std9_wfix_basketball.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 3.5892126423877646,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": false
+      },
+      "candidate_masses": [
+        0.2134484499692917,
+        0.021187162026762962,
+        0.06226474791765213,
+        0.024714631959795952,
+        0.013810033909976482,
+        0.10441730916500092,
+        0.013810033909976482,
+        0.03253757581114769,
+        0.013810033909976482,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-basketball-v0__h1hand_basketball_adaptive_admission_v1_static_s2_20260714T110054Z__2_90000.pt",
+      "sha256": "fc6f8dff0b7822bffc15bb3183017249681067d3ef7728d2b47f60ceefd3ef9b",
+      "env_name": "h1hand-basketball-v0",
+      "seed": 2,
+      "global_step": 90000,
+      "source_bank": "configs/source_banks/h1hand_std9_wfix_basketball.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 3.5892126423877646,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": false
+      },
+      "candidate_masses": [
+        0.2134484499692917,
+        0.021187162026762962,
+        0.06226474791765213,
+        0.024714631959795952,
+        0.013810033909976482,
+        0.10441730916500092,
+        0.013810033909976482,
+        0.03253757581114769,
+        0.013810033909976482,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-basketball-v0__h1hand_basketball_adaptive_admission_v1_static_s2_20260714T110054Z__2_final.pt",
+      "sha256": "6360718bed7eb48515c5709b87ed39df51645a762c2e49f745943e9fdecac9d2",
+      "env_name": "h1hand-basketball-v0",
+      "seed": 2,
+      "global_step": 100000,
+      "source_bank": "configs/source_banks/h1hand_std9_wfix_basketball.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 3.5892126423877646,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": false
+      },
+      "candidate_masses": [
+        0.2134484499692917,
+        0.021187162026762962,
+        0.06226474791765213,
+        0.024714631959795952,
+        0.013810033909976482,
+        0.10441730916500092,
+        0.013810033909976482,
+        0.03253757581114769,
+        0.013810033909976482,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-basketball-v0__h1hand_basketball_adaptive_admission_v1_static_s3_20260714T110054Z__3_30000.pt",
+      "sha256": "060b922b9062e587fecd5ba4c921d50e4273a233bd91547bfd59db4a475143ea",
+      "env_name": "h1hand-basketball-v0",
+      "seed": 3,
+      "global_step": 30000,
+      "source_bank": "configs/source_banks/h1hand_std9_wfix_basketball.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 3.5892126423877646,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": false
+      },
+      "candidate_masses": [
+        0.2134484499692917,
+        0.021187162026762962,
+        0.06226474791765213,
+        0.024714631959795952,
+        0.013810033909976482,
+        0.10441730916500092,
+        0.013810033909976482,
+        0.03253757581114769,
+        0.013810033909976482,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-basketball-v0__h1hand_basketball_adaptive_admission_v1_static_s3_20260714T110054Z__3_60000.pt",
+      "sha256": "f9e104af140c1144af1ba4b1dab273b08fa20bf8c5efc3195b0ede538b86e5f6",
+      "env_name": "h1hand-basketball-v0",
+      "seed": 3,
+      "global_step": 60000,
+      "source_bank": "configs/source_banks/h1hand_std9_wfix_basketball.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 3.5892126423877646,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": false
+      },
+      "candidate_masses": [
+        0.2134484499692917,
+        0.021187162026762962,
+        0.06226474791765213,
+        0.024714631959795952,
+        0.013810033909976482,
+        0.10441730916500092,
+        0.013810033909976482,
+        0.03253757581114769,
+        0.013810033909976482,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-basketball-v0__h1hand_basketball_adaptive_admission_v1_static_s3_20260714T110054Z__3_90000.pt",
+      "sha256": "2f22a99b0de6f3dc79df16d9d0e4d5bdeaa9a276bed40495bc83434ca45273c9",
+      "env_name": "h1hand-basketball-v0",
+      "seed": 3,
+      "global_step": 90000,
+      "source_bank": "configs/source_banks/h1hand_std9_wfix_basketball.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 3.5892126423877646,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": false
+      },
+      "candidate_masses": [
+        0.2134484499692917,
+        0.021187162026762962,
+        0.06226474791765213,
+        0.024714631959795952,
+        0.013810033909976482,
+        0.10441730916500092,
+        0.013810033909976482,
+        0.03253757581114769,
+        0.013810033909976482,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-basketball-v0__h1hand_basketball_adaptive_admission_v1_static_s3_20260714T110054Z__3_final.pt",
+      "sha256": "9ccf0120b5323800eedd4016dbb81fc9b2a99211bd669818685562a97690619d",
+      "env_name": "h1hand-basketball-v0",
+      "seed": 3,
+      "global_step": 100000,
+      "source_bank": "configs/source_banks/h1hand_std9_wfix_basketball.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 3.5892126423877646,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": false
+      },
+      "candidate_masses": [
+        0.2134484499692917,
+        0.021187162026762962,
+        0.06226474791765213,
+        0.024714631959795952,
+        0.013810033909976482,
+        0.10441730916500092,
+        0.013810033909976482,
+        0.03253757581114769,
+        0.013810033909976482,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-truck-v0__h1hand_truck_admission_handoff_v1_all_s1_20260713THANDOFFV1Z__1_30000.pt",
+      "sha256": "acddbcc268106a7a14714cf3bc7b138a9f6c1af495c2060b723368a21d4b9710",
+      "env_name": "h1hand-truck-v0",
+      "seed": 1,
+      "global_step": 30000,
+      "source_bank": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 14.216676716804526,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": "absent (field did not exist in this implementation vintage)"
+      },
+      "candidate_masses": [
+        6.068438960937783e-05,
+        0.12321507930755615,
+        0.10057777166366577,
+        0.2761465013027191,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-truck-v0__h1hand_truck_admission_handoff_v1_all_s1_20260713THANDOFFV1Z__1_60000.pt",
+      "sha256": "e9547b07910238015329a54fe586bd015cfb4862482dc21ad798d0628921fd27",
+      "env_name": "h1hand-truck-v0",
+      "seed": 1,
+      "global_step": 60000,
+      "source_bank": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 14.216676716804526,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": "absent (field did not exist in this implementation vintage)"
+      },
+      "candidate_masses": [
+        6.068438960937783e-05,
+        0.12321507930755615,
+        0.10057777166366577,
+        0.2761465013027191,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-truck-v0__h1hand_truck_admission_handoff_v1_all_s1_20260713THANDOFFV1Z__1_90000.pt",
+      "sha256": "c876083b2e5cbeb11bc98eb69a7a60f186907b111f6d128f324b1a9f7073e2f9",
+      "env_name": "h1hand-truck-v0",
+      "seed": 1,
+      "global_step": 90000,
+      "source_bank": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 14.216676716804526,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": "absent (field did not exist in this implementation vintage)"
+      },
+      "candidate_masses": [
+        6.068438960937783e-05,
+        0.12321507930755615,
+        0.10057777166366577,
+        0.2761465013027191,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-truck-v0__h1hand_truck_admission_handoff_v1_all_s1_20260713THANDOFFV1Z__1_final.pt",
+      "sha256": "8e776bed003f9193ed99aafc9209adffabc3e410d2d2390ad6287dff094c0651",
+      "env_name": "h1hand-truck-v0",
+      "seed": 1,
+      "global_step": 100000,
+      "source_bank": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 14.216676716804526,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": "absent (field did not exist in this implementation vintage)"
+      },
+      "candidate_masses": [
+        6.068438960937783e-05,
+        0.12321507930755615,
+        0.10057777166366577,
+        0.2761465013027191,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-truck-v0__h1hand_truck_admission_handoff_v1_all_s2_20260713THANDOFFV1Z__2_30000.pt",
+      "sha256": "2e66430bf85e729014423730c4a72eca9da5f9d08b90d8dfb6c88562541d9401",
+      "env_name": "h1hand-truck-v0",
+      "seed": 2,
+      "global_step": 30000,
+      "source_bank": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 14.216676716804526,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": "absent (field did not exist in this implementation vintage)"
+      },
+      "candidate_masses": [
+        6.068438960937783e-05,
+        0.12321507930755615,
+        0.10057777166366577,
+        0.2761465013027191,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-truck-v0__h1hand_truck_admission_handoff_v1_all_s2_20260713THANDOFFV1Z__2_60000.pt",
+      "sha256": "a24fbec4bf30a22a52fb99a5aa5e45d9ab3f6206c9a30a2c5b0cbccba246a542",
+      "env_name": "h1hand-truck-v0",
+      "seed": 2,
+      "global_step": 60000,
+      "source_bank": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 14.216676716804526,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": "absent (field did not exist in this implementation vintage)"
+      },
+      "candidate_masses": [
+        6.068438960937783e-05,
+        0.12321507930755615,
+        0.10057777166366577,
+        0.2761465013027191,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-truck-v0__h1hand_truck_admission_handoff_v1_all_s2_20260713THANDOFFV1Z__2_90000.pt",
+      "sha256": "b6f9549d7e1b6b0b483a8b3342baa345bccbd8549d2ac7c9cf28778a00fedec8",
+      "env_name": "h1hand-truck-v0",
+      "seed": 2,
+      "global_step": 90000,
+      "source_bank": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 14.216676716804526,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": "absent (field did not exist in this implementation vintage)"
+      },
+      "candidate_masses": [
+        6.068438960937783e-05,
+        0.12321507930755615,
+        0.10057777166366577,
+        0.2761465013027191,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-truck-v0__h1hand_truck_admission_handoff_v1_all_s2_20260713THANDOFFV1Z__2_final.pt",
+      "sha256": "97d1d5ea8e47b29782f2ee9de25ee34ff9ae3c3cb5c5f6af2406050aed661e5a",
+      "env_name": "h1hand-truck-v0",
+      "seed": 2,
+      "global_step": 100000,
+      "source_bank": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 14.216676716804526,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": "absent (field did not exist in this implementation vintage)"
+      },
+      "candidate_masses": [
+        6.068438960937783e-05,
+        0.12321507930755615,
+        0.10057777166366577,
+        0.2761465013027191,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-truck-v0__h1hand_truck_admission_handoff_v1_all_s3_20260713THANDOFFV1Z__3_30000.pt",
+      "sha256": "07bdb719a3df0b5831f48e0e29723d0784cf6ef415961664922623a9acf2515e",
+      "env_name": "h1hand-truck-v0",
+      "seed": 3,
+      "global_step": 30000,
+      "source_bank": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 14.216676716804526,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": "absent (field did not exist in this implementation vintage)"
+      },
+      "candidate_masses": [
+        6.068438960937783e-05,
+        0.12321507930755615,
+        0.10057777166366577,
+        0.2761465013027191,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-truck-v0__h1hand_truck_admission_handoff_v1_all_s3_20260713THANDOFFV1Z__3_60000.pt",
+      "sha256": "8d0c751cc20884e6c5bc2451cd49c6f7e602e5c78cdd4202e1a2af32b9858e44",
+      "env_name": "h1hand-truck-v0",
+      "seed": 3,
+      "global_step": 60000,
+      "source_bank": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 14.216676716804526,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": "absent (field did not exist in this implementation vintage)"
+      },
+      "candidate_masses": [
+        6.068438960937783e-05,
+        0.12321507930755615,
+        0.10057777166366577,
+        0.2761465013027191,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-truck-v0__h1hand_truck_admission_handoff_v1_all_s3_20260713THANDOFFV1Z__3_90000.pt",
+      "sha256": "337e7475a7e5cd496bc58c83baa5636abe11e6e2fdfeab9b0c175102d44dc4c7",
+      "env_name": "h1hand-truck-v0",
+      "seed": 3,
+      "global_step": 90000,
+      "source_bank": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 14.216676716804526,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": "absent (field did not exist in this implementation vintage)"
+      },
+      "candidate_masses": [
+        6.068438960937783e-05,
+        0.12321507930755615,
+        0.10057777166366577,
+        0.2761465013027191,
+        0.5
+      ]
+    },
+    {
+      "path": "models/h1hand-truck-v0__h1hand_truck_admission_handoff_v1_all_s3_20260713THANDOFFV1Z__3_final.pt",
+      "sha256": "ca896460ac3981664958eeab3b349e6fb9c655439518431509752feeb3ffc652",
+      "env_name": "h1hand-truck-v0",
+      "seed": 3,
+      "global_step": 100000,
+      "source_bank": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+      "admission_mode": "all",
+      "admission_student_logit": 14.216676716804526,
+      "mcg_warmup_steps": 30000,
+      "admission_replay_handoff": "physical_after_authority",
+      "conditional_cfg": {
+        "admission_adaptive": "absent (field did not exist in this implementation vintage)"
+      },
+      "candidate_masses": [
+        6.068438960937783e-05,
+        0.12321507930755615,
+        0.10057777166366577,
+        0.2761465013027191,
+        0.5
+      ]
+    }
+  ],
+  "generator": "scripts/analysis/p1_gate_b_tolerance.py",
+  "generator_sha256": "38b1b2c1f3dfd8d6be7a304a5377a9836699fd66b7cce76ba172c54a4c79abe9",
+  "git_head": "b56cfe68855ed513565a117e77aed508b097063d",
+  "git_dirty": false,
+  "status": "frozen",
+  "finalized_from_candidate": {
+    "path": "docs/data/p1_bounded_bank_lease/gate_b_tolerance_candidate.json",
+    "sha256": "1d0f39d2b5726cc9375911704d154500e05dc39d5196ff854d4dc6c8ab2b89d5"
+  }
+}

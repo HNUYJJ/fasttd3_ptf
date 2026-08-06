@@ -1,0 +1,55 @@
+{
+  "schema": "slide_hard_exit_runtime.v1",
+  "capture_utc": "2026-08-01T13:19:16.768372+00:00",
+  "git": {
+    "head": "cab7c50f46737d9287c2fd2edfe84c0798d8f072",
+    "dirty": true,
+    "status_sha256": "9f0a9156191ec217eecc8e33527a085d2636dea9c7acdb9ae66ecb395e70eb8d"
+  },
+  "source_snapshot": {
+    "path": "docs/data/slide_hard_exit_v1/runtime_source_snapshot_20260801T131916Z.tar.gz",
+    "sha256": "2a53ac2873596f75d229ea6c96b8629629bab0217a5bb30413e994476d4a219e",
+    "bytes": 101424
+  },
+  "file_sha256": {
+    "fasttd3_ptf/official_fasttd3_ptf/train_ptf.py": "758994764c30cde54f35b6ccc229c44d9d81ea3aa4442b84ef94ebd226d0e979",
+    "fasttd3_ptf/official_fasttd3_ptf/anchor_io.py": "faf0c1f4ae9a74e2f32931d2936980883a1f56740d4adfa24220fd81b6b6a2f3",
+    "fasttd3_ptf/official_fasttd3_ptf/ptf_replay.py": "7b1b00abb9726d0bfbb6e4e6200435171fdcbba4f8091afc1ffdb4e2e55f452c",
+    "fasttd3_ptf/official_fasttd3_ptf/admission_control.py": "3a387a1bd3079779c67043089a99c167aac6e3d83621beeb484b7d524e2a0dfd",
+    "fasttd3_ptf/official_fasttd3_ptf/humanoid_bench_env.py": "556215a4571142b4cafee2553ea2409a2e12cf56be2c5c3b4d039e11eb7f7f74",
+    "fasttd3_ptf/official_fasttd3_ptf/rng_isolation.py": "9768db0680094318ae5f7748572a05f6097fa688b51fd807e320e3260105106f",
+    "fasttd3_ptf/ptf/mcg.py": "b5f518a35665e5cfd0051b939bd3befcd048f39ed26896f3af997631887e02cb",
+    "fasttd3_ptf/ptf/source_bank.py": "f87e6eb8434d2206b0af46e6d64e8e18e5367758857704e7f7fdad2cebbbc04d",
+    "fasttd3_ptf/ptf/action_schema.py": "a830c5ad038d6c77f2649a57c9b76cf3abc9267996c07321a8737f03c8614531",
+    "fasttd3_ptf/official_code/FastTD3/fast_td3/fast_td3.py": "05c7070589ba9caa17e5ef71a92ae9263ddb7e6cb25e83cc3a5b7f0d0f9618ff",
+    "fasttd3_ptf/official_code/FastTD3/fast_td3/fast_td3_utils.py": "f57fd9597215d912127adeafd141568b2f0ec0cce23dda42c5cd47401130b56e",
+    "fasttd3_ptf/official_code/FastTD3/fast_td3/hyperparams.py": "6893fd71d6ef2c6cf540c093b172bd68fc8ca1de9bddbe223dc5a81154acfe97",
+    "scripts/official_fasttd3_train_target_ptf.sh": "6970a74ab239da7f2766dfcef37c7a7b8030aaca9bbf41fa795cf6d4e070fe4d",
+    "scripts/run_slide_hard_exit_v1.sh": "7b3aaa41b384ad8dff77042293d2edaaa1f23e32bf3d51aec2f75e897aa1146a",
+    "scripts/eval_slide_hard_exit_v1.sh": "4581ac2b9353339b862aaccfddee198ea8d06f6d35084c5627cf88d09862f582",
+    "scripts/analysis/analyze_slide_hard_exit_v1.py": "01e7a3ad16ddac43354e97564c2e5d73d90e958bce4edd7f4fcc1c6606cb910f",
+    "configs/source_banks/calibration/h1hand_slide_rbo_walk.yaml": "e6d4a27ffd8a55ea65ce441c60eb7cceed7ba3c144a7dc515d2427dc23a1dc8a",
+    "checkpoints/official_sources/h1hand_walk/manifest.json": "8bb1723453f6f74872fcaf693fc58840abbed8c54ef6ee5ab651f54ba760b6cc",
+    "docs/run_card_interventional_bootstrap_racing_v1.md": "9157c3a51c30e84338aa3251011322a02db7ddd5fda2e94015dd6e8b6cd670fb"
+  },
+  "source_model": {
+    "path": "models/h1hand-walk-v0__h1hand_walk_source_official__1_final.pt",
+    "sha256": "63489c2b0d539fc815525380ff7fa1c5019d116cd38967a9b634cb0c05937fe3",
+    "bytes": 15428579
+  },
+  "experiment": {
+    "target": "h1hand-slide-v0",
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "prefix_stop": 30000,
+    "continuation_stop": 100000,
+    "arms": [
+      "matched_continuous",
+      "hard_exit"
+    ],
+    "source_free_eval_episodes": 128
+  }
+}

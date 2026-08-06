@@ -1,0 +1,162 @@
+{
+  "prereg": "docs/experiments/racing_min_horizon_v1_prereg_20260730.md",
+  "prereg_commit": "6776c03",
+  "ground_truth_U_K30000": {
+    "run": 379.659,
+    "walk": 104.885,
+    "stand": 51.278
+  },
+  "zero_shot_reference": {
+    "run": 169.21,
+    "stand": 146.94,
+    "walk": 96.35
+  },
+  "per_K": {
+    "2000": {
+      "per_seed": [
+        {
+          "seed": 1,
+          "U": {
+            "run": 3.455,
+            "walk": 4.313,
+            "stand": 5.635
+          },
+          "argmax": "stand",
+          "top1_hit": false,
+          "walk_gt_stand": false
+        },
+        {
+          "seed": 2,
+          "U": {
+            "run": -2.458,
+            "walk": -1.076,
+            "stand": -0.38
+          },
+          "argmax": "stand",
+          "top1_hit": false,
+          "walk_gt_stand": false
+        },
+        {
+          "seed": 3,
+          "U": {
+            "run": 0.915,
+            "walk": 2.526,
+            "stand": 0.432
+          },
+          "argmax": "walk",
+          "top1_hit": false,
+          "walk_gt_stand": true
+        }
+      ],
+      "mean_U": {
+        "run": 0.637,
+        "walk": 1.921,
+        "stand": 1.896
+      },
+      "top1_hits": "0/3",
+      "top1_pass": false,
+      "walk_gt_stand": "1/3",
+      "secondary_pass": false
+    },
+    "5000": {
+      "per_seed": [
+        {
+          "seed": 1,
+          "U": {
+            "run": 56.406,
+            "walk": 16.649,
+            "stand": 7.677
+          },
+          "argmax": "run",
+          "top1_hit": true,
+          "walk_gt_stand": true
+        },
+        {
+          "seed": 2,
+          "U": {
+            "run": 28.938,
+            "walk": 9.177,
+            "stand": -3.028
+          },
+          "argmax": "run",
+          "top1_hit": true,
+          "walk_gt_stand": true
+        },
+        {
+          "seed": 3,
+          "U": {
+            "run": 33.326,
+            "walk": 5.847,
+            "stand": 1.541
+          },
+          "argmax": "run",
+          "top1_hit": true,
+          "walk_gt_stand": true
+        }
+      ],
+      "mean_U": {
+        "run": 39.557,
+        "walk": 10.558,
+        "stand": 2.063
+      },
+      "top1_hits": "3/3",
+      "top1_pass": true,
+      "walk_gt_stand": "3/3",
+      "secondary_pass": true
+    },
+    "10000": {
+      "per_seed": [
+        {
+          "seed": 1,
+          "U": {
+            "run": 114.644,
+            "walk": 45.874,
+            "stand": 13.619
+          },
+          "argmax": "run",
+          "top1_hit": true,
+          "walk_gt_stand": true
+        },
+        {
+          "seed": 2,
+          "U": {
+            "run": 130.647,
+            "walk": 51.931,
+            "stand": 4.487
+          },
+          "argmax": "run",
+          "top1_hit": true,
+          "walk_gt_stand": true
+        },
+        {
+          "seed": 3,
+          "U": {
+            "run": 94.2,
+            "walk": 50.758,
+            "stand": 19.504
+          },
+          "argmax": "run",
+          "top1_hit": true,
+          "walk_gt_stand": true
+        }
+      ],
+      "mean_U": {
+        "run": 113.164,
+        "walk": 49.521,
+        "stand": 12.537
+      },
+      "top1_hits": "3/3",
+      "top1_pass": true,
+      "walk_gt_stand": "3/3",
+      "secondary_pass": true
+    }
+  },
+  "K_star": 5000,
+  "verdict": "RACING_CHEAP",
+  "cost_benefit": {
+    "racing_cost_steps": 15000,
+    "source_selection_benefit_steps_theta300": 67020,
+    "net_steps": 52020,
+    "note": "收益取自 hurdle_speedup_v1 θ=300 的 per-seed 中位数差"
+  }
+}

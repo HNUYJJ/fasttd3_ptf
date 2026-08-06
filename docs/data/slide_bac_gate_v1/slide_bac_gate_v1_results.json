@@ -1,0 +1,238 @@
+{
+ "created_utc": "2026-07-28T19:36:39.094137+00:00",
+ "experiment": "slide_bac_gate_v1",
+ "positioning": "forward test of Bottleneck-Aligned Coverage; predictions frozen in docs/experiments/bottleneck_aligned_coverage_v1_prereg_20260728.md before any slide arm was trained",
+ "prereg": {
+  "NET": {
+   "stand": 0.0129,
+   "walk": 0.5153,
+   "run": 0.5086
+  },
+  "zero_shot_return": {
+   "stand": 88.5,
+   "walk": 45.7,
+   "run": 27.8
+  },
+  "NET_rank": [
+   "walk",
+   "run",
+   "stand"
+  ],
+  "return_rank": [
+   "stand",
+   "walk",
+   "run"
+  ]
+ },
+ "label": "U_i(t=10k,K=10k) = J_sf@20k(source) - J_sf@20k(student), paired by seed",
+ "primary": "D_x = J(x) - J(stand), paired by learner seed, for x in {walk, run}",
+ "evaluator": "frozen source-free panel, 16 eval seeds x 8 ranks = 128 episodes",
+ "interval_rule": "90% t interval over 3 paired LEARNER seeds (df=2); episode-level SE diagnostic only",
+ "per_seed": {
+  "1": {
+   "J_student": 39.37617939946556,
+   "J_stand": 37.543441277741884,
+   "J_walk": 105.04335070026988,
+   "J_run": 65.666553631282,
+   "D_walk": 67.49990942252799,
+   "D_run": 28.123112353540115,
+   "episode_se": {
+    "student": 1.0569840374352273,
+    "stand": 1.1621018329748378,
+    "walk": 2.4181005379246114,
+    "run": 2.0847743887149104
+   }
+  },
+  "2": {
+   "J_student": 63.61400998107169,
+   "J_stand": 59.12578626114836,
+   "J_walk": 111.21756827817411,
+   "J_run": 70.87835607672383,
+   "D_walk": 52.09178201702575,
+   "D_run": 11.75256981557547,
+   "episode_se": {
+    "student": 1.3061791009323795,
+    "stand": 1.5183365311626371,
+    "walk": 1.603224405706721,
+    "run": 1.898332971669006
+   }
+  },
+  "3": {
+   "J_student": 50.53752095132876,
+   "J_stand": 53.22871274059608,
+   "J_walk": 108.11202220231351,
+   "J_run": 67.66917492443336,
+   "D_walk": 54.88330946171743,
+   "D_run": 14.440462183837283,
+   "episode_se": {
+    "student": 0.9981075731600263,
+    "stand": 1.6593777366350768,
+    "walk": 2.4667588023807863,
+    "run": 2.144366753677981
+   }
+  }
+ },
+ "D_walk": {
+  "mean": 58.15833363375706,
+  "sd": 8.209563632229802,
+  "lo": 44.31820217371795,
+  "hi": 71.99846509379617,
+  "n": 3,
+  "significant": true
+ },
+ "D_run": {
+  "mean": 18.10538145098429,
+  "sd": 8.779088259771427,
+  "lo": 3.305114219055799,
+  "hi": 32.90564868291278,
+  "n": 3,
+  "significant": true
+ },
+ "U_vs_student": {
+  "stand": {
+   "mean": -1.2099233507932279,
+   "sd": 3.63000350448435,
+   "lo": -7.32958183120633,
+   "hi": 4.9097351296198735,
+   "n": 3,
+   "classification": "uncertain"
+  },
+  "walk": {
+   "mean": 56.948410282963835,
+   "sd": 9.048067258373747,
+   "lo": 41.694683541198444,
+   "hi": 72.20213702472923,
+   "n": 3,
+   "classification": "helpful"
+  },
+  "run": {
+   "mean": 16.89545810019106,
+   "sd": 9.515212978557804,
+   "lo": 0.8541915490063552,
+   "hi": 32.93672465137577,
+   "n": 3,
+   "classification": "helpful"
+  }
+ },
+ "arm_means": {
+  "stand": 49.96598009316211,
+  "walk": 108.12431372691917,
+  "run": 68.0713615441464
+ },
+ "observed_rank": [
+  "walk",
+  "run",
+  "stand"
+ ],
+ "rank_matches_NET": true,
+ "rank_matches_return": false,
+ "stand_is_worst": true,
+ "treatment_audit": {
+  "stand": {
+   "1": {
+    "checkpoint": "h1hand-slide-v0__slide_bac_stand_s1__1_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.4820078125,
+    "critic_source_share": 0.4991304672241211,
+    "active_buffer_counts": [
+     616970,
+     1943030
+    ],
+    "sampling_phase": "authority_quota"
+   },
+   "2": {
+    "checkpoint": "h1hand-slide-v0__slide_bac_stand_s2__2_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.48463125,
+    "critic_source_share": 0.4989311798095703,
+    "active_buffer_counts": [
+     620328,
+     1939672
+    ],
+    "sampling_phase": "authority_quota"
+   },
+   "3": {
+    "checkpoint": "h1hand-slide-v0__slide_bac_stand_s3__3_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.482596875,
+    "critic_source_share": 0.4988271926879883,
+    "active_buffer_counts": [
+     617724,
+     1942276
+    ],
+    "sampling_phase": "authority_quota"
+   }
+  },
+  "walk": {
+   "1": {
+    "checkpoint": "h1hand-slide-v0__slide_bac_walk_s1__1_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.47664921875,
+    "critic_source_share": 0.49908670043945313,
+    "active_buffer_counts": [
+     610111,
+     1949889
+    ],
+    "sampling_phase": "authority_quota"
+   },
+   "2": {
+    "checkpoint": "h1hand-slide-v0__slide_bac_walk_s2__2_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.47887734375,
+    "critic_source_share": 0.49905037231445315,
+    "active_buffer_counts": [
+     612963,
+     1947037
+    ],
+    "sampling_phase": "authority_quota"
+   },
+   "3": {
+    "checkpoint": "h1hand-slide-v0__slide_bac_walk_s3__3_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.478628125,
+    "critic_source_share": 0.4988350799560547,
+    "active_buffer_counts": [
+     612644,
+     1947356
+    ],
+    "sampling_phase": "authority_quota"
+   }
+  },
+  "run": {
+   "1": {
+    "checkpoint": "h1hand-slide-v0__slide_bac_run_s1__1_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.47889140625,
+    "critic_source_share": 0.4990457778930664,
+    "active_buffer_counts": [
+     612981,
+     1947019
+    ],
+    "sampling_phase": "authority_quota"
+   },
+   "2": {
+    "checkpoint": "h1hand-slide-v0__slide_bac_run_s2__2_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.48111484375,
+    "critic_source_share": 0.4989067474365234,
+    "active_buffer_counts": [
+     615827,
+     1944173
+    ],
+    "sampling_phase": "authority_quota"
+   },
+   "3": {
+    "checkpoint": "h1hand-slide-v0__slide_bac_run_s3__3_20000.pt",
+    "global_step": 20000,
+    "behavior_source_share": 0.482065625,
+    "critic_source_share": 0.4988446762084961,
+    "active_buffer_counts": [
+     617044,
+     1942956
+    ],
+    "sampling_phase": "authority_quota"
+   }
+  }
+ },
+ "verdict": "BAC_SUPPORTED"
+}

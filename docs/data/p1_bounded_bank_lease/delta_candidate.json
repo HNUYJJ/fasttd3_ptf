@@ -1,0 +1,128 @@
+{
+  "definition": "delta_task = 0.5 * cross-seed SD of historical scratch 35k-80k normalized trapezoidal AUC; externally anchored SESOI / practical margin (NOT a numerical noise floor, NOT a new-experiment variance estimate)",
+  "window": [
+    35000,
+    80000
+  ],
+  "deltas": {
+    "basketball": {
+      "cross_seed_sd_nauc": 91.57287633528773,
+      "delta_sesoi": 45.786438167643865
+    },
+    "truck": {
+      "cross_seed_sd_nauc": 73.03686723626817,
+      "delta_sesoi": 36.51843361813408
+    }
+  },
+  "verified_asserts": {
+    "each_exp_name_matches_exactly_one_wandb_run": true,
+    "wandb_logs_nauc_match": true,
+    "historical_train_ptf_sha256": "6e3d228d79908da5356aa2fdcb5ef7d811fb797778215971e45b8a1761190270",
+    "git_base": "b183f40bcfe6b04fdefdab922371394caaba828f",
+    "cli_pure_scratch": true,
+    "historical_ptf_mcg_false_execute_sources_false_bank_empty": true,
+    "diff_patch_identical_excluding_offline_probe": true,
+    "diff_excl_probe_sha256": "697230e3a86ff46670c1adb48b73fd2a08799785c7b5a25a596c664e543e17a1"
+  },
+  "scratch_dual_verdict": {
+    "CAUSAL_COMPARATOR": "REUSE_FAIL (scratch @ b183f40 != hard-exit @ HEAD; scratch labels stay descriptive)",
+    "METRIC_SCALE": "REUSE_PASS (evaluator/task/return-unit/5k-grid/entry-code provable; SD usable as external margin)"
+  },
+  "sources": {
+    "basketball_s1": {
+      "nauc_35k_80k": 149.9233888888889,
+      "exp_name": "h1hand_basketball_b2_scr_s1_20260705T153732Z",
+      "train_log": "logs/train/b2_20260705T153732Z/b2_basketball_scr_s1.log",
+      "train_log_sha256": "051b67090197af02263ab9a8e7ec5acb68b95010a39efb26e6a77039566d9ecb",
+      "wandb_run": "run-20260705_153737-zubil4dw",
+      "wandb_config_sha256": "c054bf764440a920d07d058e89ab6aa17fc487b3ca0573bc155cb414169ee3eb",
+      "wandb_metadata_sha256": "9e464a0b4b093cbf84b9cafe66a168e8adb281cb44d512347635a62ed2e2def4",
+      "wandb_hist_train_ptf_sha256": "6e3d228d79908da5356aa2fdcb5ef7d811fb797778215971e45b8a1761190270",
+      "wandb_diff_patch_sha256": "623c4196bd21e428d56a50f339221fba6fde51c5a29fc3089cab887aa8762851",
+      "wandb_diff_excl_probe_sha256": "697230e3a86ff46670c1adb48b73fd2a08799785c7b5a25a596c664e543e17a1",
+      "wandb_output_sha256": "a89cbab9e2e569693100fa9bf123775980bb19942a381a86fcc8e9f9b6a3d452",
+      "ptf_mcg": false,
+      "ptf_execute_sources": false
+    },
+    "basketball_s2": {
+      "nauc_35k_80k": 325.952,
+      "exp_name": "h1hand_basketball_b2_scr_s2_20260705T153732Z",
+      "train_log": "logs/train/b2s_20260705T224905Z/b2s_basketball_scr_s2.log",
+      "train_log_sha256": "953b329bc50abcc843c886f60f35b775608f3b6216765dca3467cad2a8c371b9",
+      "wandb_run": "run-20260705_225021-h5p9vtb9",
+      "wandb_config_sha256": "5bab08a274317405cc59bb9f1149b2c88e0bc5f9c29ee211a2cf461722c7ee12",
+      "wandb_metadata_sha256": "5fc440808e001af0b34a5ecd735eb73cd97112706d2c57442985f214140e6b38",
+      "wandb_hist_train_ptf_sha256": "6e3d228d79908da5356aa2fdcb5ef7d811fb797778215971e45b8a1761190270",
+      "wandb_diff_patch_sha256": "623c4196bd21e428d56a50f339221fba6fde51c5a29fc3089cab887aa8762851",
+      "wandb_diff_excl_probe_sha256": "697230e3a86ff46670c1adb48b73fd2a08799785c7b5a25a596c664e543e17a1",
+      "wandb_output_sha256": "fe0ae72c53dd86750c9e9d1895221f3fff9bd712cc411460ccc0d21576bdbbc2",
+      "ptf_mcg": false,
+      "ptf_execute_sources": false
+    },
+    "basketball_s3": {
+      "nauc_35k_80k": 194.15161111111112,
+      "exp_name": "h1hand_basketball_b2_scr_s3_20260705T153732Z",
+      "train_log": "logs/train/b2s_20260705T224905Z/b2s_basketball_scr_s3.log",
+      "train_log_sha256": "f479cb55ad64549f1c1a3646910795d3aaa7554b7ce92511a8f4913dbe71bc1d",
+      "wandb_run": "run-20260706_053313-7st5nior",
+      "wandb_config_sha256": "28d719d09d002712e977b8f58b6524d9ca42e70a5606c2f768b21b776c3b5e34",
+      "wandb_metadata_sha256": "3d607c4eb4239db27b9f55d49b7ba9f9619be7c2230a0395786bd31738e24157",
+      "wandb_hist_train_ptf_sha256": "6e3d228d79908da5356aa2fdcb5ef7d811fb797778215971e45b8a1761190270",
+      "wandb_diff_patch_sha256": "623c4196bd21e428d56a50f339221fba6fde51c5a29fc3089cab887aa8762851",
+      "wandb_diff_excl_probe_sha256": "697230e3a86ff46670c1adb48b73fd2a08799785c7b5a25a596c664e543e17a1",
+      "wandb_output_sha256": "2402224c4ad587aac4227faa1282fda8e0d7294bfbcc685b372b120aa3b2f69e",
+      "ptf_mcg": false,
+      "ptf_execute_sources": false
+    },
+    "truck_s1": {
+      "nauc_35k_80k": 1312.0565,
+      "exp_name": "h1hand_truck_br_scr_s1_20260704T015912Z",
+      "train_log": "logs/train/br_20260704T015912Z/br_truck_scr_s1.log",
+      "train_log_sha256": "598bedf7bf8a408deb14b5af6145fc941afb0b8b617e68295bf513e5f97f1257",
+      "wandb_run": "run-20260704_020027-sgmr5pcw",
+      "wandb_config_sha256": "539d6ddff6143e1cc95b5416b1f979a57cb2f8cc553b4f0b73ee0b661c138e0f",
+      "wandb_metadata_sha256": "660402bf43903f96e6dc8bb5893f4da400709828ee2531c91b39fc3fd357baee",
+      "wandb_hist_train_ptf_sha256": "6e3d228d79908da5356aa2fdcb5ef7d811fb797778215971e45b8a1761190270",
+      "wandb_diff_patch_sha256": "79a6ca2de5f62b7a39dc989c980dde2a67610495b7e1d3212ea0e4af01558b09",
+      "wandb_diff_excl_probe_sha256": "697230e3a86ff46670c1adb48b73fd2a08799785c7b5a25a596c664e543e17a1",
+      "wandb_output_sha256": "86e7980e5b71326a0a496ddb45af343c56c3a7764daab806a728d461c0e6c696",
+      "ptf_mcg": false,
+      "ptf_execute_sources": false
+    },
+    "truck_s2": {
+      "nauc_35k_80k": 1166.7677777777778,
+      "exp_name": "h1hand_truck_br_scr_s2_20260704T135105Z",
+      "train_log": "logs/train/brseed_20260704T135105Z/bs_truck_scr_s2.log",
+      "train_log_sha256": "6d5595bdeccf1e1e8b471562d3a81fbd813a68100eccaf7429a90469b8e6cb92",
+      "wandb_run": "run-20260704_153532-pu3gm4k3",
+      "wandb_config_sha256": "98bb33b60cc819bf9c468f36b315dfac55f64b52b79d84333d8ac8c48b2628fa",
+      "wandb_metadata_sha256": "38db080b00ed90d29e01b6e0debbfa390d359f575201a595455d296ec87362ab",
+      "wandb_hist_train_ptf_sha256": "6e3d228d79908da5356aa2fdcb5ef7d811fb797778215971e45b8a1761190270",
+      "wandb_diff_patch_sha256": "623c4196bd21e428d56a50f339221fba6fde51c5a29fc3089cab887aa8762851",
+      "wandb_diff_excl_probe_sha256": "697230e3a86ff46670c1adb48b73fd2a08799785c7b5a25a596c664e543e17a1",
+      "wandb_output_sha256": "9b6eed727cf797055adcb0c29ffc974a2ffca318d08008391e30808d763f6f5e",
+      "ptf_mcg": false,
+      "ptf_execute_sources": false
+    },
+    "truck_s3": {
+      "nauc_35k_80k": 1226.3147222222221,
+      "exp_name": "h1hand_truck_br_scr_s3_20260704T135105Z",
+      "train_log": "logs/train/brseed_20260704T135105Z/bs_truck_scr_s3.log",
+      "train_log_sha256": "c0008efc7476defc1c344fda25e364d68ce9927ab1be48d0fcec14554b0f94fa",
+      "wandb_run": "run-20260704_202233-mld634m3",
+      "wandb_config_sha256": "60d38f18739676b4f78694ed70157a28fed692445ab0502a97a41cd557a075ae",
+      "wandb_metadata_sha256": "036657bac7ee49cc366f6b83f495c9f563b4f62fc1f77b8172fd85ff6d6a4995",
+      "wandb_hist_train_ptf_sha256": "6e3d228d79908da5356aa2fdcb5ef7d811fb797778215971e45b8a1761190270",
+      "wandb_diff_patch_sha256": "623c4196bd21e428d56a50f339221fba6fde51c5a29fc3089cab887aa8762851",
+      "wandb_diff_excl_probe_sha256": "697230e3a86ff46670c1adb48b73fd2a08799785c7b5a25a596c664e543e17a1",
+      "wandb_output_sha256": "9bb34d80c1a949e03f751886b2c50fe9c024f13ea08c955b147280f096bb349c",
+      "ptf_mcg": false,
+      "ptf_execute_sources": false
+    }
+  },
+  "generator": "scripts/analysis/p1_freeze_delta.py",
+  "generator_sha256": "00f054a69f75b24996ea44d76847a8277a933420d4c42748adfb3c30652d2376",
+  "git_head": "9b45f11db0f99c21f4415a1d54f5a3fce8859bf4",
+  "git_dirty": true,
+  "status": "candidate"
+}

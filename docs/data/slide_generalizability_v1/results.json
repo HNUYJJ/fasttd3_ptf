@@ -1,0 +1,107 @@
+{
+  "prereg": "docs/experiments/slide_generalizability_v1_prereg_20260731.md",
+  "prereg_commit": "2c1804f",
+  "run_id": "597a7cce77a4",
+  "gate_reference_seeds123": {
+    "stand": [
+      -1.84,
+      -4.48,
+      2.69
+    ],
+    "walk": [
+      65.66,
+      47.61,
+      57.57
+    ],
+    "run": [
+      26.29,
+      7.27,
+      17.13
+    ]
+  },
+  "dose": {
+    "stand_s4": 0.479,
+    "walk_s4": 0.4771,
+    "run_s4": 0.4784,
+    "stand_s5": 0.4835,
+    "walk_s5": 0.4789,
+    "run_s5": 0.4793,
+    "stand_s6": 0.4845,
+    "walk_s6": 0.4783,
+    "run_s6": 0.4791
+  },
+  "per_seed": [
+    {
+      "seed": 4,
+      "U": {
+        "stand": -56.08,
+        "walk": 6.85,
+        "run": -22.65
+      },
+      "paired_se": {
+        "stand": 5.14,
+        "walk": 4.7,
+        "run": 5.16
+      },
+      "argmax": "walk",
+      "hit": true
+    },
+    {
+      "seed": 5,
+      "U": {
+        "stand": -5.82,
+        "walk": 49.05,
+        "run": 7.82
+      },
+      "paired_se": {
+        "stand": 1.89,
+        "walk": 2.6,
+        "run": 2.43
+      },
+      "argmax": "walk",
+      "hit": true
+    },
+    {
+      "seed": 6,
+      "U": {
+        "stand": 20.24,
+        "walk": 77.04,
+        "run": 23.41
+      },
+      "paired_se": {
+        "stand": 2.0,
+        "walk": 2.06,
+        "run": 2.24
+      },
+      "argmax": "walk",
+      "hit": true
+    }
+  ],
+  "argmax_hits": "3/3",
+  "mean_U": {
+    "stand": -13.89,
+    "walk": 44.31,
+    "run": 2.86
+  },
+  "learner_ci90": {
+    "stand": {
+      "mean": -13.89,
+      "half_width": 65.4
+    },
+    "walk": {
+      "mean": 44.31,
+      "half_width": 59.56
+    },
+    "run": {
+      "mean": 2.86,
+      "half_width": 39.49
+    }
+  },
+  "secondary_sign": {
+    "stand": "1/3",
+    "walk": "3/3",
+    "run": "2/3"
+  },
+  "chance_pass": "(1/3)^3 = 3.7%（三选一，单 K 单判据，无 look-elsewhere）",
+  "verdict": "GEN_OK"
+}

@@ -1,0 +1,213 @@
+{
+  "note": "探索性分析,不参与 run card §6 判据",
+  "per_seed": [
+    {
+      "task": "door",
+      "seed": 1,
+      "global_step": 20000,
+      "num_states": 2400,
+      "student": {
+        "score_mean": 25.819698333740234,
+        "head_disagreement_mean": 0.2543490529060364
+      },
+      "sources": {
+        "stand": {
+          "score_mean": 25.409866333007812,
+          "score_minus_student_mean": -0.40983209013938904,
+          "win_rate_vs_student": 0.017083333805203438,
+          "head_disagreement_mean": 0.32037848234176636,
+          "action_l2_to_student": 9.973495483398438
+        },
+        "walk": {
+          "score_mean": 25.44970703125,
+          "score_minus_student_mean": -0.3699897229671478,
+          "win_rate_vs_student": 0.02916666679084301,
+          "head_disagreement_mean": 0.27264249324798584,
+          "action_l2_to_student": 10.056382179260254
+        },
+        "run": {
+          "score_mean": 25.53310203552246,
+          "score_minus_student_mean": -0.2865942418575287,
+          "win_rate_vs_student": 0.025416666641831398,
+          "head_disagreement_mean": 0.2778374254703522,
+          "action_l2_to_student": 9.532983779907227
+        }
+      }
+    },
+    {
+      "task": "door",
+      "seed": 2,
+      "global_step": 20000,
+      "num_states": 2400,
+      "student": {
+        "score_mean": 25.91551399230957,
+        "head_disagreement_mean": 0.2923983335494995
+      },
+      "sources": {
+        "stand": {
+          "score_mean": 25.476783752441406,
+          "score_minus_student_mean": -0.4387314021587372,
+          "win_rate_vs_student": 0.027916667982935905,
+          "head_disagreement_mean": 0.34440627694129944,
+          "action_l2_to_student": 9.495189666748047
+        },
+        "walk": {
+          "score_mean": 25.033445358276367,
+          "score_minus_student_mean": -0.8820710182189941,
+          "win_rate_vs_student": 0.017916666343808174,
+          "head_disagreement_mean": 0.5581650137901306,
+          "action_l2_to_student": 10.380156517028809
+        },
+        "run": {
+          "score_mean": 25.64058494567871,
+          "score_minus_student_mean": -0.2749292254447937,
+          "win_rate_vs_student": 0.034166667610406876,
+          "head_disagreement_mean": 0.33023205399513245,
+          "action_l2_to_student": 9.778691291809082
+        }
+      }
+    },
+    {
+      "task": "door",
+      "seed": 3,
+      "global_step": 20000,
+      "num_states": 2400,
+      "student": {
+        "score_mean": 24.678165435791016,
+        "head_disagreement_mean": 0.30434978008270264
+      },
+      "sources": {
+        "stand": {
+          "score_mean": 24.40088653564453,
+          "score_minus_student_mean": -0.277279794216156,
+          "win_rate_vs_student": 0.0416666679084301,
+          "head_disagreement_mean": 0.39651063084602356,
+          "action_l2_to_student": 9.323923110961914
+        },
+        "walk": {
+          "score_mean": 24.451148986816406,
+          "score_minus_student_mean": -0.22701549530029297,
+          "win_rate_vs_student": 0.052916668355464935,
+          "head_disagreement_mean": 0.36968541145324707,
+          "action_l2_to_student": 9.151406288146973
+        },
+        "run": {
+          "score_mean": 24.368228912353516,
+          "score_minus_student_mean": -0.30993717908859253,
+          "win_rate_vs_student": 0.04500000178813934,
+          "head_disagreement_mean": 0.3538406193256378,
+          "action_l2_to_student": 9.774237632751465
+        }
+      }
+    },
+    {
+      "task": "slide",
+      "seed": 1,
+      "global_step": 20000,
+      "num_states": 2400,
+      "student": {
+        "score_mean": 12.83820629119873,
+        "head_disagreement_mean": 2.0513339042663574
+      },
+      "sources": {
+        "stand": {
+          "score_mean": 12.315367698669434,
+          "score_minus_student_mean": -0.5228399038314819,
+          "win_rate_vs_student": 0.2604166865348816,
+          "head_disagreement_mean": 2.1190297603607178,
+          "action_l2_to_student": 9.559759140014648
+        },
+        "walk": {
+          "score_mean": 12.380681037902832,
+          "score_minus_student_mean": -0.45752620697021484,
+          "win_rate_vs_student": 0.27166667580604553,
+          "head_disagreement_mean": 2.13919997215271,
+          "action_l2_to_student": 9.371569633483887
+        },
+        "run": {
+          "score_mean": 12.37510871887207,
+          "score_minus_student_mean": -0.46309855580329895,
+          "win_rate_vs_student": 0.28083333373069763,
+          "head_disagreement_mean": 2.153294324874878,
+          "action_l2_to_student": 9.383037567138672
+        }
+      }
+    },
+    {
+      "task": "slide",
+      "seed": 2,
+      "global_step": 20000,
+      "num_states": 2400,
+      "student": {
+        "score_mean": 15.360517501831055,
+        "head_disagreement_mean": 2.723038911819458
+      },
+      "sources": {
+        "stand": {
+          "score_mean": 14.741272926330566,
+          "score_minus_student_mean": -0.619245707988739,
+          "win_rate_vs_student": 0.2537499964237213,
+          "head_disagreement_mean": 2.804690361022949,
+          "action_l2_to_student": 9.785717964172363
+        },
+        "walk": {
+          "score_mean": 14.974076271057129,
+          "score_minus_student_mean": -0.3864421546459198,
+          "win_rate_vs_student": 0.35583335161209106,
+          "head_disagreement_mean": 2.7028555870056152,
+          "action_l2_to_student": 9.49905776977539
+        },
+        "run": {
+          "score_mean": 15.146967887878418,
+          "score_minus_student_mean": -0.21355107426643372,
+          "win_rate_vs_student": 0.40291666984558105,
+          "head_disagreement_mean": 2.7169270515441895,
+          "action_l2_to_student": 9.592680931091309
+        }
+      }
+    },
+    {
+      "task": "slide",
+      "seed": 3,
+      "global_step": 20000,
+      "num_states": 2400,
+      "student": {
+        "score_mean": 16.30469512939453,
+        "head_disagreement_mean": 2.8951921463012695
+      },
+      "sources": {
+        "stand": {
+          "score_mean": 15.622223854064941,
+          "score_minus_student_mean": -0.6824682950973511,
+          "win_rate_vs_student": 0.24958333373069763,
+          "head_disagreement_mean": 3.0701403617858887,
+          "action_l2_to_student": 9.716501235961914
+        },
+        "walk": {
+          "score_mean": 15.740738868713379,
+          "score_minus_student_mean": -0.5639550685882568,
+          "win_rate_vs_student": 0.28583332896232605,
+          "head_disagreement_mean": 2.889822244644165,
+          "action_l2_to_student": 9.647359848022461
+        },
+        "run": {
+          "score_mean": 15.969544410705566,
+          "score_minus_student_mean": -0.3351501524448395,
+          "win_rate_vs_student": 0.3395833373069763,
+          "head_disagreement_mean": 2.873573064804077,
+          "action_l2_to_student": 9.657018661499023
+        }
+      }
+    }
+  ],
+  "summary": {
+    "door": {
+      "head_disagreement_ratio_mean": 1.257793976337252,
+      "source_win_rate_mean": 0.03236111191411813
+    },
+    "slide": {
+      "head_disagreement_ratio_mean": 1.0218858862319842,
+      "source_win_rate_mean": 0.30004630155033535
+    }
+  }
+}

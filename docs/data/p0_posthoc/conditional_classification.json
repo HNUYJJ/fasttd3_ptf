@@ -1,0 +1,56 @@
+{
+  "analysis_type": "posthoc_engineering_sensitivity",
+  "preregistered_verdict_unchanged": "ENGINEERING_INVALID",
+  "condition": "critic cumulative fraction shortfall accepted as explained cold-start mechanism effect (treatment audit skipped by construction)",
+  "conditional_tasks": {
+    "crawl": {
+      "effects": [
+        -155.79085821631196,
+        6.519276354496924,
+        -33.034164305536365
+      ],
+      "mean": -60.7685820557838,
+      "sd": 84.63476467774606,
+      "lcb": -152.90635975778795,
+      "ucb": 31.369195646220355,
+      "delta_return": 33.55639568168537,
+      "d_dup": 50.50006370846518,
+      "progress_delta": 0.021729647093393405,
+      "progress_concordant": false,
+      "classification": "UNCERTAIN_NUMERIC"
+    },
+    "truck": {
+      "effects": [
+        -117.91134264829998,
+        -102.16797995909803,
+        20.673166578733913
+      ],
+      "mean": -66.46871867622137,
+      "sd": 75.87650816643965,
+      "lcb": -149.0718058220637,
+      "ucb": 16.13436846962098,
+      "delta_return": 28.847339206805536,
+      "d_dup": 28.36576150461724,
+      "progress_delta": null,
+      "progress_concordant": null,
+      "classification": "UNCERTAIN"
+    }
+  },
+  "conditional_joint": {
+    "verdict": "F-a",
+    "statement": "统计不可测(本预算分辨率不足,原因:数值地板);判据封存",
+    "combo": "crawl_UNCERTAIN_NUMERIC__truck_UNCERTAIN"
+  },
+  "provenance": {
+    "git_head": "3012b1fb075f817fa6e49d9aed39cdd16b50ee97",
+    "adjudicator_sha256": "040eacb8ac94875345d11cd7023dbb6ef85911f04412c47bde070ecec6d9754b",
+    "input_sha256": {
+      "crawl_manifest": "e50630319c01e985bb4ddf41b706d2d614691405d7dcb30e6fa9ad1ddd7af752",
+      "truck_manifest": "f05485be56120e3206a9a3347eca42efeb4e7a3fba8739e27e8c9c985e2cda17",
+      "crawl_delta": "fe157b9dc138ee6708d0cff92e72ac91f56c4516d7a70b9c0fe23b9273c7be19",
+      "truck_delta": "4bc8142ab92ccdf39f4371c6f6b53efa2b9597013a3d5577d129334b1918b752"
+    }
+  },
+  "utc": "2026-07-18T18:07:35.689166+00:00",
+  "document": "docs/p0_posthoc_engineering_sensitivity_20260718.md"
+}
