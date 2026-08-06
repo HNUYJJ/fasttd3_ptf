@@ -34,10 +34,12 @@
 --expect-admission-mode  checkpoint 内 ptf_cfg["admission_mode"] 必须匹配
 ```
 
-**新增 v1 没有的一条**：即使不传 `--expect-env`，也**必须**用 checkpoint 内的
-`args["env_name"]` 与命令行 `--env-name` 交叉核对；不一致即**硬失败**，
-不给"用户可能有意为之"的余地。理由：喂错 env 会产出完全合法但语义错误的
-评估结果，而这类错误无法从输出中看出来。
+**强制 env 交叉核对**：即使不传 `--expect-env`，也必须用 checkpoint 内的
+`args["env_name"]` 与命令行 `--env-name` 核对，不一致即硬失败。
+
+> **2026-08-06 描述更正**：本条初稿写作"新增 v1 没有的一条"，**这是错的**——
+> 读 `p0_evaluator.py:152-155` 后确认 v1 已有该强制核对。v2.1 只是把它**恢复**
+> 回来，不是新增。判据本身不变（仍要求强制核对），仅更正对 v1 的事实描述。
 
 `identity_checked` 的定义（比 v1 更严）：
 

@@ -229,26 +229,78 @@ def test_T6b_ceiling_present_computes():
 # T7  不同 global_step 不得进入正式配对
 # ══════════════════════════════════════════════════════════════════════
 
+def _rec(**kw):
+    """构造一条身份完整的评估记录，便于逐字段打破。"""
+    base = {
+        "env_name": "h1hand-slide-v0", "global_step": 100000,
+        "panel_digest": "PANEL_A", "schema_version": "2.1",
+        "learner_seed": 1, "method_family": "scratch",
+        "checkpoint_sha256": "abc", "return": 900.0,
+    }
+    base.update(kw)
+    return base
+
+
 def test_T7_cross_budget_comparison_rejected():
     """v1 的真实错误：stair@20k 对 slide@75k，得出 6.7% vs 95.1% 的无效对照。"""
-    stair = {"task": "stair", "global_step": 20000, "method": "slidesrc", "return": 67.0}
-    slide = {"task": "slide", "global_step": 75000, "method": "hard_exit", "return": 951.5}
+    stair = _rec(env_name="h1hand-stair-v0", global_step=20000, return_=67.0)
+    slide = _rec(global_step=75000)
     with pytest.raises(IncomparableError):
-        site_rules.require_comparable(stair, slide)
+        site_rules.require_comparable(stair, slide, purpose="across_methods")
 
 
-def test_T7b_same_step_allowed():
-    a = {"task": "crawl", "global_step": 100000, "method": "scratch", "return": 960.2}
-    b = {"task": "hurdle", "global_step": 100000, "method": "scratch", "return": 387.4}
-    site_rules.require_comparable(a, b)  # 不抛异常即通过
+def test_T7b_cross_target_always_rejected():
+    """跨 target 在**所有** purpose 下均拒绝——"同为 100k" 不等于可比。
+
+    此前的实现只查 global_step，导致 crawl@100k 与 hurdle@100k 被判可比。
+    """
+    crawl = _rec(env_name="h1hand-crawl-v0")
+    hurdle = _rec(env_name="h1hand-hurdle-v0")
+    for purpose in site_rules.COMPARISON_REQUIREMENTS:
+        with pytest.raises(IncomparableError, match="env_name|不完整"):
+            site_rules.require_comparable(crawl, hurdle, purpose=purpose)
 
 
-def test_T7c_missing_step_is_incomparable():
-    """身份不完整同样不可比——缺 global_step 时必须拒绝，而不是当作相同。"""
-    a = {"task": "crawl", "global_step": 100000, "return": 960.2}
-    b = {"task": "hurdle", "return": 387.4}
-    with pytest.raises(IncomparableError):
-        site_rules.require_comparable(a, b)
+def test_T7c_missing_field_is_incomparable():
+    """身份不完整同样不可比——缺字段时必须拒绝，而不是当作相同。"""
+    a = _rec()
+    b = _rec(); del b["panel_digest"]
+    with pytest.raises(IncomparableError, match="不完整"):
+        site_rules.require_comparable(a, b, purpose="across_methods")
+
+
+def test_T7d_purpose_is_mandatory():
+    """purpose 必须显式传入——没有"随手比一下"这个选项。"""
+    with pytest.raises(TypeError):
+        site_rules.require_comparable(_rec(), _rec())          # 位置参数不被接受
+    with pytest.raises(IncomparableError, match="未知的比较目的"):
+        site_rules.require_comparable(_rec(), _rec(), purpose="whatever")
+
+
+def test_T7e_different_panel_rejected():
+    """不同评估面板产出的数字不可比。"""
+    a, b = _rec(), _rec(panel_digest="PANEL_B")
+    with pytest.raises(IncomparableError, match="panel_digest|面板"):
+        site_rules.require_comparable(a, b, purpose="across_methods")
+
+
+def test_T7f_purposes_have_distinct_strictness():
+    """across_methods 允许 method/seed 不同；paired_by_seed 不允许 seed 不同。"""
+    a = _rec(method_family="scratch", learner_seed=1)
+    b = _rec(method_family="hard_exit", learner_seed=2)
+    site_rules.require_comparable(a, b, purpose="across_methods")   # 通过
+    with pytest.raises(IncomparableError, match="learner_seed"):
+        site_rules.require_comparable(a, b, purpose="paired_by_seed")
+    with pytest.raises(IncomparableError, match="method_family"):
+        site_rules.require_comparable(a, b, purpose="across_seeds")
+
+
+def test_T7g_same_checkpoint_requires_sha():
+    """重复评估同一 checkpoint 时，SHA 不同即不可比。"""
+    a, b = _rec(), _rec(checkpoint_sha256="def")
+    with pytest.raises(IncomparableError, match="checkpoint_sha256"):
+        site_rules.require_comparable(a, b, purpose="same_checkpoint")
+    site_rules.require_comparable(a, _rec(), purpose="same_checkpoint")  # 相同则通过
 
 
 # ══════════════════════════════════════════════════════════════════════

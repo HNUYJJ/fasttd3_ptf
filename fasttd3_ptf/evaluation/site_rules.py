@@ -19,12 +19,28 @@ from __future__ import annotations
 # 少于 3 更不可能支撑任何稳定性结论）。
 MIN_SEEDS_FOR_ROBUST = 3
 
-# 比较两条记录时必须一致的身份字段。缺失即不可比。
-IDENTITY_KEYS_FOR_COMPARISON = ("global_step",)
+# 按**比较目的**要求不同的一致性集合（预注册 evaluator_v21_hardening §4）。
+# 此前只检查 global_step，导致 crawl@100k 与 hurdle@100k 被判为可比——
+# "同为 100k" 远不等于可比。
+COMPARISON_REQUIREMENTS: dict[str, frozenset] = {
+    # 同一 target 上比不同方法（scratch vs continuous vs hard-exit）
+    "across_methods": frozenset(
+        {"env_name", "global_step", "panel_digest", "schema_version"}),
+    # 同一方法比不同 learner seed
+    "across_seeds": frozenset(
+        {"env_name", "method_family", "global_step", "panel_digest", "schema_version"}),
+    # 逐 seed 配对（最严，用于配对差值统计）
+    "paired_by_seed": frozenset(
+        {"env_name", "global_step", "panel_digest", "schema_version", "learner_seed"}),
+    # 同一 checkpoint 的重复评估（验证可复现性）
+    "same_checkpoint": frozenset(
+        {"env_name", "global_step", "panel_digest", "schema_version",
+         "learner_seed", "checkpoint_sha256"}),
+}
 
 
 class IncomparableError(Exception):
-    """两条记录的身份不允许直接比较（不同预算 / 身份不完整）。"""
+    """两条记录的身份不允许直接比较（不同预算 / 不同面板 / 身份不完整）。"""
 
 
 def classify_headroom(h_op, h_ms) -> str:
@@ -59,24 +75,45 @@ def pct_of_ceiling(value, ceiling) -> float | None:
     return 100.0 * float(value) / float(ceiling)
 
 
-def require_comparable(a: dict, b: dict) -> None:
-    """两条记录可直接比较时静默返回，否则 raise IncomparableError。
+def require_comparable(a: dict, b: dict, *, purpose: str) -> None:
+    """按**比较目的**校验两条记录可比；不可比则 raise IncomparableError。
 
-    身份字段缺失**也**视为不可比——不得把"没写 global_step"当成"步数相同"。
+    ``purpose`` 必须显式传入（关键字参数，无默认值）——没有"随手比一下"这个选项。
+    合法取值见 ``COMPARISON_REQUIREMENTS``。
+
+    三条硬规则：
+
+    1. 要求集合中任一字段在任一侧**缺失**即不可比——身份不完整 ≠ 身份相同；
+    2. 跨 ``env_name`` 在**所有** purpose 下均被拒绝。若确需跨 target 陈述，
+       须先在各自 target 内算配对差值再比较差值，由调用方负责；
+    3. 不提供无 purpose 的兼容签名——保留弱检查入口就会有人继续用。
     """
-    for key in IDENTITY_KEYS_FOR_COMPARISON:
-        va, vb = a.get(key), b.get(key)
-        if va is None or vb is None:
-            raise IncomparableError(
-                f"身份不完整，无法比较：{key} 缺失 "
-                f"(a={a.get('task')}:{va}, b={b.get('task')}:{vb})"
-            )
-        if va != vb:
-            raise IncomparableError(
-                f"跨预算比较被拒绝：{key} 不同 "
-                f"(a={a.get('task')}@{va}, b={b.get('task')}@{vb})。"
-                f"v1 曾拿 stair@20k 对 slide@75k，结论已撤回。"
-            )
+    if purpose not in COMPARISON_REQUIREMENTS:
+        raise IncomparableError(
+            f"未知的比较目的 {purpose!r}；合法值："
+            f"{sorted(COMPARISON_REQUIREMENTS)}"
+        )
+    required = COMPARISON_REQUIREMENTS[purpose]
+
+    missing = [k for k in sorted(required) if a.get(k) is None or b.get(k) is None]
+    if missing:
+        raise IncomparableError(
+            f"[{purpose}] 身份不完整，无法比较：字段 {missing} 在某一侧缺失。"
+            f"身份不完整不等于身份相同。"
+        )
+
+    mismatched = {k: (a[k], b[k]) for k in sorted(required) if a[k] != b[k]}
+    if mismatched:
+        detail = "; ".join(f"{k}: {va!r} vs {vb!r}" for k, (va, vb) in mismatched.items())
+        hint = ""
+        if "env_name" in mismatched:
+            hint = ("。跨 target 比较一律拒绝——须先在各自 target 内算配对差值，"
+                    "再比较差值")
+        elif "global_step" in mismatched:
+            hint = "。v1 曾拿 stair@20k 对 slide@75k，该结论已撤回"
+        elif "panel_digest" in mismatched:
+            hint = "。不同评估面板产出的数字不可比"
+        raise IncomparableError(f"[{purpose}] 不可比：{detail}{hint}")
 
 
 def is_robustly_solved(returns_by_seed: dict, bar) -> bool | None:
