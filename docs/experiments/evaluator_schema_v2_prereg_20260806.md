@@ -231,7 +231,8 @@ truck 132   basketball 105   cabinet 95   stair 69   powerlift 58   package 15  
 # fasttd3_ptf/evaluation/task_metrics.py ── 任务语义 registry
 @dataclass(frozen=True)
 class TaskMetrics:
-    termination_is: str                  # "failure" | "success" | "neutral"
+    termination_is: str | Callable       # "failure"|"success"|"neutral"，或条件判定函数
+                                         # （2026-08-06 实现前扩展，理由见 §4.6）
     milestone_names: tuple[str, ...]     # 人工审计过的 milestone
     required_info_keys: tuple[str, ...]  # 必需字段；解析失败 → 硬报错
     milestone_fn: Callable[[dict, dict | None], dict]   # (info, mj_state) -> milestones
@@ -280,6 +281,33 @@ def has_post_exit_deficit(hard_exit_stats, ceiling_stats) -> bool | None
 `site_rules` 与 `task_metrics` **不 import gymnasium / mujoco / torch**，
 使 T1–T3、T5–T10 可在无 GPU、无 MuJoCo 的环境下秒级运行。
 只有 T4（v1/v2 逐位兼容）需要真实 checkpoint 与环境，标记为集成测试。
+
+## 4.6 逐任务核实的终止语义（实现前读源码得出）
+
+`termination_is` 从 `str` 放宽为 `str | Callable` 的理由——读完源码发现
+**终止语义不都是静态的**，静态枚举无法表达 bookshelf 与 basketball：
+
+| 任务 | `get_terminated` 实际条件 | 出处 | 语义 |
+|---|---|---|---|
+| Walk / Run / Stand / Hurdle | `qpos[2] < 0.2` | `basic_locomotion_envs.py:96` | `failure`（摔倒） |
+| **Crawl** | **恒 `return False`** | `basic_locomotion_envs.py:168` | `neutral`（**永不终止**） |
+| Slide / Stair | `torso_upright < 0.1` | `basic_locomotion_envs.py:216` | `failure` |
+| Sit / SitHard | `qpos[2] < 0.5` | `basic_locomotion_envs.py:356` | `failure` |
+| Powerlift | `qpos[2] < 0.2` | `powerlift.py:99` | `failure` |
+| Truck | 全部 package 上桌 | `truck.py:207` | `success` |
+| Cabinet | `current_subtask == 5` | `cabinet.py:244` | `success` |
+| Package | `dist_package_destination < 0.1` | `package.py:147` | `success` |
+| **Bookshelf** | reason 0 摔倒 / reason 1 完成 / reason 2 物体掉落 | `bookshelf.py:190` | **条件**：读 `info["terminated_reason"]` |
+| **Basketball** | 球掉 / 人摔 / 进筐，**三者都 `return True, {}`** | `basketball.py:143` | **条件**：info 无区分字段，须读 MuJoCo state |
+
+两条由此确定的事实：
+
+1. **v1 的 `if terminated: success = True` 在 crawl 上不触发**——crawl 恒不终止。
+   此前笼统说"全部 locomotion 把摔倒记为 success"不精确，
+   受影响的是 walk/run/stand/hurdle/slide/stair/sit/powerlift，**不含 crawl**。
+2. **basketball 无法仅由 `(terminated, info)` 判定成败**。缺 MuJoCo state 时
+   必须返回 `task_success=None` + `metric_status="INSUFFICIENT_STATE"`，
+   不得猜测——这正是 `needs_mujoco_state` 字段的用途。
 
 ## 5. Fail-closed golden tests（实现前冻结，必须全部通过）
 

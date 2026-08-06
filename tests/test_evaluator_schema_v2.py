@@ -34,12 +34,18 @@ from fasttd3_ptf.evaluation.site_rules import IncomparableError  # noqa: E402
 # ══════════════════════════════════════════════════════════════════════
 
 @pytest.mark.parametrize("env_name", [
-    "h1hand-walk-v0", "h1hand-hurdle-v0", "h1hand-slide-v0", "h1hand-crawl-v0",
+    "h1hand-walk-v0",    # qpos[2] < 0.2            basic_locomotion_envs.py:96
+    "h1hand-run-v0",
+    "h1hand-hurdle-v0",  # 继承 Walk
+    "h1hand-slide-v0",   # torso_upright < 0.1      basic_locomotion_envs.py:216
+    "h1hand-stair-v0",
+    "h1hand-powerlift-v0",  # qpos[2] < 0.2         powerlift.py:99
 ])
 def test_T1_locomotion_fall_is_not_success(env_name):
-    """Walk 系 get_terminated 是摔倒（torso_upright < 0.1 或头部过低）。
+    """这些任务的 get_terminated 都是摔倒判定（已逐条读源码核实，见预注册 §4.6）。
 
-    v1 的 `if terminated: success = True` 把它记成了成功。
+    v1 的 `if terminated: success = True` 把它们记成了成功。
+    **注意 crawl 不在此列**——它恒不终止，见 test_T1c。
     """
     success, semantics, status, _ = task_metrics.resolve_task_outcome(
         env_name=env_name, terminated=True, truncated=False, info={},
@@ -56,6 +62,83 @@ def test_T1b_truncation_is_not_success():
     )
     assert success is False
     assert semantics != "success"
+
+
+def test_T1c_crawl_never_terminates():
+    """Crawl.get_terminated 恒 return False（basic_locomotion_envs.py:168）。
+
+    故 v1 的 bug 在 crawl 上**不触发**——不得笼统说"全部 locomotion 受影响"。
+    语义是 neutral 而非 failure。
+    """
+    spec = task_metrics.TASK_METRIC_REGISTRY["h1hand-crawl-v0"]
+    assert spec.termination_is == "neutral"
+    success, semantics, status, _ = task_metrics.resolve_task_outcome(
+        env_name="h1hand-crawl-v0", terminated=False, truncated=True, info={},
+    )
+    assert success is False
+    assert semantics == "neutral"
+    assert status == "OK"
+
+
+def test_T1d_bookshelf_termination_is_conditional():
+    """同一个 terminated 有三种语义，靠 info['terminated_reason'] 区分
+    （bookshelf.py:190）。静态枚举表达不了，故契约放宽为 str | Callable。
+    """
+    fall, sem_fall, _, _ = task_metrics.resolve_task_outcome(
+        "h1hand-bookshelf_simple-v0", True, False, {"terminated_reason": 0})
+    done, sem_done, _, _ = task_metrics.resolve_task_outcome(
+        "h1hand-bookshelf_simple-v0", True, False, {"terminated_reason": 1})
+    drop, sem_drop, _, _ = task_metrics.resolve_task_outcome(
+        "h1hand-bookshelf_simple-v0", True, False, {"terminated_reason": 2})
+    assert (fall, sem_fall) == (False, "failure"), "reason 0 = 摔倒"
+    assert (done, sem_done) == (True, "success"), "reason 1 = 完成全部子任务"
+    assert (drop, sem_drop) == (False, "failure"), "reason 2 = 物体掉落"
+
+
+def test_T1f_conditional_task_not_terminated_is_neutral_not_unknown():
+    """条件判定任务在**未终止**的 episode 上不应报 INSUFFICIENT_STATE。
+
+    未终止只是"环境还没给出成败信号"，不是"数据不足以判定"。
+    把它报成 INSUFFICIENT_STATE 会让绝大多数正常 episode 被标为不可判定。
+    """
+    for env in ("h1hand-bookshelf_simple-v0", "h1hand-basketball-v0"):
+        success, semantics, status, _ = task_metrics.resolve_task_outcome(
+            env, terminated=False, truncated=True, info={}, mj_state=None,
+        )
+        assert status == "OK", f"{env} 未终止时应为 OK，得到 {status}"
+        assert semantics == "neutral", f"{env} 未终止时语义应为 neutral"
+        assert success is False, "已注册任务未达成 → False"
+
+
+def test_T1g_unterminated_locomotion_is_neutral_not_failure():
+    """跑满 1000 步没摔倒，语义是 neutral，不是 failure。"""
+    _, semantics, status, _ = task_metrics.resolve_task_outcome(
+        "h1hand-walk-v0", terminated=False, truncated=True, info={},
+    )
+    assert semantics == "neutral"
+    assert status == "OK"
+
+
+def test_T1h_milestones_extracted_even_when_not_terminated():
+    """未终止的 episode 也可能有中间进度，milestone 不应因此丢失。"""
+    _, _, status, milestones = task_metrics.resolve_task_outcome(
+        "h1hand-truck-v0", terminated=False, truncated=True,
+        info={"success": 0, "success_subtasks": 2},
+    )
+    assert status == "OK"
+    assert milestones.get("success_subtasks") == 2, "中途进度必须保留"
+
+
+def test_T1e_basketball_needs_state_else_null():
+    """球掉 / 人摔 / 进筐三种情况都 `return True, {}`（basketball.py:143），
+    info 无区分字段。缺 MuJoCo state 时必须 None，**不得猜测**。
+    """
+    success, _, status, _ = task_metrics.resolve_task_outcome(
+        "h1hand-basketball-v0", terminated=True, truncated=False,
+        info={}, mj_state=None,
+    )
+    assert success is None, "无 state 时不可判定，必须 None"
+    assert status == "INSUFFICIENT_STATE"
 
 
 # ══════════════════════════════════════════════════════════════════════
