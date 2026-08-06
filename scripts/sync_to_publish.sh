@@ -61,9 +61,20 @@ git -C "$PUB" ls-files | grep -qE '\.(pt|pth|ckpt|safetensors)$' && die "仓库�
 BIG=$(git -C "$PUB" ls-files -z | xargs -0 ls -l 2>/dev/null | awk '$5>100*1024*1024{print $9}')
 [[ -z "$BIG" ]] || die "存在 >100MB 文件：$BIG"
 
+# 认证走 VS Code 的 git credential helper（unix socket）。
+# 该 socket 随 VS Code 会话变化，shell 里继承的 VSCODE_GIT_IPC_HANDLE 可能是
+# 旧会话的、已 ECONNREFUSED。故每次取**最新**的 socket，而不是信任继承值。
+NEWEST_SOCK=$(ls -t /run/user/$(id -u)/vscode-git-*.sock 2>/dev/null | head -1)
+if [[ -n "$NEWEST_SOCK" ]]; then
+  export VSCODE_GIT_IPC_HANDLE="$NEWEST_SOCK"
+  echo "认证 socket: $NEWEST_SOCK"
+elif [[ -z "${GITHUB_TOKEN:-}" ]]; then
+  echo "WARN: 未找到 vscode-git socket 且无 GITHUB_TOKEN —— 推送可能失败" >&2
+fi
+
 echo "推送中..."
 GIT_TERMINAL_PROMPT=0 git -C "$PUB" "${PROXY[@]}" push origin main 2>&1 | tail -3 \
-  || die "推送失败"
+  || die "推送失败（若为认证问题：确认 VS Code 在运行，或设 GITHUB_TOKEN）"
 
 REMOTE=$(git -C "$PUB" "${PROXY[@]}" ls-remote --heads origin main 2>/dev/null | cut -f1)
 LOCAL=$(git -C "$PUB" rev-parse HEAD)
