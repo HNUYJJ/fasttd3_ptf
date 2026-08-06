@@ -27,3 +27,6 @@ include = ["fasttd3_ptf*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "integration: 需要真实 checkpoint / MuJoCo 环境的集成测试（默认 skip）",
+]
