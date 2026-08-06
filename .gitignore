@@ -18,8 +18,15 @@
 *.h5
 *.pkl
 
-# ── 2. 训练产物目录（整个排除，不做部分豁免）─────────────────────────
+# ── 2. 训练产物目录 ─────────────────────────────────────────────────
 artifacts/
+# 例外：anchor bundle 的 manifest / checksums 是**审计链证据**（小 JSON）。
+# 大张量（learner/replay/rng）已由 §1 的 *.pt 规则排除，而 checksums 本身
+# 就能校验那些不进版本控制的张量。
+!artifacts/
+!artifacts/**/
+!artifacts/**/manifest.json
+!artifacts/**/checksums.json
 models/
 checkpoints/
 wandb/
