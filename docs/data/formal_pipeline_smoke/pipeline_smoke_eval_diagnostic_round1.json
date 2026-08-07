@@ -1,0 +1,2387 @@
+{
+  "schema_version": "2.1",
+  "protocol": {
+    "eval_seeds": [
+      11,
+      23,
+      37,
+      53
+    ],
+    "ranks": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "episode_steps": 1000,
+    "deterministic": true,
+    "source_free": "structural: actor + frozen obs normalizer only"
+  },
+  "checkpoint": {
+    "path": "models/h1hand-slide-v0__slide_bac_walk_s1__1_20000.pt",
+    "sha256": "cf0a52a233ab875bbd485340f811523da62aeadcaa72ec8f6456e217b8681ca9",
+    "global_step": 20000,
+    "learner_seed": 1,
+    "env_name_in_checkpoint": "h1hand-slide-v0",
+    "training_commit": "UNKNOWN",
+    "args_digest": "bbfc164c8a6571d54c5064bfbf75082be85f027a442f9f1291ebaa160be39755",
+    "ptf_cfg_digest": "dea0cbc020b74b1cc47fc7ca15a28ae2801b5c9db89eb82b7aa8b33c7a81d1dd",
+    "ptf_cfg_summary": {
+      "admission_mode": "all",
+      "admission_replay_mode": "shared",
+      "mcg_warmup_steps": 30000,
+      "source_names": [
+        "walk"
+      ]
+    },
+    "manifest_checked_fields": [
+      "checkpoint_sha256",
+      "env_name",
+      "global_step",
+      "learner_seed",
+      "training_protocol_digest"
+    ]
+  },
+  "identity_mode": "formal",
+  "identity_checked": true,
+  "scientific_use_permitted": true,
+  "identity_expectations": [],
+  "panel_digest": "7f337234fef3acfd6320f7c70172afaa8286f9d1b6fb043d5872b6350d640e76",
+  "evaluation_semantics_digest": "80619b7e4f33a7c7db0cb46b90ac0b4ac945852ee970e74560cf0b9c142138ff",
+  "evaluation_semantics_files": {
+    "scripts/p0_evaluator_v2.py": "12c10fb2e2c51cae00dec753b25176a33486d3550c4aaaaaefa8ed9e3b3eb181",
+    "fasttd3_ptf/evaluation/task_metrics.py": "c8bfe43a1c01fd97db41be279f44cab7e7c6e8b9ce3dd199768bd3281868434f",
+    "fasttd3_ptf/evaluation/schema_v2.py": "06719f491bed02372f8be07720c359f748e348c12e46570a7f100555c904b4b3"
+  },
+  "source_free_mode": "structural: actor + frozen obs normalizer only",
+  "overwrote_existing": false,
+  "env_name": "h1hand-slide-v0",
+  "task_metrics_registered": true,
+  "task_metrics_source": "basic_locomotion_envs.py:216  torso_upright < 0.1",
+  "git_head": "0c1e0028ccb77d6a076f97ed1db3451a6b9134f4",
+  "utc": "2026-08-07T08:06:06.108018+00:00",
+  "episodes": [
+    {
+      "schema_version": 2.2,
+      "seed": 11000,
+      "return": 90.86603115452897,
+      "progress_max_dx": 2.6600580436196517,
+      "episode_length": 370,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.24558386798521342,
+          "max": 0.9700172196896624,
+          "final": 8.33448255374587e-31,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 370,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.2950107506618808,
+          "max": 1.0,
+          "final": 1.5769639665896224e-30,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 370,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9494478038859249,
+          "max": 0.9700172196896624,
+          "final": 0.9476417771102563,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 370,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.4550158477998217,
+          "max": 1.0,
+          "final": 0.557715447243666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 370,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.2950107903342843,
+          "max": 1.0,
+          "final": 2.011979013949013e-30,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 370,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9876801217702048,
+          "max": 1.0,
+          "final": 0.7837874827006448,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 370,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 11001,
+      "return": 110.27369978561069,
+      "progress_max_dx": 3.4864861775471048,
+      "episode_length": 1000,
+      "terminated": false,
+      "truncated": true,
+      "termination_semantics": "neutral",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.11027369978561069,
+          "max": 0.9684152871767653,
+          "final": 8.095021477385949e-11,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.12078063474192444,
+          "max": 1.0,
+          "final": 5.03498667237071e-10,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9586908194274916,
+          "max": 0.9726515252530863,
+          "final": 0.9646525805290083,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.28208313517523564,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.12078063933979752,
+          "max": 1.0,
+          "final": 5.869600225802491e-10,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9058386415089889,
+          "max": 1.0,
+          "final": 0.8578074278785022,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 11002,
+      "return": 88.93109194796013,
+      "progress_max_dx": 2.647403982270576,
+      "episode_length": 744,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.11953103756446254,
+          "max": 0.96532234466606,
+          "final": 5.1002027948754903e-20,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 744,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.13401050182022575,
+          "max": 1.0,
+          "final": 3.220082463219607e-19,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 744,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.956924770530873,
+          "max": 0.9751645735997769,
+          "final": 0.9503240093626747,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 744,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.28617283149784284,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 744,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.1340105036053816,
+          "max": 1.0,
+          "final": 4.0851172646058576e-19,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 744,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9205016074608104,
+          "max": 1.0,
+          "final": 0.7882472532964825,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 744,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 11003,
+      "return": 157.79175688682741,
+      "progress_max_dx": 3.713880096822953,
+      "episode_length": 227,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.6951178717481384,
+          "max": 0.9676925176615743,
+          "final": 2.2946440554065113e-16,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 227,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.8532172420848527,
+          "max": 1.0,
+          "final": 1.4338021925800246e-15,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 227,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9526238467282226,
+          "max": 0.9678221575124967,
+          "final": 0.9602345709671976,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 227,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.7877658844160003,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 227,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.8532172941286015,
+          "max": 1.0,
+          "final": 1.824306639205792e-15,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 227,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.992331288325541,
+          "max": 1.0,
+          "final": 0.7859436356621644,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 227,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 11004,
+      "return": 156.06422573474532,
+      "progress_max_dx": 4.518237086234099,
+      "episode_length": 1000,
+      "terminated": false,
+      "truncated": true,
+      "termination_semantics": "neutral",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.15606422573474532,
+          "max": 0.9693668937247523,
+          "final": 1.5206421140848328e-11,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.18171775323576608,
+          "max": 1.0,
+          "final": 8.348850347676616e-11,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9562782454347208,
+          "max": 0.9753777742491687,
+          "final": 0.9548633261513544,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.3201406188992579,
+          "max": 1.0,
+          "final": 0.19074761834827095,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.18171778161720134,
+          "max": 1.0,
+          "final": 9.674166174714319e-11,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9496385187437726,
+          "max": 1.0,
+          "final": 0.8630046452476986,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 11005,
+      "return": 135.53415516001886,
+      "progress_max_dx": 3.0742446742785945,
+      "episode_length": 206,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.6579327920389265,
+          "max": 0.965213098302022,
+          "final": 2.5836835109958023e-22,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 206,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.8512448098381928,
+          "max": 1.0,
+          "final": 1.6120251357585992e-21,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 206,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9512905116484877,
+          "max": 0.965213098302022,
+          "final": 0.9616538056448926,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 206,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.7244513284632302,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 206,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.8512616533489195,
+          "max": 1.0,
+          "final": 2.0723253206393783e-21,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 206,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9903277233337034,
+          "max": 1.0,
+          "final": 0.7778822753858154,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 206,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 11006,
+      "return": 119.93517430991047,
+      "progress_max_dx": 3.4129351109952775,
+      "episode_length": 181,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.6626252724304446,
+          "max": 0.9698443850437276,
+          "final": 4.812276767407048e-23,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 181,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.7555378304218904,
+          "max": 1.0,
+          "final": 3.0218334652986586e-22,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 181,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9522068407458455,
+          "max": 0.970960864546947,
+          "final": 0.9555013847061424,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 181,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.7759716763683473,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 181,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.755537877531351,
+          "max": 1.0,
+          "final": 3.8763125498196334e-22,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 181,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9946083043688536,
+          "max": 1.0,
+          "final": 0.7795639351732011,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 181,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 11007,
+      "return": 174.6731605108104,
+      "progress_max_dx": 4.268252841601941,
+      "episode_length": 224,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.7797908951375464,
+          "max": 0.970799753334491,
+          "final": 6.218669289316682e-11,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 224,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.9323771026181599,
+          "max": 1.0,
+          "final": 1.0692367683763439e-10,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 224,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9545455518882541,
+          "max": 0.9771659750834865,
+          "final": 0.9492326909401292,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 224,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.8758592459646879,
+          "max": 1.0,
+          "final": 0.6127042464048217,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 224,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.9323841562434517,
+          "max": 1.0,
+          "final": 1.375673500794725e-10,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 224,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9943209426810403,
+          "max": 1.0,
+          "final": 0.7772460309504015,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 224,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 23000,
+      "return": 88.46359288463469,
+      "progress_max_dx": 2.6782591344900966,
+      "episode_length": 1000,
+      "terminated": false,
+      "truncated": true,
+      "termination_semantics": "neutral",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.08846359288463469,
+          "max": 0.9627948926890847,
+          "final": 9.336066863545992e-21,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.09910817074206181,
+          "max": 1.0,
+          "final": 5.745473272690512e-20,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9600892160911991,
+          "max": 0.9833483180802014,
+          "final": 0.9749658300132407,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.2561320162459144,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.09910818669660679,
+          "max": 1.0,
+          "final": 7.255050187941565e-20,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9044547748688496,
+          "max": 1.0,
+          "final": 0.7919274331471776,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 23001,
+      "return": 89.89298429559332,
+      "progress_max_dx": 2.3175660112811856,
+      "episode_length": 589,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.15261966773445385,
+          "max": 0.9567688133038648,
+          "final": 4.5414154342607875e-21,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 589,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.1778116324360711,
+          "max": 1.0,
+          "final": 2.8416941999164545e-20,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 589,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9601878241205033,
+          "max": 0.9794639477700773,
+          "final": 0.958881944664061,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 589,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.3218385794125633,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 589,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.17781163243608214,
+          "max": 1.0,
+          "final": 3.602473793050444e-20,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 589,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9123898389012334,
+          "max": 1.0,
+          "final": 0.7888174524401497,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 589,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 23002,
+      "return": 78.72862091176115,
+      "progress_max_dx": 1.7079497735410132,
+      "episode_length": 1000,
+      "terminated": false,
+      "truncated": true,
+      "termination_semantics": "neutral",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.07872862091176115,
+          "max": 0.9564770529221157,
+          "final": 2.0464166282345213e-17,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.1260641459078751,
+          "max": 1.0,
+          "final": 1.283965061029854e-16,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9518494144048611,
+          "max": 0.9683517327466455,
+          "final": 0.9562954742365559,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.24482589230624968,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.12606420084172834,
+          "max": 1.0,
+          "final": 1.4534645085763346e-16,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9524521035475534,
+          "max": 1.0,
+          "final": 0.8833824654497379,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 23003,
+      "return": 127.31794643318088,
+      "progress_max_dx": 3.1463509155502254,
+      "episode_length": 362,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.3517070343458035,
+          "max": 0.9592890497276081,
+          "final": 3.424803115488611e-24,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 362,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.39676807245888734,
+          "max": 1.0,
+          "final": 2.1375905620422145e-23,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 362,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9492343858377297,
+          "max": 0.9666676246582476,
+          "final": 0.9613075140685364,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 362,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.49637119243733363,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 362,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.39676861520426504,
+          "max": 1.0,
+          "final": 2.7241433808803116e-23,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 362,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9680147328659969,
+          "max": 1.0,
+          "final": 0.7846835732087819,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 362,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 23004,
+      "return": 112.74348675333064,
+      "progress_max_dx": 2.65950141697721,
+      "episode_length": 237,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.4757109145710154,
+          "max": 0.9561181592638317,
+          "final": 4.933993087150826e-13,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 237,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.6227867692490324,
+          "max": 1.0,
+          "final": 3.07223172209943e-12,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 237,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.953874468842634,
+          "max": 0.973949876003837,
+          "final": 0.9635978402916463,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 237,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.5787724393948639,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 237,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.6227873606701811,
+          "max": 1.0,
+          "final": 3.933263749359138e-12,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 237,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9782773357647341,
+          "max": 1.0,
+          "final": 0.7810896796839523,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 237,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 23005,
+      "return": 119.10617227742472,
+      "progress_max_dx": 3.129780894777699,
+      "episode_length": 190,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.6268745909338143,
+          "max": 0.9554967626186637,
+          "final": 2.895148083558528e-22,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 190,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.7264353312854538,
+          "max": 1.0,
+          "final": 1.831426126409032e-21,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 190,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9517249784943898,
+          "max": 0.9679359002514298,
+          "final": 0.9484897179779308,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 190,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.7522536070975909,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 190,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.7264382838439837,
+          "max": 1.0,
+          "final": 2.388725433521558e-21,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 190,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9947001891895225,
+          "max": 1.0,
+          "final": 0.7666959545488942,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 190,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 23006,
+      "return": 108.37526717287116,
+      "progress_max_dx": 2.4249899070498353,
+      "episode_length": 191,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.5674097757741946,
+          "max": 0.9547816967576841,
+          "final": 2.6555336188561e-27,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 191,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.8348648085269934,
+          "max": 1.0,
+          "final": 1.6679169292005113e-26,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 191,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9486835841332936,
+          "max": 0.966882830021593,
+          "final": 0.9552754956911386,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 191,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.6414519151421149,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 191,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.8348648085271414,
+          "max": 1.0,
+          "final": 2.172751915283698e-26,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 191,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9970193980238733,
+          "max": 1.0,
+          "final": 0.7676518048231613,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 191,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 23007,
+      "return": 75.05233963814656,
+      "progress_max_dx": 1.590368141275602,
+      "episode_length": 157,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.4780403798608061,
+          "max": 0.9521241131577638,
+          "final": 7.146579421041377e-20,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 157,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.7039301935600492,
+          "max": 1.0,
+          "final": 4.559524964286083e-19,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 157,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9472276170303885,
+          "max": 0.9631440456359339,
+          "final": 0.9404373670966886,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 157,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.560977982611159,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 157,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.7039376424555502,
+          "max": 1.0,
+          "final": 5.859261967173565e-19,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 157,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9752684571501188,
+          "max": 1.0,
+          "final": 0.7781739389415867,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 157,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 37000,
+      "return": 60.600998470802566,
+      "progress_max_dx": 1.5477985534513048,
+      "episode_length": 154,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.39351297708313354,
+          "max": 0.951213227984885,
+          "final": 7.960035520459435e-12,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 154,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.49914290555329804,
+          "max": 1.0,
+          "final": 5.069013717291555e-11,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 154,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9451788979266065,
+          "max": 0.9583760577967448,
+          "final": 0.9421993268598919,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 154,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.5583775125755658,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 154,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.4991430718965501,
+          "max": 1.0,
+          "final": 6.427413689445878e-11,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 154,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9850155703717157,
+          "max": 1.0,
+          "final": 0.7886552760117369,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 154,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 37001,
+      "return": 103.80759772680285,
+      "progress_max_dx": 2.625493466082091,
+      "episode_length": 1000,
+      "terminated": false,
+      "truncated": true,
+      "termination_semantics": "neutral",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.10380759772680286,
+          "max": 0.9660789531671373,
+          "final": 7.856735226311581e-10,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.12096001044332853,
+          "max": 1.0,
+          "final": 4.896704592302151e-09,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9606392908308213,
+          "max": 0.9732445996722475,
+          "final": 0.9626966558688558,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.2677044018091149,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.12096001860556732,
+          "max": 1.0,
+          "final": 5.348951313779961e-09,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9164343475976716,
+          "max": 1.0,
+          "final": 0.9154513296255411,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 37002,
+      "return": 113.86482948005774,
+      "progress_max_dx": 2.38037201200853,
+      "episode_length": 1000,
+      "terminated": false,
+      "truncated": true,
+      "termination_semantics": "neutral",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.11386482948005773,
+          "max": 0.9625579819958258,
+          "final": 6.897867480791448e-12,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.15949672228905026,
+          "max": 1.0,
+          "final": 4.210817648960073e-11,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9720742707605664,
+          "max": 0.9839677712476462,
+          "final": 0.9828781090762717,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.2640871011406457,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.159496928243721,
+          "max": 1.0,
+          "final": 4.438750213699247e-11,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.954698966582317,
+          "max": 1.0,
+          "final": 0.9486493824239739,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 37003,
+      "return": 86.02413521749676,
+      "progress_max_dx": 2.144871686647979,
+      "episode_length": 438,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.1964021351997643,
+          "max": 0.9626468993757736,
+          "final": 3.2877268389873597e-22,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 438,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.23004819128168758,
+          "max": 1.0,
+          "final": 1.7232278189394914e-21,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 438,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9512110968491229,
+          "max": 0.9719430095239154,
+          "final": 0.9534675707085187,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 438,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.35671717151817645,
+          "max": 1.0,
+          "final": 0.20010000684960683,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 438,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.23004823589507878,
+          "max": 1.0,
+          "final": 2.189324515489548e-21,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 438,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9521593702364113,
+          "max": 1.0,
+          "final": 0.7871047927100774,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 438,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 37004,
+      "return": 88.42112182535712,
+      "progress_max_dx": 2.0213160009132514,
+      "episode_length": 1000,
+      "terminated": false,
+      "truncated": true,
+      "termination_semantics": "neutral",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.08842112182535712,
+          "max": 0.9513691824564875,
+          "final": 9.981474479145516e-06,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.12601320226525567,
+          "max": 1.0,
+          "final": 5.716858488741567e-05,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.955667690951459,
+          "max": 0.9681744277439381,
+          "final": 0.9536190163434423,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.25060604792176355,
+          "max": 1.0,
+          "final": 0.18308904345741583,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.12601707007131305,
+          "max": 1.0,
+          "final": 5.994196213428633e-05,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9778641158230215,
+          "max": 1.0,
+          "final": 0.953732291234352,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 37005,
+      "return": 93.25147717849696,
+      "progress_max_dx": 2.835327043545564,
+      "episode_length": 561,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.16622366698484306,
+          "max": 0.9621833174071824,
+          "final": 2.7132044296096467e-21,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 561,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.18857061543945527,
+          "max": 1.0,
+          "final": 1.698283775931273e-20,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 561,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9604178560959561,
+          "max": 0.9764320138963886,
+          "final": 0.958569280845363,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 561,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.3328845130218177,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 561,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.18857064199445456,
+          "max": 1.0,
+          "final": 2.170779482564464e-20,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 561,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9547782820313279,
+          "max": 1.0,
+          "final": 0.7823382289964317,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 561,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 37006,
+      "return": 85.19988604659495,
+      "progress_max_dx": 1.8375688617190773,
+      "episode_length": 802,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.10623427187854732,
+          "max": 0.9514112822859877,
+          "final": 4.259306471125291e-22,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 802,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.14470036163431466,
+          "max": 1.0,
+          "final": 2.6576310577015328e-21,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 802,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9569597728521377,
+          "max": 0.9772021256738557,
+          "final": 0.9616022040641662,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 802,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.28144023247725025,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 802,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.14470065743129673,
+          "max": 1.0,
+          "final": 3.380265976133189e-21,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 802,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9499312644505434,
+          "max": 1.0,
+          "final": 0.7862195094901068,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 802,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 37007,
+      "return": 53.8079967232495,
+      "progress_max_dx": 2.2535905436227064,
+      "episode_length": 1000,
+      "terminated": false,
+      "truncated": true,
+      "termination_semantics": "neutral",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.0538079967232495,
+          "max": 0.9483271159870468,
+          "final": 7.649539907650356e-20,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.06912751188494175,
+          "max": 1.0,
+          "final": 4.820105116553461e-19,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.949706035869122,
+          "max": 0.9713766632621766,
+          "final": 0.9522041187085195,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.2640660783968038,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.06912751500912788,
+          "max": 1.0,
+          "final": 5.72730836368598e-19,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9292728789819878,
+          "max": 1.0,
+          "final": 0.8416004186391212,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 53000,
+      "return": 161.2590055128153,
+      "progress_max_dx": 5.365550902167883,
+      "episode_length": 201,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.802283609516494,
+          "max": 0.9731911940798451,
+          "final": 2.786290826912474e-19,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 201,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.871919675742244,
+          "max": 1.0,
+          "final": 2.918855815669216e-19,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 201,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9557073625110712,
+          "max": 0.9731911940798451,
+          "final": 0.9545832349631327,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 201,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.9673771856274342,
+          "max": 1.0,
+          "final": 1.0,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 201,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.8719196759793564,
+          "max": 1.0,
+          "final": 3.85322860471122e-19,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 201,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9968581999498268,
+          "max": 1.0,
+          "final": 0.7575091215975154,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 201,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 53001,
+      "return": 104.69877783604709,
+      "progress_max_dx": 3.487859616887859,
+      "episode_length": 1000,
+      "terminated": false,
+      "truncated": true,
+      "termination_semantics": "neutral",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.10469877783604709,
+          "max": 0.9612515397585542,
+          "final": 9.880425366719865e-14,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.11857921551177315,
+          "max": 1.0,
+          "final": 6.052398685305157e-13,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.96782684479508,
+          "max": 0.9798052241542734,
+          "final": 0.9794885512789087,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.2721357912162519,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.11857922333669069,
+          "max": 1.0,
+          "final": 7.284645531896898e-13,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.8839371008758439,
+          "max": 1.0,
+          "final": 0.8308432659906146,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 53002,
+      "return": 63.50033647044655,
+      "progress_max_dx": 1.9079972985989013,
+      "episode_length": 88,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.7215947326187108,
+          "max": 0.9582392742162975,
+          "final": 8.347145645368824e-26,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 88,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.8378980631396044,
+          "max": 1.0,
+          "final": 8.810134599422256e-26,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 88,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9435307623725779,
+          "max": 0.9582392742162975,
+          "final": 0.9474481406806436,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 88,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.9249956825019318,
+          "max": 1.0,
+          "final": 1.0,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 88,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.8378980631396069,
+          "max": 1.0,
+          "final": 1.153796048058218e-25,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 88,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.99137911542074,
+          "max": 1.0,
+          "final": 0.7635781570104421,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 88,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 53003,
+      "return": 115.39857977469454,
+      "progress_max_dx": 3.2235047884044565,
+      "episode_length": 1000,
+      "terminated": false,
+      "truncated": true,
+      "termination_semantics": "neutral",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.11539857977469455,
+          "max": 0.9732324003587172,
+          "final": 9.524861848296323e-12,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.13393746259370592,
+          "max": 1.0,
+          "final": 5.848688332814767e-11,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9675207571598563,
+          "max": 0.9815044290387356,
+          "final": 0.9771279958471315,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.28426087392893423,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.13393748726834717,
+          "max": 1.0,
+          "final": 6.199415618136146e-11,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9474810855564149,
+          "max": 1.0,
+          "final": 0.9434257505989209,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 53004,
+      "return": 130.6405063376787,
+      "progress_max_dx": 3.8171544834288094,
+      "episode_length": 1000,
+      "terminated": false,
+      "truncated": true,
+      "termination_semantics": "neutral",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.13064050633767868,
+          "max": 0.9675315721867339,
+          "final": 7.833784849975504e-12,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.14356710111364354,
+          "max": 1.0,
+          "final": 4.776045767279647e-11,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9646437540980666,
+          "max": 0.9847461728135893,
+          "final": 0.9841343946464096,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.2931699290131339,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.14356733855635967,
+          "max": 1.0,
+          "final": 5.08070031616739e-11,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9515448393156934,
+          "max": 1.0,
+          "final": 0.9400368984727763,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 53005,
+      "return": 93.9942409227506,
+      "progress_max_dx": 2.571758426496931,
+      "episode_length": 1000,
+      "terminated": false,
+      "truncated": true,
+      "termination_semantics": "neutral",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.0939942409227506,
+          "max": 0.9674506077377215,
+          "final": 7.836973874849945e-05,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.10658051836204877,
+          "max": 1.0,
+          "final": 0.0004922414929062986,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9551916853858752,
+          "max": 0.9722880889879383,
+          "final": 0.9552596424058585,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.26007745420364947,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.10658109547396312,
+          "max": 1.0,
+          "final": 0.0004922414929062986,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.8833366019517904,
+          "max": 1.0,
+          "final": 1.0,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 53006,
+      "return": 175.18293679329207,
+      "progress_max_dx": 4.415233110101525,
+      "episode_length": 258,
+      "terminated": true,
+      "truncated": false,
+      "termination_semantics": "failure",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.6790036309817522,
+          "max": 0.9665744391234703,
+          "final": 7.7660305329226e-15,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 258,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.7533566657695456,
+          "max": 1.0,
+          "final": 4.90942350538549e-14,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 258,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.9523012497303378,
+          "max": 0.9686218488154656,
+          "final": 0.9491172058475092,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 258,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.7906132793094796,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 258,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.7533566828849849,
+          "max": 1.0,
+          "final": 6.518662976121328e-14,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 258,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9906077425194013,
+          "max": 1.0,
+          "final": 0.7531335065747866,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 258,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    },
+    {
+      "schema_version": 2.2,
+      "seed": 53007,
+      "return": 129.52056790392916,
+      "progress_max_dx": 3.3440575865871227,
+      "episode_length": 1000,
+      "terminated": false,
+      "truncated": true,
+      "termination_semantics": "neutral",
+      "task_success": false,
+      "metric_status": "OK",
+      "milestones": {},
+      "mujoco_state": null,
+      "mujoco_state_error": null,
+      "info_diagnostics": {
+        "per_timestep_reward": {
+          "mean": 0.12952056790392916,
+          "max": 0.9656376130156532,
+          "final": 2.854143834562015e-10,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "stand_reward": {
+          "mean": 0.15415657107118197,
+          "max": 1.0,
+          "final": 1.777045957627313e-09,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "small_control": {
+          "mean": 0.959935493466629,
+          "max": 0.978569117057703,
+          "final": 0.9636702378950834,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "move": {
+          "mean": 0.29713236391943204,
+          "max": 1.0,
+          "final": 0.16666666666666666,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "standing": {
+          "mean": 0.1541569932408439,
+          "max": 1.0,
+          "final": 1.9018795865242202e-09,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        },
+        "upright": {
+          "mean": 0.9688876616848354,
+          "max": 1.0,
+          "final": 0.9343630218330242,
+          "nonzero_fraction": 1.0,
+          "first_positive_step": 0,
+          "n_steps_present": 1000,
+          "has_nonfinite": false
+        }
+      },
+      "info_diagnostics_unsupported": {}
+    }
+  ],
+  "aggregate": {
+    "return_mean": 109.15383437743337,
+    "return_std": 31.79215256497527,
+    "progress_max_dx_mean": 2.912991205905533,
+    "episode_length_mean": 599.375,
+    "terminated_count": 19,
+    "truncated_count": 13,
+    "task_success_true": 0,
+    "task_success_false": 32,
+    "task_success_unknown": 0,
+    "metric_status_counts": {
+      "OK": 32
+    }
+  }
+}
