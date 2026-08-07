@@ -1,4 +1,19 @@
-# Transfer Utility Is Not a Property of the Task Pair: An Impossibility Characterization and the Minimum Measurement That Suffices
+# Transfer Utility Is Not a Property of the Task Pair: A Systematic Failure of Proxy Prediction and the Cost of Direct Measurement
+
+<!--
+2026-08-07 标题整改。原标题为
+"An Impossibility Characterization and the Minimum Measurement That Suffices"，
+违反 PAPER_CLAIMS_20260804.md §5 的两条禁写：
+
+  第 8 条  不得使用一般意义的 "impossibility" 措辞（标题、摘要、正文皆然），
+           除非给出形式证明。正确表述是 "empirical systematic failure of
+           tested proxy families"。
+  第 9 条  不得称 K*=10000 是 minimum sufficient measurement，
+           只能称"已测试预算 {2k,5k,10k} 中最小的稳健 horizon"。
+
+R0 已在 PAPER_CLAIMS 中降级，但正文与大纲当时未同步整改。
+-->
+
 
 > Draft v1, 2026-08-06. Every number in this draft is traceable to a frozen
 > adjudication output listed in Appendix A. Claim-by-claim provenance and scope
@@ -21,8 +36,11 @@ independently adjudicated, all fail. Beyond the empirical count we give **two
 principled counterexamples** showing that this class of quantities cannot carry
 the decision even in principle: (i) two targets that share a *byte-identical*
 reward implementation yield utilities of `+56.95` and `+0.19 [−5.35, +5.72]`,
-so any function of the static task specification receives identical inputs and
-must produce identical outputs; (ii) for the weakest possible use — one-sided
+so any predictor that reads **only the reward specification** receives identical
+inputs and must produce identical outputs (the two targets do differ in terrain
+geometry, transition dynamics, initial state distribution and MJCF, so this
+bounds reward-only predictors, not every static-specification predictor);
+(ii) for the weakest possible use — one-sided
 exclusion rather than ranking — the admissible threshold interval is
 `14.302 < θ < 1.814`, the **empty set**, independently of how the threshold is
 chosen. What remains is direct measurement. We show that a short racing
@@ -64,20 +82,25 @@ Our argument proceeds in six steps, each written to block a specific objection:
    out an unseen family; this objection must be answered structurally, not by
    adding a thirteenth family.
 5. We give two principled counterexamples (Section 3.2). The first exhibits two
-   targets with identical inputs and different outputs, so no function of those
-   inputs can separate them. The second shows the feasible threshold interval is
-   empty — a conclusion invariant to the choice of threshold rule.
-6. Measurement is therefore the only remaining route. We quantify its minimum
-   cost and show one measurement decides both questions (Sections 4–5).
+   targets whose **reward specifications are byte-identical** yet whose utilities
+   differ, so no function of the reward specification alone can separate them.
+   The second shows the feasible threshold interval is empty — a conclusion
+   invariant to the choice of threshold rule.
+6. Measurement is therefore the route we take. We quantify its cost at the
+   budgets we tested and show one measurement decides both questions
+   (Sections 4–5).
 
 **Contributions.**
 
-- **C1** A systematic impossibility characterization of zero-cost transferability
+- **C1** An empirical systematic failure of zero-cost transferability
   prediction: twelve signal families over seven spaces, plus two principled
-  counterexamples (Section 3).
-- **C2** The minimum measurement that suffices: `K* = 10000`, with a single
-  measurement deciding both admission and selection, and a quantified
-  cost–benefit (Section 4).
+  counterexamples (Section 3). We do **not** claim an impossibility theorem —
+  no formal proof is given, and no number of failed families constitutes one.
+- **C2** A measurement horizon that suffices at the budgets we tested:
+  `K* = 10000` is the smallest robust horizon among `{2k, 5k, 10k}`, with a
+  single measurement deciding both admission and selection, and a quantified
+  cost–benefit (Section 4). Whether a smaller untested budget would also
+  suffice is open.
 - **C3** An automatic end-to-end decision chain whose 9/9 decisions match known
   ground truth and which outperforms two baselines under step-aligned
   accounting — with the unfavourable accounting reported in full (Section 5).
@@ -151,7 +174,7 @@ being aggregated.
 
 ### 3.2 Two principled counterexamples
 
-**Counterexample A — identical inputs, different outputs.**
+**Counterexample A — byte-identical reward specification, different utilities.**
 The HumanoidBench targets `slide` and `stair` are both implemented by the same
 class, `ClimbingUpwards`, and share a **byte-identical** `get_reward`, including
 all numeric constants. The measured utility of the `walk` source differs:
@@ -161,9 +184,17 @@ slide :  U(walk) = +56.95            (argmax across sources; stable over 6 learn
 stair :  U(walk) = +0.19  [−5.35, +5.72]   (n = 3; crosses zero)
 ```
 
-Any quantity that reads only the static `(source, target)` specification observes
+Any quantity that reads only the **reward specification** observes
 **identical inputs** on these two targets and therefore cannot produce this
-difference — regardless of how it is designed. Note also that the second value is
+difference — regardless of how it is designed.
+
+**Scope of this counterexample (do not overstate).** `slide` and `stair` differ
+in terrain geometry, transition dynamics, initial state distribution, and MJCF.
+The counterexample therefore refutes *reward-only* predictors; it does **not**
+refute a predictor that reads the full static task specification. An earlier
+draft claimed the latter and has been corrected.
+
+Note also that the second value is
 statistically indistinguishable from zero, so the contrast is not "300× smaller"
 but "indistinguishable from no effect versus a stable positive effect."
 
@@ -233,7 +264,7 @@ those failures are structural rather than empirical.
 
 ---
 
-## 4. Pillar II: The Minimum Measurement That Suffices
+## 4. Pillar II: Direct Measurement and What It Costs
 
 ### 4.1 Racing
 

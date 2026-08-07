@@ -11,16 +11,26 @@
 ## 标题（工作稿）
 
 > **Transfer Utility Is Not a Property of the Task Pair:
-> An Impossibility Characterization and the Minimum Measurement That Suffices**
+> A Systematic Failure of Proxy Prediction and the Cost of Direct Measurement**
+
+> **2026-08-07 整改**：原标题为 "An Impossibility Characterization and the
+> Minimum Measurement That Suffices"，违反 `PAPER_CLAIMS_20260804.md` §5
+> 第 8 条（无形式证明不得用 impossibility 措辞）与第 9 条
+> （不得称 `K*=10000` 是 minimum sufficient measurement）。
+> R0 已在 PAPER_CLAIMS 降级，但标题与正文当时未同步。
 
 ## Abstract 的五句话
 
 1. 跨任务迁移 RL 的核心决策是"用哪个源、用不用"，主流做法是设计一个**廉价指标**去预测；
 2. 我们在 HumanoidBench 上系统性地证伪了这条路——**十二个信号族、七个信号空间**，
    每族独立预注册独立裁决；
-3. 而且不止是经验失败：给出**两条原理性反例**，说明这类量在原理上无法承载该决策；
-4. 由此推出唯一剩下的路径是**直接测量**，并给出其最小代价（`K*=10000`，
-   `3K` 步换取节省 `67k` 步），同一次测量可同时决定**准入**与**选源**；
+3. 而且不止是经验失败：给出**两条原理性反例**，说明**特定子类**的量在原理上
+   无法承载该决策（反例 A 只约束"只读 reward 规格"的预测器——slide 与 stair
+   的地形几何、transition dynamics、初始分布、MJCF 均不同，故不能反驳读取
+   完整静态规格的预测器）；
+4. 由此转向**直接测量**，并给出其在**已测试预算**下的代价（`K*=10000` 是
+   `{2k,5k,10k}` 中最小的稳健 horizon，`3K` 步换取节省 `67k` 步；
+   更小的未测预算是否也够，未知），同一次测量可同时决定**准入**与**选源**；
 5. 边界如实给出：跨任务的正面加速目前只有一个 target，全部判决场的真值均已知。
 
 ---
