@@ -15,7 +15,7 @@
 
 > **2026-08-07 整改**：原标题为 "An Impossibility Characterization and the
 > Minimum Measurement That Suffices"，违反 `PAPER_CLAIMS_20260804.md` §5
-> 第 8 条（无形式证明不得用 impossibility 措辞）与第 9 条
+> 第 8 条（无形式证明不得用一般意义的过强措辞）与第 9 条
 > （不得称 `K*=10000` 是 minimum sufficient measurement）。
 > R0 已在 PAPER_CLAIMS 降级，但标题与正文当时未同步。
 
@@ -45,13 +45,13 @@
 | 2 | 自然做法是预测：设计廉价指标 `X` 并假设 `X → U` | — |
 | 3 | 我们试了 12 族全败 | "你们没试对指标" → 见 §3 的空间覆盖表 |
 | 4 | **但经验失败不构成不可能性** | "再多试几个就有了" → 由第 5 步挡 |
-| 5 | 两条原理性反例：输入相同而输出不同 / 可行区间为空 | "换个阈值/归一化" → 空集论证与取法无关 |
+| 5 | 两条原理性反例：**reward 规格**相同而输出不同 / 可行区间为空 | "换个阈值/归一化" → 空集论证与取法无关 |
 | 6 | 故只能测量；给出最小代价与它能同时决定的两件事 | "测量太贵" → `3K` vs 节省 `67k` |
 
 **贡献声明**（严格对应 PAPER_CLAIMS，不多说一个字）：
 
 - C1 十二族/七空间的系统性证伪 + 两条原理性反例（支柱 I）
-- C2 最小测量代价的量化，及"一次测量同时给出准入与选源"（支柱 II）
+- C2 直接测量代价的量化（`K*=10000` 是已测预算 `{2k,5k,10k}` 中最小的稳健 horizon），及"一次测量同时给出准入与选源"（支柱 II）
 - C3 端到端系统的实证（**待 P2 裁决；若为负则本条删除，退化为各零件结果**）
 
 ## 2. Setup
@@ -61,20 +61,23 @@
 - 冻结面板：16 eval seeds × 8 ranks = 128 deterministic episodes
 - **图 1**：`U` 的定义示意（同 anchor 分叉 → 等剂量干预 → source-free 评估）  `NEED`
 
-## 3. 支柱 I：不可能性刻画
+## 3. 支柱 I：已测代理信号族的系统性失败
 
 ### 3.1 十二族 / 七空间
 
-- **表 1**：十二族 × (测什么 / 怎么失败 / 出处)  `HAVE`（`impossibility` §2）
+- **表 1**：十二族 × (测什么 / 怎么失败 / 出处)  `HAVE`
+  （出处：`docs/impossibility_characterization_of_transfer_prediction_20260730.md` §2，该文件已标 HISTORICAL）  <!-- claim-linter: allow 文件名引用 -->
 - **图 2**：七个信号空间的覆盖示意（行为/即时 reward/梯度/critic/reward 结构/
   任务定义+静态规格/任务进度）  `NEED`
 
 ### 3.2 两条原理性反例（核心）
 
-- **反例 A（输入相同，输出不同）**：slide 与 stair 共用同一份
+- **反例 A（reward 规格逐字节相同，效用不同）**：slide 与 stair 共用同一份
   `ClimbingUpwards.get_reward`、常量逐字节相同；walk 的效用为
   `+56.95` vs `+0.19 [−5.35,+5.72]`（后者**跨零**）。
-  任何只读 `(source,target)` 静态规格的量，在两者上读到的输入完全一样。
+  任何只读 **reward 规格**的量，在两者上读到的输入完全一样。
+  （作用域：slide/stair 的地形几何、transition dynamics、初始分布、MJCF 均不同，
+  故**不能**反驳读取完整静态规格的预测器——原表述过强，已按 CLAIMS I-2 收窄）
   - **图 3**：两个 target 的 reward 源码 diff（空）+ 效用对比条形图  `NEED`
 - **反例 B（可行区间为空）**：单向排除需 `P(run,crawl) < θ < P(walk,slide)`，
   即 `14.302 < θ < 1.814`，**空集**；与阈值取法无关。
@@ -88,7 +91,7 @@
 支撑证据三类：方向非对称（sibling gate，**只用负方向那一半**，见 CLAIMS I-5）、
 通道归因跨 seed 反向（door 分解）、符号跨 learner 反转（M31）。
 
-## 4. 支柱 II：最小充分测量
+## 4. 支柱 II：直接测量及其代价
 
 ### 4.1 racing：直接测 `U` 的短跑近似
 

@@ -21,15 +21,23 @@ die() { echo "ERROR: $*" >&2; exit 1; }
 [[ -d "$PUB/.git" ]] || die "$PUB 不是 git 仓库"
 
 # ── 同步点定位：Source-Commit trailer ─────────────────────────────────
-# 旧实现用 commit message 首行 grep 定位。那是脆弱的：标题一旦重复
-# （"继续"、"修正笔误"这类），grep -m1 会命中**更早**的那个，
-# 于是已同步的 commit 被当成待同步、重复重放。标题是人写的，不是标识符。
+# 旧实现用 commit message 首行 grep 定位。那是脆弱的：git log 是逆序，
+# grep -m1 会命中**最新**的同名 commit——当 publish 实际停在**较早**的那个时
+# （"继续"、"修正笔误"这类标题在本项目真实重复过），BASE 被定到更晚的位置，
+# 中间整段 commit 被**静默漏同步**。那正是 reviewer 看不到某些改动的根源。
+# 标题是人写的文本，不是标识符。回归测试见 tests/test_sync_to_publish.sh T2。
 # 现在每个 publish commit 都带 `Source-Commit: <40位 sha>` trailer，
 # 同步点直接读 HEAD 的 trailer——这是精确映射，不依赖任何文本约定。
 read_source_trailer() {   # $1 = publish commit-ish
   git -C "$PUB" log -1 --format=%B "$1" \
     | sed -n 's/^Source-Commit:[[:space:]]*\([0-9a-f]\{40\}\)[[:space:]]*$/\1/p' | tail -1
 }
+
+# source_sha → publish_sha 的持久映射（每行 "<source40> <publish40>"）。
+# 放在主仓库内、随提交进版本库，使映射本身可审计。
+MAPFILE="${MAPFILE:-$SRC/docs/data/publish_sync_map.txt}"
+mkdir -p "$(dirname "$MAPFILE")"
+touch "$MAPFILE"
 
 BASE=$(read_source_trailer HEAD)
 if [[ -n "$BASE" ]]; then
@@ -81,8 +89,17 @@ for c in $PENDING; do
   GIT_AUTHOR_DATE="$(git -C "$SRC" log -1 --format=%aI "$c")" \
   GIT_COMMITTER_DATE="$(git -C "$SRC" log -1 --format=%cI "$c")" \
     git -C "$PUB" commit -q -m "$msg_with_trailer"
-  echo "OK   $short → $(git -C "$PUB" rev-parse --short HEAD) ($n 文件)"
+  new_pub=$(git -C "$PUB" rev-parse HEAD)
+  printf '%s %s\n' "$c" "$new_pub" >> "$MAPFILE"
+  echo "OK   $short → ${new_pub:0:7} ($n 文件)"
 done
+
+# source_sha → publish_sha 映射：trailer 已经能定位同步点，但映射文件让
+# "某个 source commit 对应哪个 publish commit" 可以**反查**（trailer 只能正查）。
+# reviewer 拿到 publish SHA 想回溯主仓库时需要它。
+if [[ -s "$MAPFILE" ]]; then
+  echo "映射已追加至 $MAPFILE（$(wc -l < "$MAPFILE") 条）"
+fi
 
 # 同步完整性校验：publish HEAD 的 trailer 必须指回主仓库 HEAD。
 # 不一致说明有 commit 被静默跳过——那正是 reviewer 看不到最新改动的情形，
