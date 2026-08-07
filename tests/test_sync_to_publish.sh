@@ -112,6 +112,43 @@ else
   bad "回退分支未按预期告警；输出：$OUT3"
 fi
 
+echo "T5  只改映射文件自身的 commit 不得再追加映射行（自指循环的断点）"
+PUB5="$TMP/pub5"; SRC5="$TMP/src5"; MAP5="$TMP/src5/docs/data/publish_sync_map.txt"
+mkdir -p "$SRC5/docs/data" "$PUB5"
+git_q "$SRC5" init -b main; git_q "$PUB5" init -b main
+echo one > "$SRC5/one.txt"; git_q "$SRC5" add -A; git_q "$SRC5" commit -m "内容 1"
+S5C1=$(git -C "$SRC5" rev-parse HEAD)
+cp "$SRC5/one.txt" "$PUB5/"; git_q "$PUB5" add -A
+git -C "$PUB5" -c user.email=t@t -c user.name=t \
+    commit -q -m "内容 1
+
+Source-Commit: $S5C1" >/dev/null 2>&1
+
+echo two > "$SRC5/two.txt"; git_q "$SRC5" add -A; git_q "$SRC5" commit -m "内容 2"
+SRC="$SRC5" PUB="$PUB5" MAPFILE="$MAP5" bash "$SYNC" >/dev/null 2>&1
+N_AFTER_CONTENT=$(wc -l < "$MAP5" 2>/dev/null || echo 0)
+
+# 现在把映射文件本身提交（模拟真实流程），再同步一次
+git_q "$SRC5" add -A; git_q "$SRC5" commit -m "更新映射"
+SRC="$SRC5" PUB="$PUB5" MAPFILE="$MAP5" bash "$SYNC" >/dev/null 2>&1
+N_AFTER_MAP=$(wc -l < "$MAP5" 2>/dev/null || echo 0)
+
+if [[ "$N_AFTER_CONTENT" == "1" ]]; then
+  ok "内容 commit 追加了 1 行映射"
+else
+  bad "内容 commit 后映射行数 = $N_AFTER_CONTENT（应为 1）"
+fi
+if [[ "$N_AFTER_MAP" == "$N_AFTER_CONTENT" ]]; then
+  ok "同步'只改映射文件'的 commit 后行数不变（$N_AFTER_MAP）—— 循环收敛"
+else
+  bad "行数从 $N_AFTER_CONTENT 变为 $N_AFTER_MAP —— 自指循环未断开"
+fi
+if git -C "$SRC5" diff --quiet -- "$MAP5"; then
+  ok "同步后工作区干净"
+else
+  bad "同步后映射文件仍为脏，git status 永远无法干净"
+fi
+
 echo
 if [[ $FAILED -eq 0 ]]; then
   echo "sync_to_publish 回归测试：全部通过"

@@ -36,6 +36,7 @@ read_source_trailer() {   # $1 = publish commit-ish
 # source_sha → publish_sha 的持久映射（每行 "<source40> <publish40>"）。
 # 放在主仓库内、随提交进版本库，使映射本身可审计。
 MAPFILE="${MAPFILE:-$SRC/docs/data/publish_sync_map.txt}"
+MAPFILE_REL="${MAPFILE#"$SRC"/}"
 mkdir -p "$(dirname "$MAPFILE")"
 touch "$MAPFILE"
 
@@ -90,6 +91,15 @@ for c in $PENDING; do
   GIT_COMMITTER_DATE="$(git -C "$SRC" log -1 --format=%cI "$c")" \
     git -C "$PUB" commit -q -m "$msg_with_trailer"
   new_pub=$(git -C "$PUB" rev-parse HEAD)
+  # 自指循环的断点：只改了映射文件自身的 commit 照常同步，但**不再追加新行**。
+  # 否则每次同步都产生一行 → map 变脏 → 提交 map → 又触发同步 → 又追加，
+  # 工作区永远不可能干净。跳过它只损失"map 更新 commit 自身的映射"，
+  # 而那一条对 reviewer 没有价值（它指向的正是这份 map）。
+  changed_files=$(git -C "$SRC" diff-tree --no-commit-id --name-only -r "$c")
+  if [[ "$changed_files" == "$MAPFILE_REL" ]]; then
+    echo "OK   $short → ${new_pub:0:7} ($n 文件，仅映射文件自身，不追加映射行)"
+    continue
+  fi
   printf '%s %s\n' "$c" "$new_pub" >> "$MAPFILE"
   echo "OK   $short → ${new_pub:0:7} ($n 文件)"
 done
