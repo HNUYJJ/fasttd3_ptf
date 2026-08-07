@@ -20,10 +20,31 @@ die() { echo "ERROR: $*" >&2; exit 1; }
 
 [[ -d "$PUB/.git" ]] || die "$PUB 不是 git 仓库"
 
-# 用 commit message 首行定位同步点——重放时完整保留了 message，故可唯一匹配。
-LAST_MSG=$(git -C "$PUB" log -1 --format=%s)
-BASE=$(git -C "$SRC" log --format="%H %s" | grep -F -m1 -- "$LAST_MSG" | cut -d' ' -f1)
-[[ -n "$BASE" ]] || die "无法在主仓库定位 publish 的同步点：'$LAST_MSG'"
+# ── 同步点定位：Source-Commit trailer ─────────────────────────────────
+# 旧实现用 commit message 首行 grep 定位。那是脆弱的：标题一旦重复
+# （"继续"、"修正笔误"这类），grep -m1 会命中**更早**的那个，
+# 于是已同步的 commit 被当成待同步、重复重放。标题是人写的，不是标识符。
+# 现在每个 publish commit 都带 `Source-Commit: <40位 sha>` trailer，
+# 同步点直接读 HEAD 的 trailer——这是精确映射，不依赖任何文本约定。
+read_source_trailer() {   # $1 = publish commit-ish
+  git -C "$PUB" log -1 --format=%B "$1" \
+    | sed -n 's/^Source-Commit:[[:space:]]*\([0-9a-f]\{40\}\)[[:space:]]*$/\1/p' | tail -1
+}
+
+BASE=$(read_source_trailer HEAD)
+if [[ -n "$BASE" ]]; then
+  git -C "$SRC" cat-file -e "${BASE}^{commit}" 2>/dev/null \
+    || die "publish HEAD 的 Source-Commit $BASE 在主仓库不存在（历史被改写？）"
+  echo "同步点由 Source-Commit trailer 确定：${BASE:0:7}"
+else
+  # 回退：trailer 机制引入之前的 publish commit 没有该字段。
+  # 只在这种历史遗留情形下用标题匹配，并明确告警。
+  LAST_MSG=$(git -C "$PUB" log -1 --format=%s)
+  BASE=$(git -C "$SRC" log --format="%H %s" | grep -F -m1 -- "$LAST_MSG" | cut -d' ' -f1)
+  [[ -n "$BASE" ]] || die "publish HEAD 无 Source-Commit trailer，且标题回退也无法定位：'$LAST_MSG'"
+  echo "WARN: publish HEAD 无 Source-Commit trailer，回退到标题匹配 → ${BASE:0:7}" >&2
+  echo "      （本次同步产生的 commit 起将带 trailer，此回退分支之后不再触发）" >&2
+fi
 
 PENDING=$(git -C "$SRC" log --format=%H --reverse "${BASE}..HEAD")
 if [[ -z "$PENDING" ]]; then
@@ -49,12 +70,29 @@ for c in $PENDING; do
     fi
   done
   git -C "$PUB" add -A >/dev/null 2>&1
-  if git -C "$PUB" diff --cached --quiet; then echo "SKIP $short（无收录范围内的变化）"; continue; fi
+  if git -C "$PUB" diff --cached --quiet; then
+    # 跳过的 commit 不写 trailer，同步点会停在它之前，下次重新尝试——
+    # 幂等且不会丢失后续 commit。
+    echo "SKIP $short（无收录范围内的变化）"; continue
+  fi
+  # trailer 直接追加到 message 末尾，与既有的 Co-Authored-By 同处一个 trailer block。
+  # $msg 由命令替换取得、尾换行已被剥掉，故此处补一个 \n 即成独立行。
+  msg_with_trailer=$(printf '%s\nSource-Commit: %s\n' "$msg" "$c")
   GIT_AUTHOR_DATE="$(git -C "$SRC" log -1 --format=%aI "$c")" \
   GIT_COMMITTER_DATE="$(git -C "$SRC" log -1 --format=%cI "$c")" \
-    git -C "$PUB" commit -q -m "$msg"
+    git -C "$PUB" commit -q -m "$msg_with_trailer"
   echo "OK   $short → $(git -C "$PUB" rev-parse --short HEAD) ($n 文件)"
 done
+
+# 同步完整性校验：publish HEAD 的 trailer 必须指回主仓库 HEAD。
+# 不一致说明有 commit 被静默跳过——那正是 reviewer 看不到最新改动的情形，
+# 也是本轮被指出的问题的根源之一，故设为硬失败而非告警。
+SRC_HEAD=$(git -C "$SRC" rev-parse HEAD)
+PUB_TRAILER=$(read_source_trailer HEAD)
+if [[ -n "$PENDING" && "$PUB_TRAILER" != "$SRC_HEAD" ]]; then
+  echo "WARN: publish HEAD 的 Source-Commit=${PUB_TRAILER:0:7} != 主仓库 HEAD=${SRC_HEAD:0:7}" >&2
+  echo "      （若末尾若干 commit 只改了 .gitignore 排除的文件，属正常）" >&2
+fi
 
 # 安全闸：绝不推送权重或超限文件
 git -C "$PUB" ls-files | grep -qE '\.(pt|pth|ckpt|safetensors)$' && die "仓库内含权重文件，拒绝推送"
