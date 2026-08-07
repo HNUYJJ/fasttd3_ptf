@@ -1,0 +1,1891 @@
+{
+  "prereg": "docs/experiments/checkpoint_inventory_v21_prereg_20260807.md",
+  "registry": "docs/data/run_cards/run_card_registry_v1.json",
+  "mode": "sentinel",
+  "verdict": "SENTINEL_PASS",
+  "failures": [],
+  "scan_roots": [
+    "models",
+    "checkpoints"
+  ],
+  "universe_size": 1587,
+  "universe_diff_vs_v1": {
+    "v1_total": 1661,
+    "v2_total": 1587,
+    "common": 1552,
+    "v1_only_count": 109,
+    "v2_only_count": 35,
+    "v1_only_sample": [
+      "artifacts/anchors/cabinet_scratch_s1_step10000/learner.pt",
+      "artifacts/anchors/cabinet_scratch_s1_step10000/replay.pt",
+      "artifacts/anchors/cabinet_scratch_s1_step10000/rng.pt",
+      "artifacts/cabinet_at10k_gate_v1/anchors/s1/learner.pt",
+      "artifacts/cabinet_at10k_gate_v1/anchors/s1/replay.pt",
+      "artifacts/cabinet_at10k_gate_v1/anchors/s1/rng.pt",
+      "artifacts/cabinet_at10k_gate_v1/anchors/s2/learner.pt",
+      "artifacts/cabinet_at10k_gate_v1/anchors/s2/replay.pt",
+      "artifacts/cabinet_at10k_gate_v1/anchors/s2/rng.pt",
+      "artifacts/cabinet_at10k_gate_v1/anchors/s3/learner.pt",
+      "artifacts/cabinet_at10k_gate_v1/anchors/s3/replay.pt",
+      "artifacts/cabinet_at10k_gate_v1/anchors/s3/rng.pt",
+      "artifacts/cabinet_at10k_gate_v1/anchors/smoke_s1/learner.pt",
+      "artifacts/cabinet_at10k_gate_v1/anchors/smoke_s1/replay.pt",
+      "artifacts/cabinet_at10k_gate_v1/anchors/smoke_s1/rng.pt",
+      "artifacts/door_at10k_gate_v1/anchors/s1/learner.pt",
+      "artifacts/door_at10k_gate_v1/anchors/s1/replay.pt",
+      "artifacts/door_at10k_gate_v1/anchors/s1/rng.pt",
+      "artifacts/door_at10k_gate_v1/anchors/s2/learner.pt",
+      "artifacts/door_at10k_gate_v1/anchors/s2/replay.pt"
+    ],
+    "v2_only_sample": [
+      "checkpoints/formal_20260515T055812Z/sources/h1hand_reach/final.pt",
+      "checkpoints/formal_20260515T055812Z/sources/h1hand_run/final.pt",
+      "checkpoints/formal_20260515T055812Z/sources/h1hand_stand/final.pt",
+      "checkpoints/formal_20260515T055812Z/sources/h1hand_walk/final.pt",
+      "checkpoints/formal_20260515T055812Z/targets/h1hand_push_fasttd3_scratch/final.pt",
+      "checkpoints/formal_20260515T055812Z/targets/h1hand_push_ptf/final.pt",
+      "checkpoints/p0_anchors/crawl_s1/learner.pt",
+      "checkpoints/p0_anchors/crawl_s1/replay.pt",
+      "checkpoints/p0_anchors/crawl_s1/rng.pt",
+      "checkpoints/p0_anchors/crawl_s2/learner.pt",
+      "checkpoints/p0_anchors/crawl_s2/replay.pt",
+      "checkpoints/p0_anchors/crawl_s2/rng.pt",
+      "checkpoints/p0_anchors/crawl_s3/learner.pt",
+      "checkpoints/p0_anchors/crawl_s3/replay.pt",
+      "checkpoints/p0_anchors/crawl_s3/rng.pt",
+      "checkpoints/p0_anchors/truck_s1/learner.pt",
+      "checkpoints/p0_anchors/truck_s1/replay.pt",
+      "checkpoints/p0_anchors/truck_s1/rng.pt",
+      "checkpoints/p0_anchors/truck_s2/learner.pt",
+      "checkpoints/p0_anchors/truck_s2/replay.pt"
+    ]
+  },
+  "totals": {
+    "n_processed": 19,
+    "n_eligible": 19,
+    "n_unparseable": 0,
+    "n_identity_mismatch": 0,
+    "n_role_resolved": 10,
+    "n_injected": 3
+  },
+  "sentinel_unavailable": [],
+  "injection_checks": "全部注入件均按预期分类",
+  "ambiguous_executions": [],
+  "formal_alias_integrity_failures": [],
+  "alias_notes": {
+    "h1hand-crawl-v0|p0_crawl_abstain|1|FORMAL@13000": "2 个文件 SHA 相同，已 alias 去重"
+  },
+  "run_completion": {
+    "h1hand-crawl-v0|p0_crawl_abstain|1|FORMAL": {
+      "completion_status": "COMPLETED",
+      "observed_end": 13000,
+      "effective_endpoint": 13000,
+      "endpoint_source": "run_stop_step",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-crawl-v0|p0_crawl_abstain|1|REPEATABILITY_DUPLICATE": {
+      "completion_status": "COMPLETED",
+      "observed_end": 13000,
+      "effective_endpoint": 13000,
+      "endpoint_source": "run_stop_step",
+      "counts_as_new_learner_replication": false
+    },
+    "h1hand-balance_hard-v0|h1hand_balance_hard_b2_rand_s1_20260705T153732Z|1|UNKNOWN_EXECUTION_ROLE": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "effective_endpoint": 100000,
+      "endpoint_source": "total_timesteps",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-balance_hard-v0|h1hand_balance_hard_b2_rand_s2_20260705T153732Z|2|UNKNOWN_EXECUTION_ROLE": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "effective_endpoint": 100000,
+      "endpoint_source": "total_timesteps",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-hurdle-v0|rck_run_s1|1|FORMAL": {
+      "completion_status": "COMPLETED",
+      "observed_end": 10000,
+      "effective_endpoint": 10000,
+      "endpoint_source": "total_timesteps",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-crawl-v0|rad_crawl_run_s1|1|FORMAL": {
+      "completion_status": "COMPLETED",
+      "observed_end": 10000,
+      "effective_endpoint": 10000,
+      "endpoint_source": "run_stop_step",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-slide-v0|shev1_prefix_s1|1|FORMAL": {
+      "completion_status": "COMPLETED",
+      "observed_end": 30000,
+      "effective_endpoint": 30000,
+      "endpoint_source": "run_stop_step",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-slide-v0|shev1_cont_s1|1|FORMAL": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "effective_endpoint": 100000,
+      "endpoint_source": "run_stop_step",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-slide-v0|shev1_exit_s1|1|FORMAL": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "effective_endpoint": 100000,
+      "endpoint_source": "run_stop_step",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-balance_hard-v0|h1hand_balance_hard_b2_scr_s1_20260705T153732Z|1|UNKNOWN_EXECUTION_ROLE": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "effective_endpoint": 100000,
+      "endpoint_source": "total_timesteps",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-balance_hard-v0|h1hand_balance_hard_b2_scr_s2_20260705T153732Z|2|UNKNOWN_EXECUTION_ROLE": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "effective_endpoint": 100000,
+      "endpoint_source": "total_timesteps",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-crawl-v0|crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z|1|UNKNOWN_EXECUTION_ROLE": {
+      "completion_status": "COMPLETED",
+      "observed_end": 30000,
+      "effective_endpoint": 30000,
+      "endpoint_source": "run_stop_step",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-slide-v0|cfb_slide_critic_first_s1|1|UNKNOWN_EXECUTION_ROLE": {
+      "completion_status": "TRUNCATED_RUN",
+      "observed_end": 12000,
+      "effective_endpoint": 20000,
+      "endpoint_source": "run_stop_step",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-truck-v0|h1hand_truck_adaptive_admission_v1_adaptive_s1_20260714T110054Z|1|UNKNOWN_EXECUTION_ROLE": {
+      "completion_status": "TRUNCATED_RUN",
+      "observed_end": 30000,
+      "effective_endpoint": 100000,
+      "endpoint_source": "total_timesteps",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-balance_hard-v0|h1hand_balance_hard_b2_rand_s3_20260705T153732Z|3|UNKNOWN_EXECUTION_ROLE": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "effective_endpoint": 100000,
+      "endpoint_source": "total_timesteps",
+      "counts_as_new_learner_replication": true
+    },
+    "h1hand-balance_hard-v0|h1hand_balance_hard_b2_scr_s3_20260705T153732Z|3|UNKNOWN_EXECUTION_ROLE": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "effective_endpoint": 100000,
+      "endpoint_source": "total_timesteps",
+      "counts_as_new_learner_replication": true
+    }
+  },
+  "rows": [
+    {
+      "path": "models/h1hand-crawl-v0__p0_crawl_abstain__1_13000.pt",
+      "sentinel_reason": "p0_formal_path",
+      "fname_parsed": true,
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "p0_crawl_abstain",
+      "fname_seed": 1,
+      "fname_step": 13000,
+      "fname_is_final": false,
+      "checkpoint_id": "f2038024ceaf852c0e936ad9769a308b5a418a87374f6e8e543f78ed4ae4c78b",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 13000,
+      "exp_name": "p0_crawl_abstain",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": {
+        "run_card_id": "p0_abstain_formal",
+        "experiment_role": "ABSTAIN",
+        "execution_role": "FORMAL",
+        "match_group": "p0_lease_oracle_crawl",
+        "alias_of_formal_path": false,
+        "counts_as_new_learner_replication": true,
+        "registry_canonical_points": [
+          13000
+        ],
+        "expected_endpoint": null
+      },
+      "experiment_role": "ABSTAIN",
+      "execution_role": "FORMAL",
+      "match_group": "p0_lease_oracle_crawl",
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "75e99901759c701928a977cf3257031617d17ea93fd5a65e849e124da84b3e99",
+      "treatment_digest": "842a895b8a2dcaf3f2c21b40da73179201bb87ba20f5fcd5a8bee24a47322dc3",
+      "pairing_invariant_digest": "4fdc53f2f50c93cf6b66e2833bc2efa94a1b602d19cd66f1c1daf18ed77a8f5d",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 13000,
+        "source": "run_stop_step",
+        "run_stop_step": 13000,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          13000
+        ],
+        "out_of_scope": [
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "13000": "run_card_registry",
+          "20000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 13000,
+        "endpoint_source": "run_stop_step"
+      },
+      "run_family_id": "h1hand-crawl-v0|p0_crawl_abstain|1",
+      "execution_instance_id": "h1hand-crawl-v0|p0_crawl_abstain|1|FORMAL",
+      "learner_replication_id": "h1hand-crawl-v0|p0_crawl_abstain|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/p0_dup_archive/crawl_A/h1hand-crawl-v0__p0_crawl_abstain__1_13000.pt",
+      "sentinel_reason": "p0_archive_A",
+      "fname_parsed": true,
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "p0_crawl_abstain",
+      "fname_seed": 1,
+      "fname_step": 13000,
+      "fname_is_final": false,
+      "checkpoint_id": "f2038024ceaf852c0e936ad9769a308b5a418a87374f6e8e543f78ed4ae4c78b",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 13000,
+      "exp_name": "p0_crawl_abstain",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": {
+        "run_card_id": "p0_abstain_archive_a",
+        "experiment_role": "ABSTAIN",
+        "execution_role": "FORMAL",
+        "match_group": "p0_lease_oracle_crawl",
+        "alias_of_formal_path": true,
+        "counts_as_new_learner_replication": true,
+        "registry_canonical_points": [
+          13000
+        ],
+        "expected_endpoint": null
+      },
+      "experiment_role": "ABSTAIN",
+      "execution_role": "FORMAL",
+      "match_group": "p0_lease_oracle_crawl",
+      "alias_of_formal_path": true,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "75e99901759c701928a977cf3257031617d17ea93fd5a65e849e124da84b3e99",
+      "treatment_digest": "842a895b8a2dcaf3f2c21b40da73179201bb87ba20f5fcd5a8bee24a47322dc3",
+      "pairing_invariant_digest": "4fdc53f2f50c93cf6b66e2833bc2efa94a1b602d19cd66f1c1daf18ed77a8f5d",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 13000,
+        "source": "run_stop_step",
+        "run_stop_step": 13000,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          13000
+        ],
+        "out_of_scope": [
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "13000": "run_card_registry",
+          "20000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 13000,
+        "endpoint_source": "run_stop_step"
+      },
+      "run_family_id": "h1hand-crawl-v0|p0_crawl_abstain|1",
+      "execution_instance_id": "h1hand-crawl-v0|p0_crawl_abstain|1|FORMAL",
+      "learner_replication_id": "h1hand-crawl-v0|p0_crawl_abstain|1",
+      "eligibility": "ELIGIBLE",
+      "alias_status": "EXACT_ALIAS",
+      "alias_of": "models/h1hand-crawl-v0__p0_crawl_abstain__1_13000.pt",
+      "is_canonical_file": false,
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/p0_dup_archive/crawl_B/h1hand-crawl-v0__p0_crawl_abstain__1_13000.pt",
+      "sentinel_reason": "p0_archive_B",
+      "fname_parsed": true,
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "p0_crawl_abstain",
+      "fname_seed": 1,
+      "fname_step": 13000,
+      "fname_is_final": false,
+      "checkpoint_id": "1494b24eeb29e9b56e0c72abd943e5a92e70a6156db13cf3a5bc6f088d3d41c9",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 13000,
+      "exp_name": "p0_crawl_abstain",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": {
+        "run_card_id": "p0_abstain_archive_b",
+        "experiment_role": "ABSTAIN",
+        "execution_role": "REPEATABILITY_DUPLICATE",
+        "match_group": "p0_lease_oracle_crawl",
+        "alias_of_formal_path": false,
+        "counts_as_new_learner_replication": false,
+        "registry_canonical_points": [
+          13000
+        ],
+        "expected_endpoint": null
+      },
+      "experiment_role": "ABSTAIN",
+      "execution_role": "REPEATABILITY_DUPLICATE",
+      "match_group": "p0_lease_oracle_crawl",
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": false,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "75e99901759c701928a977cf3257031617d17ea93fd5a65e849e124da84b3e99",
+      "treatment_digest": "842a895b8a2dcaf3f2c21b40da73179201bb87ba20f5fcd5a8bee24a47322dc3",
+      "pairing_invariant_digest": "4fdc53f2f50c93cf6b66e2833bc2efa94a1b602d19cd66f1c1daf18ed77a8f5d",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 13000,
+        "source": "run_stop_step",
+        "run_stop_step": 13000,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          13000
+        ],
+        "out_of_scope": [
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "13000": "run_card_registry",
+          "20000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 13000,
+        "endpoint_source": "run_stop_step"
+      },
+      "run_family_id": "h1hand-crawl-v0|p0_crawl_abstain|1",
+      "execution_instance_id": "h1hand-crawl-v0|p0_crawl_abstain|1|REPEATABILITY_DUPLICATE",
+      "learner_replication_id": "h1hand-crawl-v0|p0_crawl_abstain|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-balance_hard-v0__h1hand_balance_hard_b2_rand_s1_20260705T153732Z__1_final.pt",
+      "sentinel_reason": "underscore_env",
+      "fname_parsed": true,
+      "fname_env": "h1hand-balance_hard-v0",
+      "fname_run": "h1hand_balance_hard_b2_rand_s1_20260705T153732Z",
+      "fname_seed": 1,
+      "fname_step": null,
+      "fname_is_final": true,
+      "checkpoint_id": "1a067cc0b8e7034682a2c78602604e7e4556a90f94d2c5cde2e5f62aa2b05706",
+      "inner_env_name": "h1hand-balance_hard-v0",
+      "inner_seed": 1,
+      "inner_global_step": 100000,
+      "exp_name": "h1hand_balance_hard_b2_rand_s1_20260705T153732Z",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "stair",
+        "slide",
+        "crawl",
+        "pole",
+        "reach",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": null,
+      "experiment_role": "UNKNOWN_ROLE",
+      "execution_role": "UNKNOWN_EXECUTION_ROLE",
+      "match_group": null,
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "ab20c277cabfabd2b6e3ab6ffa3194dd504575ac6e02871a6624bc2503db50be",
+      "treatment_digest": "b46766d9fb15163041e869d6f215b3a906866c00c128fbaefa89b66bfdc946bd",
+      "pairing_invariant_digest": "244adb84016bd2f82f8a9c803939e14b6fd1010a227f02b9c338d8571af86cef",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 100000,
+        "source": "total_timesteps",
+        "run_stop_step": null,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "out_of_scope": [],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 100000,
+        "endpoint_source": "total_timesteps"
+      },
+      "run_family_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_rand_s1_20260705T153732Z|1",
+      "execution_instance_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_rand_s1_20260705T153732Z|1|UNKNOWN_EXECUTION_ROLE",
+      "learner_replication_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_rand_s1_20260705T153732Z|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-balance_hard-v0__h1hand_balance_hard_b2_rand_s2_20260705T153732Z__2_final.pt",
+      "sentinel_reason": "underscore_env",
+      "fname_parsed": true,
+      "fname_env": "h1hand-balance_hard-v0",
+      "fname_run": "h1hand_balance_hard_b2_rand_s2_20260705T153732Z",
+      "fname_seed": 2,
+      "fname_step": null,
+      "fname_is_final": true,
+      "checkpoint_id": "92eaea4ceb88b53eee89fc0db249e6ea9d64eec7a84998655de13caf07bc8480",
+      "inner_env_name": "h1hand-balance_hard-v0",
+      "inner_seed": 2,
+      "inner_global_step": 100000,
+      "exp_name": "h1hand_balance_hard_b2_rand_s2_20260705T153732Z",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "stair",
+        "slide",
+        "crawl",
+        "pole",
+        "reach",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": null,
+      "experiment_role": "UNKNOWN_ROLE",
+      "execution_role": "UNKNOWN_EXECUTION_ROLE",
+      "match_group": null,
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "094b006257a536cad04f3a10db29cbd55af43d2ecece0d5fba41b95871449aa5",
+      "treatment_digest": "08d16bb4cd57827d73e015a131395aa9ec7db2017af9c20200a56b3c88d6d4d0",
+      "pairing_invariant_digest": "244adb84016bd2f82f8a9c803939e14b6fd1010a227f02b9c338d8571af86cef",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 100000,
+        "source": "total_timesteps",
+        "run_stop_step": null,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "out_of_scope": [],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 100000,
+        "endpoint_source": "total_timesteps"
+      },
+      "run_family_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_rand_s2_20260705T153732Z|2",
+      "execution_instance_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_rand_s2_20260705T153732Z|2|UNKNOWN_EXECUTION_ROLE",
+      "learner_replication_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_rand_s2_20260705T153732Z|2",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-hurdle-v0__rck_run_s1__1_10000.pt",
+      "sentinel_reason": "racing_min_horizon",
+      "fname_parsed": true,
+      "fname_env": "h1hand-hurdle-v0",
+      "fname_run": "rck_run_s1",
+      "fname_seed": 1,
+      "fname_step": 10000,
+      "fname_is_final": false,
+      "checkpoint_id": "c5690fe6b0b55ca8fa310d866b752ef1143df5c5508cd31a5c9e77e7d164bade",
+      "inner_env_name": "h1hand-hurdle-v0",
+      "inner_seed": 1,
+      "inner_global_step": 10000,
+      "exp_name": "rck_run_s1",
+      "source_names": [
+        "run",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": {
+        "run_card_id": "racing_min_horizon",
+        "experiment_role": "RACING_ARM_run",
+        "execution_role": "FORMAL",
+        "match_group": "racing_min_horizon_v1_s1",
+        "alias_of_formal_path": false,
+        "counts_as_new_learner_replication": true,
+        "registry_canonical_points": [
+          2000,
+          5000,
+          10000
+        ],
+        "expected_endpoint": null
+      },
+      "experiment_role": "RACING_ARM_run",
+      "execution_role": "FORMAL",
+      "match_group": "racing_min_horizon_v1_s1",
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "b1188ba3fa2e4061b5b467433b0777947a2226a09bc665fa96f2cb08e5110bf8",
+      "treatment_digest": "ac730368f422ab6c0773a1d350d485b444d83094e3a151207b963eb65e4c3017",
+      "pairing_invariant_digest": "8beb4e42b4337ad62685e0ea8bfc35fd632e1c0262efc2b60ec3c834bfbf9d5a",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 10000,
+        "source": "total_timesteps",
+        "run_stop_step": null,
+        "total_timesteps": 10000
+      },
+      "canonical": {
+        "steps": [
+          2000,
+          5000,
+          10000
+        ],
+        "out_of_scope": [
+          20000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "2000": "run_card_registry",
+          "5000": "run_card_registry",
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 10000,
+        "endpoint_source": "total_timesteps"
+      },
+      "run_family_id": "h1hand-hurdle-v0|rck_run_s1|1",
+      "execution_instance_id": "h1hand-hurdle-v0|rck_run_s1|1|FORMAL",
+      "learner_replication_id": "h1hand-hurdle-v0|rck_run_s1|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-hurdle-v0__rck_run_s1__1_2000.pt",
+      "sentinel_reason": "racing_min_horizon",
+      "fname_parsed": true,
+      "fname_env": "h1hand-hurdle-v0",
+      "fname_run": "rck_run_s1",
+      "fname_seed": 1,
+      "fname_step": 2000,
+      "fname_is_final": false,
+      "checkpoint_id": "cf75b26ac29505b0646b0385fa9cc06a73613e467e5482c8ca04914b0f335937",
+      "inner_env_name": "h1hand-hurdle-v0",
+      "inner_seed": 1,
+      "inner_global_step": 2000,
+      "exp_name": "rck_run_s1",
+      "source_names": [
+        "run",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": {
+        "run_card_id": "racing_min_horizon",
+        "experiment_role": "RACING_ARM_run",
+        "execution_role": "FORMAL",
+        "match_group": "racing_min_horizon_v1_s1",
+        "alias_of_formal_path": false,
+        "counts_as_new_learner_replication": true,
+        "registry_canonical_points": [
+          2000,
+          5000,
+          10000
+        ],
+        "expected_endpoint": null
+      },
+      "experiment_role": "RACING_ARM_run",
+      "execution_role": "FORMAL",
+      "match_group": "racing_min_horizon_v1_s1",
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "b1188ba3fa2e4061b5b467433b0777947a2226a09bc665fa96f2cb08e5110bf8",
+      "treatment_digest": "ac730368f422ab6c0773a1d350d485b444d83094e3a151207b963eb65e4c3017",
+      "pairing_invariant_digest": "8beb4e42b4337ad62685e0ea8bfc35fd632e1c0262efc2b60ec3c834bfbf9d5a",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 10000,
+        "source": "total_timesteps",
+        "run_stop_step": null,
+        "total_timesteps": 10000
+      },
+      "canonical": {
+        "steps": [
+          2000,
+          5000,
+          10000
+        ],
+        "out_of_scope": [
+          20000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "2000": "run_card_registry",
+          "5000": "run_card_registry",
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 10000,
+        "endpoint_source": "total_timesteps"
+      },
+      "run_family_id": "h1hand-hurdle-v0|rck_run_s1|1",
+      "execution_instance_id": "h1hand-hurdle-v0|rck_run_s1|1|FORMAL",
+      "learner_replication_id": "h1hand-hurdle-v0|rck_run_s1|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": false
+    },
+    {
+      "path": "models/h1hand-crawl-v0__rad_crawl_run_s1__1_10000.pt",
+      "sentinel_reason": "racing_admission",
+      "fname_parsed": true,
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "rad_crawl_run_s1",
+      "fname_seed": 1,
+      "fname_step": 10000,
+      "fname_is_final": false,
+      "checkpoint_id": "cdb9ccec8f0af34bc09bb43acb30d2bf5f4e135256963a00c70bbd77f0e59150",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 10000,
+      "exp_name": "rad_crawl_run_s1",
+      "source_names": [
+        "run"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": {
+        "run_card_id": "racing_admission",
+        "experiment_role": "RACING_ARM_run",
+        "execution_role": "FORMAL",
+        "match_group": "racing_admission_v1_crawl_s1",
+        "alias_of_formal_path": false,
+        "counts_as_new_learner_replication": true,
+        "registry_canonical_points": [
+          2000,
+          5000,
+          10000
+        ],
+        "expected_endpoint": null
+      },
+      "experiment_role": "RACING_ARM_run",
+      "execution_role": "FORMAL",
+      "match_group": "racing_admission_v1_crawl_s1",
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "88c36fa25ed2eddf946e6f74d785506324f1b107836a7738ad491c14668637a2",
+      "treatment_digest": "662d9f92a83a8e880ce9841ff6b843d81a10f49464f9dceec4f64e4f75e9d7a0",
+      "pairing_invariant_digest": "4fdc53f2f50c93cf6b66e2833bc2efa94a1b602d19cd66f1c1daf18ed77a8f5d",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 10000,
+        "source": "run_stop_step",
+        "run_stop_step": 10000,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          2000,
+          5000,
+          10000
+        ],
+        "out_of_scope": [
+          20000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "2000": "run_card_registry",
+          "5000": "run_card_registry",
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 10000,
+        "endpoint_source": "run_stop_step"
+      },
+      "run_family_id": "h1hand-crawl-v0|rad_crawl_run_s1|1",
+      "execution_instance_id": "h1hand-crawl-v0|rad_crawl_run_s1|1|FORMAL",
+      "learner_replication_id": "h1hand-crawl-v0|rad_crawl_run_s1|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-crawl-v0__rad_crawl_run_s1__1_2000.pt",
+      "sentinel_reason": "racing_admission",
+      "fname_parsed": true,
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "rad_crawl_run_s1",
+      "fname_seed": 1,
+      "fname_step": 2000,
+      "fname_is_final": false,
+      "checkpoint_id": "f272283960989935f1f7032125988d4b213a506cc2708327e8629615575b1dee",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 2000,
+      "exp_name": "rad_crawl_run_s1",
+      "source_names": [
+        "run"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": {
+        "run_card_id": "racing_admission",
+        "experiment_role": "RACING_ARM_run",
+        "execution_role": "FORMAL",
+        "match_group": "racing_admission_v1_crawl_s1",
+        "alias_of_formal_path": false,
+        "counts_as_new_learner_replication": true,
+        "registry_canonical_points": [
+          2000,
+          5000,
+          10000
+        ],
+        "expected_endpoint": null
+      },
+      "experiment_role": "RACING_ARM_run",
+      "execution_role": "FORMAL",
+      "match_group": "racing_admission_v1_crawl_s1",
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "88c36fa25ed2eddf946e6f74d785506324f1b107836a7738ad491c14668637a2",
+      "treatment_digest": "662d9f92a83a8e880ce9841ff6b843d81a10f49464f9dceec4f64e4f75e9d7a0",
+      "pairing_invariant_digest": "4fdc53f2f50c93cf6b66e2833bc2efa94a1b602d19cd66f1c1daf18ed77a8f5d",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 10000,
+        "source": "run_stop_step",
+        "run_stop_step": 10000,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          2000,
+          5000,
+          10000
+        ],
+        "out_of_scope": [
+          20000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "2000": "run_card_registry",
+          "5000": "run_card_registry",
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 10000,
+        "endpoint_source": "run_stop_step"
+      },
+      "run_family_id": "h1hand-crawl-v0|rad_crawl_run_s1|1",
+      "execution_instance_id": "h1hand-crawl-v0|rad_crawl_run_s1|1|FORMAL",
+      "learner_replication_id": "h1hand-crawl-v0|rad_crawl_run_s1|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": false
+    },
+    {
+      "path": "models/h1hand-slide-v0__shev1_prefix_s1__1_30000.pt",
+      "sentinel_reason": "slide_prefix",
+      "fname_parsed": true,
+      "fname_env": "h1hand-slide-v0",
+      "fname_run": "shev1_prefix_s1",
+      "fname_seed": 1,
+      "fname_step": 30000,
+      "fname_is_final": false,
+      "checkpoint_id": "74380d871f7d51025262da2fca13994e85ee3369f28f5e2cf3b939929a09a3b6",
+      "inner_env_name": "h1hand-slide-v0",
+      "inner_seed": 1,
+      "inner_global_step": 30000,
+      "exp_name": "shev1_prefix_s1",
+      "source_names": [
+        "walk"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": {
+        "run_card_id": "slide_hard_exit_prefix",
+        "experiment_role": "PREFIX",
+        "execution_role": "FORMAL",
+        "match_group": "slide_hard_exit_v1_s1",
+        "alias_of_formal_path": false,
+        "counts_as_new_learner_replication": true,
+        "registry_canonical_points": [
+          30000
+        ],
+        "expected_endpoint": 30000
+      },
+      "experiment_role": "PREFIX",
+      "execution_role": "FORMAL",
+      "match_group": "slide_hard_exit_v1_s1",
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "9b574c05976bb638f3c261926a511809b1a780166dac1a46d350993ba9a7a5d6",
+      "treatment_digest": "9e1f270bd163e364b69b018fe595d0a9e177e986f5071e7ad966592d4eb30079",
+      "pairing_invariant_digest": "4fdc53f2f50c93cf6b66e2833bc2efa94a1b602d19cd66f1c1daf18ed77a8f5d",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 30000,
+        "source": "run_stop_step",
+        "run_stop_step": 30000,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000
+        ],
+        "out_of_scope": [
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "30000": "run_card_registry",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 30000,
+        "endpoint_source": "run_stop_step"
+      },
+      "run_family_id": "h1hand-slide-v0|shev1_prefix_s1|1",
+      "execution_instance_id": "h1hand-slide-v0|shev1_prefix_s1|1|FORMAL",
+      "learner_replication_id": "h1hand-slide-v0|shev1_prefix_s1|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-slide-v0__shev1_cont_s1__1_100000.pt",
+      "sentinel_reason": "slide_cont",
+      "fname_parsed": true,
+      "fname_env": "h1hand-slide-v0",
+      "fname_run": "shev1_cont_s1",
+      "fname_seed": 1,
+      "fname_step": 100000,
+      "fname_is_final": false,
+      "checkpoint_id": "b5ce26688875ae270070c5fa35671aa5bbfa240a709265f6e417f4b45a3775c2",
+      "inner_env_name": "h1hand-slide-v0",
+      "inner_seed": 1,
+      "inner_global_step": 100000,
+      "exp_name": "shev1_cont_s1",
+      "source_names": [
+        "walk"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": {
+        "run_card_id": "slide_hard_exit_cont",
+        "experiment_role": "CONTINUOUS",
+        "execution_role": "FORMAL",
+        "match_group": "slide_hard_exit_v1_s1",
+        "alias_of_formal_path": false,
+        "counts_as_new_learner_replication": true,
+        "registry_canonical_points": [],
+        "expected_endpoint": null
+      },
+      "experiment_role": "CONTINUOUS",
+      "execution_role": "FORMAL",
+      "match_group": "slide_hard_exit_v1_s1",
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "4b6ced94991706ef430023e119ce5861a70055f02ee0a3df76d7af1387176b5b",
+      "treatment_digest": "1672d023dabd79cdf1a1c709d4ae9c372231178f289bf7825b07e881c3578cf4",
+      "pairing_invariant_digest": "4fdc53f2f50c93cf6b66e2833bc2efa94a1b602d19cd66f1c1daf18ed77a8f5d",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 100000,
+        "source": "run_stop_step",
+        "run_stop_step": 100000,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          50000,
+          100000
+        ],
+        "out_of_scope": [],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 100000,
+        "endpoint_source": "run_stop_step"
+      },
+      "run_family_id": "h1hand-slide-v0|shev1_cont_s1|1",
+      "execution_instance_id": "h1hand-slide-v0|shev1_cont_s1|1|FORMAL",
+      "learner_replication_id": "h1hand-slide-v0|shev1_cont_s1|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-slide-v0__shev1_exit_s1__1_100000.pt",
+      "sentinel_reason": "slide_exit",
+      "fname_parsed": true,
+      "fname_env": "h1hand-slide-v0",
+      "fname_run": "shev1_exit_s1",
+      "fname_seed": 1,
+      "fname_step": 100000,
+      "fname_is_final": false,
+      "checkpoint_id": "f8962f0813889054e1363167878c237d3a509c54cb513cb99afdcfe44e2b5863",
+      "inner_env_name": "h1hand-slide-v0",
+      "inner_seed": 1,
+      "inner_global_step": 100000,
+      "exp_name": "shev1_exit_s1",
+      "source_names": [
+        "walk"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": {
+        "run_card_id": "slide_hard_exit_exit",
+        "experiment_role": "HARD_EXIT",
+        "execution_role": "FORMAL",
+        "match_group": "slide_hard_exit_v1_s1",
+        "alias_of_formal_path": false,
+        "counts_as_new_learner_replication": true,
+        "registry_canonical_points": [],
+        "expected_endpoint": null
+      },
+      "experiment_role": "HARD_EXIT",
+      "execution_role": "FORMAL",
+      "match_group": "slide_hard_exit_v1_s1",
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "cd757f310ae332aa288f661bcd9d37da532e71f062cedf03d17540870352942d",
+      "treatment_digest": "9a0bd4b421223a94259f46eec607ed4634f1d6332484d9548fe93465035fbf94",
+      "pairing_invariant_digest": "4fdc53f2f50c93cf6b66e2833bc2efa94a1b602d19cd66f1c1daf18ed77a8f5d",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 100000,
+        "source": "run_stop_step",
+        "run_stop_step": 100000,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          50000,
+          100000
+        ],
+        "out_of_scope": [],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 100000,
+        "endpoint_source": "run_stop_step"
+      },
+      "run_family_id": "h1hand-slide-v0|shev1_exit_s1|1",
+      "execution_instance_id": "h1hand-slide-v0|shev1_exit_s1|1|FORMAL",
+      "learner_replication_id": "h1hand-slide-v0|shev1_exit_s1|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-balance_hard-v0__h1hand_balance_hard_b2_scr_s1_20260705T153732Z__1_final.pt",
+      "sentinel_reason": "scr_named",
+      "fname_parsed": true,
+      "fname_env": "h1hand-balance_hard-v0",
+      "fname_run": "h1hand_balance_hard_b2_scr_s1_20260705T153732Z",
+      "fname_seed": 1,
+      "fname_step": null,
+      "fname_is_final": true,
+      "checkpoint_id": "938855fbc4b6f368bfb62aa322eaa172207ecde1ce0b9957062dfdbb58767446",
+      "inner_env_name": "h1hand-balance_hard-v0",
+      "inner_seed": 1,
+      "inner_global_step": 100000,
+      "exp_name": "h1hand_balance_hard_b2_scr_s1_20260705T153732Z",
+      "source_names": [
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": null,
+      "experiment_role": "UNKNOWN_ROLE",
+      "execution_role": "UNKNOWN_EXECUTION_ROLE",
+      "match_group": null,
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_NULL_BANK",
+      "ptf_cfg_digest": "555f081d198ab0f3fa602684b88d81f94a25ce084574cc98de0faa482217a4ef",
+      "treatment_digest": "6755bf12c1b363dac311bdc391255a902afb99e152a9297270bdde39f3d2d76b",
+      "pairing_invariant_digest": "244adb84016bd2f82f8a9c803939e14b6fd1010a227f02b9c338d8571af86cef",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 100000,
+        "source": "total_timesteps",
+        "run_stop_step": null,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          15000,
+          20000,
+          50000,
+          100000
+        ],
+        "out_of_scope": [],
+        "provenance": {
+          "10000": "fixed",
+          "15000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 100000,
+        "endpoint_source": "total_timesteps"
+      },
+      "run_family_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_scr_s1_20260705T153732Z|1",
+      "execution_instance_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_scr_s1_20260705T153732Z|1|UNKNOWN_EXECUTION_ROLE",
+      "learner_replication_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_scr_s1_20260705T153732Z|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-balance_hard-v0__h1hand_balance_hard_b2_scr_s2_20260705T153732Z__2_final.pt",
+      "sentinel_reason": "scr_named",
+      "fname_parsed": true,
+      "fname_env": "h1hand-balance_hard-v0",
+      "fname_run": "h1hand_balance_hard_b2_scr_s2_20260705T153732Z",
+      "fname_seed": 2,
+      "fname_step": null,
+      "fname_is_final": true,
+      "checkpoint_id": "8f0aab83cca00cc8868e3393947f504c8141f28dcfb29d3f0815357939bedc50",
+      "inner_env_name": "h1hand-balance_hard-v0",
+      "inner_seed": 2,
+      "inner_global_step": 100000,
+      "exp_name": "h1hand_balance_hard_b2_scr_s2_20260705T153732Z",
+      "source_names": [
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": null,
+      "experiment_role": "UNKNOWN_ROLE",
+      "execution_role": "UNKNOWN_EXECUTION_ROLE",
+      "match_group": null,
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_NULL_BANK",
+      "ptf_cfg_digest": "1eebc551848b332710c07cb352f0b01ad494a6d9a87d881e27b93bb73d6ce9b8",
+      "treatment_digest": "2dcff4f7b63f50eea3044845242c03a861b5fdf2243fa1730b72898cc29d6388",
+      "pairing_invariant_digest": "244adb84016bd2f82f8a9c803939e14b6fd1010a227f02b9c338d8571af86cef",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 100000,
+        "source": "total_timesteps",
+        "run_stop_step": null,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          15000,
+          20000,
+          50000,
+          100000
+        ],
+        "out_of_scope": [],
+        "provenance": {
+          "10000": "fixed",
+          "15000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 100000,
+        "endpoint_source": "total_timesteps"
+      },
+      "run_family_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_scr_s2_20260705T153732Z|2",
+      "execution_instance_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_scr_s2_20260705T153732Z|2|UNKNOWN_EXECUTION_ROLE",
+      "learner_replication_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_scr_s2_20260705T153732Z|2",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-crawl-v0__crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z__1_30000.pt",
+      "sentinel_reason": "target:h1hand-crawl-v0",
+      "fname_parsed": true,
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z",
+      "fname_seed": 1,
+      "fname_step": 30000,
+      "fname_is_final": false,
+      "checkpoint_id": "416c1b7ca80ce6668a7fb0f8dbb70ac8ecd1357df5be0adc74fd0c577d4b33f1",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 30000,
+      "exp_name": "crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z",
+      "source_names": [
+        "run"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": null,
+      "experiment_role": "UNKNOWN_ROLE",
+      "execution_role": "UNKNOWN_EXECUTION_ROLE",
+      "match_group": null,
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "6186ccce5060b464e40dd9f456f919b98fc49ce2f275f745682f3714481edb04",
+      "treatment_digest": "4a865c90222c08723a23a51adb78dce84aae1e905f6777e1ca3f09364285d3d2",
+      "pairing_invariant_digest": "4fdc53f2f50c93cf6b66e2833bc2efa94a1b602d19cd66f1c1daf18ed77a8f5d",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 30000,
+        "source": "run_stop_step",
+        "run_stop_step": 30000,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000
+        ],
+        "out_of_scope": [
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 30000,
+        "endpoint_source": "run_stop_step"
+      },
+      "run_family_id": "h1hand-crawl-v0|crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z|1",
+      "execution_instance_id": "h1hand-crawl-v0|crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z|1|UNKNOWN_EXECUTION_ROLE",
+      "learner_replication_id": "h1hand-crawl-v0|crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-slide-v0__cfb_slide_critic_first_s1__1_12000.pt",
+      "sentinel_reason": "target:h1hand-slide-v0",
+      "fname_parsed": true,
+      "fname_env": "h1hand-slide-v0",
+      "fname_run": "cfb_slide_critic_first_s1",
+      "fname_seed": 1,
+      "fname_step": 12000,
+      "fname_is_final": false,
+      "checkpoint_id": "ebacc8c28c78dc6c4ea136763caa314307dfc0232a7699093496a878bcd6ec83",
+      "inner_env_name": "h1hand-slide-v0",
+      "inner_seed": 1,
+      "inner_global_step": 12000,
+      "exp_name": "cfb_slide_critic_first_s1",
+      "source_names": [
+        "walk"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": null,
+      "experiment_role": "UNKNOWN_ROLE",
+      "execution_role": "UNKNOWN_EXECUTION_ROLE",
+      "match_group": null,
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "4a683267cf6e68c0f7054f0d81b0289669f99ecea7dce12dcdf3cd5dd985162f",
+      "treatment_digest": "d02ac14d195689607be7aed6e549e6052eaf0a34aaa513a3757e34c36d973fa6",
+      "pairing_invariant_digest": "4fdc53f2f50c93cf6b66e2833bc2efa94a1b602d19cd66f1c1daf18ed77a8f5d",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 20000,
+        "source": "run_stop_step",
+        "run_stop_step": 20000,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          12000,
+          20000
+        ],
+        "out_of_scope": [
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "12000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 20000,
+        "endpoint_source": "run_stop_step"
+      },
+      "run_family_id": "h1hand-slide-v0|cfb_slide_critic_first_s1|1",
+      "execution_instance_id": "h1hand-slide-v0|cfb_slide_critic_first_s1|1|UNKNOWN_EXECUTION_ROLE",
+      "learner_replication_id": "h1hand-slide-v0|cfb_slide_critic_first_s1|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-truck-v0__h1hand_truck_adaptive_admission_v1_adaptive_s1_20260714T110054Z__1_30000.pt",
+      "sentinel_reason": "target:h1hand-truck-v0",
+      "fname_parsed": true,
+      "fname_env": "h1hand-truck-v0",
+      "fname_run": "h1hand_truck_adaptive_admission_v1_adaptive_s1_20260714T110054Z",
+      "fname_seed": 1,
+      "fname_step": 30000,
+      "fname_is_final": false,
+      "checkpoint_id": "19de0f0127b843e44c54a9360467fb0429ffc2924f0e1dc23219ce1fb8368da0",
+      "inner_env_name": "h1hand-truck-v0",
+      "inner_seed": 1,
+      "inner_global_step": 30000,
+      "exp_name": "h1hand_truck_adaptive_admission_v1_adaptive_s1_20260714T110054Z",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": null,
+      "experiment_role": "UNKNOWN_ROLE",
+      "execution_role": "UNKNOWN_EXECUTION_ROLE",
+      "match_group": null,
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "7207a37c01bea6b3bd91c9a655a733256c77e5c6b7f86cf0981d3a793437d521",
+      "treatment_digest": "19a6a95355a4572f419d27140d7ef822bd0673fdd2737d37ac4071c7d4ab23ae",
+      "pairing_invariant_digest": "fce8344153b6dc17d4476e6954a9ca617cc1b3fa58081fe3d12bed857aad91c3",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 100000,
+        "source": "total_timesteps",
+        "run_stop_step": null,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "out_of_scope": [],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 100000,
+        "endpoint_source": "total_timesteps"
+      },
+      "run_family_id": "h1hand-truck-v0|h1hand_truck_adaptive_admission_v1_adaptive_s1_20260714T110054Z|1",
+      "execution_instance_id": "h1hand-truck-v0|h1hand_truck_adaptive_admission_v1_adaptive_s1_20260714T110054Z|1|UNKNOWN_EXECUTION_ROLE",
+      "learner_replication_id": "h1hand-truck-v0|h1hand_truck_adaptive_admission_v1_adaptive_s1_20260714T110054Z|1",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-balance_hard-v0__h1hand_balance_hard_b2_rand_s3_20260705T153732Z__3_final.pt",
+      "sentinel_reason": "final_file",
+      "fname_parsed": true,
+      "fname_env": "h1hand-balance_hard-v0",
+      "fname_run": "h1hand_balance_hard_b2_rand_s3_20260705T153732Z",
+      "fname_seed": 3,
+      "fname_step": null,
+      "fname_is_final": true,
+      "checkpoint_id": "fc38c509843ee1a724c93279f693c19ab2cc8fb764dad86877c764c4300f1bc2",
+      "inner_env_name": "h1hand-balance_hard-v0",
+      "inner_seed": 3,
+      "inner_global_step": 100000,
+      "exp_name": "h1hand_balance_hard_b2_rand_s3_20260705T153732Z",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "stair",
+        "slide",
+        "crawl",
+        "pole",
+        "reach",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": null,
+      "experiment_role": "UNKNOWN_ROLE",
+      "execution_role": "UNKNOWN_EXECUTION_ROLE",
+      "match_group": null,
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "ptf_cfg_digest": "cea0fed7f3b3d2947f21ef9a6b7ba39243ad68d58af9ebf58780127a0ccbb12c",
+      "treatment_digest": "4b63a48b47376d9943e2fbf494b4fadd142c2c1d568471e7ad93ff890352ffcf",
+      "pairing_invariant_digest": "fce8344153b6dc17d4476e6954a9ca617cc1b3fa58081fe3d12bed857aad91c3",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 100000,
+        "source": "total_timesteps",
+        "run_stop_step": null,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "out_of_scope": [],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 100000,
+        "endpoint_source": "total_timesteps"
+      },
+      "run_family_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_rand_s3_20260705T153732Z|3",
+      "execution_instance_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_rand_s3_20260705T153732Z|3|UNKNOWN_EXECUTION_ROLE",
+      "learner_replication_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_rand_s3_20260705T153732Z|3",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "models/h1hand-balance_hard-v0__h1hand_balance_hard_b2_scr_s3_20260705T153732Z__3_final.pt",
+      "sentinel_reason": "final_file",
+      "fname_parsed": true,
+      "fname_env": "h1hand-balance_hard-v0",
+      "fname_run": "h1hand_balance_hard_b2_scr_s3_20260705T153732Z",
+      "fname_seed": 3,
+      "fname_step": null,
+      "fname_is_final": true,
+      "checkpoint_id": "f28bd769eace3b7153987dff783403b84173111626f6c0ae5554422a41aec27e",
+      "inner_env_name": "h1hand-balance_hard-v0",
+      "inner_seed": 3,
+      "inner_global_step": 100000,
+      "exp_name": "h1hand_balance_hard_b2_scr_s3_20260705T153732Z",
+      "source_names": [
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [],
+      "run_card": null,
+      "experiment_role": "UNKNOWN_ROLE",
+      "execution_role": "UNKNOWN_EXECUTION_ROLE",
+      "match_group": null,
+      "alias_of_formal_path": false,
+      "counts_as_new_learner_replication": true,
+      "mechanism_family": "PTF_NULL_BANK",
+      "ptf_cfg_digest": "bad63e5a9de3fb3cf01c844fb7fb156aa76abdf08534f738a9a487b9444a0f46",
+      "treatment_digest": "5a0ce6f17d3f4cf665c838bbbb1597070dc97ed148b341c34e09ad8fb9fab998",
+      "pairing_invariant_digest": "244adb84016bd2f82f8a9c803939e14b6fd1010a227f02b9c338d8571af86cef",
+      "pairing_invariant_fields": [
+        "args.actor_learning_rate",
+        "args.batch_size",
+        "args.buffer_size",
+        "args.critic_learning_rate",
+        "args.gamma",
+        "args.noise_clip",
+        "args.num_envs",
+        "args.num_updates",
+        "args.policy_noise",
+        "args.tau",
+        "args.total_timesteps",
+        "ptf.anchor_dir",
+        "ptf.anchor_provenance_groups",
+        "ptf.anchor_step"
+      ],
+      "endpoint": {
+        "endpoint": 100000,
+        "source": "total_timesteps",
+        "run_stop_step": null,
+        "total_timesteps": 100000
+      },
+      "canonical": {
+        "steps": [
+          10000,
+          15000,
+          20000,
+          50000,
+          100000
+        ],
+        "out_of_scope": [],
+        "provenance": {
+          "10000": "fixed",
+          "15000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed"
+        },
+        "endpoint": 100000,
+        "endpoint_source": "total_timesteps"
+      },
+      "run_family_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_scr_s3_20260705T153732Z|3",
+      "execution_instance_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_scr_s3_20260705T153732Z|3|UNKNOWN_EXECUTION_ROLE",
+      "learner_replication_id": "h1hand-balance_hard-v0|h1hand_balance_hard_b2_scr_s3_20260705T153732Z|3",
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    }
+  ],
+  "injected_rows": [
+    {
+      "path": "/tmp/inv21_injected__qiydyo4/h1hand-crawl-v0__p0_crawl_abstain__78_13000.pt",
+      "sentinel_reason": "injected_seed_conflict",
+      "fname_parsed": true,
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "p0_crawl_abstain",
+      "fname_seed": 78,
+      "fname_step": 13000,
+      "fname_is_final": false,
+      "checkpoint_id": "f2038024ceaf852c0e936ad9769a308b5a418a87374f6e8e543f78ed4ae4c78b",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 13000,
+      "exp_name": "p0_crawl_abstain",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [
+        {
+          "field": "learner_seed",
+          "from_filename": 78,
+          "from_checkpoint": 1
+        }
+      ],
+      "eligibility": "EXCLUDED_IDENTITY_MISMATCH"
+    },
+    {
+      "path": "/tmp/inv21_injected__qiydyo4/h1hand-crawl-v0__p0_crawl_abstain__1_25345.pt",
+      "sentinel_reason": "injected_step_conflict",
+      "fname_parsed": true,
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "p0_crawl_abstain",
+      "fname_seed": 1,
+      "fname_step": 25345,
+      "fname_is_final": false,
+      "checkpoint_id": "f2038024ceaf852c0e936ad9769a308b5a418a87374f6e8e543f78ed4ae4c78b",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 13000,
+      "exp_name": "p0_crawl_abstain",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "identity_conflicts": [
+        {
+          "field": "global_step",
+          "from_filename": 25345,
+          "from_checkpoint": 13000
+        }
+      ],
+      "eligibility": "EXCLUDED_IDENTITY_MISMATCH"
+    },
+    {
+      "path": "/tmp/inv21_injected__qiydyo4/not_a_valid_checkpoint_name.pt",
+      "sentinel_reason": "injected_unparseable_name",
+      "fname_parsed": false,
+      "fname_env": null,
+      "fname_run": null,
+      "fname_seed": null,
+      "fname_step": null,
+      "fname_is_final": false,
+      "eligibility": "EXCLUDED_UNPARSEABLE_NAME",
+      "checkpoint_id": "f2038024ceaf852c0e936ad9769a308b5a418a87374f6e8e543f78ed4ae4c78b"
+    }
+  ]
+}
