@@ -43,6 +43,45 @@ class IncomparableError(Exception):
     """两条记录的身份不允许直接比较（不同预算 / 不同面板 / 身份不完整）。"""
 
 
+class UnverifiedPathError(Exception):
+    """该任务的语义映射未经真实 runtime 验证，不得用于科学裁决。"""
+
+
+#: 需要 runtime 验证的裁决用途。milestone 与 termination 分开：
+#: 一个任务可能 milestone 通路已验证、而终止语义从未被观察到（truck 即如此）。
+ADJUDICATION_REQUIREMENTS: dict[str, str] = {
+    "termination_semantics": "RUNTIME_VERIFIED_TERMINATION",
+    "milestone": "RUNTIME_VERIFIED_MILESTONE",
+}
+
+
+def require_runtime_verified(env_name: str, *, purpose: str) -> None:
+    """该任务的语义通路未经真实 runtime 验证则拒绝，用于科学裁决前的闸门。
+
+    **为什么注册过还不够**：注册进 ``TASK_METRIC_REGISTRY`` 只说明
+    "读过源码并写下了映射"，不说明"这条映射被真实执行过"。
+    bookshelf 的 ``terminated_reason`` 0/1/2 映射只有 mock 覆盖——
+    本地 checkpoint 已学会不摔倒，8/8 episode 无一终止，
+    条件判定函数一次都没被调用（判据真空成立）。真空成立不是验证。
+
+    两个清单的初值都是空集合（fail-closed），由 smoke 实测结果填入。
+    当前无科学裁决在跑（P3A 未启动），故不阻塞任何工作。
+    """
+    from fasttd3_ptf.evaluation import task_metrics
+
+    attr = ADJUDICATION_REQUIREMENTS.get(purpose)
+    if attr is None:
+        raise UnverifiedPathError(
+            f"未知的裁决用途 {purpose!r}；合法值：{sorted(ADJUDICATION_REQUIREMENTS)}")
+    verified = getattr(task_metrics, attr)
+    if env_name not in verified:
+        raise UnverifiedPathError(
+            f"{env_name} 的 {purpose} 通路未经真实 runtime 验证，不得用于科学裁决。"
+            f"当前 {attr} = {sorted(verified) or '空集合（尚无任务通过 runtime 验证）'}。"
+            f"注册过 != 被执行过——真空成立的条件式判据不算验证。"
+        )
+
+
 def classify_headroom(h_op, h_ms) -> str:
     """按预注册 §4：SATURATED 需 ``h_op <= 0`` **且** ``h_ms <= 0``。
 

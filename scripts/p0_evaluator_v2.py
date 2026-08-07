@@ -127,12 +127,20 @@ def _run_episode_v2(env, actor, obs_norm, device, seed: int, env_name: str) -> d
             break
 
     spec = task_metrics.TASK_METRIC_REGISTRY.get(env_name)
-    mj_state = _basketball_state(env) if (spec and spec.needs_mujoco_state) else None
+    mj_state = None
+    mj_error = None
+    if spec and spec.needs_mujoco_state:
+        _basketball_state._last_error = None
+        mj_state = _basketball_state(env)
+        if mj_state is None:
+            mj_error = _basketball_state._last_error or "未知原因"
     required = spec.required_info_keys if spec else ()
 
+    # 传整条 info_history：milestone 沿 trajectory 聚合（预注册 v21b §3）。
+    # 只读最后一步会丢掉中途装上车又掉下的 package、中途穿筐的球。
     task_success, semantics, status, milestones = task_metrics.resolve_task_outcome(
         env_name=env_name, terminated=terminated, truncated=truncated,
-        info=info, mj_state=mj_state,
+        info_history=info_history, mj_state=mj_state,
     )
     diagnostics, unsupported = schema_v2.summarize_info(info_history, required_keys=required)
 
@@ -147,6 +155,8 @@ def _run_episode_v2(env, actor, obs_norm, device, seed: int, env_name: str) -> d
         termination_semantics=semantics,
         metric_status=status,
         milestones=milestones,
+        mujoco_state=mj_state,
+        mujoco_state_error=mj_error,
         info_diagnostics=diagnostics,
         info_diagnostics_unsupported=unsupported,
     )
@@ -202,20 +212,74 @@ def panel_digest(eval_seeds, ranks, episode_steps: int, deterministic: bool) -> 
     })
 
 
+def atomic_write_json(out_path, payload, *, allow_overwrite: bool = False) -> None:
+    """原子写 JSON（预注册 v21b §2）。
+
+    ``os.link`` 而非"先 ``exists()`` 再 ``replace``"：后者是 TOCTOU，
+    两个进程可以同时通过 exists 检查、后者静默覆盖前者。
+    ``os.link`` 的 fail-if-exists 由内核保证，无竞态窗口。
+
+    跨文件系统会 ``EXDEV``，但 tmp 与目标同目录，不会发生。
+    无论成败都清理 tmp——半截的 JSON 比没有文件更危险，它看上去是合法产物。
+    """
+    out_path = Path(out_path)
+    tmp = out_path.with_name(f"{out_path.name}.tmp.{os.getpid()}")
+    try:
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump(payload, fh, ensure_ascii=False, indent=2)
+            fh.flush()
+            os.fsync(fh.fileno())
+        if allow_overwrite:
+            os.replace(tmp, out_path)       # 原子替换
+        else:
+            os.link(tmp, out_path)          # 目标已存在 → FileExistsError，原子
+            os.unlink(tmp)
+    finally:
+        if tmp.exists():
+            try:
+                os.unlink(tmp)
+            except OSError:
+                pass
+
+
+IDENTITY_MODES = ("formal", "debug")
+
+#: formal 模式下**必须**显式声明的身份项（预注册 v21b §1.1）。
+#: ``expect_admission_mode`` 刻意不在其中：scratch checkpoint 没有 ``ptf_cfg``，
+#: 强制它会把整条 scratch 基线挡在门外。但若显式传入则照样校验。
+FORMAL_REQUIRED_EXPECTATIONS = ("expect_global_step", "expect_seed")
+
+
 def verify_checkpoint_identity(
     checkpoint: str,
     env_name: str,
     expect_global_step=None,
     expect_seed=None,
     expect_admission_mode=None,
+    identity_mode: str = "formal",
 ) -> dict:
     """核对 checkpoint 内部身份，不符即抛错。恢复自 v1（p0_evaluator.py:152-175）。
 
-    强制项：checkpoint 内 ``args["env_name"]`` 必须等于命令行 ``--env-name``。
-    喂错 env 会产出完全合法但语义错误的结果，且无法从输出中看出来。
+    强制项（两种模式下都执行、不可关闭）：checkpoint 内 ``args["env_name"]``
+    必须等于命令行 ``--env-name``。喂错 env 会产出完全合法但语义错误的结果，
+    且无法从输出中看出来。
+
+    ``identity_mode``：
+
+    ``formal``
+        正式评估，**唯一可用于科学裁决的模式**。必须显式声明
+        ``--expect-global-step`` 与 ``--expect-seed`` 并全部匹配；
+        checkpoint 内缺这些字段时**同样硬失败**——无法核对 ≠ 核对通过。
+    ``debug``
+        冒烟 / 探查。允许不声明，但产物带 ``scientific_use_permitted: false``
+        毒性标记。旧实现的问题正是没有这个区分：传任意一个 ``--expect-*``
+        就算 ``identity_checked=true``，而 seed、global_step 可以全都没声明。
 
     返回身份摘要 dict，供写入评估产物。
     """
+    if identity_mode not in IDENTITY_MODES:
+        raise ValueError(f"identity_mode 必须是 {IDENTITY_MODES} 之一，收到 {identity_mode!r}")
+
     state = torch.load(checkpoint, map_location="cpu", weights_only=False)
     ckpt_args = state.get("args") or {}
     ptf_cfg = state.get("ptf_cfg") or {}
@@ -234,8 +298,6 @@ def verify_checkpoint_identity(
         if actual != expect_admission_mode:
             errors.append(
                 f"checkpoint admission_mode={actual!r} != expected {expect_admission_mode!r}")
-    if errors:
-        raise ValueError("checkpoint identity mismatch: " + "; ".join(errors))
 
     explicit = [
         name for name, val in (
@@ -244,6 +306,23 @@ def verify_checkpoint_identity(
             ("expect_admission_mode", expect_admission_mode),
         ) if val is not None
     ]
+
+    if identity_mode == "formal":
+        undeclared = [k for k in FORMAL_REQUIRED_EXPECTATIONS if k not in explicit]
+        if undeclared:
+            errors.append(
+                f"formal 模式要求显式声明 {list(FORMAL_REQUIRED_EXPECTATIONS)}，"
+                f"缺少 {undeclared}。若只是冒烟/探查请显式传 --identity-mode debug"
+                f"（其产物将标记 scientific_use_permitted=false）")
+        # 无法核对 != 核对通过：checkpoint 内缺字段时不得放行。
+        if state.get("global_step") is None:
+            errors.append("checkpoint 内缺 global_step，formal 模式无法核对身份")
+        if ckpt_args.get("seed") is None:
+            errors.append("checkpoint 内 args 缺 seed，formal 模式无法核对身份")
+
+    if errors:
+        raise ValueError("checkpoint identity mismatch: " + "; ".join(errors))
+
     info = {
         "global_step": state.get("global_step"),
         "learner_seed": ckpt_args.get("seed"),
@@ -257,9 +336,13 @@ def verify_checkpoint_identity(
             "mcg_warmup_steps": ptf_cfg.get("mcg_warmup_steps", "UNKNOWN"),
             "source_names": state.get("source_names", "UNKNOWN"),
         },
-        # 只做强制 env 核对而未显式声明任何 expect_* 时为 False：
-        # 输出仍产生，但明确标记为未经完整身份声明。
-        "identity_checked": len(explicit) >= 1,
+        "identity_mode": identity_mode,
+        # formal 模式能走到这里说明全部强制项已声明且匹配（不匹配已抛错）；
+        # debug 模式恒 False。旧实现的 `len(explicit) >= 1` 已移除——
+        # 只声明一个 admission_mode 也算"已校验"是不成立的。
+        "identity_checked": identity_mode == "formal",
+        # 显式毒性标记，给下游读：false 的产物不得进入任何科学裁决。
+        "scientific_use_permitted": identity_mode == "formal",
         "identity_expectations": explicit,
     }
     del state
@@ -309,6 +392,10 @@ def main() -> int:
                         help="lease 分支=all，abstain 分支=none")
     parser.add_argument("--allow-overwrite", action="store_true",
                         help="显式允许覆盖已存在的评估产物（默认硬拒绝）")
+    parser.add_argument("--identity-mode", choices=IDENTITY_MODES, default="formal",
+                        help="formal（默认）要求显式声明 --expect-global-step 与 "
+                             "--expect-seed；debug 允许省略，但产物标记 "
+                             "scientific_use_permitted=false")
     args = parser.parse_args()
 
     if args.eval_seeds is None:
@@ -333,11 +420,12 @@ def main() -> int:
     # ── 身份校验：不符即拒绝，不产出任何字节 ─────────────────────────
     identity = verify_checkpoint_identity(
         args.checkpoint, args.env_name,
-        args.expect_global_step, args.expect_seed, args.expect_admission_mode)
-    if not identity["identity_checked"]:
+        args.expect_global_step, args.expect_seed, args.expect_admission_mode,
+        identity_mode=args.identity_mode)
+    if not identity["scientific_use_permitted"]:
         print(
-            "[WARN] 未显式声明任何 --expect-*：identity_checked=false。"
-            "强制 env 核对已通过，但正式评估应至少声明一项。",
+            "[WARN] identity-mode=debug：产物标记 scientific_use_permitted=false，"
+            "不得用于任何科学裁决。正式评估请用默认的 formal 模式。",
             file=sys.stderr)
 
     if args.env_name not in task_metrics.TASK_METRIC_REGISTRY:
@@ -364,9 +452,12 @@ def main() -> int:
             "path": str(ckpt_path),
             "sha256": _sha256(ckpt_path),
             **{k: v for k, v in identity.items()
-               if k not in ("identity_checked", "identity_expectations")},
+               if k not in ("identity_checked", "identity_expectations",
+                            "identity_mode", "scientific_use_permitted")},
         },
+        "identity_mode": identity["identity_mode"],
         "identity_checked": identity["identity_checked"],
+        "scientific_use_permitted": identity["scientific_use_permitted"],
         "identity_expectations": identity["identity_expectations"],
         "panel_digest": panel_digest(eval_seeds, RANKS, EPISODE_STEPS, True),
         "overwrote_existing": bool(out_path.exists() and args.allow_overwrite),
@@ -386,7 +477,7 @@ def main() -> int:
     }
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    atomic_write_json(out_path, payload, allow_overwrite=args.allow_overwrite)
     print(f"wrote {out_path}")
     print(json.dumps(payload["aggregate"], ensure_ascii=False, indent=2))
     return 0

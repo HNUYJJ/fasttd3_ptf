@@ -51,12 +51,120 @@ class TaskMetrics:
 
 
 def _milestones_from_info(keys: tuple[str, ...]) -> Callable:
-    """默认 milestone 提取：直接从 info 取指定 key。"""
+    """默认 milestone 提取：直接从 info 取指定 key。**逐步调用**，聚合见下。"""
 
     def _fn(info: dict, mj_state=None) -> dict:
         return {k: info[k] for k in keys if k in info}
 
     return _fn
+
+
+# ══════════════════════════════════════════════════════════════════════
+# milestone 的 trajectory 聚合（预注册 evaluator_v21b §3）
+#
+# 为什么不能只读最后一步——HumanoidBench 源码里这些量真的会回落：
+#
+#   truck.py:113-115   for package in self.packages_on_table: ... .remove(package)
+#   truck.py:199       reward_dict["success_subtasks"] = len(self.packages_on_table)
+#   basketball.py:139  "success_subtasks": 1 if self.stage == "throw" else 0
+#   basketball.py:140  "success": ball_hoop_distance < 0.05     ← 瞬时判定
+#
+# `success` 尤其危险：球穿过篮筐后飞走，最后一步就是 False——
+# "成功了但记成没成功"。故必须同时保留 max（最好到过哪里）与
+# final（最后落在哪里），两者之差本身就是信号。
+# ══════════════════════════════════════════════════════════════════════
+
+def _as_number(v) -> float | None:
+    """能参与 max 比较则返回 float，否则 None。NaN / inf 一律不参与。
+
+    不 import numpy——本模块刻意不依赖数值栈。numpy 标量用鸭子类型识别：
+    有 ``.item()`` 且 ``shape == ()``。
+    """
+    if isinstance(v, bool):          # bool 是 int 子类，显式先接住
+        return float(v)
+    if isinstance(v, (int, float)):
+        f = float(v)
+        return f if f == f and f not in (float("inf"), float("-inf")) else None
+    item = getattr(v, "item", None)
+    if callable(item) and getattr(v, "shape", None) == ():
+        try:
+            return _as_number(item())
+        except Exception:
+            return None
+    return None
+
+
+def _jsonable(v):
+    """转成可 JSON 序列化的值。无法识别的类型兜底为 str，绝不让写盘阶段才崩。"""
+    if v is None or isinstance(v, (bool, int, float, str)):
+        return v
+    item = getattr(v, "item", None)
+    if callable(item) and getattr(v, "shape", None) == ():
+        try:
+            return item()
+        except Exception:
+            pass
+    return str(v)
+
+
+def _truthy(v) -> bool:
+    try:
+        return bool(v)
+    except Exception:
+        return False
+
+
+def aggregate_milestones(spec, info_history: list, mj_state=None) -> tuple[dict, bool]:
+    """沿 trajectory 聚合 milestone。返回 ``(milestones, ok)``。
+
+    ``ok=False`` 表示 ``milestone_fn`` 在**某一步**抛了异常 → 调用方判 ADAPTER_ERROR。
+    不做部分容错：半截的 milestone 比没有更危险（会被当成完整数据引用）。
+
+    每个 key 的输出结构（预注册 §3 冻结）::
+
+        final            最后一步的值；**该步不含此 key 则 None**
+        max              trajectory 上的最大值；非数值类型则 None
+        max_step         首次达到 max 的步索引（0-based）
+        first_step       该 key 首次出现的步索引
+        n_steps_present  该 key 出现过的步数
+        ever_true        bool(v) 为真是否至少出现过一次
+    """
+    if spec is None or spec.milestone_fn is None:
+        return {}, True
+
+    acc: dict[str, dict] = {}
+    n_steps = len(info_history)
+    for step, info in enumerate(info_history):
+        try:
+            per_step = spec.milestone_fn(info or {}, mj_state) or {}
+        except Exception:
+            return {}, False
+        for k, v in per_step.items():
+            slot = acc.get(k)
+            if slot is None:
+                slot = acc[k] = {
+                    "final": None, "max": None, "max_step": None,
+                    "first_step": step, "n_steps_present": 0, "ever_true": False,
+                    "_last_step": None, "_max_num": None,
+                }
+            slot["n_steps_present"] += 1
+            slot["_last_step"] = step
+            slot["final"] = _jsonable(v)
+            if _truthy(v):
+                slot["ever_true"] = True
+            num = _as_number(v)
+            if num is not None and (slot["_max_num"] is None or num > slot["_max_num"]):
+                slot["_max_num"] = num
+                slot["max"] = _jsonable(v)      # 存原值而非 float，保住 int 语义
+                slot["max_step"] = step
+
+    for slot in acc.values():
+        # final 是"最后一步的值"，不是"最后一次出现的值"——
+        # 某 key 中途消失时这两者不同，后者会谎称最后一步仍有该字段。
+        if slot.pop("_last_step") != n_steps - 1:
+            slot["final"] = None
+        slot.pop("_max_num")
+    return acc, True
 
 
 def _bookshelf_termination(info: dict, mj_state=None):
@@ -170,7 +278,7 @@ def resolve_task_outcome(
     env_name: str,
     terminated: bool,
     truncated: bool,
-    info: dict | None = None,
+    info_history: list | None = None,
     mj_state: dict | None = None,
 ) -> tuple[bool | None, str, str, dict]:
     """把环境事实翻译成任务成败。
@@ -184,19 +292,25 @@ def resolve_task_outcome(
     ``None``   **不可判定**（任务未注册，或需要的状态缺失）——绝不退化为 False
 
     禁止任何形式的 ``terminated -> success`` 默认推断。
+
+    **参数是整条 ``info_history``，不是单个 ``info``**（预注册 v21b §3）。
+    旧签名收单个 ``info`` 且只读最后一步，会丢掉中途达到又回落的进度；
+    此处不保留 ``info`` 兼容参数——留着就会有人继续传单步，
+    而那正是丢数据的那条路径。终止语义仍由**最后一步**的 info 判定
+    （``terminated_reason`` 只在终止那一步出现）。
     """
-    info = info or {}
+    info_history = list(info_history or [])
+    last_info = info_history[-1] if info_history else {}
     spec = TASK_METRIC_REGISTRY.get(env_name)
     if spec is None:
         return None, SEM_UNKNOWN, STATUS_UNREGISTERED, {}
 
-    # ── milestones 先提取：未终止的 episode 也可能有中间进度 ────────
-    milestones: dict = {}
-    if spec.milestone_fn is not None:
-        try:
-            milestones = spec.milestone_fn(info, mj_state) or {}
-        except Exception:
-            return None, SEM_UNKNOWN, STATUS_ADAPTER_ERROR, {}
+    # ── milestones 沿整条 trajectory 聚合 ───────────────────────────
+    # 先于终止判定执行：未终止的 episode 也可能有中间进度。
+    milestones, ok = aggregate_milestones(spec, info_history, mj_state)
+    if not ok:
+        return None, SEM_UNKNOWN, STATUS_ADAPTER_ERROR, {}
+    info = last_info
 
     # ── 未终止：环境没有给出成败信号 ────────────────────────────────
     # 这不是"数据不足以判定"，而是"这一局还没分出胜负"。
@@ -218,3 +332,25 @@ def resolve_task_outcome(
         semantics = spec.termination_is
 
     return semantics == SEM_SUCCESS, semantics, STATUS_OK, milestones
+
+
+# ══════════════════════════════════════════════════════════════════════
+# runtime 验证清单（预注册 evaluator_v21b §5.1）
+# ══════════════════════════════════════════════════════════════════════
+
+#: 终止语义**经真实 runtime 终止 episode 验证过**的任务。
+#:
+#: 注册进 ``TASK_METRIC_REGISTRY`` 只说明"我读过源码并写下了映射"，
+#: 不说明"这条映射在真实 episode 上被执行过"。bookshelf 就是反例：
+#: 它的 ``terminated_reason`` 0/1/2 映射只有 mock 测试覆盖，
+#: 因为本地 checkpoint 已学会不摔倒，8/8 episode 无一终止，
+#: 条件判定函数一次都没被调用过（判据真空成立 = VACUOUS）。
+#:
+#: **初值冻结为空集合**，只能由 P1.1b smoke 结果**之后的独立 commit**
+#: 依据实测填入。不得在实现 commit 里凭印象预填——那是"用结果改代码"的变体。
+RUNTIME_VERIFIED_TERMINATION: frozenset[str] = frozenset()
+
+#: milestone 提取通路经真实 runtime 验证过的任务。与上者分开：
+#: truck 的 milestone 通路可用、但其 success 终止路径从未被观察到，
+#: 二者的证据强度不同，合并会让"未验证"搭上"已验证"的便车。
+RUNTIME_VERIFIED_MILESTONE: frozenset[str] = frozenset()

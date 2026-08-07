@@ -16,6 +16,10 @@
 
 from __future__ import annotations
 
+import json
+import sys
+from pathlib import Path
+
 import numpy as np
 import pytest
 
@@ -27,6 +31,22 @@ pytest.importorskip(
 
 from fasttd3_ptf.evaluation import schema_v2, site_rules, task_metrics  # noqa: E402
 from fasttd3_ptf.evaluation.site_rules import IncomparableError  # noqa: E402
+
+
+@pytest.fixture(scope="module")
+def ev_v2():
+    """加载 scripts/p0_evaluator_v2.py。它不是包模块，需要显式加 sys.path。
+
+    torch 缺失时 skip——身份校验与原子写的测试依赖 torch.save 构造 checkpoint。
+    """
+    repo = Path(__file__).resolve().parents[1]
+    for p in (str(repo), str(repo / "scripts")):
+        if p not in sys.path:
+            sys.path.insert(0, p)
+    pytest.importorskip("torch", reason="T12/T13 需要 torch 构造 checkpoint")
+    import p0_evaluator_v2
+
+    return p0_evaluator_v2
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -48,7 +68,7 @@ def test_T1_locomotion_fall_is_not_success(env_name):
     **注意 crawl 不在此列**——它恒不终止，见 test_T1c。
     """
     success, semantics, status, _ = task_metrics.resolve_task_outcome(
-        env_name=env_name, terminated=True, truncated=False, info={},
+        env_name=env_name, terminated=True, truncated=False, info_history=[{}],
     )
     assert success is False, f"{env_name} 摔倒终止必须是 task_success=False，得到 {success}"
     assert semantics == "failure"
@@ -58,7 +78,7 @@ def test_T1_locomotion_fall_is_not_success(env_name):
 def test_T1b_truncation_is_not_success():
     """跑满 1000 步被 TimeLimit 截断，也不是任务成功。"""
     success, semantics, _, _ = task_metrics.resolve_task_outcome(
-        env_name="h1hand-walk-v0", terminated=False, truncated=True, info={},
+        env_name="h1hand-walk-v0", terminated=False, truncated=True, info_history=[{}],
     )
     assert success is False
     assert semantics != "success"
@@ -73,7 +93,7 @@ def test_T1c_crawl_never_terminates():
     spec = task_metrics.TASK_METRIC_REGISTRY["h1hand-crawl-v0"]
     assert spec.termination_is == "neutral"
     success, semantics, status, _ = task_metrics.resolve_task_outcome(
-        env_name="h1hand-crawl-v0", terminated=False, truncated=True, info={},
+        env_name="h1hand-crawl-v0", terminated=False, truncated=True, info_history=[{}],
     )
     assert success is False
     assert semantics == "neutral"
@@ -85,11 +105,11 @@ def test_T1d_bookshelf_termination_is_conditional():
     （bookshelf.py:190）。静态枚举表达不了，故契约放宽为 str | Callable。
     """
     fall, sem_fall, _, _ = task_metrics.resolve_task_outcome(
-        "h1hand-bookshelf_simple-v0", True, False, {"terminated_reason": 0})
+        "h1hand-bookshelf_simple-v0", True, False, [{"terminated_reason": 0}])
     done, sem_done, _, _ = task_metrics.resolve_task_outcome(
-        "h1hand-bookshelf_simple-v0", True, False, {"terminated_reason": 1})
+        "h1hand-bookshelf_simple-v0", True, False, [{"terminated_reason": 1}])
     drop, sem_drop, _, _ = task_metrics.resolve_task_outcome(
-        "h1hand-bookshelf_simple-v0", True, False, {"terminated_reason": 2})
+        "h1hand-bookshelf_simple-v0", True, False, [{"terminated_reason": 2}])
     assert (fall, sem_fall) == (False, "failure"), "reason 0 = 摔倒"
     assert (done, sem_done) == (True, "success"), "reason 1 = 完成全部子任务"
     assert (drop, sem_drop) == (False, "failure"), "reason 2 = 物体掉落"
@@ -103,7 +123,7 @@ def test_T1f_conditional_task_not_terminated_is_neutral_not_unknown():
     """
     for env in ("h1hand-bookshelf_simple-v0", "h1hand-basketball-v0"):
         success, semantics, status, _ = task_metrics.resolve_task_outcome(
-            env, terminated=False, truncated=True, info={}, mj_state=None,
+            env, terminated=False, truncated=True, info_history=[{}], mj_state=None,
         )
         assert status == "OK", f"{env} 未终止时应为 OK，得到 {status}"
         assert semantics == "neutral", f"{env} 未终止时语义应为 neutral"
@@ -113,7 +133,7 @@ def test_T1f_conditional_task_not_terminated_is_neutral_not_unknown():
 def test_T1g_unterminated_locomotion_is_neutral_not_failure():
     """跑满 1000 步没摔倒，语义是 neutral，不是 failure。"""
     _, semantics, status, _ = task_metrics.resolve_task_outcome(
-        "h1hand-walk-v0", terminated=False, truncated=True, info={},
+        "h1hand-walk-v0", terminated=False, truncated=True, info_history=[{}],
     )
     assert semantics == "neutral"
     assert status == "OK"
@@ -123,10 +143,11 @@ def test_T1h_milestones_extracted_even_when_not_terminated():
     """未终止的 episode 也可能有中间进度，milestone 不应因此丢失。"""
     _, _, status, milestones = task_metrics.resolve_task_outcome(
         "h1hand-truck-v0", terminated=False, truncated=True,
-        info={"success": 0, "success_subtasks": 2},
+        info_history=[{"success": 0, "success_subtasks": 2}],
     )
     assert status == "OK"
-    assert milestones.get("success_subtasks") == 2, "中途进度必须保留"
+    assert milestones["success_subtasks"]["final"] == 2, "中途进度必须保留"
+    assert milestones["success_subtasks"]["max"] == 2
 
 
 def test_T1e_basketball_needs_state_else_null():
@@ -135,7 +156,7 @@ def test_T1e_basketball_needs_state_else_null():
     """
     success, _, status, _ = task_metrics.resolve_task_outcome(
         "h1hand-basketball-v0", terminated=True, truncated=False,
-        info={}, mj_state=None,
+        info_history=[{}], mj_state=None,
     )
     assert success is None, "无 state 时不可判定，必须 None"
     assert status == "INSUFFICIENT_STATE"
@@ -150,12 +171,12 @@ def test_T2_manipulation_success_detected():
     success, semantics, status, milestones = task_metrics.resolve_task_outcome(
         env_name="h1hand-truck-v0",
         terminated=True, truncated=False,
-        info={"success": 1, "success_subtasks": 3},
+        info_history=[{"success": 1, "success_subtasks": 3}],
     )
     assert success is True
     assert semantics == "success"
     assert status == "OK"
-    assert milestones.get("success_subtasks") == 3
+    assert milestones["success_subtasks"]["final"] == 3
 
 
 def test_T2b_manipulation_non_success_termination():
@@ -163,7 +184,7 @@ def test_T2b_manipulation_non_success_termination():
     success, _, status, _ = task_metrics.resolve_task_outcome(
         env_name="h1hand-truck-v0",
         terminated=False, truncated=True,
-        info={"success": 0, "success_subtasks": 0},
+        info_history=[{"success": 0, "success_subtasks": 0}],
     )
     assert success is False, "已注册任务未达成 → False（不是 None）"
     assert status == "OK"
@@ -176,7 +197,7 @@ def test_T2b_manipulation_non_success_termination():
 def test_T3_unregistered_task_yields_null():
     success, semantics, status, milestones = task_metrics.resolve_task_outcome(
         env_name="h1hand-not-a-real-task-v0",
-        terminated=True, truncated=False, info={"success": 1},
+        terminated=True, truncated=False, info_history=[{"success": 1}],
     )
     assert success is None, "未注册任务必须 None（不可判定），即使 info 里有 success"
     assert semantics == "unknown"
@@ -187,9 +208,9 @@ def test_T3_unregistered_task_yields_null():
 def test_T3b_null_is_distinct_from_false():
     """null（不可判定）与 false（确定未成功）必须可区分。"""
     unreg, _, _, _ = task_metrics.resolve_task_outcome(
-        "h1hand-not-a-real-task-v0", True, False, {})
+        "h1hand-not-a-real-task-v0", True, False, [{}])
     reg, _, _, _ = task_metrics.resolve_task_outcome(
-        "h1hand-walk-v0", True, False, {})
+        "h1hand-walk-v0", True, False, [{}])
     assert unreg is None and reg is False
     assert unreg is not reg
 
@@ -461,3 +482,335 @@ def test_T4_v1_v2_bitwise_identical_on_shared_fields():
     print(f"\nT4: {len(v1)} episodes 数值逐位一致；success 语义变化 {len(changed)} 例")
     for seed, old, new in changed[:5]:
         print(f"  seed={seed}  v1.terminated_success={old} → v2.task_success={new}")
+
+
+# ══════════════════════════════════════════════════════════════════════
+# T11  milestone 沿 trajectory 聚合（预注册 v21b §3）
+#
+# 只读最后一步会真实丢数据——HumanoidBench 源码实测：
+#   truck.py:113-115   packages_on_table 有 .remove() 分支 → success_subtasks 回落
+#   basketball.py:140  success = ball_hoop_distance < 0.05 是瞬时判定
+# ══════════════════════════════════════════════════════════════════════
+
+def test_T11_milestone_max_survives_regression():
+    """中途装上车又掉下来的 package 不得从记录中消失。
+
+    这是 D3 的回归测试：旧实现只读最后一步，此处 final=1 而 max=3，
+    旧实现会把"最好装到 3 个"整个丢掉。
+    """
+    history = [
+        {"success": 0, "success_subtasks": 0},
+        {"success": 0, "success_subtasks": 2},
+        {"success": 0, "success_subtasks": 3},   # 峰值在中间
+        {"success": 0, "success_subtasks": 1},   # 掉下来了
+    ]
+    _, _, status, ms = task_metrics.resolve_task_outcome(
+        "h1hand-truck-v0", terminated=False, truncated=True, info_history=history)
+    assert status == "OK"
+    slot = ms["success_subtasks"]
+    assert slot["max"] == 3, "峰值必须保留"
+    assert slot["max_step"] == 2, "峰值步索引 0-based"
+    assert slot["final"] == 1, "最后一步的值同时保留"
+    assert slot["first_step"] == 0
+    assert slot["n_steps_present"] == 4
+    assert slot["ever_true"] is True
+
+
+def test_T11b_transient_success_not_lost():
+    """success 是瞬时判定：球穿筐后飞走，最后一步为 False。
+
+    只读最后一步 → "成功了但记成没成功"。
+    """
+    history = [{"success": False}, {"success": True}, {"success": False}]
+    _, _, _, ms = task_metrics.resolve_task_outcome(
+        "h1hand-package-v0", terminated=False, truncated=True, info_history=history)
+    assert ms["success"]["ever_true"] is True, "中途成功过必须可见"
+    assert ms["success"]["final"] is False
+    assert ms["success"]["max_step"] == 1
+
+
+def test_T11c_key_absent_in_last_step_yields_null_final():
+    """final 是"最后一步的值"，不是"最后一次出现的值"。
+
+    两者不同时，后者会谎称最后一步仍有该字段。
+    """
+    history = [{"success_subtasks": 2}, {"success_subtasks": 5}, {}]
+    _, _, _, ms = task_metrics.resolve_task_outcome(
+        "h1hand-truck-v0", terminated=False, truncated=True, info_history=history)
+    slot = ms["success_subtasks"]
+    assert slot["final"] is None, "最后一步无此 key → final 必须 None"
+    assert slot["max"] == 5, "但 max 仍然保留"
+    assert slot["n_steps_present"] == 2
+
+
+def test_T11d_non_numeric_max_is_null_but_ever_true_works():
+    """非数值类型不参与 max，但 ever_true 仍可算。"""
+    spec = task_metrics.TaskMetrics(
+        termination_is=task_metrics.SEM_SUCCESS, source="test",
+        milestone_fn=task_metrics._milestones_from_info(("stage",)))
+    ms, ok = task_metrics.aggregate_milestones(
+        spec, [{"stage": "throw"}, {"stage": ""}, {"stage": "catch"}])
+    assert ok
+    assert ms["stage"]["max"] is None and ms["stage"]["max_step"] is None
+    assert ms["stage"]["ever_true"] is True, "非空字符串为真"
+    assert ms["stage"]["final"] == "catch"
+
+
+def test_T11e_numpy_scalars_and_nan():
+    """numpy 标量按数值处理；NaN 不参与 max（否则会污染比较）。"""
+    spec = task_metrics.TaskMetrics(
+        termination_is=task_metrics.SEM_SUCCESS, source="test",
+        milestone_fn=task_metrics._milestones_from_info(("v",)))
+    ms, ok = task_metrics.aggregate_milestones(
+        spec, [{"v": np.float64(1.5)}, {"v": float("nan")}, {"v": np.int64(4)}])
+    assert ok
+    assert ms["v"]["max"] == 4 and ms["v"]["max_step"] == 2
+    import json
+    json.dumps(ms)  # 必须可序列化，不能把 np 标量原样塞进 JSON
+
+
+def test_T11f_milestone_fn_raising_midway_is_adapter_error():
+    """任一步抛异常 → 整个 episode ADAPTER_ERROR，milestones 清空。
+
+    不做部分容错：半截的 milestone 比没有更危险，它会被当成完整数据引用。
+    """
+    def boom(info, mj_state=None):
+        if info.get("bad"):
+            raise RuntimeError("adapter 炸了")
+        return {"success_subtasks": 1}
+
+    spec = task_metrics.TaskMetrics(
+        termination_is=task_metrics.SEM_SUCCESS, source="test", milestone_fn=boom)
+    ms, ok = task_metrics.aggregate_milestones(spec, [{}, {}, {"bad": True}])
+    assert ok is False and ms == {}
+
+
+def test_T11g_empty_history_is_not_an_error():
+    """0 步的 episode → 空 milestones，不报错。"""
+    _, _, status, ms = task_metrics.resolve_task_outcome(
+        "h1hand-truck-v0", terminated=False, truncated=True, info_history=[])
+    assert status == "OK" and ms == {}
+
+
+def test_T11h_flat_milestone_format_is_gone():
+    """扁平格式必须已移除，不留兼容路径——它正是丢数据的那个。"""
+    _, _, _, ms = task_metrics.resolve_task_outcome(
+        "h1hand-truck-v0", terminated=False, truncated=True,
+        info_history=[{"success_subtasks": 2}])
+    assert isinstance(ms["success_subtasks"], dict), "必须是聚合结构而非裸值"
+    assert set(ms["success_subtasks"]) == {
+        "final", "max", "max_step", "first_step", "n_steps_present", "ever_true"}
+
+
+def test_T11i_resolve_rejects_old_info_kwarg():
+    """旧的 info= 关键字必须不再被接受，否则会静默只读单步。"""
+    with pytest.raises(TypeError):
+        task_metrics.resolve_task_outcome(
+            "h1hand-truck-v0", terminated=False, truncated=True,
+            info={"success_subtasks": 2},
+        )
+
+
+# ══════════════════════════════════════════════════════════════════════
+# T12  身份校验 formal / debug 双模式（预注册 v21b §1）
+# ══════════════════════════════════════════════════════════════════════
+
+@pytest.fixture
+def fake_ckpt(tmp_path):
+    """构造一个最小 checkpoint，避免依赖真实权重文件。"""
+    import torch
+
+    def _make(env_name="h1hand-truck-v0", seed=1, global_step=50000, **extra):
+        path = tmp_path / f"ckpt_{env_name}_{seed}_{global_step}.pt"
+        state = {"args": {"env_name": env_name, "seed": seed}, "global_step": global_step}
+        state["args"].update(extra.pop("args_extra", {}))
+        state.update(extra)
+        torch.save(state, path)
+        return str(path)
+
+    return _make
+
+
+def test_T12_formal_requires_all_expectations(fake_ckpt, ev_v2):
+    """formal 模式下缺任一强制声明即硬失败。
+
+    旧实现只要传**任意一个** --expect-* 就算 identity_checked=true，
+    seed 和 global_step 可以全都没声明（p0_evaluator_v2.py:262）。
+    """
+    ckpt = fake_ckpt()
+    with pytest.raises(ValueError, match="formal 模式要求显式声明"):
+        ev_v2.verify_checkpoint_identity(ckpt, "h1hand-truck-v0")
+    with pytest.raises(ValueError, match="formal 模式要求显式声明"):
+        ev_v2.verify_checkpoint_identity(ckpt, "h1hand-truck-v0", expect_seed=1)
+    with pytest.raises(ValueError, match="formal 模式要求显式声明"):
+        ev_v2.verify_checkpoint_identity(ckpt, "h1hand-truck-v0", expect_global_step=50000)
+
+    ok = ev_v2.verify_checkpoint_identity(
+        ckpt, "h1hand-truck-v0", expect_global_step=50000, expect_seed=1)
+    assert ok["identity_checked"] is True
+    assert ok["scientific_use_permitted"] is True
+    assert ok["identity_mode"] == "formal"
+
+
+def test_T12b_old_single_expectation_no_longer_counts(fake_ckpt, ev_v2):
+    """只声明 admission_mode 一项，旧实现记 identity_checked=true。"""
+    ckpt = fake_ckpt(ptf_cfg={"admission_mode": "all"})
+    with pytest.raises(ValueError, match="formal 模式要求显式声明"):
+        ev_v2.verify_checkpoint_identity(
+            ckpt, "h1hand-truck-v0", expect_admission_mode="all")
+
+
+def test_T12c_debug_mode_marks_output_as_unusable(fake_ckpt, ev_v2):
+    """debug 允许省略声明，但产物带毒性标记。"""
+    ckpt = fake_ckpt()
+    info = ev_v2.verify_checkpoint_identity(ckpt, "h1hand-truck-v0", identity_mode="debug")
+    assert info["identity_checked"] is False
+    assert info["scientific_use_permitted"] is False, "debug 产物不得用于科学裁决"
+
+
+def test_T12d_env_cross_check_cannot_be_disabled(fake_ckpt, ev_v2):
+    """强制 env 核对在 debug 模式下同样执行。"""
+    ckpt = fake_ckpt(env_name="h1hand-truck-v0")
+    with pytest.raises(ValueError, match="env_name"):
+        ev_v2.verify_checkpoint_identity(ckpt, "h1hand-crawl-v0", identity_mode="debug")
+
+
+def test_T12e_missing_field_in_checkpoint_fails_formal(fake_ckpt, ev_v2):
+    """checkpoint 内缺 seed / global_step 时 formal 必须硬失败。
+
+    **无法核对 != 核对通过**——这类文件由 P2 deep scan 统计，不在此放行。
+    """
+    import torch
+    p = fake_ckpt()
+    state = torch.load(p, map_location="cpu", weights_only=False)
+    del state["args"]["seed"]
+    torch.save(state, p)
+    with pytest.raises(ValueError, match="缺 seed"):
+        ev_v2.verify_checkpoint_identity(
+            p, "h1hand-truck-v0", expect_global_step=50000, expect_seed=1)
+
+
+def test_T12f_invalid_mode_rejected(fake_ckpt, ev_v2):
+    with pytest.raises(ValueError, match="identity_mode"):
+        ev_v2.verify_checkpoint_identity(
+            fake_ckpt(), "h1hand-truck-v0", identity_mode="loose")
+
+
+# ══════════════════════════════════════════════════════════════════════
+# T13  原子写（预注册 v21b §2）
+# ══════════════════════════════════════════════════════════════════════
+
+def test_T13_refuses_overwrite_atomically(tmp_path, ev_v2):
+    """os.link 的 fail-if-exists 由内核保证，不是 exists() 检查（TOCTOU）。"""
+    out = tmp_path / "r.json"
+    ev_v2.atomic_write_json(out, {"a": 1})
+    assert json.loads(out.read_text())["a"] == 1
+    with pytest.raises(FileExistsError):
+        ev_v2.atomic_write_json(out, {"a": 2})
+    assert json.loads(out.read_text())["a"] == 1, "拒绝时原文件必须不变"
+
+
+def test_T13b_allow_overwrite_replaces(tmp_path, ev_v2):
+    out = tmp_path / "r.json"
+    ev_v2.atomic_write_json(out, {"a": 1})
+    ev_v2.atomic_write_json(out, {"a": 2}, allow_overwrite=True)
+    assert json.loads(out.read_text())["a"] == 2
+
+
+def test_T13c_no_tmp_files_left_behind(tmp_path, ev_v2):
+    """无论成败都不留 tmp——半截 JSON 看上去是合法产物，比没有更危险。"""
+    out = tmp_path / "r.json"
+    ev_v2.atomic_write_json(out, {"a": 1})
+    with pytest.raises(FileExistsError):
+        ev_v2.atomic_write_json(out, {"a": 2})
+    leftovers = [p.name for p in tmp_path.iterdir() if ".tmp." in p.name]
+    assert leftovers == [], f"残留临时文件：{leftovers}"
+
+
+def test_T13d_unserializable_payload_leaves_no_partial_file(tmp_path, ev_v2):
+    """序列化中途失败时不得留下截断的目标文件。"""
+    out = tmp_path / "r.json"
+    with pytest.raises(TypeError):
+        ev_v2.atomic_write_json(out, {"bad": object()})
+    assert not out.exists(), "失败时不得产生目标文件"
+    assert [p.name for p in tmp_path.iterdir() if ".tmp." in p.name] == []
+
+
+# ══════════════════════════════════════════════════════════════════════
+# T14  runtime 验证闸门（预注册 v21b §5.1）
+# ══════════════════════════════════════════════════════════════════════
+
+def test_T14_unverified_task_blocked_from_adjudication():
+    """注册过 != 被执行过。真空成立的条件式判据不算验证。"""
+    with pytest.raises(site_rules.UnverifiedPathError):
+        site_rules.require_runtime_verified(
+            "h1hand-bookshelf_simple-v0", purpose="termination_semantics")
+
+
+def test_T14b_initial_lists_are_empty_fail_closed():
+    """初值必须是空集合——只能由 smoke 实测结果在独立 commit 中填入。"""
+    assert task_metrics.RUNTIME_VERIFIED_TERMINATION == frozenset()
+    assert task_metrics.RUNTIME_VERIFIED_MILESTONE == frozenset()
+
+
+def test_T14c_verified_task_passes(monkeypatch):
+    monkeypatch.setattr(task_metrics, "RUNTIME_VERIFIED_TERMINATION",
+                        frozenset({"h1hand-slide-v0"}))
+    site_rules.require_runtime_verified("h1hand-slide-v0", purpose="termination_semantics")
+    with pytest.raises(site_rules.UnverifiedPathError):
+        site_rules.require_runtime_verified("h1hand-crawl-v0", purpose="termination_semantics")
+
+
+def test_T14d_unknown_purpose_rejected():
+    with pytest.raises(site_rules.UnverifiedPathError, match="未知的裁决用途"):
+        site_rules.require_runtime_verified("h1hand-slide-v0", purpose="whatever")
+
+
+def test_T14e_milestone_and_termination_are_separate(monkeypatch):
+    """truck 的 milestone 通路可用、但 success 终止路径从未被观察到。
+
+    合并成一个清单会让"未验证"搭上"已验证"的便车。
+    """
+    monkeypatch.setattr(task_metrics, "RUNTIME_VERIFIED_MILESTONE",
+                        frozenset({"h1hand-truck-v0"}))
+    site_rules.require_runtime_verified("h1hand-truck-v0", purpose="milestone")
+    with pytest.raises(site_rules.UnverifiedPathError):
+        site_rules.require_runtime_verified("h1hand-truck-v0",
+                                            purpose="termination_semantics")
+
+
+# ══════════════════════════════════════════════════════════════════════
+# T15  mujoco_state 必须进入 episode 记录（预注册 v21b §4）
+# ══════════════════════════════════════════════════════════════════════
+
+def test_T15_mujoco_state_is_recorded():
+    """S5 的判据依赖它可见。首轮之所以退化成弱代理，正是因为
+    ball_to_hoop_dist 用完即弃，smoke 无从检查"是否提取到有限数值"。
+    """
+    rec = schema_v2.build_episode_record(
+        seed=11, total_return=1.0, progress_max_dx=0.0, episode_length=10,
+        terminated=True, truncated=False, task_success=False,
+        termination_semantics="failure", metric_status="OK", milestones={},
+        mujoco_state={"ball_to_hoop_dist": 5.76}, mujoco_state_error=None,
+        info_diagnostics={}, info_diagnostics_unsupported={})
+    assert rec["mujoco_state"]["ball_to_hoop_dist"] == 5.76
+    assert rec["mujoco_state_error"] is None
+
+
+def test_T15b_extraction_failure_is_distinguishable_from_not_needed():
+    """"提取失败"与"该任务不需要 state"必须可区分，不能都是 None。"""
+    failed = schema_v2.build_episode_record(
+        seed=11, total_return=1.0, progress_max_dx=0.0, episode_length=10,
+        terminated=True, truncated=False, task_success=None,
+        termination_semantics="unknown", metric_status="INSUFFICIENT_STATE",
+        milestones={}, mujoco_state=None,
+        mujoco_state_error="AttributeError: 'HumanoidEnv' object has no attribute '_env'",
+        info_diagnostics={}, info_diagnostics_unsupported={})
+    not_needed = schema_v2.build_episode_record(
+        seed=11, total_return=1.0, progress_max_dx=0.0, episode_length=10,
+        terminated=True, truncated=False, task_success=False,
+        termination_semantics="failure", metric_status="OK", milestones={},
+        mujoco_state=None, mujoco_state_error=None,
+        info_diagnostics={}, info_diagnostics_unsupported={})
+    assert failed["mujoco_state_error"] is not None
+    assert not_needed["mujoco_state_error"] is None

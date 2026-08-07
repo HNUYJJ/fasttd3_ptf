@@ -12,7 +12,10 @@ from __future__ import annotations
 
 import math
 
-SCHEMA_VERSION = 2
+# 2.2：milestone 由"最后一步的扁平值"改为 trajectory 聚合结构，
+# 并新增 mujoco_state / mujoco_state_error。**这是破坏性变更**——
+# 旧的扁平 milestone 格式已移除，不留兼容路径（预注册 v21b §3.4）。
+SCHEMA_VERSION = 2.2
 
 # v1 已有、必须逐位兼容的字段（T4 校验这些）
 V1_COMPATIBLE_FIELDS = ("seed", "return", "progress_max_dx")
@@ -129,11 +132,19 @@ def build_episode_record(
     milestones: dict,
     info_diagnostics: dict,
     info_diagnostics_unsupported: dict,
+    mujoco_state: dict | None = None,
+    mujoco_state_error: str | None = None,
 ) -> dict:
     """构造 v2 的单 episode 记录。
 
     ``terminated_success`` **不再产生**，也不保留别名——任何下游脚本必须显式
     迁移到 ``task_success``，不得静默继承旧语义（CLAUDE.md §6 的陷阱由此而来）。
+
+    ``mujoco_state`` / ``mujoco_state_error``（v2.1b 新增）：把 MuJoCo 侧提取的
+    原始量落进记录。此前它只在函数内部用完即弃，导致 smoke 无法按预注册原文
+    检查"是否提取到有限 ``ball_to_hoop_dist``"，只能退而检查 ``metric_status``
+    这个更弱的代理——而后者在 0 终止时真空通过。判据要能实现，
+    它依赖的量就必须可见。
     """
     return {
         "schema_version": SCHEMA_VERSION,
@@ -147,6 +158,8 @@ def build_episode_record(
         "task_success": task_success,
         "metric_status": metric_status,
         "milestones": milestones,
+        "mujoco_state": mujoco_state,
+        "mujoco_state_error": mujoco_state_error,
         "info_diagnostics": info_diagnostics,
         "info_diagnostics_unsupported": info_diagnostics_unsupported,
     }
