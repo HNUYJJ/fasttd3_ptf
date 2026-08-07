@@ -1,0 +1,146 @@
+{
+  "schema": "run_card_registry.v1",
+  "frozen_under": "docs/experiments/checkpoint_inventory_v21_prereg_20260807.md",
+  "note": "每条 entry 的 experiment_role / execution_role / match_group 只能来自冻结的 run card / orchestrator / training script。禁止按文件名词义猜角色（见到 scr 就判 scratch 是明令禁止的）。无法由冻结证据证明的一律不写入本文件，由 inventory 记 UNKNOWN_ROLE。每条必须带 evidence_path + evidence_line + evidence_excerpt + source_commit + mapping_rule；evidence_excerpt 由校验器逐条比对该行实际内容，防止行号写错。",
+  "match_semantics": {
+    "exp_name_regex": "对 checkpoint 内 args[exp_name]（等于文件名的 run 段）匹配；命名组可用于填充 match_group 模板",
+    "path_prefix": "可选。同时给出时优先级高于仅 exp_name 的规则——用于区分同一 exp_name 在不同归档路径下的 execution_role",
+    "precedence": "带 path_prefix 的规则优先；同级按 entries 顺序，先匹配者胜"
+  },
+  "entries": [
+    {
+      "id": "p0_lease",
+      "match": {"exp_name_regex": "^p0_(?P<task>crawl|truck)_lease$"},
+      "experiment_role": "LEASE",
+      "execution_role": "FORMAL",
+      "match_group": "p0_lease_oracle_{task}",
+      "expected_endpoint": null,
+      "canonical_points": [13000],
+      "evidence_path": "scripts/p0_orchestrator.py",
+      "evidence_line": 177,
+      "evidence_excerpt": "for arm in (\"lease\", \"abstain\"):",
+      "source_commit": "48cb1db",
+      "mapping_rule": "orchestrator 对每个 task 冻结两个分支 arm；_branch_job 用 exp = f\"p0_{task}_{arm}\"（:108），故 exp_name 为 p0_<task>_lease 的 checkpoint 即 lease 臂。PRIMARY_STEP=13000（:41）是其判决点。"
+    },
+    {
+      "id": "p0_abstain_formal",
+      "match": {"exp_name_regex": "^p0_(?P<task>crawl|truck)_abstain$"},
+      "experiment_role": "ABSTAIN",
+      "execution_role": "FORMAL",
+      "match_group": "p0_lease_oracle_{task}",
+      "expected_endpoint": null,
+      "canonical_points": [13000],
+      "evidence_path": "scripts/p0_orchestrator.py",
+      "evidence_line": 177,
+      "evidence_excerpt": "for arm in (\"lease\", \"abstain\"):",
+      "source_commit": "48cb1db",
+      "mapping_rule": "同 p0_lease，arm=abstain。正式路径（models/ 根目录）为 FORMAL execution。"
+    },
+    {
+      "id": "p0_abstain_archive_a",
+      "match": {
+        "exp_name_regex": "^p0_(?P<task>crawl|truck)_abstain$",
+        "path_prefix": "models/p0_dup_archive/{task}_A/"
+      },
+      "experiment_role": "ABSTAIN",
+      "execution_role": "FORMAL",
+      "match_group": "p0_lease_oracle_{task}",
+      "alias_of_formal_path": true,
+      "expected_endpoint": null,
+      "canonical_points": [13000],
+      "evidence_path": "tests/test_p0_orchestrator.py",
+      "evidence_line": 118,
+      "evidence_excerpt": "归档语义:A=第一次产物(不可变),B=第二次,正式路径恢复为 A 内容。",
+      "source_commit": "48cb1db",
+      "mapping_rule": "A = 第一次正式执行的不可变归档；测试 :148 断言「正式路径 = A(第一次运行)」，故 archive_A 与 models/ 正式路径属**同一 execution**，应作 EXACT_ALIAS 去重；两者 SHA 不符即 FORMAL_ALIAS_INTEGRITY_FAILURE。"
+    },
+    {
+      "id": "p0_abstain_archive_b",
+      "match": {
+        "exp_name_regex": "^p0_(?P<task>crawl|truck)_abstain$",
+        "path_prefix": "models/p0_dup_archive/{task}_B/"
+      },
+      "experiment_role": "ABSTAIN",
+      "execution_role": "REPEATABILITY_DUPLICATE",
+      "match_group": "p0_lease_oracle_{task}",
+      "counts_as_new_learner_replication": false,
+      "expected_endpoint": null,
+      "canonical_points": [13000],
+      "evidence_path": "tests/test_p0_orchestrator.py",
+      "evidence_line": 118,
+      "evidence_excerpt": "归档语义:A=第一次产物(不可变),B=第二次,正式路径恢复为 A 内容。",
+      "source_commit": "48cb1db",
+      "mapping_rule": "B = 与 A 的 CLI 逐位一致的第二次独立重启（orchestrator :12/:186：duplicate 度量 = A vs B 的 primary eval）。B 与 A 的 SHA 不同是**度量对象本身**，不得报 AMBIGUOUS；B 不计作新的 learner replication。"
+    },
+    {
+      "id": "slide_hard_exit_prefix",
+      "match": {"exp_name_regex": "^shev1_prefix_s(?P<seed>\\d+)$"},
+      "experiment_role": "PREFIX",
+      "execution_role": "FORMAL",
+      "match_group": "slide_hard_exit_v1_s{seed}",
+      "expected_endpoint": 30000,
+      "canonical_points": [30000],
+      "evidence_path": "scripts/run_slide_hard_exit_v1.sh",
+      "evidence_line": 18,
+      "evidence_excerpt": "for arm in prefix cont exit; do",
+      "source_commit": "cab7c50",
+      "mapping_rule": "脚本第 18 行冻结三个 arm，第 19 行 name=\"shev1_${arm}_s${SEED}\"。prefix 为 0->30k 的共享前缀（脚本头部注释：one 0->30k walk prefix, then two matched continuations）。"
+    },
+    {
+      "id": "slide_hard_exit_cont",
+      "match": {"exp_name_regex": "^shev1_cont_s(?P<seed>\\d+)$"},
+      "experiment_role": "CONTINUOUS",
+      "execution_role": "FORMAL",
+      "match_group": "slide_hard_exit_v1_s{seed}",
+      "expected_endpoint": null,
+      "canonical_points": [],
+      "evidence_path": "scripts/run_slide_hard_exit_v1.sh",
+      "evidence_line": 18,
+      "evidence_excerpt": "for arm in prefix cont exit; do",
+      "source_commit": "cab7c50",
+      "mapping_rule": "同上，arm=cont，为「持续注入」延续臂；与 exit 臂共享同一 prefix bundle（脚本 :52：Both continuations consume this immutable bundle），故二者同一 match_group。"
+    },
+    {
+      "id": "slide_hard_exit_exit",
+      "match": {"exp_name_regex": "^shev1_exit_s(?P<seed>\\d+)$"},
+      "experiment_role": "HARD_EXIT",
+      "execution_role": "FORMAL",
+      "match_group": "slide_hard_exit_v1_s{seed}",
+      "expected_endpoint": null,
+      "canonical_points": [],
+      "evidence_path": "scripts/run_slide_hard_exit_v1.sh",
+      "evidence_line": 18,
+      "evidence_excerpt": "for arm in prefix cont exit; do",
+      "source_commit": "cab7c50",
+      "mapping_rule": "同上，arm=exit，为「30k 后源退出」臂。与 cont 构成 matched continuation 对照。"
+    },
+    {
+      "id": "racing_min_horizon",
+      "match": {"exp_name_regex": "^rck_(?P<arm>student|stand|walk|run)_s(?P<seed>\\d+)$"},
+      "experiment_role": "RACING_ARM_{arm}",
+      "execution_role": "FORMAL",
+      "match_group": "racing_min_horizon_v1_s{seed}",
+      "expected_endpoint": null,
+      "canonical_points": [2000, 5000, 10000],
+      "evidence_path": "scripts/run_racing_min_horizon_v1.sh",
+      "evidence_line": 11,
+      "evidence_excerpt": "ARM=\"${ARM:?set ARM: student|run|walk|stand}\"",
+      "source_commit": "11ff656",
+      "mapping_rule": "脚本第 11 行冻结四个 ARM 取值，第 30 行 NAME=\"${EXP_PREFIX}_${ARM}_s${SEED}\"，EXP_PREFIX 默认 rck（:14）。student 臂用空 source bank（:31-32），其余三臂各绑定一个源。"
+    },
+    {
+      "id": "racing_admission",
+      "match": {"exp_name_regex": "^rad_(?P<target>[a-z_]+)_(?P<arm>student|stand|walk|run)_s(?P<seed>\\d+)$"},
+      "experiment_role": "RACING_ARM_{arm}",
+      "execution_role": "FORMAL",
+      "match_group": "racing_admission_v1_{target}_s{seed}",
+      "expected_endpoint": null,
+      "canonical_points": [2000, 5000, 10000],
+      "evidence_path": "scripts/run_racing_admission_v1.sh",
+      "evidence_line": 36,
+      "evidence_excerpt": "NAME=\"rad_${TARGET}_${ARM}_s${SEED}\"",
+      "source_commit": "55d1423",
+      "mapping_rule": "脚本第 11 行冻结 ARM 取值（student|stand|walk|run），第 36 行给出 NAME 模板含 TARGET 段。match_group 按 target 与 seed 分组——不同 target 的 racing 不可跨组配对。"
+    }
+  ]
+}

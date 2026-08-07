@@ -286,7 +286,8 @@ def _rec(**kw):
         "learner_seed": 1, "method_family": "scratch",
         "checkpoint_sha256": "abc", "return": 900.0,
         "evaluation_semantics_digest": "SEM_A",
-        "match_group": "GROUP_A", "training_protocol_digest": "PROTO_A",
+        "match_group": "GROUP_A", "pairing_invariant_digest": "INV_A",
+        "training_protocol_digest": "PROTO_A",
     }
     base.update(kw)
     return base
@@ -1033,12 +1034,28 @@ def test_T18b_different_match_group_rejected():
         site_rules.require_comparable(a, b, purpose="paired_by_seed")
 
 
-def test_T18c_paired_requires_training_protocol_digest():
+def test_T18c_paired_requires_pairing_invariant_not_full_protocol():
+    """配对要求 pairing_invariant 相同，**不得**要求整个 ptf_cfg 相同。
+
+    P2.1 §5.3：scratch / continuous / hard-exit 的 ptf_cfg 本来就必须不同，
+    那正是 treatment。旧实现要求 training_protocol_digest 相同，
+    会拒绝所有真实的 matched comparison。
+    """
     a = _rec()
     b = _rec()
-    del b["training_protocol_digest"]
+    del b["pairing_invariant_digest"]
     with pytest.raises(IncomparableError, match="身份不完整"):
         site_rules.require_comparable(a, b, purpose="paired_by_seed")
+
+    # treatment 不同（ptf_cfg 的 hash 不同）但 nuisance 一致 → **必须允许配对**
+    cont = _rec(training_protocol_digest="PROTO_CONT")
+    exit_ = _rec(training_protocol_digest="PROTO_EXIT")
+    site_rules.require_comparable(cont, exit_, purpose="paired_by_seed")
+
+    # nuisance 不一致 → 拒绝
+    with pytest.raises(IncomparableError, match="pairing_invariant_digest|nuisance"):
+        site_rules.require_comparable(a, _rec(pairing_invariant_digest="INV_B"),
+                                      purpose="paired_by_seed")
 
 
 def test_T18d_sha_not_required_across_arms():

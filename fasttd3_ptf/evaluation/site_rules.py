@@ -46,8 +46,14 @@ COMPARISON_REQUIREMENTS: dict[str, frozenset] = {
     # 不得由 (env, seed, step) 现场推断：同一 (env, seed, step) 完全可能来自
     # 不同的实验臂（不同 source、不同剂量、不同退出策略），推断出来的"配对"
     # 是假配对——而配对差值统计的全部效力都建立在配对正确之上。
+    # ``pairing_invariant_digest`` 而**不是** ``training_protocol_digest``
+    # （P2.1 预注册 §5.3）：后者是整个 ptf_cfg 的 hash，而 scratch / continuous /
+    # hard-exit 的 ptf_cfg **本来就必须不同**——那正是 treatment。
+    # 要求它相同会拒绝所有真实的 matched comparison。
+    # pairing_invariant 只覆盖"两臂之间本就应当一致的 nuisance 配置"
+    # （learner 超参 / budget / anchor），见 inventory_identity.PAIRING_INVARIANT_*。
     "paired_by_seed": COMPARISON_BASE | {
-        "learner_seed", "match_group", "training_protocol_digest"},
+        "learner_seed", "match_group", "pairing_invariant_digest"},
     # 同一 checkpoint 的重复评估（验证可复现性）。
     # ``checkpoint_sha256`` **只在此 purpose 下**要求相等——其余 purpose 下
     # 不同实验臂的 SHA 本来就不同，要求相等会把所有真实比较都挡掉。
@@ -172,8 +178,12 @@ def require_comparable(a: dict, b: dict, *, purpose: str) -> None:
                     "task_metrics.py / schema_v2.py 之一有差异），task_success 与 "
                     "milestones 的含义已改变——数字长得一样也不可比")
         elif "match_group" in mismatched:
-            hint = ("。配对必须来自预注册 experiment manifest；同一 (env,seed,step) "
+            hint = ("。配对必须来自冻结的 run card registry；同一 (env,seed,step) "
                     "可能来自不同实验臂，推断出的配对是假配对")
+        elif "pairing_invariant_digest" in mismatched:
+            hint = ("。两臂的 nuisance 配置不一致（learner 超参 / budget / anchor），"
+                    "配对差值会混入这些差异。注意**不是** treatment 不同——"
+                    "treatment 本就该不同")
         elif "panel_digest" in mismatched:
             hint = "。不同评估面板产出的数字不可比"
         raise IncomparableError(f"[{purpose}] 不可比：{detail}{hint}")
