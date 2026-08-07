@@ -557,7 +557,11 @@ def main() -> int:
 
     ckpt_path = Path(args.checkpoint)
     payload = {
-        "schema_version": "2.1",
+        # **必须**取自 schema_v2.SCHEMA_VERSION，不得硬编码：
+        # require_comparable 用的是这个顶层字段，硬编码会导致 schema 升级后
+        # 顶层不跟着变 → 两份不同 schema 的结果被判为可比。
+        # formal pipeline smoke 抓到过顶层 "2.1" 而 episode 为 2.2（见 d577e6e）。
+        "schema_version": schema_v2.SCHEMA_VERSION,
         "protocol": {
             "eval_seeds": list(eval_seeds),
             "ranks": list(RANKS),

@@ -1175,3 +1175,27 @@ def test_T20_atomic_commit_uses_replace_and_leaves_no_tmp(tmp_path, ev_v2):
     assert [p.name for p in tmp_path.iterdir() if ".tmp." in p.name] == []
     ev_v2.atomic_write_json(out, {"a": 3}, allow_overwrite=True)
     assert json.loads(out.read_text())["a"] == 3
+
+
+def test_T21_top_level_schema_version_matches_episode(ev_v2):
+    """顶层 schema_version 必须与 episode 记录同源，不得硬编码。
+
+    require_comparable 用的是**顶层**字段。硬编码会导致 schema 升级后
+    顶层不跟着变，两份不同 schema 的结果被判为"同版本"而可比——
+    这正是 formal pipeline smoke 首轮抓到的 bug（顶层 "2.1" vs episode 2.2）。
+    单元测试此前抓不到它：构造 payload 时不走 main() 的硬编码分支。
+    """
+    import re
+
+    src = (Path(ev_v2.REPO_ROOT) / "scripts/p0_evaluator_v2.py").read_text(encoding="utf-8")
+    hardcoded = re.findall(r'"schema_version":\s*"[\d.]+"', src)
+    assert not hardcoded, (
+        f"顶层 schema_version 不得硬编码，实得 {hardcoded}；"
+        f"应取 schema_v2.SCHEMA_VERSION")
+
+    rec = schema_v2.build_episode_record(
+        seed=11, total_return=1.0, progress_max_dx=0.0, episode_length=1,
+        terminated=False, truncated=True, task_success=False,
+        termination_semantics="neutral", metric_status="OK", milestones={},
+        info_diagnostics={}, info_diagnostics_unsupported={})
+    assert rec["schema_version"] == schema_v2.SCHEMA_VERSION
