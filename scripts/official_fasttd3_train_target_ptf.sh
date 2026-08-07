@@ -83,6 +83,12 @@ fi
 if [[ "${PTF_ANCHOR_RESUME:-}" != "" ]]; then
   ARGS+=(--ptf-anchor-resume "${PTF_ANCHOR_RESUME}")
 fi
+# anchor 的 provenance 组数必须与运行时 MCG 组数一致（train_ptf.py:1121 分配、
+# :1390 的守卫复核）。truck 等 manipulation target 用 2 组（legs_torso,arms），
+# 与 DEFAULT_GROUPS=3 不同，不透传会在 enable_provenance 处直接 ValueError。
+if [[ "${PTF_ANCHOR_PROVENANCE_GROUPS:-}" != "" ]]; then
+  ARGS+=(--ptf-anchor-provenance-groups "${PTF_ANCHOR_PROVENANCE_GROUPS}")
+fi
 if [[ "${PTF_RESUME_NOISE_SEED:-}" != "" ]]; then
   ARGS+=(--ptf-resume-noise-seed "${PTF_RESUME_NOISE_SEED}")
 fi
