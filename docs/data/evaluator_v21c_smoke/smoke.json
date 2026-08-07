@@ -1,0 +1,417 @@
+{
+  "protocol": [
+    "docs/experiments/evaluator_v21b_prereg_20260807.md",
+    "docs/experiments/evaluator_v21c_reverification_protocol_20260807.md"
+  ],
+  "n_episodes_per_case": 8,
+  "device": "cpu",
+  "warning": "smoke 数值仅验证通路，不得用于任何科学判断",
+  "evaluation_semantics_digest": "80619b7e4f33a7c7db0cb46b90ac0b4ac945852ee970e74560cf0b9c142138ff",
+  "evaluation_semantics_files": {
+    "scripts/p0_evaluator_v2.py": "12c10fb2e2c51cae00dec753b25176a33486d3550c4aaaaaefa8ed9e3b3eb181",
+    "fasttd3_ptf/evaluation/task_metrics.py": "c8bfe43a1c01fd97db41be279f44cab7e7c6e8b9ce3dd199768bd3281868434f",
+    "fasttd3_ptf/evaluation/schema_v2.py": "06719f491bed02372f8be07720c359f748e348c12e46570a7f100555c904b4b3"
+  },
+  "verdict": "CORE_PATHS_VERIFIED_WITH_GAPS",
+  "n_failed_cases": 0,
+  "vacuous_cases": [
+    "S3",
+    "S4"
+  ],
+  "scientific_use_blocked": {
+    "h1hand-truck-v0": [
+      {
+        "path": "termination_semantics",
+        "reason": "0/8 终止，success 语义路径未被执行"
+      }
+    ],
+    "h1hand-bookshelf_simple-v0": [
+      {
+        "path": "termination_semantics",
+        "reason": "0/8 终止，terminated_reason 0/1/2 映射未被执行"
+      }
+    ]
+  },
+  "runtime_verified": {
+    "termination_semantics": [
+      "h1hand-basketball-v0",
+      "h1hand-crawl-v0",
+      "h1hand-slide-v0"
+    ],
+    "milestone": [
+      "h1hand-bookshelf_simple-v0",
+      "h1hand-truck-v0"
+    ]
+  },
+  "cases": {
+    "S1": {
+      "env": "h1hand-crawl-v0",
+      "status": "PASS",
+      "fails": [],
+      "verified_paths": [
+        "termination_semantics"
+      ],
+      "unverified_paths": [],
+      "checkpoint": "models/h1hand-crawl-v0__h1hand_crawl_tp_scr_s1_20260615T044012Z__1_final.pt",
+      "checkpoint_global_step": 100000,
+      "learner_seed": 1,
+      "identity_mode": "debug",
+      "scientific_use_permitted": false,
+      "n_episodes": 8,
+      "n_terminated": 0,
+      "n_truncated": 8,
+      "semantics": {
+        "neutral": 8
+      },
+      "metric_status": {
+        "OK": 8
+      },
+      "task_success": {
+        "true": 0,
+        "false": 8,
+        "null": 0
+      },
+      "milestone_keys": [],
+      "return_mean": 953.1065256556394
+    },
+    "S2": {
+      "env": "h1hand-slide-v0",
+      "status": "PASS",
+      "fails": [],
+      "verified_paths": [
+        "termination_semantics"
+      ],
+      "unverified_paths": [],
+      "checkpoint": "models/h1hand-slide-v0__slide_bac_walk_s1__1_20000.pt",
+      "checkpoint_global_step": 20000,
+      "learner_seed": 1,
+      "identity_mode": "debug",
+      "scientific_use_permitted": false,
+      "n_episodes": 8,
+      "n_terminated": 5,
+      "n_truncated": 3,
+      "semantics": {
+        "failure": 5,
+        "neutral": 3
+      },
+      "metric_status": {
+        "OK": 8
+      },
+      "task_success": {
+        "true": 0,
+        "false": 8,
+        "null": 0
+      },
+      "milestone_keys": [],
+      "return_mean": 93.53713388347963
+    },
+    "S3": {
+      "env": "h1hand-truck-v0",
+      "status": "VACUOUS",
+      "fails": [],
+      "verified_paths": [
+        "milestone"
+      ],
+      "unverified_paths": [
+        {
+          "path": "termination_semantics",
+          "reason": "0/8 终止，success 语义路径未被执行"
+        }
+      ],
+      "checkpoint": "models/h1hand-truck-v0__h1hand_truck_scratch50k_s1_20260612T161202Z__1_final.pt",
+      "checkpoint_global_step": 50000,
+      "learner_seed": 1,
+      "identity_mode": "debug",
+      "scientific_use_permitted": false,
+      "n_episodes": 8,
+      "n_terminated": 0,
+      "n_truncated": 8,
+      "semantics": {
+        "neutral": 8
+      },
+      "metric_status": {
+        "OK": 8
+      },
+      "task_success": {
+        "true": 0,
+        "false": 8,
+        "null": 0
+      },
+      "milestone_keys": [
+        "success",
+        "success_subtasks"
+      ],
+      "return_mean": 1230.2453062597258,
+      "success_subtasks_agg_samples": [
+        {
+          "final": 0,
+          "max": 0,
+          "max_step": 0,
+          "first_step": 0,
+          "first_hit_step": null,
+          "n_steps_present": 1000,
+          "ever_true": false
+        },
+        {
+          "final": 0,
+          "max": 0,
+          "max_step": 0,
+          "first_step": 0,
+          "first_hit_step": null,
+          "n_steps_present": 1000,
+          "ever_true": false
+        },
+        {
+          "final": 0,
+          "max": 0,
+          "max_step": 0,
+          "first_step": 0,
+          "first_hit_step": null,
+          "n_steps_present": 1000,
+          "ever_true": false
+        }
+      ]
+    },
+    "S4": {
+      "env": "h1hand-bookshelf_simple-v0",
+      "status": "VACUOUS",
+      "fails": [],
+      "verified_paths": [
+        "milestone"
+      ],
+      "unverified_paths": [
+        {
+          "path": "termination_semantics",
+          "reason": "0/8 终止，terminated_reason 0/1/2 映射未被执行"
+        }
+      ],
+      "checkpoint": "models/h1hand-bookshelf_simple-v0__h1hand_bookshelf_simple_b2_scr_s1_20260705T153732Z__1_final.pt",
+      "checkpoint_global_step": 100000,
+      "learner_seed": 1,
+      "identity_mode": "debug",
+      "scientific_use_permitted": false,
+      "n_episodes": 8,
+      "n_terminated": 0,
+      "n_truncated": 8,
+      "semantics": {
+        "neutral": 8
+      },
+      "metric_status": {
+        "OK": 8
+      },
+      "task_success": {
+        "true": 0,
+        "false": 8,
+        "null": 0
+      },
+      "milestone_keys": [
+        "success",
+        "success_subtasks"
+      ],
+      "return_mean": 815.885223993711
+    },
+    "S5": {
+      "env": "h1hand-basketball-v0",
+      "status": "PASS",
+      "fails": [],
+      "verified_paths": [
+        "mujoco_state",
+        "termination_semantics"
+      ],
+      "unverified_paths": [],
+      "checkpoint": "models/h1hand-basketball-v0__h1hand_basketball_b2_scr_s1_20260705T153732Z__1_30000.pt",
+      "checkpoint_global_step": 30000,
+      "learner_seed": 1,
+      "identity_mode": "debug",
+      "scientific_use_permitted": false,
+      "n_episodes": 8,
+      "n_terminated": 8,
+      "n_truncated": 0,
+      "semantics": {
+        "failure": 8
+      },
+      "metric_status": {
+        "OK": 8
+      },
+      "task_success": {
+        "true": 0,
+        "false": 8,
+        "null": 0
+      },
+      "milestone_keys": [
+        "success_subtasks"
+      ],
+      "return_mean": 47.58876793774198,
+      "mujoco_state_samples": [
+        {
+          "ball_to_hoop_dist": 3.673106986665376
+        },
+        {
+          "ball_to_hoop_dist": 4.050257438180044
+        },
+        {
+          "ball_to_hoop_dist": 5.6503231382823325
+        }
+      ],
+      "mujoco_state_errors": [
+        "None"
+      ]
+    },
+    "S6": {
+      "env": "h1hand-truck-v0",
+      "status": "PASS",
+      "fails": [],
+      "verified_paths": [
+        "milestone_trajectory_aggregation"
+      ],
+      "unverified_paths": [],
+      "checkpoint": "models/h1hand-truck-v0__h1hand_truck_scratch50k_s1_20260612T161202Z__1_final.pt",
+      "checkpoint_global_step": 50000,
+      "learner_seed": 1,
+      "identity_mode": "debug",
+      "scientific_use_permitted": false,
+      "n_episodes": 8,
+      "n_terminated": 0,
+      "n_truncated": 8,
+      "semantics": {
+        "neutral": 8
+      },
+      "metric_status": {
+        "OK": 8
+      },
+      "task_success": {
+        "true": 0,
+        "false": 8,
+        "null": 0
+      },
+      "milestone_keys": [
+        "success",
+        "success_subtasks"
+      ],
+      "return_mean": 1230.2453062597258,
+      "success_subtasks_agg_samples": [
+        {
+          "final": 0,
+          "max": 0,
+          "max_step": 0,
+          "first_step": 0,
+          "first_hit_step": null,
+          "n_steps_present": 1000,
+          "ever_true": false
+        },
+        {
+          "final": 0,
+          "max": 0,
+          "max_step": 0,
+          "first_step": 0,
+          "first_hit_step": null,
+          "n_steps_present": 1000,
+          "ever_true": false
+        },
+        {
+          "final": 0,
+          "max": 0,
+          "max_step": 0,
+          "first_step": 0,
+          "first_hit_step": null,
+          "n_steps_present": 1000,
+          "ever_true": false
+        }
+      ],
+      "reuses_episodes_from": "S3"
+    },
+    "S10": {
+      "status": "PASS",
+      "fails": [],
+      "verified_paths": [
+        "milestone_reducers"
+      ],
+      "unverified_paths": [],
+      "detail": {
+        "h1hand-truck-v0": {
+          "declared": {
+            "success_subtasks": [
+              "max",
+              "final"
+            ],
+            "success": [
+              "ever_true",
+              "first_hit_step"
+            ]
+          },
+          "sample_episode_0": {
+            "success": {
+              "final": 0,
+              "max": 0,
+              "max_step": 0,
+              "first_step": 0,
+              "first_hit_step": null,
+              "n_steps_present": 1000,
+              "ever_true": false
+            },
+            "success_subtasks": {
+              "final": 0,
+              "max": 0,
+              "max_step": 0,
+              "first_step": 0,
+              "first_hit_step": null,
+              "n_steps_present": 1000,
+              "ever_true": false
+            }
+          }
+        },
+        "h1hand-bookshelf_simple-v0": {
+          "declared": {
+            "success_subtasks": [
+              "max",
+              "final"
+            ],
+            "success": [
+              "ever_true",
+              "first_hit_step"
+            ]
+          },
+          "sample_episode_0": {
+            "success": {
+              "final": false,
+              "max": false,
+              "max_step": 0,
+              "first_step": 0,
+              "first_hit_step": null,
+              "n_steps_present": 1000,
+              "ever_true": false
+            },
+            "success_subtasks": {
+              "final": 0,
+              "max": 0,
+              "max_step": 0,
+              "first_step": 0,
+              "first_hit_step": null,
+              "n_steps_present": 1000,
+              "ever_true": false
+            }
+          }
+        },
+        "h1hand-basketball-v0": {
+          "declared": {
+            "success_subtasks": [
+              "max",
+              "final"
+            ]
+          },
+          "sample_episode_0": {
+            "success_subtasks": {
+              "final": 1,
+              "max": 1,
+              "max_step": 9,
+              "first_step": 0,
+              "first_hit_step": 9,
+              "n_steps_present": 125,
+              "ever_true": true
+            }
+          }
+        }
+      }
+    }
+  }
+}
