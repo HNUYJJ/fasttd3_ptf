@@ -1,5 +1,51 @@
 # 结果：Checkpoint Inventory v2 Sentinel —— `SENTINEL_FAILED`（退出码 1）
 
+> ## 【2026-08-07 更正】§3 对 `p0_dup_archive` 的解释是错的
+>
+> 外部 review 指出、我逐条核实**全部成立**：`models/p0_dup_archive/` **不是**
+> 「来源不可考的重复归档」。它是**冻结的实验协议产物**，证据在 `scripts/` 与
+> `tests/`，不在 `docs/`——
+>
+> | 证据 | 原文 |
+> |---|---|
+> | `tests/test_p0_orchestrator.py:118` | `"""归档语义:A=第一次产物(不可变),B=第二次,正式路径恢复为 A 内容。"""` |
+> | 同上 `:146-148` | `assert archive_a/name == "FIRST"`；`assert archive_b/name == "SECOND"`；`# 正式路径 = A(第一次运行)。` |
+> | `scripts/p0_orchestrator.py:12` | 「duplicate 语义:与对应 abstain 分支 CLI **逐位一致**(含 exp-name),第一次…」 |
+> | `scripts/p0_orchestrator.py:186` | 「duplicate 度量=A vs B 的 primary eval。」 |
+> | `scripts/p0_orchestrator.py:244` | 「duplicate 第一次产物归档成功后才允许第二次启动(执行器顺序强制)」 |
+> | `git log -- scripts/p0_orchestrator.py` | `e03efdc` **2026-07-17**「duplicate 归档定稿」—— 早于本轮三周 |
+>
+> **我的错误**：`§3.1` 写「`docs/` 下 `grep` 不到任何记录该归档的文档 …
+> 归档理由不可考，A/B 孰为正版无从判定」。我**只 grep 了 `docs/`**。
+> 角色证据一直在 `scripts/` 与 `tests/` 里。这是核查范围不足，
+> 与 `CLAUDE.md §1` 要求的「实际运行 grep」是同一类失败——范围选错，等于没查。
+>
+> **正确的语义**（据上述冻结协议）：
+>
+> ```
+> models/<run_name>_13000.pt                正式路径 = A 的内容
+> p0_dup_archive/<task>_A/<同名>.pt          A = 第一次正式执行（不可变归档）
+> p0_dup_archive/<task>_B/<同名>.pt          B = 第二次独立重启（可重复性 duplicate）
+> ```
+>
+> 故：
+>
+> 1. **不得整体排除 `p0_dup_archive/`** —— A/B 是合法的实验设计产物；
+> 2. **不得把 A/B 都标 `AMBIGUOUS`** —— A 是 formal first execution，
+>    B 是 independent duplicate，二者角色由协议确定；
+> 3. 正式路径与 A 应作为**同一 execution 的 alias 去重**；
+>    B 标 `REPEATABILITY_DUPLICATE`，**不计作新的 learner seed**；
+> 4. 若正式路径的 SHA ≠ archive A 的 SHA，应报
+>    `FORMAL_ALIAS_INTEGRITY_FAILURE`（协议被破坏），而不是 `AMBIGUOUS`。
+>
+> **`SENTINEL_FAILED` 这个裁决本身仍然成立**，但失败的真实原因是
+> **inventory 的 execution identity 模型不够精确**——
+> `run_instance_id = exp_name#seed` 无法表达「同一 CLI 的两次独立执行」，
+> 而不是数据脏。修正见 P2.1（`checkpoint_inventory_v21_prereg_20260807.md`）。
+>
+> 下文 §3 与 §7 的第 1、2 条**作废**，其余各节不受影响。
+
+
 > 2026-08-07。预注册 `checkpoint_inventory_v2_prereg_20260807.md`（`bf14f20`，先于实现）。
 > **冻结实现 `2835633`**，本文件所报结果全部在该实现上产出，期间零代码改动。
 > 原始输出 `docs/data/checkpoint_inventory_v2/sentinel.json`，**退出码 `1`**。
@@ -32,7 +78,7 @@ VERDICT: SENTINEL_FAILED           退出码 1
 两个注入件写在临时目录、跑完即删，未污染 `models/`。
 **先确认检测器会响，"没响"才是证据。**
 
-## 3. 真实发现：`p0_dup_archive` 造成 run_instance 映射不唯一
+## 3.【本节解释已作废，见文首更正】`p0_dup_archive` 造成 run_instance 映射不唯一
 
 ```
 run_instance_id = p0_crawl_abstain#1
@@ -46,7 +92,7 @@ run_instance_id = p0_crawl_abstain#1
 这正是预注册 §1.1 预见的情形——本仓库没有 run UUID，
 `exp_name#seed` 在同一实验被重跑时不唯一。它从预见变成了实测。
 
-### 3.1 顺带查出 v1 inventory 的一个缺陷
+### 3.1【结论部分作废】v1 确实收录了归档文件（事实成立），但「归档理由不可考」是错的
 
 ```
 models/p0_dup_archive/  下共 20 个 .pt，分 crawl_A / crawl_B / truck_A / truck_B
@@ -131,10 +177,9 @@ PYTHONPATH=. $PY scripts/analysis/build_checkpoint_inventory_v2.py
 
 ## 7. 需要 review 决定的问题（我不自行决定）
 
-1. **`p0_dup_archive/` 是否应整体排除？** 若是，需新预注册说明理由与依据，
-   而不是本轮补丁（§3.2）。同时 v1 的 `964` canonical 需相应订正。
-2. **A/B 两组孰为正版？** 当前无任何文档可依。若无法判定，
-   建议两组都标 `AMBIGUOUS` 并排除出科学裁决，而不是二选一。
+1. ~~`p0_dup_archive/` 是否应整体排除？~~ **已裁决：不排除。**
+   A/B 是冻结协议的合法产物（见文首更正）。
+2. ~~A/B 两组孰为正版？~~ **已裁决：A = formal first execution，B = repeatability duplicate**，由 `p0_orchestrator.py` 与其测试确定。
 3. **是否先建 run card registry？** `experiment_role` 当前 100% `UNKNOWN_ROLE`，
    inventory 的下游用途（区分 scratch / hard-exit / racing 臂）全部阻塞在这里。
    建议从各实验预注册文档回溯构建、每条注明依据文档与行号。
