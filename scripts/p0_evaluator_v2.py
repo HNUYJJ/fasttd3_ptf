@@ -213,11 +213,12 @@ def panel_digest(eval_seeds, ranks, episode_steps: int, deterministic: bool) -> 
 
 
 def atomic_write_json(out_path, payload, *, allow_overwrite: bool = False) -> None:
-    """原子写 JSON（预注册 v21b §2）。
+    """原子写 JSON：tempfile → flush → fsync → os.replace（protocol v21c §2）。
 
-    ``os.link`` 而非"先 ``exists()`` 再 ``replace``"：后者是 TOCTOU，
-    两个进程可以同时通过 exists 检查、后者静默覆盖前者。
-    ``os.link`` 的 fail-if-exists 由内核保证，无竞态窗口。
+    不允许覆盖时，先用 ``os.link`` 做**原子抢占**再 ``os.replace`` 完成提交。
+    为什么需要 link 这一步：单用 ``os.replace`` 无法表达 fail-if-exists——
+    它会静默覆盖。而"先 ``exists()`` 再 replace"是 TOCTOU，
+    两个进程可同时通过检查。``os.link`` 的 fail-if-exists 由内核保证，无竞态窗口。
 
     跨文件系统会 ``EXDEV``，但 tmp 与目标同目录，不会发生。
     无论成败都清理 tmp——半截的 JSON 比没有文件更危险，它看上去是合法产物。
@@ -229,11 +230,13 @@ def atomic_write_json(out_path, payload, *, allow_overwrite: bool = False) -> No
             json.dump(payload, fh, ensure_ascii=False, indent=2)
             fh.flush()
             os.fsync(fh.fileno())
-        if allow_overwrite:
-            os.replace(tmp, out_path)       # 原子替换
-        else:
-            os.link(tmp, out_path)          # 目标已存在 → FileExistsError，原子
-            os.unlink(tmp)
+        if not allow_overwrite:
+            # 原子抢占：目标已存在即 FileExistsError（内核保证），无 TOCTOU 窗口。
+            # 成功后 out_path 与 tmp 是同一 inode，内容已经正确。
+            os.link(tmp, out_path)
+        # 最终提交统一是 replace。抢占过时二者同 inode，此步等价于清理 tmp；
+        # 允许覆盖时它就是那个原子替换动作。
+        os.replace(tmp, out_path)
     finally:
         if tmp.exists():
             try:
@@ -244,10 +247,63 @@ def atomic_write_json(out_path, payload, *, allow_overwrite: bool = False) -> No
 
 IDENTITY_MODES = ("formal", "debug")
 
-#: formal 模式下**必须**显式声明的身份项（预注册 v21b §1.1）。
-#: ``expect_admission_mode`` 刻意不在其中：scratch checkpoint 没有 ``ptf_cfg``，
-#: 强制它会把整条 scratch 基线挡在门外。但若显式传入则照样校验。
-FORMAL_REQUIRED_EXPECTATIONS = ("expect_global_step", "expect_seed")
+#: identity manifest 的必需字段（protocol v21c §1）。缺任一 → 非零退出。
+MANIFEST_REQUIRED_FIELDS = (
+    "checkpoint_sha256", "env_name", "learner_seed", "global_step")
+
+#: checkpoint 内**存在** ptf_cfg / protocol 声明时，manifest 额外必需的字段。
+#: scratch checkpoint 无此类声明，故不强制——否则整条 scratch 基线进不了门。
+MANIFEST_PROTOCOL_FIELD = "training_protocol_digest"
+
+#: 参与 evaluation_semantics_digest 的文件（protocol v21c §3）。
+#: 这三个文件任何一个改变都会改变 task_success / milestones 的含义，
+#: 而这类改变**不会**体现在 panel_digest 上。
+SEMANTICS_FILES = (
+    "scripts/p0_evaluator_v2.py",
+    "fasttd3_ptf/evaluation/task_metrics.py",
+    "fasttd3_ptf/evaluation/schema_v2.py",
+)
+
+SOURCE_FREE_MODE = "structural: actor + frozen obs normalizer only"
+
+
+def semantics_file_digests() -> dict:
+    """逐文件 sha256。读**磁盘内容**而非 import 后的模块对象，
+    以便同一进程内也能检测到文件被替换。"""
+    out = {}
+    for rel in SEMANTICS_FILES:
+        p = REPO_ROOT / rel
+        out[rel] = _sha256(p) if p.exists() else "MISSING"
+    return out
+
+
+def evaluation_semantics_digest(schema_version) -> str:
+    """覆盖 schema、source-free 模式与三个语义文件内容的摘要（protocol v21c §3）。
+
+    **正式可比性要求本 digest 相同**：``panel_digest`` 只覆盖 seeds/ranks/steps，
+    两份用不同版本 ``task_metrics.py`` 产出的结果会被它判为可比，
+    而语义映射一变 ``task_success`` 的含义就变了——数字长得一样也不可比。
+    """
+    h = hashlib.sha256()
+    h.update(f"schema_version={schema_version}\n".encode())
+    h.update(f"source_free_mode={SOURCE_FREE_MODE}\n".encode())
+    for rel, dig in sorted(semantics_file_digests().items()):
+        h.update(f"{rel}={dig}\n".encode())
+    return h.hexdigest()
+
+
+def load_identity_manifest(path) -> dict:
+    """读 identity manifest（JSON）。格式错误即抛，不做任何默认填充。"""
+    p = Path(path)
+    if not p.exists():
+        raise ValueError(f"identity manifest 不存在：{p}")
+    try:
+        data = json.loads(p.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"identity manifest 不是合法 JSON：{p}（{exc}）") from exc
+    if not isinstance(data, dict):
+        raise ValueError(f"identity manifest 顶层必须是对象：{p}")
+    return data
 
 
 def verify_checkpoint_identity(
@@ -257,6 +313,7 @@ def verify_checkpoint_identity(
     expect_seed=None,
     expect_admission_mode=None,
     identity_mode: str = "formal",
+    manifest: dict | None = None,
 ) -> dict:
     """核对 checkpoint 内部身份，不符即抛错。恢复自 v1（p0_evaluator.py:152-175）。
 
@@ -307,13 +364,50 @@ def verify_checkpoint_identity(
         ) if val is not None
     ]
 
+    manifest_checked: list = []
     if identity_mode == "formal":
-        undeclared = [k for k in FORMAL_REQUIRED_EXPECTATIONS if k not in explicit]
-        if undeclared:
+        # formal 身份**只能**来自 manifest：两套来源并存会导致
+        # "看起来声明了、实际走的是弱路径"。
+        if explicit:
             errors.append(
-                f"formal 模式要求显式声明 {list(FORMAL_REQUIRED_EXPECTATIONS)}，"
-                f"缺少 {undeclared}。若只是冒烟/探查请显式传 --identity-mode debug"
-                f"（其产物将标记 scientific_use_permitted=false）")
+                f"formal 模式禁止使用 --expect-*（收到 {explicit}）；"
+                f"身份必须由 --identity-manifest 提供。"
+                f"--expect-* 仅 debug 模式可用")
+        if manifest is None:
+            errors.append(
+                "formal 模式必须传 --identity-manifest。"
+                "若只是冒烟/探查请显式传 --identity-mode debug"
+                "（其产物将标记 scientific_use_permitted=false 且文件名须带 .debug.）")
+        else:
+            missing = [k for k in MANIFEST_REQUIRED_FIELDS if manifest.get(k) is None]
+            if missing:
+                errors.append(f"identity manifest 缺必需字段 {missing}")
+
+            # checkpoint 有 ptf_cfg / protocol 声明时，protocol digest 必需。
+            has_protocol = bool(ptf_cfg) or state.get("protocol") is not None
+            if has_protocol and manifest.get(MANIFEST_PROTOCOL_FIELD) is None:
+                errors.append(
+                    f"checkpoint 含 ptf_cfg/protocol 声明，manifest 必须给 "
+                    f"{MANIFEST_PROTOCOL_FIELD}")
+
+            actual_sha = _sha256(Path(checkpoint))
+            actual_protocol = _digest_obj(ptf_cfg) if has_protocol else None
+            for field_name, want, got in (
+                ("checkpoint_sha256", manifest.get("checkpoint_sha256"), actual_sha),
+                ("env_name", manifest.get("env_name"), ckpt_args.get("env_name")),
+                ("learner_seed", manifest.get("learner_seed"), ckpt_args.get("seed")),
+                ("global_step", manifest.get("global_step"), state.get("global_step")),
+                (MANIFEST_PROTOCOL_FIELD,
+                 manifest.get(MANIFEST_PROTOCOL_FIELD), actual_protocol),
+            ):
+                if want is None:
+                    continue
+                if want != got:
+                    errors.append(
+                        f"manifest {field_name}={want!r} != checkpoint 实际 {got!r}")
+                else:
+                    manifest_checked.append(field_name)
+
         # 无法核对 != 核对通过：checkpoint 内缺字段时不得放行。
         if state.get("global_step") is None:
             errors.append("checkpoint 内缺 global_step，formal 模式无法核对身份")
@@ -337,7 +431,8 @@ def verify_checkpoint_identity(
             "source_names": state.get("source_names", "UNKNOWN"),
         },
         "identity_mode": identity_mode,
-        # formal 模式能走到这里说明全部强制项已声明且匹配（不匹配已抛错）；
+        "manifest_checked_fields": sorted(manifest_checked),
+        # formal 模式能走到这里说明 manifest 全部必需项已声明且匹配（不匹配已抛错）；
         # debug 模式恒 False。旧实现的 `len(explicit) >= 1` 已移除——
         # 只声明一个 admission_mode 也算"已校验"是不成立的。
         "identity_checked": identity_mode == "formal",
@@ -392,10 +487,14 @@ def main() -> int:
                         help="lease 分支=all，abstain 分支=none")
     parser.add_argument("--allow-overwrite", action="store_true",
                         help="显式允许覆盖已存在的评估产物（默认硬拒绝）")
+    parser.add_argument("--identity-manifest", default=None,
+                        help="JSON identity manifest；formal 模式必需。须含 "
+                             "checkpoint_sha256/env_name/learner_seed/global_step，"
+                             "checkpoint 有 ptf_cfg 时还需 training_protocol_digest")
     parser.add_argument("--identity-mode", choices=IDENTITY_MODES, default="formal",
-                        help="formal（默认）要求显式声明 --expect-global-step 与 "
-                             "--expect-seed；debug 允许省略，但产物标记 "
-                             "scientific_use_permitted=false")
+                        help="formal（默认）要求 --identity-manifest 且禁用 "
+                             "--expect-* 与 --allow-overwrite；debug 允许省略身份声明，"
+                             "但产物标记 scientific_use_permitted=false 且文件名须带 .debug.")
     args = parser.parse_args()
 
     if args.eval_seeds is None:
@@ -410,18 +509,36 @@ def main() -> int:
             f"收到 {eval_seeds[:len(EVAL_SEEDS)]}"
         )
 
-    # ── 防覆盖：在跑任何 episode 之前检查，避免白跑几十分钟 ──────────
+    # ── 防覆盖 + 文件名护栏：都在跑任何 episode 之前，避免白跑几十分钟 ──
     out_path = Path(args.out)
-    if out_path.exists() and not args.allow_overwrite:
+
+    # formal 模式**无法**放行覆盖（protocol v21c §2）：
+    # 不是"默认拒绝可放行"，是"没有放行这个选项"。
+    formal = args.identity_mode == "formal"
+    effective_overwrite = args.allow_overwrite and not formal
+    if formal and args.allow_overwrite:
+        raise SystemExit(
+            "formal 模式禁止 --allow-overwrite。正式评估产物一旦存在即不可覆盖；"
+            "若确需重算请改路径，或用 --identity-mode debug 走探查通道")
+    if out_path.exists() and not effective_overwrite:
         raise SystemExit(
             f"拒绝覆盖已存在的评估产物：{out_path}\n"
-            f"若确需覆盖请显式传 --allow-overwrite")
+            f"若确需覆盖请显式传 --allow-overwrite（仅 debug 模式有效）")
+
+    # debug 产物的文件名必须带 .debug. 段（protocol v21c §1.1）。
+    # scientific_use_permitted 字段要打开文件才看得到，而批量分析脚本按 glob
+    # 收文件——文件名标记是唯一在**收集阶段**就能生效的护栏。
+    if not formal and ".debug." not in out_path.name:
+        raise SystemExit(
+            f"debug 模式的输出文件名必须含 '.debug.' 段：{out_path.name}\n"
+            f"例如 {out_path.stem}.debug{out_path.suffix}")
 
     # ── 身份校验：不符即拒绝，不产出任何字节 ─────────────────────────
+    manifest = load_identity_manifest(args.identity_manifest) if args.identity_manifest else None
     identity = verify_checkpoint_identity(
         args.checkpoint, args.env_name,
         args.expect_global_step, args.expect_seed, args.expect_admission_mode,
-        identity_mode=args.identity_mode)
+        identity_mode=args.identity_mode, manifest=manifest)
     if not identity["scientific_use_permitted"]:
         print(
             "[WARN] identity-mode=debug：产物标记 scientific_use_permitted=false，"
@@ -459,8 +576,15 @@ def main() -> int:
         "identity_checked": identity["identity_checked"],
         "scientific_use_permitted": identity["scientific_use_permitted"],
         "identity_expectations": identity["identity_expectations"],
+        # panel_digest 的语义**收窄且固定**为仅 seeds/ranks/episode_steps/deterministic
+        # （protocol v21c §3），不再承担任何其他含义。
         "panel_digest": panel_digest(eval_seeds, RANKS, EPISODE_STEPS, True),
-        "overwrote_existing": bool(out_path.exists() and args.allow_overwrite),
+        # 语义指纹：schema + source-free 模式 + 三个语义文件的内容摘要。
+        # 正式可比性要求它相同——语义映射一变 task_success 的含义就变了。
+        "evaluation_semantics_digest": evaluation_semantics_digest(schema_v2.SCHEMA_VERSION),
+        "evaluation_semantics_files": semantics_file_digests(),
+        "source_free_mode": SOURCE_FREE_MODE,
+        "overwrote_existing": bool(out_path.exists() and effective_overwrite),
         "env_name": args.env_name,
         "task_metrics_registered": args.env_name in task_metrics.TASK_METRIC_REGISTRY,
         "task_metrics_source": (
@@ -477,7 +601,7 @@ def main() -> int:
     }
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    atomic_write_json(out_path, payload, allow_overwrite=args.allow_overwrite)
+    atomic_write_json(out_path, payload, allow_overwrite=effective_overwrite)
     print(f"wrote {out_path}")
     print(json.dumps(payload["aggregate"], ensure_ascii=False, indent=2))
     return 0

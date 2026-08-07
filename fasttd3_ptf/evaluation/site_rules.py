@@ -22,20 +22,37 @@ MIN_SEEDS_FOR_ROBUST = 3
 # 按**比较目的**要求不同的一致性集合（预注册 evaluator_v21_hardening §4）。
 # 此前只检查 global_step，导致 crawl@100k 与 hurdle@100k 被判为可比——
 # "同为 100k" 远不等于可比。
+#: 所有 purpose 共同必需的字段（protocol v21c §5）。
+#:
+#: ``evaluation_semantics_digest`` 是本轮新增的第 5 项，覆盖 schema_version、
+#: source-free 模式，以及 ``p0_evaluator_v2.py`` / ``task_metrics.py`` /
+#: ``schema_v2.py`` 三个文件的内容摘要。为什么必需：``panel_digest`` 只覆盖
+#: seeds/ranks/steps，**两份用不同版本 task_metrics.py 产出的结果会被判为可比**，
+#: 而任务语义映射一变，``task_success`` 的含义就变了。
+#: 这比跨预算比较更隐蔽——数字长得完全一样。
+COMPARISON_BASE: frozenset = frozenset({
+    "env_name", "global_step", "panel_digest", "schema_version",
+    "evaluation_semantics_digest",
+})
+
 COMPARISON_REQUIREMENTS: dict[str, frozenset] = {
     # 同一 target 上比不同方法（scratch vs continuous vs hard-exit）
-    "across_methods": frozenset(
-        {"env_name", "global_step", "panel_digest", "schema_version"}),
+    "across_methods": COMPARISON_BASE,
     # 同一方法比不同 learner seed
-    "across_seeds": frozenset(
-        {"env_name", "method_family", "global_step", "panel_digest", "schema_version"}),
-    # 逐 seed 配对（最严，用于配对差值统计）
-    "paired_by_seed": frozenset(
-        {"env_name", "global_step", "panel_digest", "schema_version", "learner_seed"}),
-    # 同一 checkpoint 的重复评估（验证可复现性）
-    "same_checkpoint": frozenset(
-        {"env_name", "global_step", "panel_digest", "schema_version",
-         "learner_seed", "checkpoint_sha256"}),
+    "across_seeds": COMPARISON_BASE | {"method_family"},
+    # 逐 seed 配对（最严，用于配对差值统计）。
+    #
+    # ``match_group`` 必须来自**预注册的 experiment manifest**，
+    # 不得由 (env, seed, step) 现场推断：同一 (env, seed, step) 完全可能来自
+    # 不同的实验臂（不同 source、不同剂量、不同退出策略），推断出来的"配对"
+    # 是假配对——而配对差值统计的全部效力都建立在配对正确之上。
+    "paired_by_seed": COMPARISON_BASE | {
+        "learner_seed", "match_group", "training_protocol_digest"},
+    # 同一 checkpoint 的重复评估（验证可复现性）。
+    # ``checkpoint_sha256`` **只在此 purpose 下**要求相等——其余 purpose 下
+    # 不同实验臂的 SHA 本来就不同，要求相等会把所有真实比较都挡掉。
+    # SHA 的作用是**身份**（这文件是不是我以为的那个），不是可比性。
+    "same_checkpoint": COMPARISON_BASE | {"learner_seed", "checkpoint_sha256"},
 }
 
 
@@ -150,6 +167,13 @@ def require_comparable(a: dict, b: dict, *, purpose: str) -> None:
                     "再比较差值")
         elif "global_step" in mismatched:
             hint = "。v1 曾拿 stair@20k 对 slide@75k，该结论已撤回"
+        elif "evaluation_semantics_digest" in mismatched:
+            hint = ("。两份结果由**不同版本的语义映射**产出（p0_evaluator_v2.py / "
+                    "task_metrics.py / schema_v2.py 之一有差异），task_success 与 "
+                    "milestones 的含义已改变——数字长得一样也不可比")
+        elif "match_group" in mismatched:
+            hint = ("。配对必须来自预注册 experiment manifest；同一 (env,seed,step) "
+                    "可能来自不同实验臂，推断出的配对是假配对")
         elif "panel_digest" in mismatched:
             hint = "。不同评估面板产出的数字不可比"
         raise IncomparableError(f"[{purpose}] 不可比：{detail}{hint}")

@@ -23,6 +23,19 @@ STATUS_OK = "OK"
 STATUS_UNREGISTERED = "UNREGISTERED"          # 任务未注册，语义不可判定
 STATUS_INSUFFICIENT_STATE = "INSUFFICIENT_STATE"  # 需 MuJoCo state 但未提供
 STATUS_ADAPTER_ERROR = "ADAPTER_ERROR"        # adapter 自身抛异常
+STATUS_MISSING_MILESTONE_FIELD = "MISSING_MILESTONE_FIELD"  # 声明了 reducer 但字段全程缺失
+
+# ── milestone reducer（protocol v21c §4 冻结，只此四个）─────────────
+REDUCER_FINAL = "final"                  # 最后一步的值；该步缺此 key 则 None
+REDUCER_MAX = "max"                      # trajectory 最大值；非数值则 None
+REDUCER_EVER_TRUE = "ever_true"          # bool(v) 为真是否出现过
+REDUCER_FIRST_HIT_STEP = "first_hit_step"  # **首次 bool(v) 为真**的步索引
+ALLOWED_REDUCERS = frozenset({
+    REDUCER_FINAL, REDUCER_MAX, REDUCER_EVER_TRUE, REDUCER_FIRST_HIT_STEP})
+
+#: milestone 字段声明了 reducer 却在整条 trajectory 中一次都没出现时的标记。
+#: 不得静默给出全 None 的聚合结构——那看上去像"测了但都是空"。
+MILESTONE_MISSING = "MISSING_TRAJECTORY_FIELD"
 
 # ── termination_semantics 取值 ───────────────────────────────────────
 SEM_FAILURE = "failure"
@@ -48,6 +61,18 @@ class TaskMetrics:
     milestone_fn: Callable | None = None
     needs_mujoco_state: bool = False
     note: str = ""
+    #: 逐 milestone 冻结的 reducer 声明（protocol v21c §4）。
+    #: 键是 milestone 名，值是该 milestone **必须**输出的 reducer 元组。
+    #: 声明了却全程缺失 → MISSING_MILESTONE_FIELD（fail closed）。
+    #: 空 dict 表示该任务不做 reducer 强制（诊断量仍照常输出）。
+    milestone_reducers: dict = field(default_factory=dict)
+
+    def __post_init__(self):
+        bad = {k: sorted(set(v) - ALLOWED_REDUCERS)
+               for k, v in (self.milestone_reducers or {}).items()
+               if set(v) - ALLOWED_REDUCERS}
+        if bad:
+            raise ValueError(f"未知 reducer：{bad}；合法值 {sorted(ALLOWED_REDUCERS)}")
 
 
 def _milestones_from_info(keys: tuple[str, ...]) -> Callable:
@@ -125,11 +150,27 @@ def aggregate_milestones(spec, info_history: list, mj_state=None) -> tuple[dict,
         final            最后一步的值；**该步不含此 key 则 None**
         max              trajectory 上的最大值；非数值类型则 None
         max_step         首次达到 max 的步索引（0-based）
-        first_step       该 key 首次出现的步索引
+        first_step       该 key **首次出现**的步索引
+        first_hit_step   该 key **首次 bool(v) 为真**的步索引；从未为真则 None
         n_steps_present  该 key 出现过的步数
         ever_true        bool(v) 为真是否至少出现过一次
+
+    ``first_step`` 与 ``first_hit_step`` 是两回事，都保留：
+    前者是"第一次有这个字段"，后者是"第一次达成"。truck 的 ``success_subtasks``
+    从第 0 步就存在（值为 0），但可能到第 700 步才真正装上第一个 package。
+
+    **fail closed**（protocol v21c §4）：``spec.milestone_reducers`` 声明了某
+    milestone，而整条 trajectory 里它一次都没出现 → 该项记
+    ``{"status": MILESTONE_MISSING, ...}``，并让调用方把 ``metric_status``
+    置为 ``MISSING_MILESTONE_FIELD``。不得静默给出全 None 的聚合结构——
+    那看上去像"测了但都是空"，而实际是"根本没这个字段"。
     """
     if spec is None or spec.milestone_fn is None:
+        return {}, True
+    # 0 步的 episode：保留 v21b §3 规则 3（空 history → {}，不报错）。
+    # v21c §4 的 fail-closed 不覆盖这一情形——MISSING_TRAJECTORY_FIELD 的语义是
+    # "跑了但没这个字段"，而 0 步是"根本没跑"，二者要能区分。
+    if not info_history:
         return {}, True
 
     acc: dict[str, dict] = {}
@@ -144,7 +185,8 @@ def aggregate_milestones(spec, info_history: list, mj_state=None) -> tuple[dict,
             if slot is None:
                 slot = acc[k] = {
                     "final": None, "max": None, "max_step": None,
-                    "first_step": step, "n_steps_present": 0, "ever_true": False,
+                    "first_step": step, "first_hit_step": None,
+                    "n_steps_present": 0, "ever_true": False,
                     "_last_step": None, "_max_num": None,
                 }
             slot["n_steps_present"] += 1
@@ -152,6 +194,8 @@ def aggregate_milestones(spec, info_history: list, mj_state=None) -> tuple[dict,
             slot["final"] = _jsonable(v)
             if _truthy(v):
                 slot["ever_true"] = True
+                if slot["first_hit_step"] is None:
+                    slot["first_hit_step"] = step
             num = _as_number(v)
             if num is not None and (slot["_max_num"] is None or num > slot["_max_num"]):
                 slot["_max_num"] = num
@@ -164,7 +208,28 @@ def aggregate_milestones(spec, info_history: list, mj_state=None) -> tuple[dict,
         if slot.pop("_last_step") != n_steps - 1:
             slot["final"] = None
         slot.pop("_max_num")
+
+    # ── 声明了 reducer 却全程缺失 → fail closed ───────────────────────
+    for name, reducers in (spec.milestone_reducers or {}).items():
+        if name not in acc:
+            acc[name] = {
+                "status": MILESTONE_MISSING,
+                "declared_reducers": list(reducers),
+                "final": None, "max": None, "max_step": None,
+                "first_step": None, "first_hit_step": None,
+                "n_steps_present": 0, "ever_true": None,
+            }
     return acc, True
+
+
+def missing_declared_milestones(spec, milestones: dict) -> list:
+    """返回声明了 reducer 却在 trajectory 中缺失的 milestone 名。"""
+    if spec is None or not spec.milestone_reducers:
+        return []
+    return sorted(
+        name for name in spec.milestone_reducers
+        if (milestones.get(name) or {}).get("status") == MILESTONE_MISSING
+    )
 
 
 def _bookshelf_termination(info: dict, mj_state=None):
@@ -233,19 +298,25 @@ TASK_METRIC_REGISTRY.update({
         source="truck.py:207  len(packages_on_table) == len(package_list)",
         milestone_names=("success", "success_subtasks"),
         milestone_fn=_milestones_from_info(("success", "success_subtasks")),
-        note="success_subtasks = 已装上车的 package 数。",
+        milestone_reducers={"success_subtasks": (REDUCER_MAX, REDUCER_FINAL),
+                            "success": (REDUCER_EVER_TRUE, REDUCER_FIRST_HIT_STEP)},
+        note="success_subtasks = 已装上车的 package 数。truck.py:113-115 有 remove 分支，"
+             "故 max 与 final 都要（装上又掉下来时二者不同）。",
     ),
     "h1hand-cabinet-v0": TaskMetrics(
         termination_is=SEM_SUCCESS,
         source="cabinet.py:244  current_subtask == 5",
         milestone_names=("success", "success_subtasks"),
         milestone_fn=_milestones_from_info(("success", "success_subtasks")),
+        milestone_reducers={"success_subtasks": (REDUCER_MAX, REDUCER_FINAL),
+                            "success": (REDUCER_EVER_TRUE, REDUCER_FIRST_HIT_STEP)},
     ),
     "h1hand-package-v0": TaskMetrics(
         termination_is=SEM_SUCCESS,
         source="package.py:147  dist_package_destination < 0.1",
         milestone_names=("success",),
         milestone_fn=_milestones_from_info(("success",)),
+        milestone_reducers={"success": (REDUCER_EVER_TRUE, REDUCER_FIRST_HIT_STEP)},
     ),
 
     # ── 条件判定 ─────────────────────────────────────────────────────
@@ -255,6 +326,8 @@ TASK_METRIC_REGISTRY.update({
         milestone_names=("success", "success_subtasks"),
         required_info_keys=("terminated_reason",),
         milestone_fn=_milestones_from_info(("success", "success_subtasks")),
+        milestone_reducers={"success_subtasks": (REDUCER_MAX, REDUCER_FINAL),
+                            "success": (REDUCER_EVER_TRUE, REDUCER_FIRST_HIT_STEP)},
     ),
     "h1hand-bookshelf_hard-v0": TaskMetrics(
         termination_is=_bookshelf_termination,
@@ -262,12 +335,15 @@ TASK_METRIC_REGISTRY.update({
         milestone_names=("success", "success_subtasks"),
         required_info_keys=("terminated_reason",),
         milestone_fn=_milestones_from_info(("success", "success_subtasks")),
+        milestone_reducers={"success_subtasks": (REDUCER_MAX, REDUCER_FINAL),
+                            "success": (REDUCER_EVER_TRUE, REDUCER_FIRST_HIT_STEP)},
     ),
     "h1hand-basketball-v0": TaskMetrics(
         termination_is=_basketball_termination,
         source="basketball.py:143  球掉/人摔/进筐三者都 return True, {}",
         milestone_names=("success_subtasks",),
         milestone_fn=_milestones_from_info(("success_subtasks",)),
+        milestone_reducers={"success_subtasks": (REDUCER_MAX, REDUCER_FINAL)},
         needs_mujoco_state=True,
         note="info 无区分字段，缺 MuJoCo state 时必须 None，不得猜测。",
     ),
@@ -310,14 +386,21 @@ def resolve_task_outcome(
     milestones, ok = aggregate_milestones(spec, info_history, mj_state)
     if not ok:
         return None, SEM_UNKNOWN, STATUS_ADAPTER_ERROR, {}
+    # 声明了 reducer 却全程缺失 → fail closed，语义仍照常判定但状态被标记，
+    # 使"根本没这个字段"不会被读成"测了但都是空"。
+    missing = missing_declared_milestones(spec, milestones)
     info = last_info
 
     # ── 未终止：环境没有给出成败信号 ────────────────────────────────
     # 这不是"数据不足以判定"，而是"这一局还没分出胜负"。
     # 必须在调用条件判定函数**之前**返回——否则 bookshelf 会因为未终止的
     # episode 里没有 terminated_reason 而被误报成 INSUFFICIENT_STATE。
+    # milestone 缺失只降级 metric_status，不改动成败判定——
+    # 终止语义与 milestone 是两条独立通路，一条坏了不该污染另一条。
+    ok_status = STATUS_MISSING_MILESTONE_FIELD if missing else STATUS_OK
+
     if not terminated:
-        return False, SEM_NEUTRAL, STATUS_OK, milestones
+        return False, SEM_NEUTRAL, ok_status, milestones
 
     # ── 已终止：判定该次终止是成功还是失败 ──────────────────────────
     if callable(spec.termination_is):
@@ -331,7 +414,7 @@ def resolve_task_outcome(
     else:
         semantics = spec.termination_is
 
-    return semantics == SEM_SUCCESS, semantics, STATUS_OK, milestones
+    return semantics == SEM_SUCCESS, semantics, ok_status, milestones
 
 
 # ══════════════════════════════════════════════════════════════════════
