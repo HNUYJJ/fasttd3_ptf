@@ -336,6 +336,36 @@ def make_injected(tmpdir: Path, donor: Path) -> list:
     shutil.copy2(donor, bad_name)
     out.append({"path": str(bad_name), "expect": ident.EXCLUDED_UNPARSEABLE_NAME,
                 "reason": "injected_unparseable_name"})
+
+    # #3 **真正无法区分的执行歧义**：同 run_family、同 global_step、不同 SHA，
+    # 且两者路径都不匹配任何 archive 规则（故 execution_role 相同 →
+    # 落入同一 execution_instance）。这一项在首轮实现里漏了，
+    # 导致 AMBIGUOUS_EXECUTION 的检测路径从未被执行（判据真空成立）。
+    #
+    # 构造方式：复制一份，再用 torch 重存一份带额外标记的——
+    # SHA 因此不同，但 args / global_step 原样保留，故身份三项仍一致，
+    # 不会被 EXCLUDED_IDENTITY_MISMATCH 提前拦掉。
+    try:
+        import torch
+
+        d1 = tmpdir / "exec_conflict_1"
+        d2 = tmpdir / "exec_conflict_2"
+        d1.mkdir(exist_ok=True)
+        d2.mkdir(exist_ok=True)
+        shutil.copy2(donor, d1 / donor.name)
+        state = torch.load(donor, map_location="cpu", weights_only=False)
+        state["__sentinel_injected_marker__"] = "second_indistinguishable_execution"
+        torch.save(state, d2 / donor.name)
+        del state
+        out.append({"path": str(d1 / donor.name), "expect": ident.AMBIGUOUS_EXECUTION,
+                    "reason": "injected_exec_conflict_a"})
+        out.append({"path": str(d2 / donor.name), "expect": ident.AMBIGUOUS_EXECUTION,
+                    "reason": "injected_exec_conflict_b"})
+    except Exception as exc:  # noqa: BLE001
+        # 构造失败必须显式暴露——静默跳过会让 §9 第 3 项再次真空通过
+        out.append({"path": str(tmpdir / "__exec_conflict_construction_failed__"),
+                    "expect": "CONSTRUCTION_FAILED",
+                    "reason": f"injected_exec_conflict_failed: {type(exc).__name__}: {exc}"})
     return out
 
 
@@ -370,6 +400,10 @@ def main() -> int:
     rows = [process(t["path"], registry, t.get("reason")) for t in targets]
     injected_rows = [process(t["path"], registry, t["reason"]) for t in injected]
 
+    # 注入件也必须走一遍 alias 解析——AMBIGUOUS_EXECUTION 是在那里判定的。
+    # 单独跑（不与主结果合并），否则注入的歧义会污染真实统计。
+    inj_ambiguous, inj_integrity, _inj_notes = resolve_aliases(injected_rows)
+
     injection_failures = [
         {"path": r["path"], "expected": t["expect"], "actual": r.get("eligibility")}
         for t, r in zip(injected, injected_rows) if r.get("eligibility") != t["expect"]]
@@ -384,6 +418,9 @@ def main() -> int:
     failures = []
     if injection_failures:
         failures.append(f"{len(injection_failures)} 个注入件未按预期分类")
+    # 注入的 exec conflict 若构造失败，§9 第 3 项会再次真空通过——必须显式失败
+    if any(t["expect"] == "CONSTRUCTION_FAILED" for t in injected):
+        failures.append("注入的 execution 冲突构造失败，§9 第 3 项无法验证")
     if integrity:
         failures.append(f"{len(integrity)} 组 FORMAL_ALIAS_INTEGRITY_FAILURE")
     if ambiguous:
@@ -432,6 +469,7 @@ def main() -> int:
         },
         "sentinel_unavailable": unavailable,
         "injection_checks": injection_failures or "全部注入件均按预期分类",
+        "injected_ambiguous_detected": inj_ambiguous,
         "ambiguous_executions": ambiguous,
         "formal_alias_integrity_failures": integrity,
         "alias_notes": alias_notes,
