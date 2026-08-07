@@ -1,4 +1,35 @@
-# 结果：Inventory v2.1 全量 metadata deep scan —— `FULL_SCAN_FAILED`（退出码 1）
+# 【DIAGNOSTIC_FULL_SCAN_FAILED】Inventory v2.1 全量 metadata deep scan
+
+> ## 2026-08-07 定性：本次全量扫描降级为 DIAGNOSTIC，**不是最终 inventory**
+>
+> 三类失败**全部来自 inventory 口径问题，没有一条证明训练数据损坏**。
+> 尤其两点必须在引用前读到：
+>
+> **① 2 组 `FORMAL_ALIAS_INTEGRITY_FAILURE` 是实现误报，不得引用为 P0 协议失败。**
+> 逐对比对同名文件 4/4 全部一致（见 §2）。P0 duplicate 协议完好。
+>
+> **② 263 组 `AMBIGUOUS_EXECUTION` 的根因已查明：跨文件名比较 raw SHA 本身无效。**
+> PyTorch 的 zip 序列化把**文件名 stem 写进 zip 内部 entry 根目录**——
+> 我已独立复现：同一个 Python 对象保存成 `foo_13000.pt` 与 `foo_final.pt`，
+> zip 内 entry 分别是 `foo_13000/data.pkl` 与 `foo_final/data.pkl`，
+> SHA256 必然不同；连等长文件名（`same_a` / `same_b`）也不同。
+> `train_ptf.py:880` 确实用 `_use_new_zipfile_serialization=True`。
+>
+> 因此 `_100000.pt` 与 `_final.pt` 的 SHA 不同**不能推出状态不同**，
+> 263/263 的系统性模式由此完全解释。**raw file SHA 只是物理文件身份，
+> 不是 checkpoint 状态身份。**
+>
+> 顺带解释了我的 `EXACT_ALIAS` 判定为何碰巧成立：正式路径与 archive A
+> **文件名相同**（只是目录不同），zip entry 名一致，故 SHA 可比。
+> 这是运气，不是设计。
+>
+> 修正见 P2.2（`checkpoint_inventory_v22_protocol_20260807.md`）：
+> 引入 `evaluation_state_digest` 与 `full_state_digest`，
+> 按 tensor dtype/shape/raw bytes 递归计算，**不经 torch.save**。
+>
+> 原始输出 `full.json` 保留不改。§5 的有效产出仍可引用，
+> 但须同时声明本降级声明。
+
 
 > 2026-08-07。blind prereg `checkpoint_inventory_v21_prereg_20260807.md`（`af3cacb`）。
 > **冻结实现 `42c1d67`**，零代码改动。无环境 rollout（纯元数据）。
