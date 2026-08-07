@@ -1,11 +1,38 @@
-# 预注册：Evaluator v2.1b（P1.1b 整改）
+# Post-Diagnostic Reverification Protocol：Evaluator v2.1b（P1.1b）
+
+> ## 定性更正（2026-08-07，外部 review 指出，我接受）
+>
+> **本文件不是 blind pre-registration，此前把它命名为"预注册"是定性过强。**
+>
+> 写它的时候我**已经看过** P1.1 首轮的 smoke 结果（知道 S4 会 0/8 终止、
+> 知道 basketball 提取路径坏过、知道 S2 的 final checkpoint 不摔倒）。
+> 一份在看过结果之后写的判据文档，无论内容多严格，都不具备盲预注册的
+> 认识论地位——这正是 `CLAUDE.md §8.7` 讲的 outcome-contingent 问题。
+>
+> **本轮的改动方向全部是收紧**（S5 由弱代理改回原文、新增无条件的 S6、
+> 禁用 `ALL_PASS`、VACUOUS 单列），没有任何一项被放宽——但"方向对我不利"
+> 也不能把 post-hoc 文档提升为 prereg。二者是不同的事：
+> 前者关乎诚实，后者关乎证据地位。
+>
+> 因此本文件的正确定位是：**post-diagnostic reverification protocol**——
+> 在冻结实现之前写下、且此后不再更改的判据，用于产出一次干净的重验证。
+> 它能保证的是"实现没有回头迁就结果"，**不能**保证"判据的选择独立于已见结果"。
+>
+> 后者只能由**未来在新数据上的盲判据**提供。P2 及之后的阶段须回到真正的
+> blind prereg。
+>
+> 原标题：`预注册：Evaluator v2.1b（P1.1b 整改）`。文件名保持不变，
+> 以免破坏已推送的引用。
 
 > 2026-08-07。**必须在任何实现之前提交 git。**
 > 提交后只允许改路径参数，不得修改字段定义、校验规则或 smoke 判据。
 >
 > 本文件**替代** `evaluator_v21_hardening_prereg_20260806.md` 作为 P1.1 的有效判据。
 > 旧预注册本身没有错（它写的是对的），错在实现没有逐条落实它，
-> 且结果 commit 里改了代码。旧结果已降级为 DIAGNOSTIC。
+> 且结果 commit 里改了代码。旧结果状态为 `DIAGNOSTIC_PASS / REVERIFY_REQUIRED`。
+>
+> **本协议已由 `evaluator_v21c_reverification_protocol_20260807.md` 扩展**
+> （A3–A6/A9 的补充判据）。二者并存，后者不推翻本文件的任何判据。
 
 ---
 

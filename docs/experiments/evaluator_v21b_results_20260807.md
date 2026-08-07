@@ -1,6 +1,8 @@
 # 结果：Evaluator v2.1b（P1.1b）—— `CORE_PATHS_VERIFIED_WITH_GAPS`
 
-> 2026-08-07。预注册 `evaluator_v21b_prereg_20260807.md`（`91fc0ef`，先于实现）。
+> 2026-08-07。判据来自 **post-diagnostic reverification protocol**
+> `evaluator_v21b_prereg_20260807.md`（`91fc0ef`，先于实现冻结）。
+> **该文件不是 blind prereg**——写它时我已看过首轮结果，定性见其头部声明。
 > **冻结实现 `8042314`**，本文件所报结果全部在该实现上产出，
 > 期间未修改任何一行代码——这正是上一轮（`19948c4`）没做到的事。
 > 原始输出 `docs/data/evaluator_v21b_smoke/smoke.json`，退出码 `0`。
@@ -18,17 +20,17 @@ VERDICT: CORE_PATHS_VERIFIED_WITH_GAPS      失败 0 项，VACUOUS 2 项
   S6 truck 聚合   PASS      四个聚合字段全非 null，n_steps_present = 1000
 ```
 
-**`ALL_PASS` 及任何全称词已按预注册 §6 禁用。** 上一轮的 `ALL_PASS` 与
+**`ALL_PASS` 及任何全称词已按 protocol §6 禁用。** 上一轮的 `ALL_PASS` 与
 同一份输出里 S4 的 `VACUOUS` 自相矛盾；本轮的 verdict 名字本身就带着 gap。
 
-按预注册 §7：S1–S6 无失败项、formal 模式 / 原子写 / trajectory 聚合均已实现，
+按 protocol §7：S1–S6 无失败项、formal 模式 / 原子写 / trajectory 聚合均已实现，
 **可进入 P2**。VACUOUS 不阻塞 P2——P2 只读 checkpoint 元数据，不涉及任务语义。
 
-## 2. 与上一轮（DIAGNOSTIC）的关键差别
+## 2. 与上一轮（`DIAGNOSTIC_PASS / REVERIFY_REQUIRED`）的关键差别
 
 | | 上一轮 `19948c4` | 本轮 |
 |---|---|---|
-| 三段式 | **不成立**（结果 commit 里改了两个 `.py`） | 预注册 `91fc0ef` → 实现 `8042314` → 本结果，实现冻结后零代码改动 |
+| 实现↔结果边界 | **不成立**（结果 commit 里改了两个 `.py`） | protocol `91fc0ef` → 实现 `8042314` → 本结果，实现冻结后零代码改动 |
 | S5 判据 | `metric_status != INSUFFICIENT_STATE`（弱代理，0 终止时真空通过） | `isfinite(ball_to_hoop_dist)`，预注册原文，无条件 |
 | S3 | `PASS` | `VACUOUS`——终止语义路径确实没被执行过 |
 | verdict | `ALL_PASS` | `CORE_PATHS_VERIFIED_WITH_GAPS` |

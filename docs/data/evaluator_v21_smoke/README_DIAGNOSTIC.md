@@ -1,9 +1,13 @@
-# 本目录的 `smoke.json` 已降级为 DIAGNOSTIC —— 不得引用为验证结论
+# 本目录的 `smoke.json`：`DIAGNOSTIC_PASS / REVERIFY_REQUIRED`
 
 2026-08-07。
 
 `smoke.json` 是 2026-08-06 P1.1 首轮 smoke 的**原始运行输出**，原样保留、未作任何修改
-（改它会破坏"原始输出"的意义）。但它**不构成验证证据**，理由有二：
+（改它会破坏"原始输出"的意义）。状态词含义：`DIAGNOSTIC_PASS` = 本轮确实发现并修复了真实缺陷（basketball
+提取路径），该诊断价值保留；`REVERIFY_REQUIRED` = 但验证效力不成立，
+结论须由一次干净的重验证重新建立。**不得再声称原三段式链有效。**
+
+它不构成验证证据，理由有二：
 
 1. **产出它的 commit 违反三段式。** `19948c4`（publish `691dcff`）名义是"结果提交"，
    实际同时修改了 `smoke_evaluator_v21.py` 与 `p0_evaluator_v2.py`。

@@ -1,4 +1,14 @@
-# 【已降级为 DIAGNOSTIC】Evaluator v2.1 Hardening 首轮
+# 【DIAGNOSTIC_PASS / REVERIFY_REQUIRED】Evaluator v2.1 Hardening 首轮
+
+> **状态词（2026-08-07 由外部 review 指定，本文件一律使用这两个）**：
+>
+> | 状态 | 含义 |
+> |---|---|
+> | `DIAGNOSTIC_PASS` | 本轮**发现并修复了真实缺陷**（basketball 提取路径），该诊断价值成立且保留 |
+> | `REVERIFY_REQUIRED` | 但**验证效力不成立**，结论必须由一次干净的重验证重新建立 |
+>
+> 原来的 `ALL_PASS` 一词作废。凡引用本轮结论处，须同时给出这两个状态词——
+> 只说 `DIAGNOSTIC_PASS` 会让人以为已通过验证。
 
 > **2026-08-07 降级声明（外部 review 指出，我核实成立）。本文件不再是一份合格的结果文档。**
 >
@@ -12,10 +22,14 @@
 > 而在结果 commit 里改代码恰好取消了这个保证。**运行结果暴露实现 bug 时可以修，
 > 但必须把原结果标成 diagnostic，另开 hotfix commit 重新冻结，再独立重跑。**
 >
-> **本文件的效力**：以下内容一律降级为 **diagnostic 记录**——
-> 可用于说明"发现了什么 bug、为什么要改"，
-> **不得**被引用为"evaluator v2.1 已通过验证"。`docs/data/evaluator_v21_smoke/smoke.json`
-> 同样降级，其 `"verdict": "ALL_PASS"` 字段**作废**。
+> **本文件的效力**：`DIAGNOSTIC_PASS` —— 可用于说明"发现了什么 bug、为什么要改"，
+> **basketball 的修复本身保留且有效**（`env.unwrapped._env` 路径错误是真缺陷，
+> 与 HumanoidBench 源码一致：球掉 / 人摔 / 进筐都 `terminated=True` 且 info 为空，
+> 确实必须读 MuJoCo state 区分）。
+>
+> 同时 `REVERIFY_REQUIRED` —— **不得**被引用为"evaluator v2.1 已通过验证"，
+> 且**不得再声称原三段式链有效**。`docs/data/evaluator_v21_smoke/smoke.json`
+> 的 `"verdict": "ALL_PASS"` 字段**作废**。
 >
 > 替代它的是 P1.1b：预注册 `evaluator_v21b_prereg_20260807.md`，
 > 结果 `evaluator_v21b_results_20260807.md`。**引用请引 P1.1b，不要引本文件。**
