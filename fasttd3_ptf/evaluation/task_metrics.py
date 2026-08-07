@@ -348,9 +348,29 @@ def resolve_task_outcome(
 #:
 #: **初值冻结为空集合**，只能由 P1.1b smoke 结果**之后的独立 commit**
 #: 依据实测填入。不得在实现 commit 里凭印象预填——那是"用结果改代码"的变体。
-RUNTIME_VERIFIED_TERMINATION: frozenset[str] = frozenset()
+#:
+#: 2026-08-07 依据 P1.1b smoke（`docs/data/evaluator_v21b_smoke/smoke.json`
+#: 的 ``runtime_verified.termination_semantics``）填入，结果见
+#: `docs/experiments/evaluator_v21b_results_20260807.md` §6。
+RUNTIME_VERIFIED_TERMINATION: frozenset[str] = frozenset({
+    "h1hand-basketball-v0",   # S5: 8/8 终止，全部正确判为 failure
+    "h1hand-crawl-v0",        # S1: 8/8 未终止 → neutral。Crawl 恒不终止
+                              #     (basic_locomotion_envs.py:168 return False)，
+                              #     这就是其语义的全部，不存在未覆盖的终止分支
+    "h1hand-slide-v0",        # S2: 5/8 终止，全部正确判为 failure
+})
 
 #: milestone 提取通路经真实 runtime 验证过的任务。与上者分开：
 #: truck 的 milestone 通路可用、但其 success 终止路径从未被观察到，
 #: 二者的证据强度不同，合并会让"未验证"搭上"已验证"的便车。
-RUNTIME_VERIFIED_MILESTONE: frozenset[str] = frozenset()
+#:
+#: **本集合的语义严格限于"提取通路在真实 runtime 上被执行过"。**
+#: 它**不**保证 milestone 的高值区间被观察过——P1.1b 中 truck 与 bookshelf 的
+#: ``success_subtasks`` 全程恒为 0（策略一个 package 都没装上 / 书都没上架），
+#: 故只有低值区间有 runtime 证据。对 bookshelf 尤其要注意：它的成功事件
+#: (``task_index == 5``) 与终止 reason 1 是同一事件，终止既然从未发生，
+#: 高值区间必然也未被观察到。引用这两个任务的 milestone 时须知此界。
+RUNTIME_VERIFIED_MILESTONE: frozenset[str] = frozenset({
+    "h1hand-bookshelf_simple-v0",  # S4: success / success_subtasks 均提取到
+    "h1hand-truck-v0",             # S3/S6: success_subtasks 覆盖 1000 步
+})

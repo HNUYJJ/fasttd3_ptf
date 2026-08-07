@@ -747,10 +747,36 @@ def test_T14_unverified_task_blocked_from_adjudication():
             "h1hand-bookshelf_simple-v0", purpose="termination_semantics")
 
 
-def test_T14b_initial_lists_are_empty_fail_closed():
-    """初值必须是空集合——只能由 smoke 实测结果在独立 commit 中填入。"""
-    assert task_metrics.RUNTIME_VERIFIED_TERMINATION == frozenset()
-    assert task_metrics.RUNTIME_VERIFIED_MILESTONE == frozenset()
+def test_T14b_lists_match_smoke_evidence():
+    """清单必须逐条对应 P1.1b smoke 的实测，未验证的任务不得混入。
+
+    初值是空集合（fail-closed），2026-08-07 依据
+    docs/data/evaluator_v21b_smoke/smoke.json 的 runtime_verified 填入。
+    """
+    assert task_metrics.RUNTIME_VERIFIED_TERMINATION == frozenset({
+        "h1hand-basketball-v0", "h1hand-crawl-v0", "h1hand-slide-v0"})
+    assert task_metrics.RUNTIME_VERIFIED_MILESTONE == frozenset({
+        "h1hand-bookshelf_simple-v0", "h1hand-truck-v0"})
+
+
+def test_T14f_vacuous_tasks_stay_out_of_termination_list():
+    """S3/S4 是 VACUOUS——0/8 终止，条件判定路径一次都没执行过。
+
+    这是最容易被悄悄放宽的一条：把它们加进来，
+    "真空成立"就变成了"已验证"。
+    """
+    for env in ("h1hand-truck-v0", "h1hand-bookshelf_simple-v0"):
+        assert env not in task_metrics.RUNTIME_VERIFIED_TERMINATION, (
+            f"{env} 的终止语义从未在 runtime 被执行，不得计为已验证")
+        with pytest.raises(site_rules.UnverifiedPathError):
+            site_rules.require_runtime_verified(env, purpose="termination_semantics")
+
+
+def test_T14g_verified_lists_only_contain_registered_tasks():
+    """清单里不得有未注册任务——那意味着填值时抄错了名字。"""
+    for name in (task_metrics.RUNTIME_VERIFIED_TERMINATION
+                 | task_metrics.RUNTIME_VERIFIED_MILESTONE):
+        assert name in task_metrics.TASK_METRIC_REGISTRY, f"{name} 未注册"
 
 
 def test_T14c_verified_task_passes(monkeypatch):
