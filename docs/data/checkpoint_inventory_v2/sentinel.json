@@ -1,0 +1,1268 @@
+{
+  "prereg": "docs/experiments/checkpoint_inventory_v2_prereg_20260807.md",
+  "mode": "sentinel",
+  "verdict": "SENTINEL_FAILED",
+  "failures": [
+    "2 组 AMBIGUOUS_RUN_INSTANCE（映射不唯一）"
+  ],
+  "totals": {
+    "n_processed": 20,
+    "n_eligible": 16,
+    "n_identity_mismatch": 0,
+    "n_injected": 2
+  },
+  "sentinel_unavailable": [
+    {
+      "rule": "racing",
+      "wanted": 2,
+      "got": 0,
+      "status": "SENTINEL_UNAVAILABLE"
+    }
+  ],
+  "injection_checks": "全部注入冲突均被正确识别",
+  "ambiguous_run_instances": [
+    {
+      "run_instance_id": "p0_crawl_abstain#1",
+      "global_step": 10750,
+      "n_distinct_sha": 2,
+      "paths": [
+        "/home/yjj/fasttd3_ptf/models/h1hand-crawl-v0__p0_crawl_abstain__1_10750.pt",
+        "/home/yjj/fasttd3_ptf/models/p0_dup_archive/crawl_B/h1hand-crawl-v0__p0_crawl_abstain__1_10750.pt"
+      ]
+    },
+    {
+      "run_instance_id": "p0_crawl_abstain#1",
+      "global_step": 11500,
+      "n_distinct_sha": 2,
+      "paths": [
+        "/home/yjj/fasttd3_ptf/models/h1hand-crawl-v0__p0_crawl_abstain__1_11500.pt",
+        "/home/yjj/fasttd3_ptf/models/p0_dup_archive/crawl_B/h1hand-crawl-v0__p0_crawl_abstain__1_11500.pt"
+      ]
+    }
+  ],
+  "final_dedup_notes": {},
+  "run_completion": {
+    "h1hand_balance_hard_b2_scr_s1_20260705T153732Z#1": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null
+    },
+    "h1hand_balance_hard_b2_scr_s2_20260705T153732Z#2": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null
+    },
+    "h1hand_balance_hard_b2_scr_s3_20260705T153732Z#3": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null
+    },
+    "admission_rng_diag_cpu_none#43": {
+      "completion_status": "COMPLETED",
+      "observed_end": 13,
+      "configured_total_timesteps": 13,
+      "configured_run_stop_step": null
+    },
+    "admission_rng_diag_cpu_scratch#43": {
+      "completion_status": "COMPLETED",
+      "observed_end": 13,
+      "configured_total_timesteps": 13,
+      "configured_run_stop_step": null
+    },
+    "admission_rng_diag_step12_none#43": {
+      "completion_status": "COMPLETED",
+      "observed_end": 12,
+      "configured_total_timesteps": 12,
+      "configured_run_stop_step": null
+    },
+    "admission_rng_diag_step13_none#43": {
+      "completion_status": "COMPLETED",
+      "observed_end": 13,
+      "configured_total_timesteps": 13,
+      "configured_run_stop_step": null
+    },
+    "admission_rng_diag_step1_none#43": {
+      "completion_status": "COMPLETED",
+      "observed_end": 1,
+      "configured_total_timesteps": 1,
+      "configured_run_stop_step": null
+    },
+    "crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z#1": {
+      "completion_status": "TRUNCATED_RUN",
+      "observed_end": 30000,
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": 30000
+    },
+    "cfb_slide_critic_first_s1#1": {
+      "completion_status": "TRUNCATED_RUN",
+      "observed_end": 12000,
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": 20000
+    },
+    "h1hand_truck_adaptive_admission_v1_adaptive_s1_20260714T110054Z#1": {
+      "completion_status": "TRUNCATED_RUN",
+      "observed_end": 30000,
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null
+    },
+    "h1hand_balance_hard_b2_rand_s1_20260705T153732Z#1": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null
+    },
+    "h1hand_balance_hard_b2_rand_s2_20260705T153732Z#2": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null
+    },
+    "h1hand_balance_hard_b2_rand_s3_20260705T153732Z#3": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null
+    },
+    "phase1_bounded_lease_formal_basketball_hard_exit_s1_20260719T130500Z#1": {
+      "completion_status": "COMPLETED",
+      "observed_end": 100000,
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": 100000
+    }
+  },
+  "canonical_policy": {
+    "fixed_steps": [
+      10000,
+      20000,
+      50000,
+      100000
+    ],
+    "bootstrap_end_key": "mcg_warmup_steps",
+    "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY",
+    "hard_exit_note": "已核实 ptf_cfg 内无 hard_exit 专用键。hard exit 是实验设计概念（源在 warmup 结束后退出），判定它需要 experiment_role，而 role 只能来自 run card（当前没有）。按预注册 §3 规则 2 记 UNKNOWN。"
+  },
+  "rows": [
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-balance_hard-v0__h1hand_balance_hard_b2_scr_s1_20260705T153732Z__1_final.pt",
+      "sentinel_reason": "scratch",
+      "fname_env": null,
+      "fname_run": null,
+      "fname_seed": null,
+      "fname_step": null,
+      "fname_parsed": false,
+      "checkpoint_id": "938855fbc4b6f368bfb62aa322eaa172207ecde1ce0b9957062dfdbb58767446",
+      "inner_env_name": "h1hand-balance_hard-v0",
+      "inner_seed": 1,
+      "inner_global_step": 100000,
+      "exp_name": "h1hand_balance_hard_b2_scr_s1_20260705T153732Z",
+      "source_names": [
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_NULL_BANK",
+      "training_protocol_digest": "555f081d198ab0f3fa602684b88d81f94a25ce084574cc98de0faa482217a4ef",
+      "learner_replication_id": 1,
+      "run_instance_id": "h1hand_balance_hard_b2_scr_s1_20260705T153732Z#1",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null,
+      "canonical": {
+        "steps": [
+          10000,
+          15000,
+          20000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "15000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-balance_hard-v0__h1hand_balance_hard_b2_scr_s2_20260705T153732Z__2_final.pt",
+      "sentinel_reason": "scratch",
+      "fname_env": null,
+      "fname_run": null,
+      "fname_seed": null,
+      "fname_step": null,
+      "fname_parsed": false,
+      "checkpoint_id": "8f0aab83cca00cc8868e3393947f504c8141f28dcfb29d3f0815357939bedc50",
+      "inner_env_name": "h1hand-balance_hard-v0",
+      "inner_seed": 2,
+      "inner_global_step": 100000,
+      "exp_name": "h1hand_balance_hard_b2_scr_s2_20260705T153732Z",
+      "source_names": [
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_NULL_BANK",
+      "training_protocol_digest": "1eebc551848b332710c07cb352f0b01ad494a6d9a87d881e27b93bb73d6ce9b8",
+      "learner_replication_id": 2,
+      "run_instance_id": "h1hand_balance_hard_b2_scr_s2_20260705T153732Z#2",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null,
+      "canonical": {
+        "steps": [
+          10000,
+          15000,
+          20000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "15000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-balance_hard-v0__h1hand_balance_hard_b2_scr_s3_20260705T153732Z__3_final.pt",
+      "sentinel_reason": "scratch",
+      "fname_env": null,
+      "fname_run": null,
+      "fname_seed": null,
+      "fname_step": null,
+      "fname_parsed": false,
+      "checkpoint_id": "f28bd769eace3b7153987dff783403b84173111626f6c0ae5554422a41aec27e",
+      "inner_env_name": "h1hand-balance_hard-v0",
+      "inner_seed": 3,
+      "inner_global_step": 100000,
+      "exp_name": "h1hand_balance_hard_b2_scr_s3_20260705T153732Z",
+      "source_names": [
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_NULL_BANK",
+      "training_protocol_digest": "bad63e5a9de3fb3cf01c844fb7fb156aa76abdf08534f738a9a487b9444a0f46",
+      "learner_replication_id": 3,
+      "run_instance_id": "h1hand_balance_hard_b2_scr_s3_20260705T153732Z#3",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null,
+      "canonical": {
+        "steps": [
+          10000,
+          15000,
+          20000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "15000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-basketball-v0__admission_rng_diag_cpu_none__43_final.pt",
+      "sentinel_reason": "ptf_candidate",
+      "fname_env": "h1hand-basketball-v0",
+      "fname_run": "admission_rng_diag_cpu_none",
+      "fname_seed": 43,
+      "fname_step": null,
+      "fname_is_final": true,
+      "fname_parsed": true,
+      "checkpoint_id": "89e3eaf7ff83b01fcb1125110e6d9de17e1ec6921c7b91db3eda9e19aa10f213",
+      "inner_env_name": "h1hand-basketball-v0",
+      "inner_seed": 43,
+      "inner_global_step": 13,
+      "exp_name": "admission_rng_diag_cpu_none",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "stair",
+        "slide",
+        "crawl",
+        "pole",
+        "reach",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "bfee8523ba2b89f1fa70e40afb034b74b31a5f4f7a9a6cf7afd7a537d7795793",
+      "learner_replication_id": 43,
+      "run_instance_id": "admission_rng_diag_cpu_none#43",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 13,
+      "configured_run_stop_step": null,
+      "canonical": {
+        "steps": [
+          13,
+          30,
+          10000,
+          20000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "13": "configured_total_timesteps"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-basketball-v0__admission_rng_diag_cpu_scratch__43_final.pt",
+      "sentinel_reason": "ptf_candidate",
+      "fname_env": "h1hand-basketball-v0",
+      "fname_run": "admission_rng_diag_cpu_scratch",
+      "fname_seed": 43,
+      "fname_step": null,
+      "fname_is_final": true,
+      "fname_parsed": true,
+      "checkpoint_id": "32784f716a25395b42e765d2360e1465f14442c48c6ac746e669e37c96a18543",
+      "inner_env_name": "h1hand-basketball-v0",
+      "inner_seed": 43,
+      "inner_global_step": 13,
+      "exp_name": "admission_rng_diag_cpu_scratch",
+      "source_names": [
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_NULL_BANK",
+      "training_protocol_digest": "a59c092106c88d8deb110366628d66800cccad258e66e47f251ab4317c00442f",
+      "learner_replication_id": 43,
+      "run_instance_id": "admission_rng_diag_cpu_scratch#43",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 13,
+      "configured_run_stop_step": null,
+      "canonical": {
+        "steps": [
+          13,
+          10000,
+          15000,
+          20000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "15000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "13": "configured_total_timesteps"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-basketball-v0__admission_rng_diag_step12_none__43_final.pt",
+      "sentinel_reason": "ptf_candidate",
+      "fname_env": "h1hand-basketball-v0",
+      "fname_run": "admission_rng_diag_step12_none",
+      "fname_seed": 43,
+      "fname_step": null,
+      "fname_is_final": true,
+      "fname_parsed": true,
+      "checkpoint_id": "924860fc1ea827cc195a40ecca6a1983eb199ec4670f715db9194a27212a4ced",
+      "inner_env_name": "h1hand-basketball-v0",
+      "inner_seed": 43,
+      "inner_global_step": 12,
+      "exp_name": "admission_rng_diag_step12_none",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "stair",
+        "slide",
+        "crawl",
+        "pole",
+        "reach",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "bfee8523ba2b89f1fa70e40afb034b74b31a5f4f7a9a6cf7afd7a537d7795793",
+      "learner_replication_id": 43,
+      "run_instance_id": "admission_rng_diag_step12_none#43",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 12,
+      "configured_run_stop_step": null,
+      "canonical": {
+        "steps": [
+          12,
+          30,
+          10000,
+          20000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "12": "configured_total_timesteps"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-basketball-v0__admission_rng_diag_step13_none__43_final.pt",
+      "sentinel_reason": "null_bank_candidate",
+      "fname_env": "h1hand-basketball-v0",
+      "fname_run": "admission_rng_diag_step13_none",
+      "fname_seed": 43,
+      "fname_step": null,
+      "fname_is_final": true,
+      "fname_parsed": true,
+      "checkpoint_id": "bc261d7bff0b784ae211626f0f756fccba47afb7ce6a015b0335be3bf41dc9de",
+      "inner_env_name": "h1hand-basketball-v0",
+      "inner_seed": 43,
+      "inner_global_step": 13,
+      "exp_name": "admission_rng_diag_step13_none",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "stair",
+        "slide",
+        "crawl",
+        "pole",
+        "reach",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "bfee8523ba2b89f1fa70e40afb034b74b31a5f4f7a9a6cf7afd7a537d7795793",
+      "learner_replication_id": 43,
+      "run_instance_id": "admission_rng_diag_step13_none#43",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 13,
+      "configured_run_stop_step": null,
+      "canonical": {
+        "steps": [
+          13,
+          30,
+          10000,
+          20000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]",
+          "13": "configured_total_timesteps"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-basketball-v0__admission_rng_diag_step1_none__43_final.pt",
+      "sentinel_reason": "null_bank_candidate",
+      "fname_env": "h1hand-basketball-v0",
+      "fname_run": "admission_rng_diag_step1_none",
+      "fname_seed": 43,
+      "fname_step": null,
+      "fname_is_final": true,
+      "fname_parsed": true,
+      "checkpoint_id": "a11b6a2ccc531afa4813d9c685c7498f90909c81bf5cc90c0d48fe781c4ae62b",
+      "inner_env_name": "h1hand-basketball-v0",
+      "inner_seed": 43,
+      "inner_global_step": 1,
+      "exp_name": "admission_rng_diag_step1_none",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "stair",
+        "slide",
+        "crawl",
+        "pole",
+        "reach",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "a939710a5bf2ce4236a16dbf34494f5adbfb70f0efda3b56a8ea9555f64a4cec",
+      "learner_replication_id": 43,
+      "run_instance_id": "admission_rng_diag_step1_none#43",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 1,
+      "configured_run_stop_step": null,
+      "canonical": {
+        "steps": [
+          1,
+          10000,
+          20000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "1": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-crawl-v0__crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z__1_30000.pt",
+      "sentinel_reason": "target:h1hand-crawl-v0",
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z",
+      "fname_seed": 1,
+      "fname_step": 30000,
+      "fname_is_final": false,
+      "fname_parsed": true,
+      "checkpoint_id": "416c1b7ca80ce6668a7fb0f8dbb70ac8ecd1357df5be0adc74fd0c577d4b33f1",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 30000,
+      "exp_name": "crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z",
+      "source_names": [
+        "run"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "6186ccce5060b464e40dd9f456f919b98fc49ce2f275f745682f3714481edb04",
+      "learner_replication_id": 1,
+      "run_instance_id": "crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z#1",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": 30000,
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-slide-v0__cfb_slide_critic_first_s1__1_12000.pt",
+      "sentinel_reason": "target:h1hand-slide-v0",
+      "fname_env": "h1hand-slide-v0",
+      "fname_run": "cfb_slide_critic_first_s1",
+      "fname_seed": 1,
+      "fname_step": 12000,
+      "fname_is_final": false,
+      "fname_parsed": true,
+      "checkpoint_id": "ebacc8c28c78dc6c4ea136763caa314307dfc0232a7699093496a878bcd6ec83",
+      "inner_env_name": "h1hand-slide-v0",
+      "inner_seed": 1,
+      "inner_global_step": 12000,
+      "exp_name": "cfb_slide_critic_first_s1",
+      "source_names": [
+        "walk"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "4a683267cf6e68c0f7054f0d81b0289669f99ecea7dce12dcdf3cd5dd985162f",
+      "learner_replication_id": 1,
+      "run_instance_id": "cfb_slide_critic_first_s1#1",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": 20000,
+      "canonical": {
+        "steps": [
+          10000,
+          12000,
+          20000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "12000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-truck-v0__h1hand_truck_adaptive_admission_v1_adaptive_s1_20260714T110054Z__1_30000.pt",
+      "sentinel_reason": "target:h1hand-truck-v0",
+      "fname_env": "h1hand-truck-v0",
+      "fname_run": "h1hand_truck_adaptive_admission_v1_adaptive_s1_20260714T110054Z",
+      "fname_seed": 1,
+      "fname_step": 30000,
+      "fname_is_final": false,
+      "fname_parsed": true,
+      "checkpoint_id": "19de0f0127b843e44c54a9360467fb0429ffc2924f0e1dc23219ce1fb8368da0",
+      "inner_env_name": "h1hand-truck-v0",
+      "inner_seed": 1,
+      "inner_global_step": 30000,
+      "exp_name": "h1hand_truck_adaptive_admission_v1_adaptive_s1_20260714T110054Z",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "7207a37c01bea6b3bd91c9a655a733256c77e5c6b7f86cf0981d3a793437d521",
+      "learner_replication_id": 1,
+      "run_instance_id": "h1hand_truck_adaptive_admission_v1_adaptive_s1_20260714T110054Z#1",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null,
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-balance_hard-v0__h1hand_balance_hard_b2_rand_s1_20260705T153732Z__1_final.pt",
+      "sentinel_reason": "final_file",
+      "fname_env": null,
+      "fname_run": null,
+      "fname_seed": null,
+      "fname_step": null,
+      "fname_parsed": false,
+      "checkpoint_id": "1a067cc0b8e7034682a2c78602604e7e4556a90f94d2c5cde2e5f62aa2b05706",
+      "inner_env_name": "h1hand-balance_hard-v0",
+      "inner_seed": 1,
+      "inner_global_step": 100000,
+      "exp_name": "h1hand_balance_hard_b2_rand_s1_20260705T153732Z",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "stair",
+        "slide",
+        "crawl",
+        "pole",
+        "reach",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "ab20c277cabfabd2b6e3ab6ffa3194dd504575ac6e02871a6624bc2503db50be",
+      "learner_replication_id": 1,
+      "run_instance_id": "h1hand_balance_hard_b2_rand_s1_20260705T153732Z#1",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null,
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-balance_hard-v0__h1hand_balance_hard_b2_rand_s2_20260705T153732Z__2_final.pt",
+      "sentinel_reason": "final_file",
+      "fname_env": null,
+      "fname_run": null,
+      "fname_seed": null,
+      "fname_step": null,
+      "fname_parsed": false,
+      "checkpoint_id": "92eaea4ceb88b53eee89fc0db249e6ea9d64eec7a84998655de13caf07bc8480",
+      "inner_env_name": "h1hand-balance_hard-v0",
+      "inner_seed": 2,
+      "inner_global_step": 100000,
+      "exp_name": "h1hand_balance_hard_b2_rand_s2_20260705T153732Z",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "stair",
+        "slide",
+        "crawl",
+        "pole",
+        "reach",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "094b006257a536cad04f3a10db29cbd55af43d2ecece0d5fba41b95871449aa5",
+      "learner_replication_id": 2,
+      "run_instance_id": "h1hand_balance_hard_b2_rand_s2_20260705T153732Z#2",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null,
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-balance_hard-v0__h1hand_balance_hard_b2_rand_s3_20260705T153732Z__3_final.pt",
+      "sentinel_reason": "final_file",
+      "fname_env": null,
+      "fname_run": null,
+      "fname_seed": null,
+      "fname_step": null,
+      "fname_parsed": false,
+      "checkpoint_id": "fc38c509843ee1a724c93279f693c19ab2cc8fb764dad86877c764c4300f1bc2",
+      "inner_env_name": "h1hand-balance_hard-v0",
+      "inner_seed": 3,
+      "inner_global_step": 100000,
+      "exp_name": "h1hand_balance_hard_b2_rand_s3_20260705T153732Z",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "stair",
+        "slide",
+        "crawl",
+        "pole",
+        "reach",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "cea0fed7f3b3d2947f21ef9a6b7ba39243ad68d58af9ebf58780127a0ccbb12c",
+      "learner_replication_id": 3,
+      "run_instance_id": "h1hand_balance_hard_b2_rand_s3_20260705T153732Z#3",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": null,
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-basketball-v0__phase1_bounded_lease_formal_basketball_hard_exit_s1_20260719T130500Z__1_100000.pt",
+      "sentinel_reason": "exit_named",
+      "fname_env": "h1hand-basketball-v0",
+      "fname_run": "phase1_bounded_lease_formal_basketball_hard_exit_s1_20260719T130500Z",
+      "fname_seed": 1,
+      "fname_step": 100000,
+      "fname_is_final": false,
+      "fname_parsed": true,
+      "checkpoint_id": "1e8ec7d127ded803eb43364492aa4cd5425b3bfce0752150d584ca28769135aa",
+      "inner_env_name": "h1hand-basketball-v0",
+      "inner_seed": 1,
+      "inner_global_step": 100000,
+      "exp_name": "phase1_bounded_lease_formal_basketball_hard_exit_s1_20260719T130500Z",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "stair",
+        "slide",
+        "crawl",
+        "pole",
+        "reach",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "103b532201cdcbe9a8e1fe7d087276a99b0613b40610446fbdebc707a0f46585",
+      "learner_replication_id": 1,
+      "run_instance_id": "phase1_bounded_lease_formal_basketball_hard_exit_s1_20260719T130500Z#1",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": 100000,
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": true
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-basketball-v0__phase1_bounded_lease_formal_basketball_hard_exit_s1_20260719T130500Z__1_30000.pt",
+      "sentinel_reason": "exit_named",
+      "fname_env": "h1hand-basketball-v0",
+      "fname_run": "phase1_bounded_lease_formal_basketball_hard_exit_s1_20260719T130500Z",
+      "fname_seed": 1,
+      "fname_step": 30000,
+      "fname_is_final": false,
+      "fname_parsed": true,
+      "checkpoint_id": "06962f5cd494b6072408e1d8944f2bbe25ec532bcc21a0686a98a00c26a901c5",
+      "inner_env_name": "h1hand-basketball-v0",
+      "inner_seed": 1,
+      "inner_global_step": 30000,
+      "exp_name": "phase1_bounded_lease_formal_basketball_hard_exit_s1_20260719T130500Z",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "hurdle",
+        "stair",
+        "slide",
+        "crawl",
+        "pole",
+        "reach",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "103b532201cdcbe9a8e1fe7d087276a99b0613b40610446fbdebc707a0f46585",
+      "learner_replication_id": 1,
+      "run_instance_id": "phase1_bounded_lease_formal_basketball_hard_exit_s1_20260719T130500Z#1",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": 100000,
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "ELIGIBLE",
+      "is_run_endpoint": false
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-crawl-v0__p0_crawl_abstain__1_10750.pt",
+      "sentinel_reason": "duplicate_step",
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "p0_crawl_abstain",
+      "fname_seed": 1,
+      "fname_step": 10750,
+      "fname_is_final": false,
+      "fname_parsed": true,
+      "checkpoint_id": "05f50a45a902ad7419e7619106687416829bd3d962fc0983c11b06a95d53db4a",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 10750,
+      "exp_name": "p0_crawl_abstain",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "75e99901759c701928a977cf3257031617d17ea93fd5a65e849e124da84b3e99",
+      "learner_replication_id": 1,
+      "run_instance_id": "p0_crawl_abstain#1",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": 13000,
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "AMBIGUOUS_RUN_INSTANCE"
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/p0_dup_archive/crawl_B/h1hand-crawl-v0__p0_crawl_abstain__1_10750.pt",
+      "sentinel_reason": "duplicate_step",
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "p0_crawl_abstain",
+      "fname_seed": 1,
+      "fname_step": 10750,
+      "fname_is_final": false,
+      "fname_parsed": true,
+      "checkpoint_id": "df68f80371b7989d33a4abbf7f07a3fd6512a9d2767110b3fcac83835d642192",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 10750,
+      "exp_name": "p0_crawl_abstain",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "75e99901759c701928a977cf3257031617d17ea93fd5a65e849e124da84b3e99",
+      "learner_replication_id": 1,
+      "run_instance_id": "p0_crawl_abstain#1",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": 13000,
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "AMBIGUOUS_RUN_INSTANCE"
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/h1hand-crawl-v0__p0_crawl_abstain__1_11500.pt",
+      "sentinel_reason": "duplicate_step",
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "p0_crawl_abstain",
+      "fname_seed": 1,
+      "fname_step": 11500,
+      "fname_is_final": false,
+      "fname_parsed": true,
+      "checkpoint_id": "c021d197aa7d075a509e1b0d9103a09f5050f397f4d9f51eef74f4d44d3e0729",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 11500,
+      "exp_name": "p0_crawl_abstain",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "75e99901759c701928a977cf3257031617d17ea93fd5a65e849e124da84b3e99",
+      "learner_replication_id": 1,
+      "run_instance_id": "p0_crawl_abstain#1",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": 13000,
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "AMBIGUOUS_RUN_INSTANCE"
+    },
+    {
+      "path": "/home/yjj/fasttd3_ptf/models/p0_dup_archive/crawl_B/h1hand-crawl-v0__p0_crawl_abstain__1_11500.pt",
+      "sentinel_reason": "duplicate_step",
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "p0_crawl_abstain",
+      "fname_seed": 1,
+      "fname_step": 11500,
+      "fname_is_final": false,
+      "fname_parsed": true,
+      "checkpoint_id": "8f2a7a6888d33bdd869a6c25a1aac544ef3d11788e6aeb4e9ea39b4aab34797c",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 11500,
+      "exp_name": "p0_crawl_abstain",
+      "source_names": [
+        "stand",
+        "walk",
+        "run",
+        "null"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "75e99901759c701928a977cf3257031617d17ea93fd5a65e849e124da84b3e99",
+      "learner_replication_id": 1,
+      "run_instance_id": "p0_crawl_abstain#1",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": 13000,
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [],
+      "eligibility": "AMBIGUOUS_RUN_INSTANCE"
+    }
+  ],
+  "injected_rows": [
+    {
+      "path": "/tmp/inv2_injected_bfbtfv6t/h1hand-crawl-v0__crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z__78_30000.pt",
+      "sentinel_reason": "injected_seed_conflict",
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z",
+      "fname_seed": 78,
+      "fname_step": 30000,
+      "fname_is_final": false,
+      "fname_parsed": true,
+      "checkpoint_id": "416c1b7ca80ce6668a7fb0f8dbb70ac8ecd1357df5be0adc74fd0c577d4b33f1",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 30000,
+      "exp_name": "crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z",
+      "source_names": [
+        "run"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "6186ccce5060b464e40dd9f456f919b98fc49ce2f275f745682f3714481edb04",
+      "learner_replication_id": 1,
+      "run_instance_id": "crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z#1",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": 30000,
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [
+        {
+          "field": "learner_seed",
+          "from_filename": 78,
+          "from_checkpoint": 1
+        }
+      ],
+      "eligibility": "EXCLUDED_IDENTITY_MISMATCH"
+    },
+    {
+      "path": "/tmp/inv2_injected_bfbtfv6t/h1hand-crawl-v0__crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z__1_42345.pt",
+      "sentinel_reason": "injected_step_conflict",
+      "fname_env": "h1hand-crawl-v0",
+      "fname_run": "crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z",
+      "fname_seed": 1,
+      "fname_step": 42345,
+      "fname_is_final": false,
+      "fname_parsed": true,
+      "checkpoint_id": "416c1b7ca80ce6668a7fb0f8dbb70ac8ecd1357df5be0adc74fd0c577d4b33f1",
+      "inner_env_name": "h1hand-crawl-v0",
+      "inner_seed": 1,
+      "inner_global_step": 30000,
+      "exp_name": "crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z",
+      "source_names": [
+        "run"
+      ],
+      "agent_type": "OfficialPTFFastTD3",
+      "mechanism_family": "PTF_WITH_SOURCES",
+      "training_protocol_digest": "6186ccce5060b464e40dd9f456f919b98fc49ce2f275f745682f3714481edb04",
+      "learner_replication_id": 1,
+      "run_instance_id": "crawl_equal_dose_rbo_run_seed1_gate_s1_20260723T172024Z#1",
+      "experiment_role": "UNKNOWN_ROLE",
+      "configured_total_timesteps": 100000,
+      "configured_run_stop_step": 30000,
+      "canonical": {
+        "steps": [
+          10000,
+          20000,
+          30000,
+          50000,
+          100000
+        ],
+        "provenance": {
+          "10000": "fixed",
+          "20000": "fixed",
+          "50000": "fixed",
+          "100000": "fixed",
+          "30000": "bootstrap_end<-ptf_cfg[mcg_warmup_steps]"
+        },
+        "hard_exit_step": "UNKNOWN_NO_DEDICATED_KEY"
+      },
+      "identity_conflicts": [
+        {
+          "field": "global_step",
+          "from_filename": 42345,
+          "from_checkpoint": 30000
+        }
+      ],
+      "eligibility": "EXCLUDED_IDENTITY_MISMATCH"
+    }
+  ]
+}
