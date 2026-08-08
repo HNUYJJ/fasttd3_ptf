@@ -150,8 +150,25 @@ $$
 $D_\phi$ 在此处**不接收梯度**（其参数 `requires_grad` 在 actor 更新中被临时关闭，
 或对 $\phi$ 侧 detach）。
 
-$\log(1-D)$ 在 $D\to 1$ 时发散，实现中对 logit 做 `clamp(-10, 10)`，
-并记录 clamp 触发率（`pare/d_logit_clamp_rate`）。
+实现恒等式：令 $z$ 为 logit，则
+
+$$
+\log\bigl(1 - \sigma(z)\bigr) = -\operatorname{softplus}(z),
+\qquad
+\frac{\partial}{\partial z}\bigl[-\operatorname{softplus}(z)\bigr] = -\sigma(z) \in (-1, 0)
+$$
+
+**不得对 $z$ 做 clamp。** 梯度本身有界且方向正确：$z\to+\infty$（样本最像 source，
+正是最该推离处）时梯度趋于 $-1$；$z\to-\infty$（已不像 source）时趋于 $0$。
+`softplus` 自身数值稳定，截断只会制造死区。
+
+> **v1.1 修订（2026-08-07，smoke 实测后）**：v1.0 曾写 `clamp(-10,10)`。
+> 2k smoke 实测 `d_logit_clamp_rate` 冲到 **0.722**——D 在 release 后迅速达到
+> `d_acc=1.0`，logit 大量越过 ±10，被截断的样本梯度归零，
+> **恰好把最需要 expansion 的那部分样本全部静音**。这与
+> `docs` 里记录的 β-clamp logit 死区是同一类错误：护住值域、杀死梯度。
+> 现改为不截断，仅保留 `pare/d_logit_saturated_rate` 作诊断。
+> 该修订发生在任何 PARE 科学结果产出**之前**，不涉及判据（§8 F1–F7 未动）。
 
 ---
 
@@ -202,13 +219,17 @@ $$
 若 $\langle g_Q,g_E\rangle < 0$，则 $\langle g_Q, \tilde g_E\rangle = \langle g_Q,g_E\rangle - \langle g_E,g_Q\rangle = 0$，
 乘正标量后仍为 0。两种情形均有 $\langle g_Q,\bar g_E\rangle \ge 0$。∎
 
-**推论（60° 锥）**：由 norm cap 有 $\lVert g_{\mathrm{PARE}}\rVert \le 2\lVert g_Q\rVert$，故
+**推论（45° 锥）**：记 $t = \langle g_Q, \bar g_E\rangle \ge 0$，$e = \lVert\bar g_E\rVert \le \lVert g_Q\rVert$。
+取 $\lVert g_Q\rVert = 1$，则
 
 $$
-\cos\angle(g_Q, g_{\mathrm{PARE}}) \ge \frac{\lVert g_Q\rVert^2}{\lVert g_Q\rVert\cdot 2\lVert g_Q\rVert} = \frac12
+\cos\angle(g_Q, g_{\mathrm{PARE}}) = \frac{1+t}{\sqrt{1 + 2t + e^2}}
+\;\ge\; \frac{1}{\sqrt{2}}
 $$
 
-即 **PARE 的实际更新方向恒落在 base RL 更新方向的 60° 锥内**。
+（右端在 $t=0,\ e=1$ 取到）。即 **PARE 的实际更新方向恒落在 base RL 更新方向的
+45° 锥内**。`tests/test_pare.py` T3 以 300 次随机试验实测最小 $\cos = 0.707107$，
+与该界吻合。
 
 这取代了 v0 草案里依赖未知 critic 误差 $\epsilon_Q$ 的 Proposition 2。
 Performance Difference Lemma 此后**仅用于解释** anchor advantage 为何是合理的 competence

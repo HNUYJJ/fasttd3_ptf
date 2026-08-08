@@ -945,3 +945,26 @@ class PTFReplayWrapper:
         if not bool(self._provenance_written.index_select(1, order).all()):
             missing = int((~self._provenance_written.index_select(1, order)).sum().item())
             raise AssertionError(f"{missing} valid transitions lack behavior provenance")
+
+    @torch.no_grad()
+    def source_provenance_samples(self) -> tuple[torch.Tensor, torch.Tensor]:
+        """当前有效槽位中全部 source-provenance 的 ``(raw_obs, actions)``。
+
+        `z = 1` 定义为**任一身体组实际由 source 执行**，即
+        ``executed_group_mask.any(-1)``；用它而不是 ``behavior_source``，
+        因为后者是 option id，null option 的取值与"student 执行"不可靠地重合。
+        仅统计 ``provenance_written`` 为真的槽位，未写过的不算 student。
+
+        供 PARE 在 release 时刻构建固定 source reservoir（`pare.py`）。
+        """
+        if not self._provenance or self._provenance_written is None:
+            raise AssertionError("behavior provenance was not enabled")
+        valid_n = self.valid_size
+        if valid_n <= 0:
+            raise RuntimeError("cannot scan an empty replay buffer")
+        written = self._provenance_written[:, :valid_n]
+        is_source = self._provenance["executed_group_mask"][:, :valid_n].any(dim=-1)
+        mask = is_source & written
+        env_idx, slot_idx = mask.nonzero(as_tuple=True)
+        rb = self.base
+        return rb.observations[env_idx, slot_idx], rb.actions[env_idx, slot_idx]

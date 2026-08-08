@@ -89,6 +89,17 @@ fi
 if [[ "${PTF_ANCHOR_PROVENANCE_GROUPS:-}" != "" ]]; then
   ARGS+=(--ptf-anchor-provenance-groups "${PTF_ANCHOR_PROVENANCE_GROUPS}")
 fi
+# PARE（docs/PARE_ALGORITHM_SPEC_v1.md）。PTF_PARE=1 开启，必须与
+# PTF_ADMISSION_MODE=none + PTF_ANCHOR_RESUME=<release anchor> 同用。
+if [[ "${PTF_PARE:-}" == "1" ]]; then
+  ARGS+=(--ptf-pare)
+fi
+if [[ "${PTF_PARE_RESERVOIR_CAPACITY:-}" != "" ]]; then
+  ARGS+=(--ptf-pare-reservoir-capacity "${PTF_PARE_RESERVOIR_CAPACITY}")
+fi
+if [[ "${PTF_PARE_D_LR:-}" != "" ]]; then
+  ARGS+=(--ptf-pare-d-lr "${PTF_PARE_D_LR}")
+fi
 if [[ "${PTF_RESUME_NOISE_SEED:-}" != "" ]]; then
   ARGS+=(--ptf-resume-noise-seed "${PTF_RESUME_NOISE_SEED}")
 fi

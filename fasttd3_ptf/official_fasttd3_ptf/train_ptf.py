@@ -58,6 +58,11 @@ from fasttd3_ptf.official_fasttd3_ptf.target_evidence_probe import (
     build_top1_admission_snapshot,
     run_target_evidence_probe,
 )
+from fasttd3_ptf.official_fasttd3_ptf.pare import (
+    PARERuntime,
+    SourceTransitionReservoir,
+    apply_pare_actor_gradient as pare_apply_actor_gradient,
+)
 from fasttd3_ptf.official_fasttd3_ptf.ptf_replay import PTFReplayWrapper
 from fasttd3_ptf.official_fasttd3_ptf.rng_isolation import (
     GlobalRngState,
@@ -341,6 +346,15 @@ def _parse_ptf_cli() -> dict[str, Any]:
     # 显式保存步列表(固定 save_interval 的整除机制覆盖不了任意步);
     # resume_noise_seed 用于 fresh reset 后 noise_scales 的配对重采样。
     parser.add_argument("--ptf_anchor_resume", "--ptf-anchor-resume", default=None)
+    # PARE(docs/PARE_ALGORITHM_SPEC_v1.md):post-release 的 provenance-aware
+    # occupancy repulsion。release 点就是本 run 的起点——实验设计是
+    # branch-at-release(从同一 A1 anchor 分叉 hard-exit 与 PARE 两臂),
+    # 故 PARE 臂必须与 admission_mode=none 同用,且 replay 里已有 z=1 历史。
+    # 关闭时训练循环不构造任何 PARE 对象,代码路径与既有 hard-exit 逐位一致。
+    parser.add_argument("--ptf_pare", "--ptf-pare", action="store_true")
+    parser.add_argument("--ptf_pare_reservoir_capacity",
+                        "--ptf-pare-reservoir-capacity", type=int, default=262144)
+    parser.add_argument("--ptf_pare_d_lr", "--ptf-pare-d-lr", type=float, default=3e-4)
     parser.add_argument("--ptf_run_stop_step", "--ptf-run-stop-step", type=int, default=None)
     parser.add_argument("--ptf_eval_checkpoint_steps", "--ptf-eval-checkpoint-steps", default=None)
     parser.add_argument("--ptf_resume_noise_seed", "--ptf-resume-noise-seed", type=int, default=None)
@@ -483,6 +497,10 @@ def _parse_ptf_cli() -> dict[str, Any]:
         cfg["anchor_provenance_groups"] = int(ptf_ns.ptf_anchor_provenance_groups)
     if ptf_ns.ptf_anchor_resume is not None:
         cfg["anchor_resume"] = str(ptf_ns.ptf_anchor_resume)
+    if ptf_ns.ptf_pare:
+        cfg["pare"] = True
+    cfg["pare_reservoir_capacity"] = int(ptf_ns.ptf_pare_reservoir_capacity)
+    cfg["pare_d_lr"] = float(ptf_ns.ptf_pare_d_lr)
     if ptf_ns.ptf_run_stop_step is not None:
         cfg["run_stop_step"] = int(ptf_ns.ptf_run_stop_step)
     if ptf_ns.ptf_eval_checkpoint_steps is not None:
@@ -547,6 +565,9 @@ def _parse_ptf_cli() -> dict[str, Any]:
     cfg.setdefault("branch_anchor_dir", None)
     cfg.setdefault("anchor_provenance_groups", None)
     cfg.setdefault("anchor_resume", None)
+    cfg.setdefault("pare", False)
+    cfg.setdefault("pare_reservoir_capacity", 262144)
+    cfg.setdefault("pare_d_lr", 3e-4)
     cfg.setdefault("run_stop_step", None)
     cfg.setdefault("eval_checkpoint_steps", None)
     cfg.setdefault("resume_noise_seed", None)
@@ -1691,6 +1712,37 @@ def main():
             renders = render_env.render_trajectory(renders)
         return renders
 
+    # PARE runtime。None = 未启用，update_pol 走原路径（spec §12 smoke 第 4 项）。
+    # 在 anchor resume 完成后、训练循环开始前赋值。
+    pare_runtime = None
+
+    def pare_q_low(critic_obs, act):
+        """conservative value ``Q_L = min(Q1, Q2)``（spec §4）。
+
+        与 ``args.use_cdq`` 无关——``Q_L`` 是 PARE 自己的定义，
+        anchor advantage 的保守性不应随 critic 配置摇摆。
+        """
+        q1, q2 = qnet(critic_obs, act)
+        v1 = qnet.get_value(F.softmax(q1, dim=1))
+        v2 = qnet.get_value(F.softmax(q2, dim=1))
+        return torch.minimum(v1, v2)
+
+    def pare_student_negatives(data):
+        """batch 中**确定属于 student** 的 ``(raw_obs, action)``（spec §3）。
+
+        必须滤掉残留的 z=1：否则同一批数据既作正例又作负例，D 学不出东西。
+        ``provenance_written`` 为假的槽位来源不明，一并排除——不假定它是 student。
+        """
+        raw = data["raw_observations"]
+        act = data["actions"]
+        if "executed_group_mask" not in data.keys():
+            raise AssertionError(
+                "PARE 需要 replay provenance，但本 batch 没有 executed_group_mask"
+            )
+        is_source = data["executed_group_mask"].any(dim=-1)
+        keep = data["provenance_written"].bool() & ~is_source
+        return raw[keep], act[keep]
+
     def update_main(data, logs_dict):
         replay_priority = None
         with autocast(device_type=amp_device_type, dtype=amp_dtype, enabled=amp_enabled):
@@ -1897,6 +1949,14 @@ def main():
         return loss, metrics
 
     def update_pol(data, logs_dict, step):
+        if pare_runtime is not None:
+            neg_raw, neg_act = pare_student_negatives(data)
+            for k, v in pare_runtime.update_discriminator(
+                neg_raw, neg_act, normalize_obs
+            ).items():
+                logs_dict[k] = v.detach() if torch.is_tensor(v) else torch.tensor(
+                    float(v), device=device
+                )
         with autocast(device_type=amp_device_type, dtype=amp_dtype, enabled=amp_enabled):
             pol_obs = data["observations"].detach()
             critic_observations = data["critic_observations"].detach() if envs.asymmetric_obs else pol_obs
@@ -1920,7 +1980,24 @@ def main():
                 transfer_loss, transfer_metrics = compute_transfer_loss(data, pi_action, step)
             actor_loss = rl_actor_loss + transfer_loss
         actor_optimizer.zero_grad(set_to_none=True)
-        scaler.scale(actor_loss).backward()
+        if pare_runtime is None:
+            scaler.scale(actor_loss).backward()
+        else:
+            # PARE(spec §5-§6):第二目标 J_E 与 base 目标 J_Q 分别求梯度,
+            # 冲突时投影、范数截到 ‖g_Q‖ 后相加。两路共用同一 scale 因子,
+            # 合成对该因子齐次,故下方 unscale_ 一次即可。
+            with autocast(device_type=amp_device_type, dtype=amp_dtype,
+                          enabled=amp_enabled):
+                j_e, pare_metrics = pare_runtime.expansion_objective(
+                    pol_obs, critic_observations, pi_action, pare_q_low
+                )
+            pare_metrics.update(
+                pare_apply_actor_gradient(actor, -actor_loss, j_e, scaler)
+            )
+            for k, v in pare_metrics.items():
+                logs_dict[k] = v.detach() if torch.is_tensor(v) else torch.tensor(
+                    float(v), device=device
+                )
         scaler.unscale_(actor_optimizer)
         if args.use_grad_norm_clipping:
             actor_grad_norm = torch.nn.utils.clip_grad_norm_(
@@ -2489,6 +2566,46 @@ def main():
         print(
             f"Resumed core learner from anchor {anchor_resume} at step {global_step}; "
             f"training continues to run_stop_step={run_stop_step}"
+        )
+    if ptf_cfg.get("pare"):
+        # PARE 是 post-release 机制：release 点就是本 run 的起点。实验设计是
+        # branch-at-release——从同一 release anchor 分叉 hard-exit 与 PARE 两臂，
+        # 二者共享 actor / critic / replay / source history / release state，
+        # 唯一差别就是这里的 expansion 更新（spec §11 8.2）。
+        if anchor_resume is None:
+            raise ValueError("PARE 需要 --ptf-anchor-resume 指向 release anchor")
+        if str(ptf_cfg["admission_mode"]) != "none":
+            raise ValueError(
+                "PARE 必须与 admission_mode=none 同用：source 在 release 时已永久退出"
+            )
+        # fail-closed：provenance 不完整就没有可信的 z，宁可不跑。
+        rb.assert_complete_provenance()
+        pare_reservoir = SourceTransitionReservoir.from_replay(
+            rb, capacity=int(ptf_cfg["pare_reservoir_capacity"])
+        )
+        pare_runtime = PARERuntime(
+            actor=actor,
+            obs_dim=n_obs,
+            act_dim=n_act,
+            reservoir=pare_reservoir,
+            device=device,
+            d_lr=float(ptf_cfg["pare_d_lr"]),
+        )
+        # release 时刻的 actor 与 obs normalizer 已完整存在于 release anchor 里，
+        # 无需另存一份快照；此处只记指针与 reservoir 的实际截断量（spec §10 D2，
+        # 截断不得静默）。
+        ptf_cfg["pare_release_manifest"] = {
+            "release_anchor": str(anchor_resume),
+            "release_step": global_step,
+            "reservoir_candidates": pare_reservoir.n_candidates,
+            "reservoir_kept": len(pare_reservoir),
+            "reservoir_truncated": bool(pare_reservoir.truncated),
+            "reservoir_capacity": int(ptf_cfg["pare_reservoir_capacity"]),
+        }
+        print(
+            f"PARE enabled at release step {global_step}: source reservoir kept "
+            f"{len(pare_reservoir)}/{pare_reservoir.n_candidates} z=1 transitions "
+            f"(capacity {ptf_cfg['pare_reservoir_capacity']})"
         )
     if actor_update_start_step is not None:
         print(
@@ -3362,6 +3479,17 @@ def main():
                             "buffer_rewards": raw_rewards.mean(),
                         }
                     )
+                    if pare_runtime is not None:
+                        # PARE 的机制量必须在**不依赖 wandb** 的情况下可恢复：
+                        # spec §8 的 F3/F7 直接以它们为判据，判据依赖的量不可见
+                        # 就等于判据无法实现（已犯过：判据被迫换成更弱的代理）。
+                        pare_logs = {
+                            k: round(float(v), 6)
+                            for k, v in sorted(logs.items())
+                            if k.startswith("pare/")
+                        }
+                        pare_logs["d_skip_count"] = pare_runtime.d_skip_count
+                        print(f"[pare] step={global_step} " + json.dumps(pare_logs))
                     if mcg_enabled and mcg_rollout_info:
                         logs.update(mcg_rollout_info)
                     if qmp_enabled and qmp_diag:
