@@ -112,15 +112,26 @@ def actor_ascent_gradient(actor, critic, obs, critic_obs, params, use_cdq):
     return [t / max(1, n) for t in total]
 
 
-def probe_seed(task: str, seed: int, device) -> dict:
+def probe_seed(task: str, seed: int, device, actor_at: str = "20k") -> dict:
+    """``actor_at='20k'``：冻结判据要求的口径（scaffold 结束时刻的 actor/critic）。
+
+    ``actor_at='10k'``：**post-hoc 诊断**，用 scaffold 尚未开始时（A0）的
+    actor/critic 评估同一批 scaffold 状态。理由：20k 的 actor 已在混合分布上
+    训练了 10k 步，此时两组梯度对齐可能是"适应的结果"而非"从未冲突"。
+    该口径**不参与 T1 裁决**。
+    """
     adir = ANCHOR_ROOT / f"{task}_s{seed}_scaf_k20000"
-    learner = torch.load(adir / "learner.pt", map_location="cpu", weights_only=False)
+    ldir = adir if actor_at == "20k" else ANCHOR_ROOT / f"{task}_s{seed}_k10000"
+    learner = torch.load(ldir / "learner.pt", map_location="cpu", weights_only=False)
     cfg = learner["configuration"]
     args = cfg["args"]
     use_cdq = bool(args["use_cdq"])
 
     # ── 实际剂量（名义 mass 0.5 不等于实际占用时间）──────────────────
-    aux = learner["auxiliary_state"]
+    # 剂量恒从 A1 读——A0 是 empty-bank prefix，没有 source 执行记录。
+    aux = torch.load(adir / "learner.pt", map_location="cpu",
+                     weights_only=False)["auxiliary_state"] if actor_at != "20k" \
+        else learner["auxiliary_state"]
     ec = torch.as_tensor(aux["admission_execution_counts"]).double()
     names = list(aux.get("source_names") or [])
     tot_exec = float(ec.sum())
@@ -220,11 +231,13 @@ def probe_seed(task: str, seed: int, device) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--tasks", nargs="+", default=["truck", "stair"])
+    ap.add_argument("--actor-at", choices=["20k", "10k"], default="20k",
+                    help="20k=冻结判据口径；10k=post-hoc 诊断，不参与裁决")
     ap.add_argument("--out", default="docs/data/pdau_probe_v1/gradient_probe.json")
     args = ap.parse_args()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    report = {"primary_task": "truck", "criterion": {
+    report = {"primary_task": "truck", "actor_at": args.actor_at, "criterion": {
         "conflict": "cos(g_src, g_stu) < 0",
         "stability": f"split-half cosine > {SPLIT_HALF_MIN} 于两组",
         "advance_to_T2": "truck 至少 2/3 seed 同时满足 conflict 与 stability",
@@ -235,7 +248,7 @@ def main() -> int:
         rows = []
         for s in SEEDS:
             print(f"[probe] {task} s{s} ...", flush=True)
-            rows.append(probe_seed(task, s, device))
+            rows.append(probe_seed(task, s, device, actor_at=args.actor_at))
             print(f"    {rows[-1]}", flush=True)
         report["per_task"][task] = rows
 
@@ -249,7 +262,8 @@ def main() -> int:
                 and min(r["split_half_cos_source"], r["split_half_cos_student"]) > SPLIT_HALF_MIN]
         verdict = "CONFLICT_SUPPORTED" if len(hits) >= 2 else "NO_CONFLICT_STOP"
         report["n_conflicting_seeds"] = len(hits)
-    report["verdict"] = verdict
+    # 10k 口径是 post-hoc 诊断，不得产生 T1 裁决——冻结判据只认 20k。
+    report["verdict"] = verdict if args.actor_at == "20k" else f"DIAGNOSTIC_ONLY({verdict})"
 
     text = json.dumps(report, indent=2, ensure_ascii=False)
     print(text)
