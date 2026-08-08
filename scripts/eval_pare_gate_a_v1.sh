@@ -13,6 +13,9 @@ PYTHON_BIN="${PYTHON_BIN:-/home/yjj/miniconda3/envs/FastTD3/bin/python}"
 GPU="${GPU:?set GPU}"
 TASK="${TASK:?set TASK: stair|truck}"
 SEEDS="${SEEDS:-1 2 3}"
+#: 允许分批评估——训练是串行链，scaf/exit 先于 scratch 产出，
+#: 提前评掉前两臂可以把评估从关键路径上挪走。默认仍是全部三臂。
+ARMS="${ARMS:-scaf exit scratch}"
 ROOT=docs/data/pare_gate_a_v1/source_free_eval
 mkdir -p "${ROOT}"
 
@@ -39,14 +42,22 @@ eval_one() {
   echo "[$(date -u +%FT%TZ)] eval ${TASK} ${arm} s${seed} step${step} DONE"
 }
 
+has_arm() { [[ " ${ARMS} " == *" $1 "* ]]; }
+
 for seed in ${SEEDS}; do
   # release 点：exit 臂的 20k 状态就是 scaffold run 的 20k checkpoint
-  eval_one scaf "${seed}" 20000 all
-  for step in 50000 100000; do
-    eval_one exit "${seed}" "${step}" none
-  done
-  for step in 20000 50000 100000; do
-    eval_one scratch "${seed}" "${step}" legacy
-  done
+  # 注意用 if 而非 `has_arm x && ...`：后者在不匹配时整句返回非零，
+  # `set -e` 下会直接终止脚本，看起来像"评估跑完了"。
+  if has_arm scaf; then eval_one scaf "${seed}" 20000 all; fi
+  if has_arm exit; then
+    for step in 50000 100000; do
+      eval_one exit "${seed}" "${step}" none
+    done
+  fi
+  if has_arm scratch; then
+    for step in 20000 50000 100000; do
+      eval_one scratch "${seed}" "${step}" legacy
+    done
+  fi
 done
-echo "PARE GATE-A EVAL ${TASK} SEEDS='${SEEDS}' COMPLETE"
+echo "PARE GATE-A EVAL ${TASK} SEEDS='${SEEDS}' ARMS='${ARMS}' COMPLETE"
