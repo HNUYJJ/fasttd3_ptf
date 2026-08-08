@@ -1,0 +1,450 @@
+{
+  "scope": "POST-HOC AUDIT of T1；不修改冻结的 NO_CONFLICT_STOP",
+  "verdict_rename": {
+    "20k_endpoint": "NO_ENDPOINT_AUTHORITY_CONDITIONED_GRADIENT_CONFLICT_AT_20K",
+    "10k_actor_on_future_states": "OOD_COUNTERFACTUAL_DIAGNOSTIC"
+  },
+  "limitations": [
+    "z=1 表示该步动作由 source 执行（current action authority），不表示该状态由 source 造成（causal occupancy origin）",
+    "split-half 只排除当前 endpoint estimator 的有限样本噪声，不排除 critic systematic bias、分组偏差或 endpoint-only 时间偏差",
+    "结论仅针对 20k endpoint，不能推断 10k–20k 中间任何时刻"
+  ],
+  "per_task": {
+    "truck": [
+      {
+        "seed": 1,
+        "bank": {
+          "status": "VERIFIED",
+          "path": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+          "null_option": true,
+          "sources": {
+            "stand": {
+              "weight": 5.2,
+              "horizon": 25
+            },
+            "walk": {
+              "weight": 12.816,
+              "horizon": 25
+            },
+            "run": {
+              "weight": 12.613,
+              "horizon": 25
+            },
+            "hurdle": {
+              "weight": 13.623,
+              "horizon": 25
+            }
+          }
+        },
+        "behavior_execution": {
+          "stand": 3.9e-05,
+          "walk": 0.123848,
+          "run": 0.099941,
+          "hurdle": 0.274707,
+          "__student__": 0.501465,
+          "__source_total__": 0.498535,
+          "__raw__": [
+            50,
+            158525,
+            127925,
+            351625,
+            641875
+          ]
+        },
+        "replay_sampling": {
+          "critic": {
+            "stand": 1e-06,
+            "walk": 0.121597,
+            "run": 0.098699,
+            "hurdle": 0.27541,
+            "__student__": 0.504294,
+            "__source_total__": 0.495706,
+            "__raw__": [
+              419,
+              79690038,
+              64683233,
+              180492427,
+              330493883
+            ]
+          },
+          "actor": {
+            "total": 0,
+            "note": "该 role 从未被采样（actor 默认复用 critic batch）"
+          }
+        },
+        "names_bug_note": "原 T1 artifact 用 SourcePolicyBank.names() 给最后一槽命名，在 null_option=True 的 bank 上把 student 错标为 'null'；此处按 [real sources..., student] 显式命名",
+        "source_z1_outside_scaffold_window": 0,
+        "group_sizes": {
+          "source_contemporaneous": 638125,
+          "source_all_replay": 638125,
+          "student_contemporaneous": 641875,
+          "student_all_replay": 1921875
+        },
+        "gradient": {
+          "contemporaneous_vs_contemporaneous": {
+            "cos": 0.966473,
+            "norm_ratio": 1.128164
+          },
+          "source_vs_actual_replay_student": {
+            "cos": 0.864609,
+            "norm_ratio": 1.554795
+          },
+          "contemporaneous_source_vs_actual_replay_student": {
+            "cos": 0.864609,
+            "norm_ratio": 1.554795
+          }
+        }
+      },
+      {
+        "seed": 2,
+        "bank": {
+          "status": "VERIFIED",
+          "path": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+          "null_option": true,
+          "sources": {
+            "stand": {
+              "weight": 5.2,
+              "horizon": 25
+            },
+            "walk": {
+              "weight": 12.816,
+              "horizon": 25
+            },
+            "run": {
+              "weight": 12.613,
+              "horizon": 25
+            },
+            "hurdle": {
+              "weight": 13.623,
+              "horizon": 25
+            }
+          }
+        },
+        "behavior_execution": {
+          "stand": 9.8e-05,
+          "walk": 0.123848,
+          "run": 0.1,
+          "hurdle": 0.27623,
+          "__student__": 0.499824,
+          "__source_total__": 0.500176,
+          "__raw__": [
+            125,
+            158525,
+            128000,
+            353575,
+            639775
+          ]
+        },
+        "replay_sampling": {
+          "critic": {
+            "stand": 1e-06,
+            "walk": 0.121709,
+            "run": 0.098436,
+            "hurdle": 0.275349,
+            "__student__": 0.504505,
+            "__source_total__": 0.495495,
+            "__raw__": [
+              888,
+              79763134,
+              64511174,
+              180452659,
+              330632145
+            ]
+          },
+          "actor": {
+            "total": 0,
+            "note": "该 role 从未被采样（actor 默认复用 critic batch）"
+          }
+        },
+        "names_bug_note": "原 T1 artifact 用 SourcePolicyBank.names() 给最后一槽命名，在 null_option=True 的 bank 上把 student 错标为 'null'；此处按 [real sources..., student] 显式命名",
+        "source_z1_outside_scaffold_window": 0,
+        "group_sizes": {
+          "source_contemporaneous": 640225,
+          "source_all_replay": 640225,
+          "student_contemporaneous": 639775,
+          "student_all_replay": 1919775
+        },
+        "gradient": {
+          "contemporaneous_vs_contemporaneous": {
+            "cos": 0.947767,
+            "norm_ratio": 1.091665
+          },
+          "source_vs_actual_replay_student": {
+            "cos": 0.871209,
+            "norm_ratio": 1.498744
+          },
+          "contemporaneous_source_vs_actual_replay_student": {
+            "cos": 0.871209,
+            "norm_ratio": 1.498744
+          }
+        }
+      },
+      {
+        "seed": 3,
+        "bank": {
+          "status": "VERIFIED",
+          "path": "configs/source_banks/h1hand_hurdle4_wfix_truck.yaml",
+          "null_option": true,
+          "sources": {
+            "stand": {
+              "weight": 5.2,
+              "horizon": 25
+            },
+            "walk": {
+              "weight": 12.816,
+              "horizon": 25
+            },
+            "run": {
+              "weight": 12.613,
+              "horizon": 25
+            },
+            "hurdle": {
+              "weight": 13.623,
+              "horizon": 25
+            }
+          }
+        },
+        "behavior_execution": {
+          "stand": 3.9e-05,
+          "walk": 0.123262,
+          "run": 0.100859,
+          "hurdle": 0.274883,
+          "__student__": 0.500957,
+          "__source_total__": 0.499043,
+          "__raw__": [
+            50,
+            157775,
+            129100,
+            351850,
+            641225
+          ]
+        },
+        "replay_sampling": {
+          "critic": {
+            "stand": 0.0,
+            "walk": 0.121261,
+            "run": 0.098976,
+            "hurdle": 0.275388,
+            "__student__": 0.504375,
+            "__source_total__": 0.495625,
+            "__raw__": [
+              236,
+              79469319,
+              64864907,
+              180478425,
+              330547113
+            ]
+          },
+          "actor": {
+            "total": 0,
+            "note": "该 role 从未被采样（actor 默认复用 critic batch）"
+          }
+        },
+        "names_bug_note": "原 T1 artifact 用 SourcePolicyBank.names() 给最后一槽命名，在 null_option=True 的 bank 上把 student 错标为 'null'；此处按 [real sources..., student] 显式命名",
+        "source_z1_outside_scaffold_window": 0,
+        "group_sizes": {
+          "source_contemporaneous": 638775,
+          "source_all_replay": 638775,
+          "student_contemporaneous": 641225,
+          "student_all_replay": 1921225
+        },
+        "gradient": {
+          "contemporaneous_vs_contemporaneous": {
+            "cos": 0.801645,
+            "norm_ratio": 1.293762
+          },
+          "source_vs_actual_replay_student": {
+            "cos": 0.553369,
+            "norm_ratio": 1.916246
+          },
+          "contemporaneous_source_vs_actual_replay_student": {
+            "cos": 0.553369,
+            "norm_ratio": 1.916246
+          }
+        }
+      }
+    ],
+    "stair": [
+      {
+        "seed": 1,
+        "bank": {
+          "status": "VERIFIED",
+          "path": "configs/source_banks/calibration/h1hand_stair_rbo_slidesrc.yaml",
+          "null_option": false,
+          "sources": {
+            "slide": {
+              "weight": 0.0,
+              "horizon": 25
+            }
+          }
+        },
+        "behavior_execution": {
+          "slide": 0.49643,
+          "__student__": 0.50357,
+          "__source_total__": 0.49643,
+          "__raw__": [
+            635430,
+            644570
+          ]
+        },
+        "replay_sampling": {
+          "critic": {
+            "slide": 0.499093,
+            "__student__": 0.500907,
+            "__source_total__": 0.499093,
+            "__raw__": [
+              327085551,
+              328274449
+            ]
+          },
+          "actor": {
+            "total": 0,
+            "note": "该 role 从未被采样（actor 默认复用 critic batch）"
+          }
+        },
+        "names_bug_note": "原 T1 artifact 用 SourcePolicyBank.names() 给最后一槽命名，在 null_option=True 的 bank 上把 student 错标为 'null'；此处按 [real sources..., student] 显式命名",
+        "source_z1_outside_scaffold_window": 0,
+        "group_sizes": {
+          "source_contemporaneous": 635430,
+          "source_all_replay": 635430,
+          "student_contemporaneous": 644570,
+          "student_all_replay": 1924570
+        },
+        "gradient": {
+          "contemporaneous_vs_contemporaneous": {
+            "cos": 0.874396,
+            "norm_ratio": 1.107279
+          },
+          "source_vs_actual_replay_student": {
+            "cos": 0.831296,
+            "norm_ratio": 1.484836
+          },
+          "contemporaneous_source_vs_actual_replay_student": {
+            "cos": 0.831296,
+            "norm_ratio": 1.484836
+          }
+        }
+      },
+      {
+        "seed": 2,
+        "bank": {
+          "status": "VERIFIED",
+          "path": "configs/source_banks/calibration/h1hand_stair_rbo_slidesrc.yaml",
+          "null_option": false,
+          "sources": {
+            "slide": {
+              "weight": 0.0,
+              "horizon": 25
+            }
+          }
+        },
+        "behavior_execution": {
+          "slide": 0.498712,
+          "__student__": 0.501288,
+          "__source_total__": 0.498712,
+          "__raw__": [
+            638351,
+            641649
+          ]
+        },
+        "replay_sampling": {
+          "critic": {
+            "slide": 0.498855,
+            "__student__": 0.501145,
+            "__source_total__": 0.498855,
+            "__raw__": [
+              326929766,
+              328430234
+            ]
+          },
+          "actor": {
+            "total": 0,
+            "note": "该 role 从未被采样（actor 默认复用 critic batch）"
+          }
+        },
+        "names_bug_note": "原 T1 artifact 用 SourcePolicyBank.names() 给最后一槽命名，在 null_option=True 的 bank 上把 student 错标为 'null'；此处按 [real sources..., student] 显式命名",
+        "source_z1_outside_scaffold_window": 0,
+        "group_sizes": {
+          "source_contemporaneous": 638351,
+          "source_all_replay": 638351,
+          "student_contemporaneous": 641649,
+          "student_all_replay": 1921649
+        },
+        "gradient": {
+          "contemporaneous_vs_contemporaneous": {
+            "cos": 0.912507,
+            "norm_ratio": 1.152476
+          },
+          "source_vs_actual_replay_student": {
+            "cos": 0.834639,
+            "norm_ratio": 1.444891
+          },
+          "contemporaneous_source_vs_actual_replay_student": {
+            "cos": 0.834639,
+            "norm_ratio": 1.444891
+          }
+        }
+      },
+      {
+        "seed": 3,
+        "bank": {
+          "status": "VERIFIED",
+          "path": "configs/source_banks/calibration/h1hand_stair_rbo_slidesrc.yaml",
+          "null_option": false,
+          "sources": {
+            "slide": {
+              "weight": 0.0,
+              "horizon": 25
+            }
+          }
+        },
+        "behavior_execution": {
+          "slide": 0.497603,
+          "__student__": 0.502397,
+          "__source_total__": 0.497603,
+          "__raw__": [
+            636932,
+            643068
+          ]
+        },
+        "replay_sampling": {
+          "critic": {
+            "slide": 0.49889,
+            "__student__": 0.50111,
+            "__source_total__": 0.49889,
+            "__raw__": [
+              326952610,
+              328407390
+            ]
+          },
+          "actor": {
+            "total": 0,
+            "note": "该 role 从未被采样（actor 默认复用 critic batch）"
+          }
+        },
+        "names_bug_note": "原 T1 artifact 用 SourcePolicyBank.names() 给最后一槽命名，在 null_option=True 的 bank 上把 student 错标为 'null'；此处按 [real sources..., student] 显式命名",
+        "source_z1_outside_scaffold_window": 0,
+        "group_sizes": {
+          "source_contemporaneous": 636932,
+          "source_all_replay": 636932,
+          "student_contemporaneous": 643068,
+          "student_all_replay": 1923068
+        },
+        "gradient": {
+          "contemporaneous_vs_contemporaneous": {
+            "cos": 0.74422,
+            "norm_ratio": 1.14098
+          },
+          "source_vs_actual_replay_student": {
+            "cos": 0.642084,
+            "norm_ratio": 1.324479
+          },
+          "contemporaneous_source_vs_actual_replay_student": {
+            "cos": 0.642084,
+            "norm_ratio": 1.324479
+          }
+        }
+      }
+    ]
+  }
+}
