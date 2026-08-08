@@ -1,0 +1,97 @@
+{
+  "verdict": "F1_TRIGGERED_CLOSE_PARE",
+  "prereg": "docs/experiments/pare_gate_a_prereg_20260808.md",
+  "per_task": {
+    "stair": {
+      "verdict": "NO_SCAFFOLD_EFFECT",
+      "G1": {
+        "result": "FAIL",
+        "deltas_per_seed": [
+          14.764,
+          -8.885,
+          -14.909
+        ],
+        "mean": -3.01,
+        "sd_learner": 15.684,
+        "se_learner": 9.055,
+        "t": -0.332,
+        "t_crit": 2.92,
+        "note": "learner 间方差，非 episode 面板 SE"
+      },
+      "G2": {
+        "result": "PASS",
+        "J_exit_100k_mean": 412.962,
+        "J_exit_100k_sd": 107.943,
+        "per_seed": [
+          353.37,
+          347.952,
+          537.565
+        ],
+        "threshold": 500.0,
+        "theory_max": 1000.0,
+        "frac_of_theory_max": 0.413
+      },
+      "G3": {
+        "result": "STILL_IMPROVING",
+        "J_20k": 49.406,
+        "J_50k": 247.023,
+        "J_100k": 412.962,
+        "delta_early": 197.617,
+        "delta_late": 165.939,
+        "ratio": 0.8397,
+        "threshold": 0.5
+      },
+      "reference": {
+        "J_scratch_100k_mean": 639.357,
+        "note": "仅供参照，不参与 G1–G3 判定"
+      }
+    },
+    "truck": {
+      "verdict": "NO_SCAFFOLD_EFFECT",
+      "G1": {
+        "result": "FAIL",
+        "deltas_per_seed": [
+          -225.797,
+          -160.198,
+          -296.865
+        ],
+        "mean": -227.62,
+        "sd_learner": 68.352,
+        "se_learner": 39.463,
+        "t": -5.768,
+        "t_crit": 2.92,
+        "note": "learner 间方差，非 episode 面板 SE"
+      },
+      "G2": {
+        "result": "FAIL",
+        "J_exit_100k_mean": 1516.598,
+        "J_exit_100k_sd": 129.577,
+        "per_seed": [
+          1555.945,
+          1621.94,
+          1371.908
+        ],
+        "threshold": 500.0,
+        "theory_max": 1000.0,
+        "frac_of_theory_max": 1.5166
+      },
+      "G3": {
+        "result": "PASS",
+        "J_20k": 902.42,
+        "J_50k": 1429.641,
+        "J_100k": 1516.598,
+        "delta_early": 527.221,
+        "delta_late": 86.956,
+        "ratio": 0.1649,
+        "threshold": 0.5
+      },
+      "reference": {
+        "J_scratch_100k_mean": 1368.106,
+        "note": "仅供参照，不参与 G1–G3 判定"
+      }
+    }
+  },
+  "development_task": null,
+  "holdout_task": null,
+  "scope": "只回答『有没有值得 PARE 解决的 residual problem』，不是论文性能结果"
+}
