@@ -1,0 +1,49 @@
+{
+  "verdict": "SMOKE_PASS",
+  "checks": {
+    "S1": "PASS",
+    "S2": "PASS",
+    "S3": "PASS",
+    "S4": "PASS"
+  },
+  "detail": {
+    "S1": {
+      "n_source": 16861,
+      "n_student": 15139,
+      "source_share": 0.5269
+    },
+    "S2": {
+      "key": "pare/d_loss + pare/source_affinity",
+      "n_samples": 20,
+      "n_nonfinite": 0,
+      "min": 0.000193,
+      "max": 1.379132
+    },
+    "S3": {
+      "key": "pare/base_grad_norm_scaled + pare/expansion_norm_ratio",
+      "n_samples": 20,
+      "n_nonfinite": 0,
+      "min": 0.004754,
+      "max": 5.012588
+    },
+    "mechanism_sample": {
+      "d_skip_count": 0.0,
+      "pare/anchor_adv_mean": 2.149624,
+      "pare/anchor_adv_positive_frac": 0.89917,
+      "pare/base_grad_norm_scaled": 1.718637,
+      "pare/d_acc": 1.0,
+      "pare/d_logit_saturated_rate": 0.951904,
+      "pare/d_loss": 0.000201,
+      "pare/d_skipped": 0.0,
+      "pare/expansion_norm_ratio": 0.004754,
+      "pare/grad_conflict": 0.0,
+      "pare/source_affinity": 0.000381
+    },
+    "n_pare_log_lines": 10,
+    "S4": {
+      "max_abs_param_diff": 0.3372260332107544,
+      "note": "差异为 0 说明 PARE 是空操作"
+    }
+  },
+  "scope": "工程冒烟，不构成任何科学结论"
+}
