@@ -136,11 +136,28 @@ free -g | sed -n 2p                          # 训练进程并行度硬上限 3�
 > 真正的 crossover 必须是**同一候选集合**上赢家反转。
 > 另一个常见捷径："选 |U| 最大者"也能通过很多看似精巧的设计。
 
-**8.2 混淆变量**：有没有与处理**共变**的量？
+**8.2 混淆变量**：有没有与处理**共变**的量？**注意共变量可能是运行时机制，不只是超参数。**
 
 > 反例（我犯的）：sibling 臂的 behavior share 系统性高 2.4–3.3pp，且优势方向与剂量同向。
 > 我识别出了它，却只是**放宽容差**——那等于把混淆写进协议。
 > 正确做法是强制匹配实际剂量，或把 estimand 改写为"源+控制器"整体。
+>
+> 反例二（PARE Gate A，2026-08-08）：我写"两臂唯一差别是有无 scaffold"，
+> 实际只有 exit 臂在 20k 重新 anchor-resume（新进程 + env reset +
+> `train_ptf.py:2544-2552` 按 `resume_noise_seed` 重采 `noise_scales`），
+> scratch 臂连续跑完全程。于是 20k 之后两臂差
+> **source history + restart + noise 重采样**三项，`Δ=−226.4 (t=−3.18)` 只能作 descriptive。
+> **强制规则：branch 对照的所有臂都必须在分叉点保存 anchor 并从各自 anchor 重启，
+> 且用同一个 post-branch resume noise seed**——即使某臂"逻辑上不需要分叉"。
+
+**8.2b 先找零训练判别式**：提出新机制假设时，先问"它能不能写成**已有 checkpoint
+上直接可算的量**？"能就先算，不要一上来就实现算法跑几周。
+
+> 正例（2026-08-08）：假设"source 状态污染 actor 的改进方向"改写成
+> `cos(∇_θ E_{d_S}[Q(s,π_θ)], ∇_θ E_{d_0}[Q(s,π_θ)])`，在 branch anchor 上按
+> provenance 分组直接算——20 分钟证伪，算法一行没写。
+> probe 的判据同样要先冻结；且**必须带组内 split-half 对照**，
+> 否则跨组 cosine 分不清真冲突与估计噪声。
 
 **8.3 独立重复**：是否有**新的 learner seeds**（不是同 seed 重跑）？
 
