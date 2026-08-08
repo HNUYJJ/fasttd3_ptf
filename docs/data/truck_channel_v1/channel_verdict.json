@@ -1,0 +1,150 @@
+{
+  "prereg": "docs/experiments/truck_channel_decomposition_prereg_20260808.md",
+  "engineering_gate": {
+    "all_pass": true,
+    "per_seed": [
+      {
+        "seed": 1,
+        "E1_behavior_share": {
+          "bonly": 0.498535,
+          "joint": 0.498535,
+          "abs_diff": 0.0,
+          "pass": true
+        },
+        "E2_critic_source_samples": {
+          "source_samples": 0,
+          "student_samples": 655360000,
+          "pass": true,
+          "note": "student_only 下 source 配额恒 0，故必须严格为 0"
+        },
+        "E3_source_physical_transitions": {
+          "count": 638125,
+          "pass": true,
+          "note": "source 仍有 behavior authority 并写入 physical buffer"
+        },
+        "E4_provenance_complete": {
+          "pass": true,
+          "written": 2560000,
+          "expected": 2560000
+        },
+        "status": "OK",
+        "all_pass": true
+      },
+      {
+        "seed": 2,
+        "E1_behavior_share": {
+          "bonly": 0.500176,
+          "joint": 0.500176,
+          "abs_diff": 0.0,
+          "pass": true
+        },
+        "E2_critic_source_samples": {
+          "source_samples": 0,
+          "student_samples": 655360000,
+          "pass": true,
+          "note": "student_only 下 source 配额恒 0，故必须严格为 0"
+        },
+        "E3_source_physical_transitions": {
+          "count": 640225,
+          "pass": true,
+          "note": "source 仍有 behavior authority 并写入 physical buffer"
+        },
+        "E4_provenance_complete": {
+          "pass": true,
+          "written": 2560000,
+          "expected": 2560000
+        },
+        "status": "OK",
+        "all_pass": true
+      },
+      {
+        "seed": 3,
+        "E1_behavior_share": {
+          "bonly": 0.499043,
+          "joint": 0.499043,
+          "abs_diff": 0.0,
+          "pass": true
+        },
+        "E2_critic_source_samples": {
+          "source_samples": 0,
+          "student_samples": 655360000,
+          "pass": true,
+          "note": "student_only 下 source 配额恒 0，故必须严格为 0"
+        },
+        "E3_source_physical_transitions": {
+          "count": 638775,
+          "pass": true,
+          "note": "source 仍有 behavior authority 并写入 physical buffer"
+        },
+        "E4_provenance_complete": {
+          "pass": true,
+          "written": 2560000,
+          "expected": 2560000
+        },
+        "status": "OK",
+        "all_pass": true
+      }
+    ]
+  },
+  "scope": "根因定位，非论文 confirmatory result",
+  "decomposition": {
+    "U_B_behavior_channel": {
+      "per_seed": [
+        -194.607,
+        -85.751,
+        -118.007
+      ],
+      "mean": -132.789,
+      "sd_learner": 55.913,
+      "se_learner": 32.281,
+      "t": -4.113,
+      "all_negative": true,
+      "sign_flip": false
+    },
+    "Delta_R_given_B_replay_channel": {
+      "per_seed": [
+        -31.19,
+        -74.447,
+        -178.858
+      ],
+      "mean": -94.832,
+      "sd_learner": 75.915,
+      "se_learner": 43.83,
+      "t": -2.164,
+      "all_negative": true,
+      "sign_flip": false
+    },
+    "U_BR_joint_gate_a": {
+      "per_seed": [
+        -225.797,
+        -160.198,
+        -296.865
+      ],
+      "mean": -227.62,
+      "sd_learner": 68.352,
+      "se_learner": 39.463,
+      "t": -5.768,
+      "all_negative": true,
+      "sign_flip": false
+    },
+    "identity_max_abs_error": 0.0,
+    "per_seed_returns": {
+      "s1": {
+        "scratch": 1094.593,
+        "bonly": 899.986,
+        "joint": 868.796
+      },
+      "s2": {
+        "scratch": 1089.462,
+        "bonly": 1003.711,
+        "joint": 929.264
+      },
+      "s3": {
+        "scratch": 1206.065,
+        "bonly": 1088.058,
+        "joint": 909.2
+      }
+    }
+  },
+  "verdict": "JOINT_HARM_CANDIDATE"
+}
