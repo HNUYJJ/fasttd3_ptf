@@ -1,0 +1,119 @@
+{
+  "primary_task": "truck",
+  "criterion": {
+    "conflict": "cos(g_src, g_stu) < 0",
+    "stability": "split-half cosine > 0.5 于两组",
+    "advance_to_T2": "truck 至少 2/3 seed 同时满足 conflict 与 stability",
+    "note": "每 seed 一个 cosine；batch 重复不是 learner replication"
+  },
+  "per_task": {
+    "truck": [
+      {
+        "seed": 1,
+        "status": "OK",
+        "behavior_source_share": 0.4985,
+        "per_source_share": {
+          "stand": 0.0,
+          "walk": 0.1238,
+          "run": 0.0999,
+          "hurdle": 0.2747,
+          "null": 0.5015
+        },
+        "n_source_states": 638125,
+        "n_student_states": 641875,
+        "cos_src_stu": 0.966473,
+        "dot_src_stu": 0.566047728061676,
+        "norm_ratio_src_over_stu": 1.128164,
+        "split_half_cos_source": 0.995003,
+        "split_half_cos_student": 0.993432
+      },
+      {
+        "seed": 2,
+        "status": "OK",
+        "behavior_source_share": 0.5002,
+        "per_source_share": {
+          "stand": 0.0001,
+          "walk": 0.1238,
+          "run": 0.1,
+          "hurdle": 0.2762,
+          "null": 0.4998
+        },
+        "n_source_states": 640225,
+        "n_student_states": 639775,
+        "cos_src_stu": 0.947767,
+        "dot_src_stu": 0.478096604347229,
+        "norm_ratio_src_over_stu": 1.091665,
+        "split_half_cos_source": 0.994439,
+        "split_half_cos_student": 0.993583
+      },
+      {
+        "seed": 3,
+        "status": "OK",
+        "behavior_source_share": 0.499,
+        "per_source_share": {
+          "stand": 0.0,
+          "walk": 0.1233,
+          "run": 0.1009,
+          "hurdle": 0.2749,
+          "null": 0.501
+        },
+        "n_source_states": 638775,
+        "n_student_states": 641225,
+        "cos_src_stu": 0.801645,
+        "dot_src_stu": 0.033106110990047455,
+        "norm_ratio_src_over_stu": 1.293762,
+        "split_half_cos_source": 0.975163,
+        "split_half_cos_student": 0.973937
+      }
+    ],
+    "stair": [
+      {
+        "seed": 1,
+        "status": "OK",
+        "behavior_source_share": 0.4964,
+        "per_source_share": {
+          "slide": 0.4964
+        },
+        "n_source_states": 635430,
+        "n_student_states": 644570,
+        "cos_src_stu": 0.874396,
+        "dot_src_stu": 0.6186767220497131,
+        "norm_ratio_src_over_stu": 1.107279,
+        "split_half_cos_source": 0.988004,
+        "split_half_cos_student": 0.978338
+      },
+      {
+        "seed": 2,
+        "status": "OK",
+        "behavior_source_share": 0.4987,
+        "per_source_share": {
+          "slide": 0.4987
+        },
+        "n_source_states": 638351,
+        "n_student_states": 641649,
+        "cos_src_stu": 0.912507,
+        "dot_src_stu": 0.8087711334228516,
+        "norm_ratio_src_over_stu": 1.152476,
+        "split_half_cos_source": 0.988472,
+        "split_half_cos_student": 0.983525
+      },
+      {
+        "seed": 3,
+        "status": "OK",
+        "behavior_source_share": 0.4976,
+        "per_source_share": {
+          "slide": 0.4976
+        },
+        "n_source_states": 636932,
+        "n_student_states": 643068,
+        "cos_src_stu": 0.74422,
+        "dot_src_stu": 0.10515562444925308,
+        "norm_ratio_src_over_stu": 1.14098,
+        "split_half_cos_source": 0.987164,
+        "split_half_cos_student": 0.984131
+      }
+    ]
+  },
+  "n_conflicting_seeds": 0,
+  "verdict": "NO_CONFLICT_STOP"
+}
