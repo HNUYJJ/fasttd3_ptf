@@ -141,10 +141,20 @@ echo "推送中..."
 GIT_TERMINAL_PROMPT=0 git -C "$PUB" "${PROXY[@]}" push origin main 2>&1 | tail -3 \
   || die "推送失败（若为认证问题：确认 VS Code 在运行，或设 GITHUB_TOKEN）"
 
-REMOTE=$(git -C "$PUB" "${PROXY[@]}" ls-remote --heads origin main 2>/dev/null | cut -f1)
 LOCAL=$(git -C "$PUB" rev-parse HEAD)
+# 二次确认。走 proxy 的 ls-remote 会间歇性返回空（push 用的是 VS Code 的
+# 认证 socket，两条路径不同），所以先试 proxy、再退回直连。
+REMOTE=$(git -C "$PUB" "${PROXY[@]}" ls-remote --heads origin main 2>/dev/null | cut -f1)
+[[ -n "$REMOTE" ]] || REMOTE=$(git -C "$PUB" ls-remote --heads origin main 2>/dev/null | cut -f1)
+
 if [[ "$REMOTE" == "$LOCAL" ]]; then
   echo "已同步：远端 ${REMOTE:0:7} == 本地 ${LOCAL:0:7}"
+  echo "https://github.com/HNUYJJ/fasttd3_ptf"
+elif [[ -z "$REMOTE" ]]; then
+  # 取不到远端 sha ≠ 推送失败：上面的 push 已经 `|| die` 检查过了。
+  # 把"无法验证"报成"推送失败"会让人以为要重推——那才是真的危险。
+  echo "警告：无法读取远端 sha（网络/代理），但 push 已返回成功。本地 ${LOCAL:0:7}"
+  echo "可手动核对：git ls-remote fasttd3_ptf main"
   echo "https://github.com/HNUYJJ/fasttd3_ptf"
 else
   die "推送后远端($REMOTE) 与本地($LOCAL) 不一致"
