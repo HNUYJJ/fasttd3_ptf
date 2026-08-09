@@ -1,9 +1,15 @@
-# T2 结果：Truck 10k→20k 的 behavior / replay 因果分解 —— `JOINT_HARM_CANDIDATE`
+# T2 结果：Truck 10k→20k 的 behavior / replay 分解 —— `JOINT_HARM_CANDIDATE`
 
 日期：2026-08-08 · 判据：`truck_channel_decomposition_prereg_20260808.md`（先于运行冻结）
 数据：`docs/data/truck_channel_v1/channel_verdict.json`
 
-**结论：两条通道各自独立有害，没有单一病灶。** 本轮只作根因定位，非论文 confirmatory result。
+> ⚠️ **先读 §7 表述更正**（2026-08-08 追加）。本文正文中"两条通道各自独立有害"
+> 与"约六四开"两处表述**已被收回**——三个 cell 不足以支持独立主效应的因果分解。
+> 冻结 verdict `JOINT_HARM_CANDIDATE` 与全部数值**均不变**。
+
+**结论：source behavior 在关闭 source replay 时有负效应；在 source behavior 已存在的
+条件下，再启用当前 source replay scheme 会进一步降低性能。**
+本轮只作根因定位，非论文 confirmatory result。
 
 ---
 
@@ -59,10 +65,14 @@ $$
 | $J_B \approx J_0 > J_{BR}$ | behavior 无害，replay 主导 | ✗ behavior 贡献 −132.8 |
 | $J_B < J_{BR} < J_0$ | behavior 有害但 replay 在补偿 | ✗ replay 同向加害，不补偿 |
 
-实际是第四种：**两条通道各自独立有害，约六四开**（behavior 58% / replay 42%）。
+实际是第四种：$U^B<0$ **且** $\Delta^{R\mid B}<0$（均 3/3）。
 
-**含义：不存在一个可以单独修掉的病灶。** 只改 replay 侧（无论是屏蔽 source 数据
-还是给它加权）最多回收 42%，behavior 侧的 −132.8 原封不动；反之亦然。
+**含义：没有一个单独修掉就能全部回收的病灶。** 屏蔽 source replay（即 B-only）
+仍留下 $U^B=-132.8$；而在 behavior 已存在的条件下，当前 replay scheme 又再减 94.8。
+
+> **§7.1 更正**：这里**不能**说成"两条通道各自独立有害"或给出份额比。
+> 缺 $J_{01}$ 时无法做独立主效应分解，$\Delta^{R\mid B}$ 只是
+> **conditional replay harm**，且份额依赖分解顺序、跨 seed 从 86:14 到 40:60。
 
 ---
 
@@ -118,6 +128,63 @@ Gate A 的 truck 在 50k/100k 转正，但那个比较有 restart confound
 
 ---
 
+## 7. 表述更正（2026-08-08 追加，外部 review 后）
+
+**冻结 verdict `JOINT_HARM_CANDIDATE` 与全部数值不变。** 以下两处表述收回。
+
+### 7.1 "两条通道各自独立有害" —— 收回
+
+本实验有三个 cell：
+
+$$
+J_{00}=\text{scratch},\quad
+J_{10}=\text{source behavior} + \text{student-only replay},\quad
+J_{11}=\text{joint}
+$$
+
+$$
+U^B = J_{10}-J_{00},\qquad \Delta^{R\mid B} = J_{11}-J_{10}
+$$
+
+$U^{BR} = U^B + \Delta^{R\mid B}$ **只是代数恒等式**（我在 §2 把它当"一致性自检"是对的，
+但不能用它论证独立性）。完整的交互项需要第四个 cell：
+
+$$
+I = J_{11} - J_{10} - J_{01} + J_{00}
+$$
+
+而 $J_{01}$（无 source behavior 但有 source replay）在自然实验中**无法构造**——
+没有 source 执行动作，就不存在同一轨迹上的 source-generated target transition。
+
+因此正确表述只能是：
+
+- $U^B$：source behavior **在关闭 source replay 时**的效应；
+- $\Delta^{R\mid B}$：**在 source behavior 已存在的条件下**，再启用当前 source replay
+  scheme 的效应 —— 即 **conditional replay harm**，不是"replay 独立有害"。
+
+### 7.2 "约六四开" —— 收回
+
+sequential decomposition 的份额**依赖分解顺序**，且实测跨 seed 从 86:14 到 40:60。
+它不是一个稳定的量，不应报告。§5.2 已列出这个不稳定性，但 §3 仍写了"六四开"，前后矛盾。
+
+### 7.3 统计强度的准确表述
+
+$|t|$：behavior 4.11、replay 2.16，$n=3$（$df=2$）。
+双侧 5% 的临界值约 **4.303**，故**两者都未跨过常规显著性门槛**。
+预注册用的是"3/3 同号"而非 t 检验，故 verdict 成立；
+但**不得**写成"已证明 behavior 与 replay 都有害"。
+
+128 个 evaluation episode 只提高每个 learner 的测量精度，**不把 $n=3$ 变成 $n=384$**。
+
+### 7.4 保留不变的部分
+
+工程 gate（E1 完全相等、E2 严格 0、E3 非 0、E4 完整）、全部原始数值、
+恒等式误差 0.0、§4 关于"behavior 侧伤害不是方向性污染"的推论
+（该推论只依赖 $U^B<0$ 与 T1b 的 cosine，不依赖独立性主张），
+以及 §5 的全部边界声明。
+
+---
+
 ## 6. 处置
 
 按预注册，本轮**只作根因定位**，到此停止：
@@ -126,8 +193,12 @@ Gate A 的 truck 在 50k/100k 转正，但那个比较有 restart confound
 - 不启动 early-vs-late timing 实验；
 - PARE v1 与 PDAU 保持 CLOSED。
 
-下一步方向的选择权交回 PI / 外部 review。就本轮证据，两条路都不是显然的：
-"两条通道都有害且六四开"意味着单通道的修法上限有限，
-而 timing 假设（stage-dependence）目前仍只有非受控的历史对比支持
-（`phase1_mechanism_audit_20260719.md:87` 已明确记录历史 +227.8 与中期负值
-"为不同 estimand，非受控窗口对比"）。
+下一步方向的选择权交回 PI / 外部 review。就本轮证据：$U^B$ 与 $\Delta^{R\mid B}$
+同为负意味着只修一条通道无法全部回收；而 timing 假设（stage-dependence）目前
+仍只有非受控的历史对比支持（`phase1_mechanism_audit_20260719.md:87` 已明确记录
+历史 +227.8 与中期负值"为不同 estimand，非受控窗口对比"）。
+
+**后续（2026-08-08 追加）**：$\Delta^{R\mid B}$ 度量的**不是**"source transition
+正常进入 replay"，而是"只占约 25% 物理 buffer 的 source transition 拿到约 50% 的
+replay quota"。缺的关键 cell 是 $q_S=\rho_S$。见
+`docs/experiments/dual_displacement_audit_prereg_20260808.md`。
