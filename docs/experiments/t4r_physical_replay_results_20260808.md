@@ -1,5 +1,15 @@
 # T4-R 结果：`ENGINEERING_GATE_FAILED` → 全部标 **DIAGNOSTIC**
 
+> **2026-08-09 理论勘误（优先于下文原始解释）：**下文把累计 critic
+> source share `q_S=0.1534` 与终点 physical share `rho_S≈0.25` 合成
+> `A=0.545`，混用了两个时间基准。该 `A` 及“physical 欠采样”“需要 A=1
+> 补偿臂”的解释全部撤回。`physical` 在每个时刻就是 allowed slots 上的普通
+> uniform replay，因此瞬时 `q_t=rho_t`；累计值较低只反映 source cohort
+> 较晚进入 buffer、暴露寿命较短。T4-R 的确认性状态仍为 **DIAGNOSTIC**，但
+> treatment 可诚实解释为“普通 physical replay”对“固定 provenance quota”的
+> 比较；性能事实 `phys-fixed` 三个 seed 均为正（均值 +114.2）保留为后续
+> fresh-seed 假设依据，而不是确认性结论。
+
 日期：2026-08-08 · 判据：`t4r_physical_replay_prereg_20260808.md`（先于运行冻结）
 数据：`docs/data/t4r_phys_v1/t4r_verdict.json`
 
