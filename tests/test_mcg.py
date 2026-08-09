@@ -312,6 +312,46 @@ def test_admission_bootstrap_student_and_only_admitted_source_are_sampled():
     assert -1 in selected and 2 in selected
 
 
+def test_behavior_source_group_mask_preserves_schema_and_protects_arms():
+    """A source may drive legs while arms/hands remain the student's action.
+
+    The controller still carries the original three-group tensors, which is
+    essential for importing a shared anchor/replay provenance schema.
+    """
+    gating = make_gating()
+    controller = McgBehaviorController(
+        num_envs=8,
+        num_groups=gating.num_groups,
+        device="cpu",
+        group_masks=gating.group_masks,
+        warmup_min_steps=25,
+        seed=0,
+        warmup_mode="admission_bootstrap",
+        bootstrap_weights=torch.tensor([0.0]),
+        bootstrap_horizons=torch.tensor([25]),
+        admitted_sources=torch.tensor([True]),
+        admission_student_logit=-100.0,
+        source_group_mask=torch.tensor([True, False, False]),
+    )
+    student = torch.zeros(8, A)
+    sources = torch.ones(8, 1, A)
+
+    actions, info = controller.step(student, sources)
+
+    assert controller.current.shape == (8, 3)
+    assert torch.all(controller.current[:, GROUPS.index("legs_torso")] == 0)
+    assert torch.all(controller.current[:, GROUPS.index("arms")] == -1)
+    assert torch.all(controller.current[:, GROUPS.index("hands")] == -1)
+    legs = SCHEMA.get("legs_torso")
+    arms = SCHEMA.get("arms")
+    hands = SCHEMA.get("hands")
+    assert torch.all(actions[:, legs.start:legs.end] == 1)
+    assert torch.all(actions[:, arms.start:arms.end] == 0)
+    assert torch.all(actions[:, hands.start:hands.end] == 0)
+    assert info["mcg/exec_env_frac"] == 1.0
+    assert abs(info["mcg/exec_part_frac"] - 1.0 / 3.0) < 1e-6
+
+
 def test_admission_revocation_immediately_releases_latched_source():
     _, ctl = _admission_controller([False, False, True], student_logit=-100.0)
     student = torch.zeros(128, A)

@@ -323,11 +323,23 @@ class McgBehaviorController:
         admitted_sources: torch.Tensor | None = None,
         admission_student_logit: float = 0.0,
         episode_prefix_steps: int | None = None,
+        source_group_mask: torch.Tensor | None = None,
     ):
         self.num_envs = int(num_envs)
         self.num_groups = int(num_groups)
         self.device = torch.device(device)
         self.group_masks = group_masks.to(self.device)
+        if source_group_mask is None:
+            source_group_mask = torch.ones(
+                self.num_groups, device=self.device, dtype=torch.bool
+            )
+        self.source_group_mask = source_group_mask.to(
+            self.device, dtype=torch.bool
+        ).view(-1)
+        if self.source_group_mask.numel() != self.num_groups:
+            raise ValueError("source_group_mask does not match num_groups")
+        if not bool(self.source_group_mask.any()):
+            raise ValueError("source_group_mask must enable at least one group")
         self.min_steps = int(min_steps)
         self.warmup_min_steps = int(warmup_min_steps)
         self.exec_prob = float(exec_prob)
@@ -704,6 +716,13 @@ class McgBehaviorController:
             self.steps_left = torch.where(
                 expired, torch.full_like(self.steps_left, self.min_steps), self.steps_left
             )
+        # Optional behavior-authority restriction.  Keep the configured group
+        # count and latch clocks unchanged so replay provenance remains schema-
+        # compatible with the shared anchor; disabled groups execute the student.
+        disabled_groups = ~self.source_group_mask
+        if bool(disabled_groups.any()):
+            self.current[:, disabled_groups] = -1
+            self.current_arm[:, disabled_groups] = -1
         self.steps_left -= 1
 
         actions = a_student.clone()

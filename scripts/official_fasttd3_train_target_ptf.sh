@@ -172,6 +172,9 @@ fi
 if [[ "${PTF_MCG_GROUPS:-}" != "" ]]; then
   ARGS+=(--ptf-mcg-groups "${PTF_MCG_GROUPS}")
 fi
+if [[ "${PTF_MCG_BEHAVIOR_SOURCE_GROUPS:-}" != "" ]]; then
+  ARGS+=(--ptf-mcg-behavior-source-groups "${PTF_MCG_BEHAVIOR_SOURCE_GROUPS}")
+fi
 if [[ "${PTF_MCG_MARGIN:-}" != "" ]]; then
   ARGS+=(--ptf-mcg-margin "${PTF_MCG_MARGIN}")
 fi

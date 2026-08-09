@@ -267,16 +267,24 @@ class PTFReplayWrapper:
 
     @torch.no_grad()
     def replay_displacement_summary(self) -> dict:
-        """source 的物理占比 vs 实际 replay 采样占比，以及 per-transition 放大比。
+        """Return endpoint composition and cumulative replay exposure.
 
-        ``rho_S`` = source provenance 槽位 / 全部有效槽位；
-        ``q_S``   = critic 采到的 source 样本 / 全部 critic 样本；
-        ``A``     = (q_S/rho_S) / ((1-q_S)/(1-rho_S))。
+        The two quantities intentionally have different time semantics:
 
-        fixed provenance quota 下 ``q_S = m`` 与物理占比无关，故晚期介入时
-        ``A = 1 + H/((1-m)u) > 1``；physical 模式下 ``q_S`` 跟随 ``rho_S``，``A ≈ 1``。
+        ``rho_endpoint``
+            Source fraction among the *currently active physical slots* at the
+            checkpoint.
+        ``q_cumulative``
+            Source fraction among every critic draw since the admission policy
+            was installed.
+        ``cohort_exposure_ratio``
+            ``q_cumulative / rho_endpoint``.  This is an age/cohort summary,
+            not an instantaneous sampling-amplification estimate.
 
-        直接在训练内算出这三个标量，审计就不必为此保存整份 replay。
+        In particular, physical-uniform replay has instantaneous
+        ``q_t = rho_t`` even though a late-entering source naturally has
+        ``q_cumulative < rho_endpoint``.  Never combine those two time slices
+        into an odds ratio and call it instantaneous amplification.
         """
 
         if not self._provenance or self._provenance_written is None:
@@ -285,13 +293,32 @@ class PTFReplayWrapper:
         if valid <= 0:
             return {"status": "EMPTY"}
         written = self._provenance_written[:, :valid]
-        is_src = self._provenance["executed_group_mask"][:, :valid].any(dim=-1) & written
-        n_slots = valid * int(self.base.n_env)
+        if self._admission_source_mask is None:
+            allowed = torch.ones_like(written)
+        else:
+            allowed = self._admission_allowed_slots(self.options[:, :valid], valid)
+        active_written = written & allowed
+        is_src = (
+            self._provenance["executed_group_mask"][:, :valid].any(dim=-1)
+            & active_written
+        )
+        group_is_src = (
+            self._provenance["executed_group_mask"][:, :valid]
+            & active_written.unsqueeze(-1)
+        )
+        n_slots = int(active_written.sum())
         n_src = int(is_src.sum())
+        n_src_by_group = [int(x) for x in group_is_src.sum(dim=(0, 1))]
         rho = n_src / n_slots if n_slots else 0.0
+        rho_by_group = [
+            round(count / n_slots, 6) if n_slots else 0.0
+            for count in n_src_by_group
+        ]
 
         out = {"status": "OK", "valid_size": valid, "n_slots": n_slots,
-               "n_source_slots": n_src, "rho_S": round(rho, 6),
+               "n_source_slots": n_src, "rho_endpoint": round(rho, 6),
+               "n_source_slots_by_group": n_src_by_group,
+               "rho_endpoint_by_group": rho_by_group,
                "buffer_not_wrapped": bool(valid < int(self.base.buffer_size)),
                "replay_physical": bool(self._admission_replay_physical),
                "source_authority_active": bool(self._admission_source_authority_active)}
@@ -301,13 +328,11 @@ class PTFReplayWrapper:
             c = counts.double()
             tot = float(c.sum())
             q = float(c[:-1].sum()) / tot
-            out["q_S"] = round(q, 6)
+            out["q_cumulative"] = round(q, 6)
             out["critic_counts"] = [int(x) for x in c]
-            if 0.0 < rho < 1.0 and 0.0 < q < 1.0:
-                out["A"] = round((q / rho) / ((1.0 - q) / (1.0 - rho)), 6)
-                out["q_over_rho"] = round(q / rho, 6)
-            else:
-                out["A"] = None
+            out["cohort_exposure_ratio"] = (
+                round(q / rho, 6) if rho > 0.0 else None
+            )
         return out
 
     @torch.no_grad()
@@ -317,7 +342,8 @@ class PTFReplayWrapper:
         This decouples *replay* authority from *behavior* authority.  With a fixed
         provenance quota the source draws ``q_S = m`` regardless of how much of the
         buffer it actually produced, so a late-entering source is over-sampled by
-        ``A = 1 + H/((1-m)u)``.  Setting this flag makes ``q_S`` track ``rho_S``.
+        ``A = 1 + H/((1-m)u)``.  Setting this flag makes the instantaneous draw
+        fraction ``q_t`` track the contemporaneous physical fraction ``rho_t``.
         Rejected-source slots stay exactly excluded, as in the retirement path.
         """
 
@@ -633,7 +659,11 @@ class PTFReplayWrapper:
         else:
             active_buffer_counts = buffer_counts.clone()
         available = active_buffer_counts > 0
-        if self._admission_source_authority_active:
+        physical_sampling = (
+            not self._admission_source_authority_active
+            or self._admission_replay_physical
+        )
+        if not physical_sampling:
             effective_masses = self._admission_candidate_masses * available
         else:
             effective_masses = active_buffer_counts.float()
@@ -647,10 +677,9 @@ class PTFReplayWrapper:
             "admitted_sources": self._admission_source_mask.detach().cpu().tolist(),
             "candidate_masses": self._admission_candidate_masses.detach().cpu().tolist(),
             "source_authority_active": self._admission_source_authority_active,
+            "replay_physical": self._admission_replay_physical,
             "sampling_phase": (
-                "authority_quota"
-                if self._admission_source_authority_active
-                else "physical_allowed"
+                "physical_allowed" if physical_sampling else "authority_quota"
             ),
             "main_buffer_counts": buffer_counts.detach().cpu().tolist(),
             "active_buffer_counts": active_buffer_counts.detach().cpu().tolist(),
@@ -862,6 +891,7 @@ class PTFReplayWrapper:
                 "source_mask": self._admission_source_mask.detach().cpu().clone(),
                 "candidate_masses": self._admission_candidate_masses.detach().cpu().clone(),
                 "source_authority_active": self._admission_source_authority_active,
+                "replay_physical": self._admission_replay_physical,
                 "recency_half_life": self._admission_recency_half_life,
                 "uniform_mix": self._admission_uniform_mix,
                 "priority_alpha": self._admission_priority_alpha,
@@ -964,6 +994,9 @@ class PTFReplayWrapper:
             )
             self._admission_source_authority_active = bool(
                 admission.get("source_authority_active", True)
+            )
+            self._admission_replay_physical = bool(
+                admission.get("replay_physical", False)
             )
             assert self._replay_priorities is not None and self._slot_write_step is not None
             priority_values = torch.as_tensor(

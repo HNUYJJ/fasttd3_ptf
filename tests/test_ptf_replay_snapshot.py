@@ -489,6 +489,7 @@ def test_admission_sampling_snapshot_roundtrip() -> None:
         priority_alpha=0.5,
     )
     replay.set_admission_source_authority(False, reason="snapshot_test")
+    replay.set_admission_replay_physical(True)
     snapshot = replay.export_valid()
     restored = _make_replay(capacity=8, n_env=2)
     restored.import_valid(snapshot)
@@ -500,5 +501,54 @@ def test_admission_sampling_snapshot_roundtrip() -> None:
         assert torch.equal(left[key], right[key]), key
     assert left["source_authority_active"] is False
     assert right["source_authority_active"] is False
+    assert left["replay_physical"] is True
+    assert right["replay_physical"] is True
+    assert restored.admission_replay_physical is True
     assert replay.admission_audit()["sampling_phase"] == "physical_allowed"
     assert restored.admission_audit()["sampling_phase"] == "physical_allowed"
+
+
+def test_replay_physical_audit_reports_physical_sampling_while_authority_active() -> None:
+    replay = _filled_admission_replay()
+    replay.set_admission_policy(
+        admitted_sources=torch.tensor([True, False]),
+        candidate_masses=torch.tensor([0.9, 0.0, 0.1]),
+        uniform_mix=1.0,
+    )
+    replay.set_admission_replay_physical(True)
+
+    audit = replay.admission_audit()
+    assert audit is not None
+    assert audit["source_authority_active"] is True
+    assert audit["replay_physical"] is True
+    assert audit["sampling_phase"] == "physical_allowed"
+    # Source-0 and student each occupy two active slots per environment;
+    # source-1 is rejected even though it remains in physical history.
+    assert audit["effective_replay_masses"] == [0.5, 0.0, 0.5]
+
+
+def test_displacement_summary_keeps_endpoint_and_cumulative_timebases_separate() -> None:
+    replay = _make_replay(capacity=8, n_env=2)
+    replay.enable_provenance(group_count=4)
+    for value in range(4):
+        replay.extend(
+            _transition(value),
+            torch.tensor([-1, 0]),
+            provenance=_provenance(0),
+        )
+    replay.set_admission_policy(
+        admitted_sources=torch.tensor([True]),
+        candidate_masses=torch.tensor([0.5, 0.5]),
+        uniform_mix=1.0,
+    )
+    replay.set_admission_replay_physical(True)
+    replay.sample(4096)
+
+    summary = replay.replay_displacement_summary()
+    assert summary["rho_endpoint"] == 0.5
+    assert summary["rho_endpoint_by_group"] == [0.5, 0.5, 0.5, 0.5]
+    assert abs(summary["q_cumulative"] - 0.5) < 0.03
+    assert abs(summary["cohort_exposure_ratio"] - 1.0) < 0.06
+    assert "rho_S" not in summary
+    assert "q_S" not in summary
+    assert "A" not in summary

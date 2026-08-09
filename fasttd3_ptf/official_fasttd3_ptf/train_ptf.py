@@ -189,6 +189,15 @@ def _parse_ptf_cli() -> dict[str, Any]:
                         action="store_true")
     parser.add_argument("--ptf_mcg", "--ptf-mcg", action="store_true")
     parser.add_argument("--ptf_mcg_groups", "--ptf-mcg-groups", default=None)
+    parser.add_argument(
+        "--ptf_mcg_behavior_source_groups",
+        "--ptf-mcg-behavior-source-groups",
+        default=None,
+        help=(
+            "Comma-separated subset of ptf_mcg_groups that source policies may "
+            "control during behavior collection; omitted means all groups."
+        ),
+    )
     parser.add_argument("--ptf_mcg_margin", "--ptf-mcg-margin", type=float, default=None)
     parser.add_argument("--ptf_mcg_warmup_steps", "--ptf-mcg-warmup-steps", type=int, default=None)
     parser.add_argument("--ptf_mcg_exec_prob", "--ptf-mcg-exec-prob", type=float, default=None)
@@ -423,6 +432,12 @@ def _parse_ptf_cli() -> dict[str, Any]:
         cfg["mcg"] = True
     if ptf_ns.ptf_mcg_groups is not None:
         cfg["mcg_groups"] = [x.strip() for x in ptf_ns.ptf_mcg_groups.split(",") if x.strip()]
+    if ptf_ns.ptf_mcg_behavior_source_groups is not None:
+        cfg["mcg_behavior_source_groups"] = [
+            x.strip()
+            for x in ptf_ns.ptf_mcg_behavior_source_groups.split(",")
+            if x.strip()
+        ]
     for key in [
         "mcg_margin",
         "mcg_warmup_steps",
@@ -579,6 +594,7 @@ def _parse_ptf_cli() -> dict[str, Any]:
     # 25k 已有 part 级结构;margin=0 配 mean-Q 比较(q10 实测过保守)。
     cfg.setdefault("mcg", False)
     cfg.setdefault("mcg_groups", list(DEFAULT_GROUPS))
+    cfg.setdefault("mcg_behavior_source_groups", None)
     cfg.setdefault("mcg_margin", 0.0)
     cfg.setdefault("mcg_warmup_steps", 15000)
     cfg.setdefault("mcg_exec_prob", 0.3)
@@ -1255,6 +1271,28 @@ def main():
             device=device,
             margin=float(ptf_cfg["mcg_margin"]),
         )
+        behavior_source_groups = ptf_cfg["mcg_behavior_source_groups"]
+        if behavior_source_groups is None:
+            behavior_source_groups = list(mcg_gating.groups)
+        else:
+            behavior_source_groups = list(behavior_source_groups)
+        if not behavior_source_groups:
+            raise ValueError("mcg_behavior_source_groups must not be empty")
+        if len(set(behavior_source_groups)) != len(behavior_source_groups):
+            raise ValueError("mcg_behavior_source_groups contains duplicates")
+        unknown_behavior_groups = sorted(
+            set(behavior_source_groups) - set(mcg_gating.groups)
+        )
+        if unknown_behavior_groups:
+            raise ValueError(
+                "mcg_behavior_source_groups contains groups absent from mcg_groups: "
+                f"{unknown_behavior_groups}"
+            )
+        source_group_mask = torch.tensor(
+            [name in behavior_source_groups for name in mcg_gating.groups],
+            device=device,
+            dtype=torch.bool,
+        )
         # safe_bootstrap: 从 bank yaml 读 per-source reward-bearing allocation
         # weight + horizon。默认WFix bank使用固定h25；历史safe bank可使用离线
         # horizon作消融。二者都不解释为自动安全/data-value估计。无
@@ -1528,6 +1566,7 @@ def main():
                 else None
             ),
             admission_student_logit=float(ptf_cfg["admission_student_logit"]),
+            source_group_mask=source_group_mask,
         )
         mcg_warmup_steps = int(ptf_cfg["mcg_warmup_steps"])
         # Step B: replay 按源降权采样(online_bootstrap 的 arm_value 驱动)。
@@ -3668,10 +3707,10 @@ def main():
         # 前 run_stop_step 本身永远不会被判断到(五次复核阻塞问题 1)。
         if global_step in eval_checkpoint_set:
             print(f"Saving P0 eval checkpoint at completed step {global_step}")
-            # Replay displacement 摘要（T3/T4-R）。这几个标量本来只能靠保存整份
-            # 5GB branch anchor 再离线统计；直接打印后审计不必付那次写入。
-            #   rho_S = source 的物理占比，q_S = critic 实际采样占比，
-            #   A = (q_S/rho_S)/((1-q_S)/(1-rho_S)) 是 per-transition 放大比。
+            # Replay displacement 摘要（T3/T4-R）。rho_endpoint 是终点 buffer
+            # 构成，q_cumulative 是自 admission policy 安装以来的累计采样占比。
+            # 两者时间口径不同；cohort_exposure_ratio 只是 cohort-age 摘要，
+            # 不是 instantaneous amplification。
             if rb.provenance_enabled:
                 print(f"[displacement] step={global_step} "
                       + json.dumps(rb.replay_displacement_summary()))
