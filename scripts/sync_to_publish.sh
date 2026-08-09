@@ -14,7 +14,14 @@ set -uo pipefail
 SRC="${SRC:-/home/yjj/fasttd3_ptf}"
 PUB="${PUB:-/home/yjj/fasttd3_ptf_publish}"
 DRY_RUN="${DRY_RUN:-0}"
-PROXY=(-c http.proxy=socks5h://127.0.0.1:7891 -c https.proxy=socks5h://127.0.0.1:7891)
+# 本机代理进程会不定期挂掉（实测 2026-08-08：7891 无监听但直连正常）。
+# 硬编码 proxy 会让"网络其实通着"的情况也推不上去，故先探测再决定。
+if timeout 3 bash -c ':> /dev/tcp/127.0.0.1/7891' 2>/dev/null; then
+  PROXY=(-c http.proxy=socks5h://127.0.0.1:7891 -c https.proxy=socks5h://127.0.0.1:7891)
+else
+  echo "提示：代理 127.0.0.1:7891 不可达，本次改用直连"
+  PROXY=(-c http.proxy= -c https.proxy=)
+fi
 
 die() { echo "ERROR: $*" >&2; exit 1; }
 
