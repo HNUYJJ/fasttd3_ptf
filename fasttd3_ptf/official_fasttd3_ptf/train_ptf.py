@@ -3668,6 +3668,13 @@ def main():
         # 前 run_stop_step 本身永远不会被判断到(五次复核阻塞问题 1)。
         if global_step in eval_checkpoint_set:
             print(f"Saving P0 eval checkpoint at completed step {global_step}")
+            # Replay displacement 摘要（T3/T4-R）。这几个标量本来只能靠保存整份
+            # 5GB branch anchor 再离线统计；直接打印后审计不必付那次写入。
+            #   rho_S = source 的物理占比，q_S = critic 实际采样占比，
+            #   A = (q_S/rho_S)/((1-q_S)/(1-rho_S)) 是 per-transition 放大比。
+            if rb.provenance_enabled:
+                print(f"[displacement] step={global_step} "
+                      + json.dumps(rb.replay_displacement_summary()))
             if mcg_enabled and getattr(mcg_behavior, "episode_prefix_steps", None) is not None:
                 _hf = int(getattr(mcg_behavior, "prefix_handoff_count", 0))
                 _tr = int(getattr(mcg_behavior, "prefix_truncated_count", 0))

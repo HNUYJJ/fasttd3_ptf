@@ -52,8 +52,6 @@ env \
   PTF_ADMISSION_REPLAY_MODE=physical \
   PTF_ANCHOR_RESUME="${A0}" PTF_RESUME_NOISE_SEED=$((92000 + SEED)) \
   PTF_RUN_STOP_STEP=20000 PTF_EVAL_CHECKPOINT_STEPS=20000 \
-  PTF_BRANCH_ANCHOR_STEP=20000 \
-  PTF_BRANCH_ANCHOR_DIR="${GATE_A_ROOT}/anchors/truck_s${SEED}_phys_k20000" \
   bash scripts/official_fasttd3_train_target_ptf.sh \
   > "${LOGDIR}/${NAME}.log" 2>&1
 

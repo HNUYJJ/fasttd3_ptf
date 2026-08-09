@@ -266,6 +266,51 @@ class PTFReplayWrapper:
         )
 
     @torch.no_grad()
+    def replay_displacement_summary(self) -> dict:
+        """source 的物理占比 vs 实际 replay 采样占比，以及 per-transition 放大比。
+
+        ``rho_S`` = source provenance 槽位 / 全部有效槽位；
+        ``q_S``   = critic 采到的 source 样本 / 全部 critic 样本；
+        ``A``     = (q_S/rho_S) / ((1-q_S)/(1-rho_S))。
+
+        fixed provenance quota 下 ``q_S = m`` 与物理占比无关，故晚期介入时
+        ``A = 1 + H/((1-m)u) > 1``；physical 模式下 ``q_S`` 跟随 ``rho_S``，``A ≈ 1``。
+
+        直接在训练内算出这三个标量，审计就不必为此保存整份 replay。
+        """
+
+        if not self._provenance or self._provenance_written is None:
+            return {"status": "NO_PROVENANCE"}
+        valid = self.valid_size
+        if valid <= 0:
+            return {"status": "EMPTY"}
+        written = self._provenance_written[:, :valid]
+        is_src = self._provenance["executed_group_mask"][:, :valid].any(dim=-1) & written
+        n_slots = valid * int(self.base.n_env)
+        n_src = int(is_src.sum())
+        rho = n_src / n_slots if n_slots else 0.0
+
+        out = {"status": "OK", "valid_size": valid, "n_slots": n_slots,
+               "n_source_slots": n_src, "rho_S": round(rho, 6),
+               "buffer_not_wrapped": bool(valid < int(self.base.buffer_size)),
+               "replay_physical": bool(self._admission_replay_physical),
+               "source_authority_active": bool(self._admission_source_authority_active)}
+
+        counts = self._admission_sample_counts.get("critic")
+        if counts is not None and float(counts.sum()) > 0:
+            c = counts.double()
+            tot = float(c.sum())
+            q = float(c[:-1].sum()) / tot
+            out["q_S"] = round(q, 6)
+            out["critic_counts"] = [int(x) for x in c]
+            if 0.0 < rho < 1.0 and 0.0 < q < 1.0:
+                out["A"] = round((q / rho) / ((1.0 - q) / (1.0 - rho)), 6)
+                out["q_over_rho"] = round(q / rho, 6)
+            else:
+                out["A"] = None
+        return out
+
+    @torch.no_grad()
     def set_admission_replay_physical(self, physical: bool) -> None:
         """Sample replay physically-uniformly while source keeps behavior authority.
 
