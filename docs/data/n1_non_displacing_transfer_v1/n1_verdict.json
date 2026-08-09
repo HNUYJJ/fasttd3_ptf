@@ -1,0 +1,1081 @@
+{
+  "prereg": "docs/experiments/n1_non_displacing_transfer_prereg_20260809.md",
+  "seeds": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "cells": [
+    {
+      "arm": "s",
+      "seed": 4,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.0,
+          "critic_source_share_cumulative": 0.0,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": false,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.0,
+            0.0
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 975.7399750696045,
+      "valid": true
+    },
+    {
+      "arm": "ff",
+      "seed": 4,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.49705078125,
+          "critic_source_share_cumulative": 0.49505022277832034,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": false,
+          "sampling_phase": "authority_quota",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.248525,
+            0.248525
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 853.072317716406,
+      "valid": true
+    },
+    {
+      "arm": "fp",
+      "seed": 4,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.49705078125,
+          "critic_source_share_cumulative": 0.1515847152709961,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": true,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.248525,
+            0.248525
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 911.3394557047426,
+      "valid": true
+    },
+    {
+      "arm": "lp",
+      "seed": 4,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.49705078125,
+          "critic_source_share_cumulative": 0.1515847152709961,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": true,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.248525,
+            0.0
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 925.3686603539903,
+      "valid": true
+    },
+    {
+      "arm": "s",
+      "seed": 5,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.0,
+          "critic_source_share_cumulative": 0.0,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": false,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.0,
+            0.0
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 1006.8192504139013,
+      "valid": true
+    },
+    {
+      "arm": "ff",
+      "seed": 5,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.49951171875,
+          "critic_source_share_cumulative": 0.4956812942504883,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": false,
+          "sampling_phase": "authority_quota",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.249756,
+            0.249756
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 898.0829985599231,
+      "valid": true
+    },
+    {
+      "arm": "fp",
+      "seed": 5,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.49951171875,
+          "critic_source_share_cumulative": 0.15380721130371094,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": true,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.249756,
+            0.249756
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 835.1661720611431,
+      "valid": true
+    },
+    {
+      "arm": "lp",
+      "seed": 5,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.49951171875,
+          "critic_source_share_cumulative": 0.15380721130371094,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": true,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.249756,
+            0.0
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 854.282480457845,
+      "valid": true
+    },
+    {
+      "arm": "s",
+      "seed": 6,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.0,
+          "critic_source_share_cumulative": 0.0,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": false,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.0,
+            0.0
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 1034.7799109257933,
+      "valid": true
+    },
+    {
+      "arm": "ff",
+      "seed": 6,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.49923828125,
+          "critic_source_share_cumulative": 0.49551900939941407,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": false,
+          "sampling_phase": "authority_quota",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.249619,
+            0.249619
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 924.6418742323547,
+      "valid": true
+    },
+    {
+      "arm": "fp",
+      "seed": 6,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.49923828125,
+          "critic_source_share_cumulative": 0.15288277740478515,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": true,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.249619,
+            0.249619
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 981.1748863313467,
+      "valid": true
+    },
+    {
+      "arm": "lp",
+      "seed": 6,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.49923828125,
+          "critic_source_share_cumulative": 0.15288277740478515,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": true,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.249619,
+            0.0
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 969.2842121447659,
+      "valid": true
+    },
+    {
+      "arm": "s",
+      "seed": 7,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.0,
+          "critic_source_share_cumulative": 0.0,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": false,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.0,
+            0.0
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 1088.441307538657,
+      "valid": true
+    },
+    {
+      "arm": "ff",
+      "seed": 7,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.49921875,
+          "critic_source_share_cumulative": 0.495416667175293,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": false,
+          "sampling_phase": "authority_quota",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.249609,
+            0.249609
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 930.9953236832213,
+      "valid": true
+    },
+    {
+      "arm": "fp",
+      "seed": 7,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.49921875,
+          "critic_source_share_cumulative": 0.15374845275878907,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": true,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.249609,
+            0.249609
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 1025.5463037407026,
+      "valid": true
+    },
+    {
+      "arm": "lp",
+      "seed": 7,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.49921875,
+          "critic_source_share_cumulative": 0.15374845275878907,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": true,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.249609,
+            0.0
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 1018.7542284573009,
+      "valid": true
+    },
+    {
+      "arm": "s",
+      "seed": 8,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.0,
+          "critic_source_share_cumulative": 0.0,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": false,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.0,
+            0.0
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 1073.6554845424052,
+      "valid": true
+    },
+    {
+      "arm": "ff",
+      "seed": 8,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.5026171875,
+          "critic_source_share_cumulative": 0.49527975921630857,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": false,
+          "sampling_phase": "authority_quota",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.251309,
+            0.251309
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 908.1731965534241,
+      "valid": true
+    },
+    {
+      "arm": "fp",
+      "seed": 8,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.5026171875,
+          "critic_source_share_cumulative": 0.15456122436523437,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": true,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.251309,
+            0.251309
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 968.3699856111738,
+      "valid": true
+    },
+    {
+      "arm": "lp",
+      "seed": 8,
+      "checks": {
+        "frozen_configuration": {
+          "env_name": true,
+          "seed": true,
+          "global_step": true,
+          "num_envs": true,
+          "batch_size": true,
+          "buffer_size": true,
+          "num_updates": true,
+          "total_timesteps": true,
+          "bank": true,
+          "mcg_groups": true,
+          "behavior_source_groups": true,
+          "warmup_mode": true,
+          "ablation": true,
+          "horizon": true,
+          "admission_mode": true,
+          "replay_mode": true,
+          "anchor": true,
+          "resume_noise_seed": true
+        },
+        "dose": {
+          "execution_source_share": 0.5026171875,
+          "critic_source_share_cumulative": 0.15456122436523437,
+          "pass": true
+        },
+        "replay_semantics": {
+          "replay_physical": true,
+          "sampling_phase": "physical_allowed",
+          "pass": true
+        },
+        "group_provenance": {
+          "rho_endpoint_by_group": [
+            0.251309,
+            0.0
+          ],
+          "pass": true
+        },
+        "evaluation": {
+          "pass": true,
+          "episode_count": 128
+        }
+      },
+      "return_mean": 944.3181763290665,
+      "valid": true
+    }
+  ],
+  "returns": {
+    "s4": {
+      "s": 975.739975,
+      "ff": 853.072318,
+      "fp": 911.339456,
+      "lp": 925.36866
+    },
+    "s5": {
+      "s": 1006.81925,
+      "ff": 898.082999,
+      "fp": 835.166172,
+      "lp": 854.28248
+    },
+    "s6": {
+      "s": 1034.779911,
+      "ff": 924.641874,
+      "fp": 981.174886,
+      "lp": 969.284212
+    },
+    "s7": {
+      "s": 1088.441308,
+      "ff": 930.995324,
+      "fp": 1025.546304,
+      "lp": 1018.754228
+    },
+    "s8": {
+      "s": 1073.655485,
+      "ff": 908.173197,
+      "fp": 968.369986,
+      "lp": 944.318176
+    }
+  },
+  "contrasts": {
+    "H_R_FP_minus_FF": {
+      "per_seed": [
+        58.267138,
+        -62.916826,
+        56.533012,
+        94.55098,
+        60.196789
+      ],
+      "mean": 41.326219,
+      "sd_learner": 60.361054,
+      "se_learner": 26.994284,
+      "ci90": [
+        -16.220196,
+        98.872633
+      ],
+      "positive_seeds": 4,
+      "classification": "DIRECTIONAL_SUPPORT"
+    },
+    "H_A_LP_minus_FP": {
+      "per_seed": [
+        14.029205,
+        19.116308,
+        -11.890674,
+        -6.792075,
+        -24.051809
+      ],
+      "mean": -1.917809,
+      "sd_learner": 18.096076,
+      "se_learner": 8.092811,
+      "ci90": [
+        -19.170064,
+        15.334445
+      ],
+      "positive_seeds": 2,
+      "classification": "DIRECTIONAL_REFUTATION"
+    },
+    "H_REC_LP_minus_S": {
+      "per_seed": [
+        -50.371315,
+        -152.53677,
+        -65.495699,
+        -69.687079,
+        -129.337308
+      ],
+      "mean": -93.485634,
+      "sd_learner": 44.668309,
+      "se_learner": 19.976275,
+      "ci90": [
+        -136.071058,
+        -50.900211
+      ],
+      "positive_seeds": 0,
+      "classification": "DIRECTIONAL_REFUTATION"
+    }
+  },
+  "verdict": "NDT_NOT_SUPPORTED"
+}
