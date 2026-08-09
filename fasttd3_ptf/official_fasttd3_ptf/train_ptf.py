@@ -250,7 +250,9 @@ def _parse_ptf_cli() -> dict[str, Any]:
     parser.add_argument(
         "--ptf_admission_replay_mode",
         "--ptf-admission-replay-mode",
-        choices=["shared", "student_only"],
+        # physical(T4-R)：source 保持 behavior authority，但 replay 始终
+        # physical-uniform over allowed slots，使 q_S 跟随 rho_S 而非固定 quota。
+        choices=["shared", "student_only", "physical"],
         default=None,
     )
     parser.add_argument(
@@ -675,6 +677,11 @@ def replay_candidate_masses(
         masses = torch.zeros_like(candidate_masses)
         masses[-1] = 1.0
         return masses
+    if replay_mode == "physical":
+        # physical 模式不经 stratum quota：采样由
+        # ``PTFReplayWrapper.set_admission_replay_physical`` 切到 physical-uniform，
+        # 这里返回原 masses 只为让 admitted/rejected 掩码与审计记录保持一致。
+        return candidate_masses
     raise ValueError(f"unknown admission_replay_mode: {replay_mode}")
 
 
@@ -718,6 +725,9 @@ def apply_runtime_admission_policy_after_resume(
         uniform_mix=float(uniform_mix),
         priority_alpha=float(priority_alpha),
     )
+    # set_admission_policy 不重置 replay-physical 开关，但 anchor resume 会导入
+    # 历史 admission 状态；这里显式重申，避免 resume 后静默退回 fixed quota。
+    replay.set_admission_replay_physical(replay_mode == "physical")
     return masses
 
 
@@ -1405,6 +1415,8 @@ def main():
                 uniform_mix=float(ptf_cfg["admission_replay_uniform_mix"]),
                 priority_alpha=float(ptf_cfg["admission_replay_priority_alpha"]),
             )
+            # T4-R：source 保持 behavior authority，replay 走 physical-uniform。
+            rb.set_admission_replay_physical(admission_replay_mode == "physical")
             admission_execution_counts = torch.zeros(
                 source_bank.num_sources + 1, device=device, dtype=torch.int64
             )

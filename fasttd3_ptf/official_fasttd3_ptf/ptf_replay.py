@@ -64,6 +64,12 @@ class PTFReplayWrapper:
         # The training loop may therefore hand replay back to physical-uniform
         # sampling without deleting source history or weakening exact revoke.
         self._admission_source_authority_active = True
+        # T4-R：把 replay authority 从 behavior authority 里解耦出来。
+        # `_admission_source_authority_active` 原本一个 flag 同时决定
+        # "source 是否还在执行动作"与"replay 用不用 provenance quota"。
+        # 置本 flag 后，source 照常拥有 behavior authority，但 replay 始终
+        # physical-uniform（q_S = rho_S），用来检验入口侧 replay amplification。
+        self._admission_replay_physical = False
         self._provenance: dict[str, torch.Tensor] = {}
         self._provenance_written: torch.Tensor | None = None
         self._provenance_group_count: int | None = None
@@ -260,10 +266,28 @@ class PTFReplayWrapper:
         )
 
     @torch.no_grad()
+    def set_admission_replay_physical(self, physical: bool) -> None:
+        """Sample replay physically-uniformly while source keeps behavior authority.
+
+        This decouples *replay* authority from *behavior* authority.  With a fixed
+        provenance quota the source draws ``q_S = m`` regardless of how much of the
+        buffer it actually produced, so a late-entering source is over-sampled by
+        ``A = 1 + H/((1-m)u)``.  Setting this flag makes ``q_S`` track ``rho_S``.
+        Rejected-source slots stay exactly excluded, as in the retirement path.
+        """
+
+        self._admission_replay_physical = bool(physical)
+
+    @property
+    def admission_replay_physical(self) -> bool:
+        return bool(self._admission_replay_physical)
+
+    @torch.no_grad()
     def clear_admission_policy(self) -> None:
         self._admission_source_mask = None
         self._admission_candidate_masses = None
         self._admission_source_authority_active = True
+        self._admission_replay_physical = False
 
     @torch.no_grad()
     def update_priorities(self, indices: torch.Tensor, values: torch.Tensor) -> None:
@@ -481,7 +505,7 @@ class PTFReplayWrapper:
             # source behavior authority 结束后,配额从 admission mass 切回
             # "allowed 槽位的物理占比"——无 rejected 数据时与 legacy randint
             # 逐位一致(含 RNG 消耗),有 rejected 时用 masked multinomial 排除。
-            if not self._admission_source_authority_active:
+            if not self._admission_source_authority_active or self._admission_replay_physical:
                 assert self._admission_source_mask is not None
                 options = self.options[:, :valid_n]
                 allowed = self._admission_allowed_slots(options, valid_n)
