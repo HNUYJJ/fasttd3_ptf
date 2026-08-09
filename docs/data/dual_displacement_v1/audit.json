@@ -1,0 +1,1713 @@
+{
+  "prereg": "docs/experiments/dual_displacement_audit_prereg_20260808.md",
+  "theory": {
+    "H": 10000,
+    "m": 0.5,
+    "u": 10000,
+    "formula_rho": "rho_S(u)=m*u/(H+u)",
+    "formula_A": "A(u)=1+H/((1-m)*u)",
+    "rho_S": 0.25,
+    "q_S": 0.5,
+    "q_over_rho": 2.0,
+    "A": 3.0
+  },
+  "criterion": {
+    "confirm": "truck 3/3 seed 满足 A>=2.5 且 |rho_S-0.25|<=0.02",
+    "refute": "truck 出现 A<1.5 的 seed",
+    "note": "阈值先于任何实测数值冻结；stair 仅对照不参与判定"
+  },
+  "per_task": {
+    "truck": [
+      {
+        "seed": 1,
+        "joint": {
+          "status": "OK",
+          "anchor": "truck_s1_scaf_k20000",
+          "valid_size": 20000,
+          "n_env": 128,
+          "buffer_size_per_env": 51200,
+          "buffer_not_wrapped": true,
+          "n_slots": 2560000,
+          "n_source_slots": 638125,
+          "rho_S": 0.249268,
+          "q_S": 0.495706,
+          "critic_counts_raw": [
+            419,
+            79690038,
+            64683233,
+            180492427,
+            330493883
+          ],
+          "q_over_rho": 1.988652,
+          "A": 2.960468,
+          "group_source_share": {
+            "group_0": 0.249268,
+            "group_1": 0.249268
+          },
+          "rho_curve": [
+            {
+              "step": 1000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 2000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 3000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 4000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 5000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 6000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 7000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 8000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 9000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 10000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 11000,
+              "rho_S_measured": 0.044904,
+              "rho_S_theory": 0.045455,
+              "A_theory": 21.0
+            },
+            {
+              "step": 12000,
+              "rho_S_measured": 0.083057,
+              "rho_S_theory": 0.083333,
+              "A_theory": 11.0
+            },
+            {
+              "step": 13000,
+              "rho_S_measured": 0.114453,
+              "rho_S_theory": 0.115385,
+              "A_theory": 7.6667
+            },
+            {
+              "step": 14000,
+              "rho_S_measured": 0.142606,
+              "rho_S_theory": 0.142857,
+              "A_theory": 6.0
+            },
+            {
+              "step": 15000,
+              "rho_S_measured": 0.16707,
+              "rho_S_theory": 0.166667,
+              "A_theory": 5.0
+            },
+            {
+              "step": 16000,
+              "rho_S_measured": 0.187549,
+              "rho_S_theory": 0.1875,
+              "A_theory": 4.3333
+            },
+            {
+              "step": 17000,
+              "rho_S_measured": 0.206135,
+              "rho_S_theory": 0.205882,
+              "A_theory": 3.8571
+            },
+            {
+              "step": 18000,
+              "rho_S_measured": 0.221973,
+              "rho_S_theory": 0.222222,
+              "A_theory": 3.5
+            },
+            {
+              "step": 19000,
+              "rho_S_measured": 0.236595,
+              "rho_S_theory": 0.236842,
+              "A_theory": 3.2222
+            },
+            {
+              "step": 20000,
+              "rho_S_measured": 0.249268,
+              "rho_S_theory": 0.25,
+              "A_theory": 3.0
+            }
+          ],
+          "reward_events": {
+            "positive": {
+              "source": {
+                "n_transitions": 638125,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921875,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "negative": {
+              "source": {
+                "n_transitions": 638125,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921875,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "success": {
+              "source": {
+                "n_transitions": 638125,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921875,
+                "count": 0,
+                "rate": 0.0
+              }
+            }
+          }
+        },
+        "bonly": {
+          "status": "OK",
+          "anchor": "truck_s1_bonly_k20000",
+          "valid_size": 20000,
+          "n_env": 128,
+          "buffer_size_per_env": 51200,
+          "buffer_not_wrapped": true,
+          "n_slots": 2560000,
+          "n_source_slots": 638125,
+          "rho_S": 0.249268,
+          "q_S": 0.0,
+          "critic_counts_raw": [
+            0,
+            0,
+            0,
+            0,
+            655360000
+          ],
+          "q_over_rho": 0.0,
+          "A": NaN,
+          "group_source_share": {
+            "group_0": 0.249268,
+            "group_1": 0.249268
+          },
+          "rho_curve": [
+            {
+              "step": 1000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 2000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 3000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 4000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 5000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 6000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 7000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 8000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 9000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 10000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 11000,
+              "rho_S_measured": 0.044904,
+              "rho_S_theory": 0.045455,
+              "A_theory": 21.0
+            },
+            {
+              "step": 12000,
+              "rho_S_measured": 0.083057,
+              "rho_S_theory": 0.083333,
+              "A_theory": 11.0
+            },
+            {
+              "step": 13000,
+              "rho_S_measured": 0.114453,
+              "rho_S_theory": 0.115385,
+              "A_theory": 7.6667
+            },
+            {
+              "step": 14000,
+              "rho_S_measured": 0.142606,
+              "rho_S_theory": 0.142857,
+              "A_theory": 6.0
+            },
+            {
+              "step": 15000,
+              "rho_S_measured": 0.16707,
+              "rho_S_theory": 0.166667,
+              "A_theory": 5.0
+            },
+            {
+              "step": 16000,
+              "rho_S_measured": 0.187549,
+              "rho_S_theory": 0.1875,
+              "A_theory": 4.3333
+            },
+            {
+              "step": 17000,
+              "rho_S_measured": 0.206135,
+              "rho_S_theory": 0.205882,
+              "A_theory": 3.8571
+            },
+            {
+              "step": 18000,
+              "rho_S_measured": 0.221973,
+              "rho_S_theory": 0.222222,
+              "A_theory": 3.5
+            },
+            {
+              "step": 19000,
+              "rho_S_measured": 0.236595,
+              "rho_S_theory": 0.236842,
+              "A_theory": 3.2222
+            },
+            {
+              "step": 20000,
+              "rho_S_measured": 0.249268,
+              "rho_S_theory": 0.25,
+              "A_theory": 3.0
+            }
+          ],
+          "reward_events": {
+            "positive": {
+              "source": {
+                "n_transitions": 638125,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921875,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "negative": {
+              "source": {
+                "n_transitions": 638125,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921875,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "success": {
+              "source": {
+                "n_transitions": 638125,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921875,
+                "count": 0,
+                "rate": 0.0
+              }
+            }
+          }
+        }
+      },
+      {
+        "seed": 2,
+        "joint": {
+          "status": "OK",
+          "anchor": "truck_s2_scaf_k20000",
+          "valid_size": 20000,
+          "n_env": 128,
+          "buffer_size_per_env": 51200,
+          "buffer_not_wrapped": true,
+          "n_slots": 2560000,
+          "n_source_slots": 640225,
+          "rho_S": 0.250088,
+          "q_S": 0.495495,
+          "critic_counts_raw": [
+            888,
+            79763134,
+            64511174,
+            180452659,
+            330632145
+          ],
+          "q_over_rho": 1.981285,
+          "A": 2.945047,
+          "group_source_share": {
+            "group_0": 0.250088,
+            "group_1": 0.250088
+          },
+          "rho_curve": [
+            {
+              "step": 1000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 2000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 3000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 4000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 5000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 6000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 7000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 8000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 9000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 10000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 11000,
+              "rho_S_measured": 0.046325,
+              "rho_S_theory": 0.045455,
+              "A_theory": 21.0
+            },
+            {
+              "step": 12000,
+              "rho_S_measured": 0.083333,
+              "rho_S_theory": 0.083333,
+              "A_theory": 11.0
+            },
+            {
+              "step": 13000,
+              "rho_S_measured": 0.11534,
+              "rho_S_theory": 0.115385,
+              "A_theory": 7.6667
+            },
+            {
+              "step": 14000,
+              "rho_S_measured": 0.141797,
+              "rho_S_theory": 0.142857,
+              "A_theory": 6.0
+            },
+            {
+              "step": 15000,
+              "rho_S_measured": 0.165859,
+              "rho_S_theory": 0.166667,
+              "A_theory": 5.0
+            },
+            {
+              "step": 16000,
+              "rho_S_measured": 0.186829,
+              "rho_S_theory": 0.1875,
+              "A_theory": 4.3333
+            },
+            {
+              "step": 17000,
+              "rho_S_measured": 0.205572,
+              "rho_S_theory": 0.205882,
+              "A_theory": 3.8571
+            },
+            {
+              "step": 18000,
+              "rho_S_measured": 0.222602,
+              "rho_S_theory": 0.222222,
+              "A_theory": 3.5
+            },
+            {
+              "step": 19000,
+              "rho_S_measured": 0.237325,
+              "rho_S_theory": 0.236842,
+              "A_theory": 3.2222
+            },
+            {
+              "step": 20000,
+              "rho_S_measured": 0.250088,
+              "rho_S_theory": 0.25,
+              "A_theory": 3.0
+            }
+          ],
+          "reward_events": {
+            "positive": {
+              "source": {
+                "n_transitions": 640225,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1919775,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "negative": {
+              "source": {
+                "n_transitions": 640225,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1919775,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "success": {
+              "source": {
+                "n_transitions": 640225,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1919775,
+                "count": 0,
+                "rate": 0.0
+              }
+            }
+          }
+        },
+        "bonly": {
+          "status": "OK",
+          "anchor": "truck_s2_bonly_k20000",
+          "valid_size": 20000,
+          "n_env": 128,
+          "buffer_size_per_env": 51200,
+          "buffer_not_wrapped": true,
+          "n_slots": 2560000,
+          "n_source_slots": 640225,
+          "rho_S": 0.250088,
+          "q_S": 0.0,
+          "critic_counts_raw": [
+            0,
+            0,
+            0,
+            0,
+            655360000
+          ],
+          "q_over_rho": 0.0,
+          "A": NaN,
+          "group_source_share": {
+            "group_0": 0.250088,
+            "group_1": 0.250088
+          },
+          "rho_curve": [
+            {
+              "step": 1000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 2000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 3000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 4000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 5000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 6000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 7000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 8000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 9000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 10000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 11000,
+              "rho_S_measured": 0.046325,
+              "rho_S_theory": 0.045455,
+              "A_theory": 21.0
+            },
+            {
+              "step": 12000,
+              "rho_S_measured": 0.083333,
+              "rho_S_theory": 0.083333,
+              "A_theory": 11.0
+            },
+            {
+              "step": 13000,
+              "rho_S_measured": 0.11534,
+              "rho_S_theory": 0.115385,
+              "A_theory": 7.6667
+            },
+            {
+              "step": 14000,
+              "rho_S_measured": 0.141797,
+              "rho_S_theory": 0.142857,
+              "A_theory": 6.0
+            },
+            {
+              "step": 15000,
+              "rho_S_measured": 0.165859,
+              "rho_S_theory": 0.166667,
+              "A_theory": 5.0
+            },
+            {
+              "step": 16000,
+              "rho_S_measured": 0.186829,
+              "rho_S_theory": 0.1875,
+              "A_theory": 4.3333
+            },
+            {
+              "step": 17000,
+              "rho_S_measured": 0.205572,
+              "rho_S_theory": 0.205882,
+              "A_theory": 3.8571
+            },
+            {
+              "step": 18000,
+              "rho_S_measured": 0.222602,
+              "rho_S_theory": 0.222222,
+              "A_theory": 3.5
+            },
+            {
+              "step": 19000,
+              "rho_S_measured": 0.237325,
+              "rho_S_theory": 0.236842,
+              "A_theory": 3.2222
+            },
+            {
+              "step": 20000,
+              "rho_S_measured": 0.250088,
+              "rho_S_theory": 0.25,
+              "A_theory": 3.0
+            }
+          ],
+          "reward_events": {
+            "positive": {
+              "source": {
+                "n_transitions": 640225,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1919775,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "negative": {
+              "source": {
+                "n_transitions": 640225,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1919775,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "success": {
+              "source": {
+                "n_transitions": 640225,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1919775,
+                "count": 0,
+                "rate": 0.0
+              }
+            }
+          }
+        }
+      },
+      {
+        "seed": 3,
+        "joint": {
+          "status": "OK",
+          "anchor": "truck_s3_scaf_k20000",
+          "valid_size": 20000,
+          "n_env": 128,
+          "buffer_size_per_env": 51200,
+          "buffer_not_wrapped": true,
+          "n_slots": 2560000,
+          "n_source_slots": 638775,
+          "rho_S": 0.249521,
+          "q_S": 0.495625,
+          "critic_counts_raw": [
+            236,
+            79469319,
+            64864907,
+            180478425,
+            330547113
+          ],
+          "q_over_rho": 1.986302,
+          "A": 2.955495,
+          "group_source_share": {
+            "group_0": 0.249521,
+            "group_1": 0.249521
+          },
+          "rho_curve": [
+            {
+              "step": 1000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 2000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 3000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 4000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 5000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 6000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 7000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 8000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 9000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 10000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 11000,
+              "rho_S_measured": 0.046058,
+              "rho_S_theory": 0.045455,
+              "A_theory": 21.0
+            },
+            {
+              "step": 12000,
+              "rho_S_measured": 0.083854,
+              "rho_S_theory": 0.083333,
+              "A_theory": 11.0
+            },
+            {
+              "step": 13000,
+              "rho_S_measured": 0.116256,
+              "rho_S_theory": 0.115385,
+              "A_theory": 7.6667
+            },
+            {
+              "step": 14000,
+              "rho_S_measured": 0.143373,
+              "rho_S_theory": 0.142857,
+              "A_theory": 6.0
+            },
+            {
+              "step": 15000,
+              "rho_S_measured": 0.167214,
+              "rho_S_theory": 0.166667,
+              "A_theory": 5.0
+            },
+            {
+              "step": 16000,
+              "rho_S_measured": 0.186804,
+              "rho_S_theory": 0.1875,
+              "A_theory": 4.3333
+            },
+            {
+              "step": 17000,
+              "rho_S_measured": 0.205342,
+              "rho_S_theory": 0.205882,
+              "A_theory": 3.8571
+            },
+            {
+              "step": 18000,
+              "rho_S_measured": 0.222504,
+              "rho_S_theory": 0.222222,
+              "A_theory": 3.5
+            },
+            {
+              "step": 19000,
+              "rho_S_measured": 0.23714,
+              "rho_S_theory": 0.236842,
+              "A_theory": 3.2222
+            },
+            {
+              "step": 20000,
+              "rho_S_measured": 0.249521,
+              "rho_S_theory": 0.25,
+              "A_theory": 3.0
+            }
+          ],
+          "reward_events": {
+            "positive": {
+              "source": {
+                "n_transitions": 638775,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921225,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "negative": {
+              "source": {
+                "n_transitions": 638775,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921225,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "success": {
+              "source": {
+                "n_transitions": 638775,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921225,
+                "count": 0,
+                "rate": 0.0
+              }
+            }
+          }
+        },
+        "bonly": {
+          "status": "OK",
+          "anchor": "truck_s3_bonly_k20000",
+          "valid_size": 20000,
+          "n_env": 128,
+          "buffer_size_per_env": 51200,
+          "buffer_not_wrapped": true,
+          "n_slots": 2560000,
+          "n_source_slots": 638775,
+          "rho_S": 0.249521,
+          "q_S": 0.0,
+          "critic_counts_raw": [
+            0,
+            0,
+            0,
+            0,
+            655360000
+          ],
+          "q_over_rho": 0.0,
+          "A": NaN,
+          "group_source_share": {
+            "group_0": 0.249521,
+            "group_1": 0.249521
+          },
+          "rho_curve": [
+            {
+              "step": 1000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 2000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 3000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 4000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 5000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 6000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 7000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 8000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 9000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 10000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 11000,
+              "rho_S_measured": 0.046058,
+              "rho_S_theory": 0.045455,
+              "A_theory": 21.0
+            },
+            {
+              "step": 12000,
+              "rho_S_measured": 0.083854,
+              "rho_S_theory": 0.083333,
+              "A_theory": 11.0
+            },
+            {
+              "step": 13000,
+              "rho_S_measured": 0.116256,
+              "rho_S_theory": 0.115385,
+              "A_theory": 7.6667
+            },
+            {
+              "step": 14000,
+              "rho_S_measured": 0.143373,
+              "rho_S_theory": 0.142857,
+              "A_theory": 6.0
+            },
+            {
+              "step": 15000,
+              "rho_S_measured": 0.167214,
+              "rho_S_theory": 0.166667,
+              "A_theory": 5.0
+            },
+            {
+              "step": 16000,
+              "rho_S_measured": 0.186804,
+              "rho_S_theory": 0.1875,
+              "A_theory": 4.3333
+            },
+            {
+              "step": 17000,
+              "rho_S_measured": 0.205342,
+              "rho_S_theory": 0.205882,
+              "A_theory": 3.8571
+            },
+            {
+              "step": 18000,
+              "rho_S_measured": 0.222504,
+              "rho_S_theory": 0.222222,
+              "A_theory": 3.5
+            },
+            {
+              "step": 19000,
+              "rho_S_measured": 0.23714,
+              "rho_S_theory": 0.236842,
+              "A_theory": 3.2222
+            },
+            {
+              "step": 20000,
+              "rho_S_measured": 0.249521,
+              "rho_S_theory": 0.25,
+              "A_theory": 3.0
+            }
+          ],
+          "reward_events": {
+            "positive": {
+              "source": {
+                "n_transitions": 638775,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921225,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "negative": {
+              "source": {
+                "n_transitions": 638775,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921225,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "success": {
+              "source": {
+                "n_transitions": 638775,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921225,
+                "count": 0,
+                "rate": 0.0
+              }
+            }
+          }
+        }
+      }
+    ],
+    "stair": [
+      {
+        "seed": 1,
+        "joint": {
+          "status": "OK",
+          "anchor": "stair_s1_scaf_k20000",
+          "valid_size": 20000,
+          "n_env": 128,
+          "buffer_size_per_env": 51200,
+          "buffer_not_wrapped": true,
+          "n_slots": 2560000,
+          "n_source_slots": 635430,
+          "rho_S": 0.248215,
+          "q_S": 0.499093,
+          "critic_counts_raw": [
+            327085551,
+            328274449
+          ],
+          "q_over_rho": 2.01073,
+          "A": 3.017799,
+          "group_source_share": {
+            "group_0": 0.248215,
+            "group_1": 0.248215,
+            "group_2": 0.248215
+          },
+          "rho_curve": [
+            {
+              "step": 1000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 2000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 3000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 4000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 5000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 6000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 7000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 8000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 9000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 10000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 11000,
+              "rho_S_measured": 0.045089,
+              "rho_S_theory": 0.045455,
+              "A_theory": 21.0
+            },
+            {
+              "step": 12000,
+              "rho_S_measured": 0.08293,
+              "rho_S_theory": 0.083333,
+              "A_theory": 11.0
+            },
+            {
+              "step": 13000,
+              "rho_S_measured": 0.115272,
+              "rho_S_theory": 0.115385,
+              "A_theory": 7.6667
+            },
+            {
+              "step": 14000,
+              "rho_S_measured": 0.142677,
+              "rho_S_theory": 0.142857,
+              "A_theory": 6.0
+            },
+            {
+              "step": 15000,
+              "rho_S_measured": 0.16674,
+              "rho_S_theory": 0.166667,
+              "A_theory": 5.0
+            },
+            {
+              "step": 16000,
+              "rho_S_measured": 0.18731,
+              "rho_S_theory": 0.1875,
+              "A_theory": 4.3333
+            },
+            {
+              "step": 17000,
+              "rho_S_measured": 0.204971,
+              "rho_S_theory": 0.205882,
+              "A_theory": 3.8571
+            },
+            {
+              "step": 18000,
+              "rho_S_measured": 0.221292,
+              "rho_S_theory": 0.222222,
+              "A_theory": 3.5
+            },
+            {
+              "step": 19000,
+              "rho_S_measured": 0.23493,
+              "rho_S_theory": 0.236842,
+              "A_theory": 3.2222
+            },
+            {
+              "step": 20000,
+              "rho_S_measured": 0.248215,
+              "rho_S_theory": 0.25,
+              "A_theory": 3.0
+            }
+          ],
+          "reward_events": {
+            "positive": {
+              "source": {
+                "n_transitions": 635430,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1924570,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "negative": {
+              "source": {
+                "n_transitions": 635430,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1924570,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "success": {
+              "source": {
+                "n_transitions": 635430,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1924570,
+                "count": 0,
+                "rate": 0.0
+              }
+            }
+          }
+        }
+      },
+      {
+        "seed": 2,
+        "joint": {
+          "status": "OK",
+          "anchor": "stair_s2_scaf_k20000",
+          "valid_size": 20000,
+          "n_env": 128,
+          "buffer_size_per_env": 51200,
+          "buffer_not_wrapped": true,
+          "n_slots": 2560000,
+          "n_source_slots": 638351,
+          "rho_S": 0.249356,
+          "q_S": 0.498855,
+          "critic_counts_raw": [
+            326929766,
+            328430234
+          ],
+          "q_over_rho": 2.000576,
+          "A": 2.99658,
+          "group_source_share": {
+            "group_0": 0.249356,
+            "group_1": 0.249356,
+            "group_2": 0.249356
+          },
+          "rho_curve": [
+            {
+              "step": 1000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 2000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 3000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 4000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 5000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 6000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 7000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 8000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 9000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 10000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 11000,
+              "rho_S_measured": 0.04632,
+              "rho_S_theory": 0.045455,
+              "A_theory": 21.0
+            },
+            {
+              "step": 12000,
+              "rho_S_measured": 0.083804,
+              "rho_S_theory": 0.083333,
+              "A_theory": 11.0
+            },
+            {
+              "step": 13000,
+              "rho_S_measured": 0.114737,
+              "rho_S_theory": 0.115385,
+              "A_theory": 7.6667
+            },
+            {
+              "step": 14000,
+              "rho_S_measured": 0.141688,
+              "rho_S_theory": 0.142857,
+              "A_theory": 6.0
+            },
+            {
+              "step": 15000,
+              "rho_S_measured": 0.165213,
+              "rho_S_theory": 0.166667,
+              "A_theory": 5.0
+            },
+            {
+              "step": 16000,
+              "rho_S_measured": 0.186411,
+              "rho_S_theory": 0.1875,
+              "A_theory": 4.3333
+            },
+            {
+              "step": 17000,
+              "rho_S_measured": 0.205395,
+              "rho_S_theory": 0.205882,
+              "A_theory": 3.8571
+            },
+            {
+              "step": 18000,
+              "rho_S_measured": 0.221227,
+              "rho_S_theory": 0.222222,
+              "A_theory": 3.5
+            },
+            {
+              "step": 19000,
+              "rho_S_measured": 0.23603,
+              "rho_S_theory": 0.236842,
+              "A_theory": 3.2222
+            },
+            {
+              "step": 20000,
+              "rho_S_measured": 0.249356,
+              "rho_S_theory": 0.25,
+              "A_theory": 3.0
+            }
+          ],
+          "reward_events": {
+            "positive": {
+              "source": {
+                "n_transitions": 638351,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921649,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "negative": {
+              "source": {
+                "n_transitions": 638351,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921649,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "success": {
+              "source": {
+                "n_transitions": 638351,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1921649,
+                "count": 0,
+                "rate": 0.0
+              }
+            }
+          }
+        }
+      },
+      {
+        "seed": 3,
+        "joint": {
+          "status": "OK",
+          "anchor": "stair_s3_scaf_k20000",
+          "valid_size": 20000,
+          "n_env": 128,
+          "buffer_size_per_env": 51200,
+          "buffer_not_wrapped": true,
+          "n_slots": 2560000,
+          "n_source_slots": 636932,
+          "rho_S": 0.248802,
+          "q_S": 0.49889,
+          "critic_counts_raw": [
+            326952610,
+            328407390
+          ],
+          "q_over_rho": 2.005173,
+          "A": 3.005893,
+          "group_source_share": {
+            "group_0": 0.248802,
+            "group_1": 0.248802,
+            "group_2": 0.248802
+          },
+          "rho_curve": [
+            {
+              "step": 1000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 2000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 3000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 4000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 5000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 6000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 7000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 8000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 9000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 10000,
+              "rho_S_measured": 0.0,
+              "rho_S_theory": 0.0,
+              "A_theory": null
+            },
+            {
+              "step": 11000,
+              "rho_S_measured": 0.046114,
+              "rho_S_theory": 0.045455,
+              "A_theory": 21.0
+            },
+            {
+              "step": 12000,
+              "rho_S_measured": 0.083913,
+              "rho_S_theory": 0.083333,
+              "A_theory": 11.0
+            },
+            {
+              "step": 13000,
+              "rho_S_measured": 0.11633,
+              "rho_S_theory": 0.115385,
+              "A_theory": 7.6667
+            },
+            {
+              "step": 14000,
+              "rho_S_measured": 0.14302,
+              "rho_S_theory": 0.142857,
+              "A_theory": 6.0
+            },
+            {
+              "step": 15000,
+              "rho_S_measured": 0.165972,
+              "rho_S_theory": 0.166667,
+              "A_theory": 5.0
+            },
+            {
+              "step": 16000,
+              "rho_S_measured": 0.186104,
+              "rho_S_theory": 0.1875,
+              "A_theory": 4.3333
+            },
+            {
+              "step": 17000,
+              "rho_S_measured": 0.205082,
+              "rho_S_theory": 0.205882,
+              "A_theory": 3.8571
+            },
+            {
+              "step": 18000,
+              "rho_S_measured": 0.221367,
+              "rho_S_theory": 0.222222,
+              "A_theory": 3.5
+            },
+            {
+              "step": 19000,
+              "rho_S_measured": 0.235638,
+              "rho_S_theory": 0.236842,
+              "A_theory": 3.2222
+            },
+            {
+              "step": 20000,
+              "rho_S_measured": 0.248802,
+              "rho_S_theory": 0.25,
+              "A_theory": 3.0
+            }
+          ],
+          "reward_events": {
+            "positive": {
+              "source": {
+                "n_transitions": 636932,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1923068,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "negative": {
+              "source": {
+                "n_transitions": 636932,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1923068,
+                "count": 0,
+                "rate": 0.0
+              }
+            },
+            "success": {
+              "source": {
+                "n_transitions": 636932,
+                "count": 0,
+                "rate": 0.0
+              },
+              "student": {
+                "n_transitions": 1923068,
+                "count": 0,
+                "rate": 0.0
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "truck_A": [
+    2.9605,
+    2.945,
+    2.9555
+  ],
+  "truck_rho": [
+    0.2493,
+    0.2501,
+    0.2495
+  ],
+  "verdict": "AMPLIFICATION_CONFIRMED"
+}
