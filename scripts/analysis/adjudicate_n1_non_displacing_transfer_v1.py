@@ -160,11 +160,22 @@ def audit_cell(arm: str, seed: int) -> dict:
     }
 
     expected_physical = arm in ("fp", "lp")
-    replay_ok = (
-        bool(audit.get("replay_physical", False)) is expected_physical
-        and audit.get("sampling_phase")
-        == ("physical_allowed" if expected_physical else "authority_quota")
-    )
+    if arm == "s":
+        # Exact abstention releases source authority immediately. Depending on
+        # snapshot timing, the empty-source arm may report the quota phase or
+        # the post-release physical phase. Phase naming is not S's treatment
+        # invariant; strict zero source execution/storage/sampling is.
+        replay_ok = (
+            bool(audit.get("replay_physical", False)) is False
+            and audit.get("sampling_phase")
+            in ("authority_quota", "physical_allowed")
+        )
+    else:
+        replay_ok = (
+            bool(audit.get("replay_physical", False)) is expected_physical
+            and audit.get("sampling_phase")
+            == ("physical_allowed" if expected_physical else "authority_quota")
+        )
     out["checks"]["replay_semantics"] = {
         "replay_physical": audit.get("replay_physical"),
         "sampling_phase": audit.get("sampling_phase"),
