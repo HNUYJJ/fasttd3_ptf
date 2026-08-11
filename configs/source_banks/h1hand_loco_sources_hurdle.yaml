@@ -1,0 +1,23 @@
+# 宽 pilot(RIC-PTF 第一波): loco 源库 for hurdle。
+# obs adapter 按任务布局: identity(obs=proprio151) 或 hb_robot_qpos_qvel(默认
+# qpos|qvel 拼接布局, qpos_dim=nq)。源跨任务复用(stand/walk/run), 无任务名分支。
+null_option: true
+sources:
+- name: stand
+  manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+  obs_adapter: {type: identity, output_dim: 151}
+  action_adapter: {type: passthrough}
+  action_mask: {type: full}
+  compatibility_sigma: 1.5
+- name: walk
+  manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+  obs_adapter: {type: identity, output_dim: 151}
+  action_adapter: {type: passthrough}
+  action_mask: {type: full}
+  compatibility_sigma: 1.5
+- name: run
+  manifest: checkpoints/official_sources/h1hand_run/manifest.json
+  obs_adapter: {type: identity, output_dim: 151}
+  action_adapter: {type: passthrough}
+  action_mask: {type: full}
+  compatibility_sigma: 1.5

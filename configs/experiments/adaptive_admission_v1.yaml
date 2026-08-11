@@ -1,0 +1,119 @@
+schema_version: 1
+experiment: adaptive_admission_v1
+status: pi_authorized_implementation_pending_claude_review
+date_utc: 2026-07-14
+authority: >-
+  PI approved Phase A and explicitly confirmed stage_window_steps=3000.
+  Phase B baselines remain paused.
+purpose: >-
+  Test whether stage-local, student-relative behavioral-source revocation can
+  truncate crawl-like negative transfer without removing sources that retain
+  positive behavioral authority on truck, while preserving powerlift and
+  characterizing the known basketball reward-survival boundary.
+
+mechanism:
+  name: adaptive_behavioral_source_revocation
+  estimator: >-
+    Per-candidate completed-segment mean reward within fixed, non-overlapping
+    stage windows; normal-approximate one-sided source UCB versus student LCB.
+  claim_boundary: >-
+    Heuristic behavior-authority utility only; not replay learning utility,
+    cross-task ROI prediction, or a strict sequential 95 percent guarantee.
+  stage_window_steps: 3000
+  confidence_z: 1.645
+  min_segments: 20
+  persistence_windows: 3
+  earliest_revocation_step: 9000
+  irreversible: true
+
+common:
+  total_timesteps: 100000
+  num_envs: 128
+  batch_size: 32768
+  buffer_size: 51200
+  learning_starts: 10
+  num_updates: 2
+  eval_interval: 5000
+  save_interval: 30000
+  seeds: [1, 2, 3]
+  mcg: true
+  mcg_groups: [legs_torso, arms]
+  mcg_warmup_steps: 30000
+  mcg_warmup_min_steps: 25
+  mcg_warmup_mode: admission_bootstrap
+  mcg_ablation: bootstrap_only
+  admission_mode: all
+  admission_replay_handoff: physical_after_authority
+  replay_recency_half_life: 0.0
+  replay_uniform_mix: 1.0
+  replay_priority_alpha: 0.0
+  wandb: true
+  concurrency_limit: 2
+
+cells:
+  - id: crawl_adaptive
+    task: crawl
+    role: primary_negative_transfer_repair
+    adaptive: true
+    source_bank: configs/source_banks/h1hand_loco_wfix_crawl.yaml
+    student_logit: 14.48513212658744
+    comparator: crawl_static
+
+  - id: crawl_static
+    task: crawl
+    role: matched_adaptive_off_control
+    adaptive: false
+    source_bank: configs/source_banks/h1hand_loco_wfix_crawl.yaml
+    student_logit: 14.48513212658744
+
+  - id: truck_adaptive
+    task: truck
+    role: positive_source_negative_control
+    adaptive: true
+    source_bank: configs/source_banks/h1hand_hurdle4_wfix_truck.yaml
+    student_logit: 14.216676716804526
+    comparator: admission_handoff_v1/truck_admission_h4_fix
+
+  - id: powerlift_adaptive
+    task: powerlift
+    role: retention_and_selective_revocation
+    adaptive: true
+    source_bank: configs/source_banks/h1hand_std9_wfix_powerlift.yaml
+    student_logit: 2.6708791088087076
+    comparator: admission_handoff_v1/powerlift_admission_all_fix
+
+  - id: basketball_adaptive
+    task: basketball
+    role: reward_survival_boundary_stress_test
+    adaptive: true
+    source_bank: configs/source_banks/h1hand_std9_wfix_basketball.yaml
+    student_logit: 3.5892126423877646
+    comparator: basketball_static
+
+  - id: basketball_static
+    task: basketball
+    role: matched_adaptive_off_control
+    adaptive: false
+    source_bank: configs/source_banks/h1hand_std9_wfix_basketball.yaml
+    student_logit: 3.5892126423877646
+
+preregistered_gates:
+  evaluation_grid: [10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000, 95000]
+  crawl:
+    adaptive_minus_static_mean_return_min: 30
+    positive_seed_count: 3
+    revocation_event_required: true
+  truck:
+    abs_adaptive_minus_fix_mean_return_max: 60
+    forbidden_revocations: [hurdle, walk, run]
+  powerlift:
+    adaptive_minus_fix_mean_return_min: -20
+  basketball:
+    descriptive_only: true
+
+launch_policy:
+  phase_b_paused: true
+  formal_launch_requires_claude_read_only_review: true
+  default_concurrency: 2
+  wandb_online_required: true
+  freeze_implementation_sha256: true

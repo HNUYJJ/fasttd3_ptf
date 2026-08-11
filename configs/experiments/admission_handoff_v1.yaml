@@ -1,0 +1,108 @@
+schema_version: 1
+experiment: admission_handoff_v1
+status: pi_authorized_formal_run
+date_utc: 2026-07-13
+authority: >-
+  PI approved the authority-coupled replay handoff implementation, the
+  powerlift 3-seed x 100k repair experiment, and the truck retention condition.
+purpose: >-
+  Test whether releasing fixed source provenance quotas when source behavior
+  authority ends removes repetition divergence while preserving the admitted
+  warmup transfer channel. Powerlift adjudicates the predicted transient
+  30k-80k harm; truck is the approved task with genuine late-training headroom
+  for a retention claim.
+
+mechanism:
+  name: authority_coupled_physical_handoff
+  replay_mass: >-
+    admitted_i * (admission_mass_i while source authority is active, otherwise
+    physical_allowed_share_i); student absorbs released mass and rejected
+    sources remain exact zero.
+  trigger: mcg_warmup_steps
+  bootstrap_only_semantics: >-
+    Source authority is active for steps [0, 30000) and released from step
+    30000 onward. With no rejected source, post-handoff sampling uses the same
+    torch.randint primitive as legacy FastTD3 uniform physical replay.
+  no_new_tunable_parameter: true
+
+common:
+  total_timesteps: 100000
+  num_envs: 128
+  batch_size: 32768
+  buffer_size: 51200
+  learning_starts: 10
+  num_updates: 2
+  eval_interval: 5000
+  save_interval: 30000
+  seeds: [1, 2, 3]
+  mcg: true
+  mcg_groups: [legs_torso, arms]
+  mcg_warmup_steps: 30000
+  mcg_warmup_mode: admission_bootstrap
+  mcg_ablation: bootstrap_only
+  admission_mode: all
+  admission_replay_handoff: physical_after_authority
+  replay_recency_half_life: 0.0
+  replay_uniform_mix: 1.0
+  replay_priority_alpha: 0.0
+  wandb: true
+  concurrency_limit: 2
+
+cells:
+  - id: powerlift_admission_all_fix
+    role: mandatory_transient_harm_adjudication
+    env_id: h1hand-powerlift-v0
+    source_bank: configs/source_banks/h1hand_std9_wfix_powerlift.yaml
+    admitted_sources: [stand, walk, run, hurdle, stair, slide, crawl, pole, reach]
+    student_logit: 2.6708791088087076
+    fixed_quota_logs: logs/train/admission_core_v1_20260712TFINALV2Z/powerlift_retain_all_s{seed}.log
+    comparators:
+      scratch_seed1: logs/train/b2_20260705T153732Z/b2_powerlift_scr_s1.log
+      wfix_seed1: logs/train/b2_20260705T153732Z/b2_powerlift_wfix_s1.log
+      scratch_seed23: logs/train/b2s_20260705T224905Z/b2s_powerlift_scr_s{seed}.log
+      wfix_seed23: logs/train/b2s_20260705T224905Z/b2s_powerlift_wfix_s{seed}.log
+    preregistered_gates:
+      warmup_regression: abs(mean_fix_minus_fixed_over_5k_to_30k) <= 10
+      primary_fixed_quota_repair:
+        mean_fix_minus_fixed_over_35k_to_80k: ">= 10"
+        positive_seed_count: 3
+      legacy_compatibility:
+        abs_mean_fix_minus_wfix_over_35k_to_80k: "<= 10"
+      collapse_removed: >-
+        mean_fix_at_80k >= mean(mean_fix_at_75k, mean_fix_at_85k) minus one
+        across-seed standard deviation at 80k
+      mechanism_60k_and_90k:
+        source_authority_active: false
+        effective_source_replay_mass_equals_physical_allowed_share: true
+    forbidden_gate: >-
+      Do not use the old 100k progress-retention ratio. Legacy WFix has no
+      significant powerlift headroom at 95k, so that ratio has an unstable
+      denominator and does not adjudicate this repair.
+
+  - id: truck_admission_h4_fix
+    role: approved_late_retention_adjudication
+    env_id: h1hand-truck-v0
+    source_bank: configs/source_banks/h1hand_hurdle4_wfix_truck.yaml
+    admitted_sources: [stand, walk, run, hurdle]
+    # logsumexp(5.2, 12.816, 12.613, 13.623): student receives exactly 0.5
+    # aggregate behavior/replay mass while sources retain legacy ratios.
+    student_logit: 14.216676716804526
+    comparators:
+      scratch_seed1: logs/train/br_20260704T015912Z/br_truck_scr_s1.log
+      scratch_seed23: logs/train/brseed_20260704T135105Z/bs_truck_scr_s{seed}.log
+      legacy_wfix: logs/train/h4_20260705T113556Z/h4_truck_s{seed}.log
+    preregistered_gates:
+      late_retention_95k:
+        mean_fix_minus_scratch: ">= 150"
+        positive_seed_count: 3
+      legacy_compatibility_95k:
+        abs_mean_fix_minus_wfix: "<= 100"
+      mechanism_60k_and_90k:
+        source_authority_active: false
+        effective_source_replay_mass_equals_physical_allowed_share: true
+
+claim_boundaries:
+  - No transferability estimator is introduced or validated here.
+  - Powerlift supports a replay-lifecycle correctness claim, not late retention.
+  - Truck may support late retention only if its preregistered 95k gates pass.
+  - The mechanism is a correctness-critical component, not a standalone headline algorithm.

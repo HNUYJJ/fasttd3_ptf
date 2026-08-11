@@ -1,0 +1,19 @@
+# Fixed-transfer control for the classic PTF Hurdle experiment.
+#
+# Removing the null option makes walk the only possible option.  The target
+# FastTD3 actor still controls the environment; this bank only supplies the
+# deterministic teacher action used by the transfer loss.
+null_option:
+  enabled: false
+
+sources:
+  - name: walk
+    manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+    obs_adapter:
+      type: identity
+      output_dim: 151
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: full
+    compatibility_sigma: 1.5

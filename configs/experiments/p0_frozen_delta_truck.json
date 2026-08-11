@@ -1,0 +1,23 @@
+{
+  "task": "truck",
+  "delta_return": 28.847339206805536,
+  "delta_progress_m": null,
+  "definition": "0.5 * cross-seed SD of scratch [eval] return, window steps 10000+15000",
+  "window_steps": [
+    10000,
+    15000
+  ],
+  "per_seed_window_means": {
+    "/home/yjj/fasttd3_ptf/logs/train/br_20260704T015912Z/br_truck_scr_s1.log": 780.0305000000001,
+    "/home/yjj/fasttd3_ptf/logs/train/brseed_20260704T135105Z/bs_truck_scr_s2.log": 816.127,
+    "/home/yjj/fasttd3_ptf/logs/train/brseed_20260704T135105Z/bs_truck_scr_s3.log": 892.9935
+  },
+  "input_log_sha256": {
+    "/home/yjj/fasttd3_ptf/logs/train/br_20260704T015912Z/br_truck_scr_s1.log": "598bedf7bf8a408deb14b5af6145fc941afb0b8b617e68295bf513e5f97f1257",
+    "/home/yjj/fasttd3_ptf/logs/train/brseed_20260704T135105Z/bs_truck_scr_s2.log": "6d5595bdeccf1e1e8b471562d3a81fbd813a68100eccaf7429a90469b8e6cb92",
+    "/home/yjj/fasttd3_ptf/logs/train/brseed_20260704T135105Z/bs_truck_scr_s3.log": "c0008efc7476defc1c344fda25e364d68ce9927ab1be48d0fcec14554b0f94fa"
+  },
+  "cross_seed_sd": 57.69467841361107,
+  "git_head": "48cb1db86c891f607d29ff3ee8194d8d667f8c56",
+  "frozen_utc": "2026-07-18T04:45:45.456084+00:00"
+}

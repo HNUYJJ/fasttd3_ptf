@@ -1,0 +1,23 @@
+{
+  "task": "crawl",
+  "delta_return": 33.55639568168537,
+  "delta_progress_m": 0.5,
+  "definition": "0.5 * cross-seed SD of scratch [eval] return, window steps 10000+15000",
+  "window_steps": [
+    10000,
+    15000
+  ],
+  "per_seed_window_means": {
+    "/home/yjj/fasttd3_ptf/logs/train/tp_20260615T044012Z/crawl_scr_s1.log": 474.432,
+    "/home/yjj/fasttd3_ptf/logs/train/seed_20260616T000532Z/crawl_scr_s2.log": 374.59950000000003,
+    "/home/yjj/fasttd3_ptf/logs/train/seed_20260616T000532Z/crawl_scr_s3.log": 502.217
+  },
+  "input_log_sha256": {
+    "/home/yjj/fasttd3_ptf/logs/train/tp_20260615T044012Z/crawl_scr_s1.log": "b6e232947f65f973a6d47e832b9bccb03a8b3f086b3a3ea89ecd58a67321719d",
+    "/home/yjj/fasttd3_ptf/logs/train/seed_20260616T000532Z/crawl_scr_s2.log": "c591e1cc935e920cc724f6fa408cf5efca76c5f01c19618b351f935a56519696",
+    "/home/yjj/fasttd3_ptf/logs/train/seed_20260616T000532Z/crawl_scr_s3.log": "1be3856c3e2dbd4d6578c29357fc1792d178ff32d6fd6cdb1a8b97b800fdcaaa"
+  },
+  "cross_seed_sd": 67.11279136337075,
+  "git_head": "48cb1db86c891f607d29ff3ee8194d8d667f8c56",
+  "frozen_utc": "2026-07-18T04:45:45.233712+00:00"
+}

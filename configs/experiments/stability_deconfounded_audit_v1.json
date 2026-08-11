@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "reference_condition": "scratch",
+  "episode_steps": 1000,
+  "num_envs": 8,
+  "eval_seeds": [7, 1007, 2007, 3007],
+  "train_seeds": [1, 2, 3],
+  "checkpoint_steps": [10000, 30000, 100000],
+  "tasks": [
+    {
+      "name": "cabinet",
+      "env_id": "h1hand-cabinet-v0",
+      "primary_metric": {"key": "success_subtasks", "reducer": "max", "direction": "max"},
+      "secondary_metrics": [
+        {"key": "door_openness_reward", "reducer": "max"},
+        {"key": "subtask_complete", "reducer": "max"}
+      ],
+      "stability_metrics": ["stand_reward", "small_control"],
+      "fall_mode": "non_success_termination",
+      "conditions": [
+        {"name": "scratch", "checkpoint_glob": "models/h1hand-cabinet-v0__h1hand_cabinet_br_scr_s{seed}_*__{seed}_{step}.pt", "required": true},
+        {"name": "wfix", "checkpoint_glob": "models/h1hand-cabinet-v0__h1hand_cabinet_wd_wfix_s{seed}_*__{seed}_{step}.pt", "required": true},
+        {"name": "stand", "checkpoint_glob": "models/h1hand-cabinet-v0__h1hand_cabinet_sd_stand_s{seed}_*__{seed}_{step}.pt", "required": false},
+        {"name": "walk", "checkpoint_glob": "models/h1hand-cabinet-v0__h1hand_cabinet_sd_walk_s{seed}_*__{seed}_{step}.pt", "required": false},
+        {"name": "run", "checkpoint_glob": "models/h1hand-cabinet-v0__h1hand_cabinet_sd_run_s{seed}_*__{seed}_{step}.pt", "required": false},
+        {"name": "run24", "checkpoint_glob": "models/h1hand-cabinet-v0__h1hand_cabinet_dm_run24_s{seed}_*__{seed}_{step}.pt", "required": false}
+      ]
+    },
+    {
+      "name": "maze",
+      "env_id": "h1hand-maze-v0",
+      "primary_metric": {"key": "success_subtasks", "reducer": "max", "direction": "max"},
+      "secondary_metrics": [
+        {"key": "stage_convert_reward", "reducer": "sum"},
+        {"key": "checkpoint_proximity_reward", "reducer": "max"},
+        {"key": "move", "reducer": "mean"}
+      ],
+      "stability_metrics": ["stand_reward", "small_control"],
+      "fall_mode": "non_success_termination",
+      "conditions": [
+        {"name": "scratch", "checkpoint_glob": "models/h1hand-maze-v0__h1hand_maze_br_scr_s{seed}_*__{seed}_{step}.pt", "required": true},
+        {"name": "wfix", "checkpoint_glob": "models/h1hand-maze-v0__h1hand_maze_wd_wfix_s{seed}_*__{seed}_{step}.pt", "required": true},
+        {"name": "stand", "checkpoint_glob": "models/h1hand-maze-v0__h1hand_maze_sd_stand_s{seed}_*__{seed}_{step}.pt", "required": false},
+        {"name": "walk", "checkpoint_glob": "models/h1hand-maze-v0__h1hand_maze_sd_walk_s{seed}_*__{seed}_{step}.pt", "required": false},
+        {"name": "run", "checkpoint_glob": "models/h1hand-maze-v0__h1hand_maze_sd_run_s{seed}_*__{seed}_{step}.pt", "required": false}
+      ]
+    },
+    {
+      "name": "powerlift",
+      "env_id": "h1hand-powerlift-v0",
+      "primary_metric": {"key": "reward_dumbbell_lifted", "reducer": "max", "direction": "max"},
+      "secondary_metrics": [],
+      "stability_metrics": ["stand_reward", "standing", "upright", "small_control"],
+      "fall_mode": "non_success_termination",
+      "conditions": [
+        {"name": "scratch", "checkpoint_glob": "models/h1hand-powerlift-v0__h1hand_powerlift_b2_scr_s{seed}_*__{seed}_{step}.pt", "required": true},
+        {"name": "wfix", "checkpoint_glob": "models/h1hand-powerlift-v0__h1hand_powerlift_b2_wfix_s{seed}_*__{seed}_{step}.pt", "required": true},
+        {"name": "stand", "checkpoint_glob": "models/h1hand-powerlift-v0__h1hand_powerlift_sd_stand_s{seed}_*__{seed}_{step}.pt", "required": false},
+        {"name": "walk", "checkpoint_glob": "models/h1hand-powerlift-v0__h1hand_powerlift_sd_walk_s{seed}_*__{seed}_{step}.pt", "required": false},
+        {"name": "run", "checkpoint_glob": "models/h1hand-powerlift-v0__h1hand_powerlift_sd_run_s{seed}_*__{seed}_{step}.pt", "required": false}
+      ]
+    },
+    {
+      "name": "basketball",
+      "env_id": "h1hand-basketball-v0",
+      "primary_metric": {"key": "success", "reducer": "max", "direction": "max"},
+      "secondary_metrics": [
+        {"key": "success_subtasks", "reducer": "max"},
+        {"key": "reward_hand_proximity", "reducer": "max"},
+        {"key": "reward_ball_success", "reducer": "max"}
+      ],
+      "stability_metrics": ["stand_reward", "small_control"],
+      "fall_mode": "unclassified_early_failure",
+      "conditions": [
+        {"name": "scratch", "checkpoint_glob": "models/h1hand-basketball-v0__h1hand_basketball_b2_scr_s{seed}_*__{seed}_{step}.pt", "required": true},
+        {"name": "wfix", "checkpoint_glob": "models/h1hand-basketball-v0__h1hand_basketball_b2_wfix_s{seed}_*__{seed}_{step}.pt", "required": true},
+        {"name": "stand", "checkpoint_glob": "models/h1hand-basketball-v0__h1hand_basketball_sd_stand_s{seed}_*__{seed}_{step}.pt", "required": false},
+        {"name": "walk", "checkpoint_glob": "models/h1hand-basketball-v0__h1hand_basketball_sd_walk_s{seed}_*__{seed}_{step}.pt", "required": false},
+        {"name": "run", "checkpoint_glob": "models/h1hand-basketball-v0__h1hand_basketball_sd_run_s{seed}_*__{seed}_{step}.pt", "required": false}
+      ]
+    }
+  ]
+}

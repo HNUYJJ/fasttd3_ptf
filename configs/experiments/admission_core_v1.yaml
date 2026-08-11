@@ -1,0 +1,96 @@
+schema_version: 1
+experiment: admission_core_v1
+status: completed
+date_utc: 2026-07-12
+purpose: >-
+  Validate the metric-agnostic admission/lifecycle implementation without
+  re-opening transferability-estimator design. Basketball tests exact negative
+  fallback; powerlift tests preservation of the established positive WFix
+  channel under the student-inclusive categorical scheduler.
+
+common:
+  total_timesteps: 100000
+  num_envs: 128
+  batch_size: 32768
+  buffer_size: 51200
+  learning_starts: 10
+  num_updates: 2
+  eval_interval: 5000
+  save_interval: 30000
+  seeds: [1, 2, 3]
+  mcg: true
+  mcg_groups: [legs_torso, arms]
+  mcg_warmup_steps: 30000
+  mcg_warmup_mode: admission_bootstrap
+  mcg_ablation: bootstrap_only
+  replay_recency_half_life: 0.0
+  replay_uniform_mix: 1.0
+  replay_priority_alpha: 0.0
+  note: >-
+    Uniform-within-stratum and zero recency/priority are intentional controls.
+    Recency and TD-priority are engineering-tested separately; enabling them
+    here would confound admission/fallback attribution.
+
+cells:
+  - id: basketball_exact_none
+    role: mandatory_negative_safety
+    env_id: h1hand-basketball-v0
+    source_bank: configs/source_banks/h1hand_std9_wfix_basketball.yaml
+    admission_mode: none
+    admitted_sources: []
+    student_logit: 0.0
+    implementation_run_stamp: 20260712TFINALV2Z
+    rng_isolation: restore_target_learner_stream_after_transfer_module_construction
+    comparators:
+      scratch: h1hand_basketball_b2_scr_s{seed}_20260705T153732Z
+      legacy_wfix: h1hand_basketball_b2_wfix_s{seed}_20260705T153732Z
+    success_criteria:
+      source_execution_count: 0
+      source_main_buffer_count: 0
+      source_critic_sample_count: 0
+      performance: statistically_compatible_with_scratch_and_better_than_legacy_wfix
+
+  - id: powerlift_retain_all
+    role: mandatory_positive_retention
+    env_id: h1hand-powerlift-v0
+    source_bank: configs/source_banks/h1hand_std9_wfix_powerlift.yaml
+    admission_mode: all
+    admitted_sources: [stand, walk, run, hurdle, stair, slide, crawl, pole, reach]
+    # logsumexp of the nine frozen source logits. Therefore the student has
+    # exactly 0.5 aggregate candidate mass while each source keeps the legacy
+    # WFix relative allocation. This isolates scheduler/replay lifecycle changes.
+    student_logit: 2.6708791088087076
+    comparators:
+      scratch: h1hand_powerlift_b2_scr_s{seed}_20260705T153732Z
+      legacy_wfix: h1hand_powerlift_b2_wfix_s{seed}_20260705T153732Z
+    success_criteria:
+      student_candidate_mass: 0.5
+      performance: retain_clear_positive_transfer_over_scratch
+
+decision_rule:
+  exact_abstention_engineering_pass: all_three_source_counts_are_zero_for_every_seed
+  negative_safety_pass: basketball_exact_none_not_systematically_below_scratch
+  positive_retention_pass: powerlift_retain_all_remains_clearly_above_scratch
+  performance_gates_at_100k:
+    basketball_negative_safety:
+      admission_common_prefix_progress_delta_min: -0.05
+      recovery_over_legacy_wfix_min: 0.10
+      admission_t_vs_zero_min: -2.92
+    powerlift_positive_retention:
+      admission_common_prefix_progress_delta_min_exclusive: 0.0
+      admission_t_vs_zero_min: 2.92
+      fraction_of_legacy_wfix_progress_delta_min: 0.50
+  claim_boundary: >-
+    This experiment validates admission and replay lifecycle mechanics only. It
+    does not validate an automatic source-transferability estimator.
+
+engineering_checks:
+  runtime_revocation:
+    schedule: configs/experiments/admission_revocation_smoke.yaml
+    checkpoint: models/h1hand-powerlift-v0__admission_schedule_revoke_smoke_s1_20260712__1_final.pt
+    decision_step: 20
+    required:
+      source_execution_after_revocation: 0
+      source_critic_samples_after_revocation: 0
+      active_source_buffer_count_after_revocation: 0
+      physical_source_buffer_count_retained_for_audit: positive

@@ -1,0 +1,13 @@
+# Slide 等剂量 BAC 判决场 bank（单源），2026-07-28。
+# slide 的 obs 与 loco 源同构（151 维），故用 identity adapter，
+# 无需 door/cabinet 那样的 qpos/qvel 切片——这条链路上不存在静默维度错配风险。
+# 结构与 h1hand_door_rbo_run.yaml 逐项一致，只换 target 与 adapter 类型。
+null_option: false
+sources:
+- name: run
+  manifest: checkpoints/official_sources/h1hand_run/manifest.json
+  obs_adapter: {type: identity, output_dim: 151}
+  action_adapter: {type: passthrough}
+  action_mask: {type: full}
+  compatibility_sigma: 1.5
+  bootstrap: {weight: 0.0, horizon: 25}

@@ -1,0 +1,12 @@
+schema_version: 1
+source_names: [walk]
+decisions:
+  - step: 0
+    decision_id: slide-walk-bridge-admit
+    admitted_sources: [walk]
+    source_logits: [0.0]
+    student_logit: 0.0
+  - step: 12000
+    decision_id: slide-walk-bridge-forget
+    admitted_sources: []
+    student_logit: 0.0

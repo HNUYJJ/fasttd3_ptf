@@ -1,0 +1,70 @@
+schema_version: 1
+protocol: docs/source_intervention_mechanism_gate_v1.md
+status: engineering_smoke_only
+target:
+  env_id: h1hand-cabinet-v0
+  learner_seed: 1
+  stage_vector_steps: 2
+  num_envs: 2
+  source_bank: configs/source_banks/empty.yaml
+  mcg: false
+  entity_encoder: false
+  eval_interval: 0
+  render_interval: 0
+  anchor_dir: artifacts/anchors/_smoke_cabinet_s1_step2
+source_intervention:
+  source_bank: configs/source_banks/audit/h1hand_cabinet_sd_run.yaml
+  source_name: run
+  groups: [legs_torso, arms]
+  student_groups: [hands]
+  source_horizon: 2
+  followup_horizon: 2
+state_bank:
+  accepted_anchors: 2
+  reset_seed_start: 910000
+  reserve_seeds: 2
+  prefix_length_rng_seed: 920001
+  prefix_length_low_inclusive: 0
+  prefix_length_high_exclusive: 5
+  prefix_exploration_noise_seed: 920002
+  path_exploration_noise_seed: 920003
+  exploration_scale: anchor_actor_noise_scale_by_anchor_mod_env
+  invalidation: reject_pair_if_either_path_terminates_or_truncates
+  output: artifacts/mechanism_gate/_smoke/state_bank.pt
+trajectory_bank:
+  output: artifacts/mechanism_gate/_smoke/trajectory_bank.pt
+  provenance_groups: [legs_torso, arms, hands]
+  behavior_ids: {student: -1, mixed_run_composite: -2}
+updates:
+  cells: ["00", "10", "01", "11", duplicate00, d0_only]
+  no_update_control: true
+  critic_updates: 2
+  actor_updates: 1
+  policy_frequency: 2
+  batch_size: 8
+  batch_fractions: {d0: 0.50, z: 0.25, f: 0.25}
+  sampler_seed: 930001
+  target_noise_seed: 930002
+  branch_order_seed: 930003
+  evaluation_updates: [0, 1, 2]
+  primary_update: 2
+  freeze_normalizers: true
+  output_dir: artifacts/mechanism_gate/_smoke/branches
+  save_branch_checkpoints: false
+evaluation:
+  source_free: true
+  deterministic_actor: true
+  reset_seed_start: 940000
+  episodes: 2
+  max_steps: 10
+  primary_metric: max_door_fraction
+  output: artifacts/mechanism_gate/_smoke/results.json
+feasibility_gate:
+  practical_effect_floor: 0.10
+  duplicate_noise_multiplier: 3.0
+  endpoint_l2_floor: 0.05
+  action_l2_floor: 0.05
+  require_detectable_occupancy_treatment: true
+  require_hard_threshold_consistency: true
+  reject_posture_only_explanation: true
+  require_full_effect_not_strongly_negative: true

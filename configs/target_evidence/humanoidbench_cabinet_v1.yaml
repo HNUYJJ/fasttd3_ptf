@@ -1,0 +1,30 @@
+schema_version: 1
+name: humanoidbench_cabinet_target_evidence_v1
+env_name: h1hand-cabinet-v0
+
+# Cabinet is a manipulation target: achievement is not root displacement but
+# how far the cabinet itself has been opened.  The target MDP exposes that
+# directly as `door_openness_reward`, which is also what drives the
+# `subtask_complete` flag; the flag is near-constant inside a 25-step probe
+# window and therefore carries no gradient of evidence, so the continuous
+# component is declared as progress.  No source-specific choice appears here.
+progress:
+  kind: info
+  info_key: door_openness_reward
+  temporal_reducer: mean
+  direction: maximize
+  gate_components: [upright_support]
+  gate_reducer: product
+
+feasibility:
+  # Cabinet does not terminate on a fall, so staying upright is a necessary
+  # semantic precondition rather than something the episode boundary enforces:
+  # a collapsed humanoid cannot keep manipulating the cabinet even though the
+  # episode continues to accumulate steps.
+  - name: upright_support
+    info_keys: [stand_reward]
+    step_reducer: min
+    temporal_reducer: mean
+    direction: maximize
+
+hard_constraints: []

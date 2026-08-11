@@ -1,0 +1,48 @@
+# safe-horizon bootstrap 源库 for powerlift(自动生成,勿手改;
+# 改 logs/probe/bootstrap_config.json 后重跑 build_safe_bootstrap_banks.py)。
+# per-source bootstrap.weight=Transfer Map v2 vs-zero reward-bearing score,
+# bootstrap.horizon=safe_horizon(time-to-fall)。warmup_mode=safe_bootstrap 消费。
+null_option: true
+sources:
+- name: stand
+  manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 83
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.862
+    horizon: 50
+- name: walk
+  manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 83
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.78
+    horizon: 50
+- name: run
+  manifest: checkpoints/official_sources/h1hand_run/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 83
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.0
+    horizon: 50

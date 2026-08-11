@@ -1,0 +1,33 @@
+# Single-factor signal gate for the classic PTF termination path.
+# Relative to the sigma=0.5 smoke, only beta_update_mode changes:
+# historical replay batch -> released-PTF current transition/current option.
+ptf:
+  source_bank: configs/source_banks/pure_ptf/h1hand_hurdle_walk_sigma05.yaml
+
+  option_hidden_dims: [256, 256]
+  option_lr: 0.0003
+  beta_lr: 0.0001
+  beta_warmup_steps: 0
+  beta_update_mode: current_transition
+  option_tau: 0.05
+  option_epsilon_start: 0.30
+  option_epsilon_end: 0.05
+  option_epsilon_decay_steps: 50000
+  option_min_steps: 1
+  xi: 0.0
+
+  transfer_lambda_start: 1.0
+  transfer_lambda_end: 0.0
+  transfer_decay_steps: 100000
+  transfer_loss: huber
+  transfer_huber_delta: 1.0
+  beta_weighted_transfer: true
+  update_all_compatible_options: true
+
+  execute_sources: false
+  mcg: false
+  mcg_replay_reweight: false
+  mcg_replay_mode: "off"
+  mcg_abstain_gate: false
+  admission_mode: legacy
+  admission_adaptive: false

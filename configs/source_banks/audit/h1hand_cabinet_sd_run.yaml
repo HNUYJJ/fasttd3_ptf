@@ -1,0 +1,18 @@
+# Stability-deconfounded audit: run-only RBO for cabinet.
+# Controlled: weight=1, horizon=25, warmup=30k, exec_prob=0.5.
+null_option: true
+sources:
+- name: run
+  manifest: checkpoints/official_sources/h1hand_run/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 109
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 1.0
+    horizon: 25

@@ -1,0 +1,25 @@
+schema_version: 1
+name: humanoidbench_crawl_target_evidence_v1
+env_name: h1hand-crawl-v0
+
+progress:
+  kind: sim_state_delta
+  array: qpos
+  index: 0
+  direction: maximize
+  gate_components: [crawl_posture, tunnel_occupancy]
+  gate_reducer: product
+
+feasibility:
+  - name: crawl_posture
+    info_keys: [crawling, crawling_head]
+    step_reducer: min
+    temporal_reducer: mean
+    direction: maximize
+  - name: tunnel_occupancy
+    info_keys: [in_tunnel]
+    step_reducer: min
+    temporal_reducer: mean
+    direction: maximize
+
+hard_constraints: []

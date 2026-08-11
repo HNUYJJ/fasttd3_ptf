@@ -1,0 +1,81 @@
+# 扩源 uniform bank for truck(7 源无 bootstrap, rand-big 用;
+# 由 build_bigsrc_banks.py 自动生成,勿手改)。
+null_option: true
+sources:
+- name: stand
+  manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 111
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+- name: walk
+  manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 111
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+- name: run
+  manifest: checkpoints/official_sources/h1hand_run/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 111
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+- name: crawl
+  manifest: checkpoints/terrain_sources/h1hand_crawl/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 111
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+- name: pole
+  manifest: checkpoints/terrain_sources/h1hand_pole/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 111
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+- name: slide
+  manifest: checkpoints/terrain_sources/h1hand_slide/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 111
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+- name: stair
+  manifest: checkpoints/terrain_sources/h1hand_stair/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 111
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5

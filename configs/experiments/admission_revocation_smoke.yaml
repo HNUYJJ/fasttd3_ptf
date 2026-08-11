@@ -1,0 +1,12 @@
+schema_version: 1
+source_names: [stand, walk, run, hurdle, stair, slide, crawl, pole, reach]
+decisions:
+  - step: 0
+    decision_id: admit-stand-for-runtime-revocation-smoke
+    admitted_sources: [stand]
+    source_logits: [10.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    student_logit: -20.0
+  - step: 20
+    decision_id: exact-abstain-runtime-revocation-smoke
+    admitted_sources: []
+    student_logit: 0.0

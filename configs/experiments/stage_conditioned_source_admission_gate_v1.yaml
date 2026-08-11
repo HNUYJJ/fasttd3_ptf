@@ -1,0 +1,105 @@
+schema_version: 1
+experiment: stage_conditioned_source_admission_gate_v1
+status: implemented_engineering_verified_formal_gate_not_run
+# Outcome is immutable output, not preregistration input:
+# artifacts/source_admission_gate_v1/gate_report.json -> STOP_CLOSED_LOOP
+protocol: docs/stage_conditioned_source_admission_gate_v1.md
+
+common:
+  learner_seed: 1
+  valid_anchors: 512
+  candidate_anchor_limit: 2048
+  collector_num_envs: 8
+  source_horizon: 25
+  followup_horizon: 25
+  reset_seed_start: 2026071200
+  student_noise_scale_seed: 20260711
+  anchor_prefix_noise_seed: 20260712
+  potential_path_noise_seed: 20260713
+  duplicate_potential_path_noise_seed: 20260713
+  independent_null_noise_seed: 20260714
+  confidence: 0.95
+  confidence_unit: anchor
+  robust_scale:
+    formula: max(iqr/1.349,1.4826*mad,1e-6)
+  threshold_source: independent_student_vs_student_null
+  quarantine_only: true
+  learner_updates: 0
+  main_replay_writes: 0
+
+cells:
+  - id: hurdle_scratch_s1_step50000
+    role: mandatory_positive
+    env_id: h1hand-hurdle-v0
+    student_checkpoint: models/h1hand-hurdle-v0__h1hand_hurdle_scratch50k_s1_20260612T161202Z__1_final.pt
+    declared_student_step: 50000
+    source_bank: configs/source_banks/h1hand_loco_sources_hurdle.yaml
+    sources: [walk, run]
+    action_authority: full
+    anchor_prefix_range: [0, 950]
+    external_label: at_least_one_eligible
+    output_dir: artifacts/source_admission_gate_v1/hurdle_s1_step50000
+
+  - id: crawl_scratch_s1_step100000
+    role: mandatory_negative
+    env_id: h1hand-crawl-v0
+    student_checkpoint: models/h1hand-crawl-v0__h1hand_crawl_tp_scr_s1_20260615T044012Z__1_final.pt
+    declared_student_step: 100000
+    source_bank: configs/source_banks/h1hand_loco_sources_crawl.yaml
+    sources: [stand, walk, run]
+    action_authority: full
+    anchor_prefix_range: [0, 950]
+    external_label: all_rejected
+    output_dir: artifacts/source_admission_gate_v1/crawl_s1_step100000
+
+  - id: cabinet_formal_s1_step10000_run_composite
+    role: mandatory_regression
+    env_id: h1hand-cabinet-v0
+    learner_anchor: artifacts/anchors/cabinet_scratch_s1_step10000
+    precomputed_state_bank: artifacts/mechanism_gate/cabinet_s1/state_bank.pt
+    reference_trajectory_bank: artifacts/mechanism_gate/cabinet_s1/trajectory_bank.pt
+    declared_student_step: 10000
+    source_bank: configs/source_banks/audit/h1hand_cabinet_sd_run.yaml
+    sources: [run]
+    action_authority:
+      source_groups: [legs_torso, arms]
+      student_groups: [hands]
+    external_label: all_rejected
+    label_scope: exact_run_composite_only
+    output_dir: artifacts/source_admission_gate_v1/cabinet_s1_step10000
+
+  - id: basketball_scratch_s1_step30000
+    role: diagnostic_unlabeled
+    env_id: h1hand-basketball-v0
+    student_checkpoint: models/h1hand-basketball-v0__h1hand_basketball_b2_scr_s1_20260705T153732Z__1_30000.pt
+    declared_student_step: 30000
+    source_bank: configs/source_banks/h1hand_std9_sources_basketball.yaml
+    sources: [stand, run, slide]
+    action_authority: full
+    anchor_prefix_range: [0, 450]
+    external_label: none_mixed_wfix_only
+    output_dir: artifacts/source_admission_gate_v1/basketball_s1_step30000
+
+  - id: basketball_scratch_s1_step100000
+    role: diagnostic_unlabeled
+    env_id: h1hand-basketball-v0
+    student_checkpoint: models/h1hand-basketball-v0__h1hand_basketball_b2_scr_s1_20260705T153732Z__1_final.pt
+    declared_student_step: 100000
+    source_bank: configs/source_banks/h1hand_std9_sources_basketball.yaml
+    sources: [stand, run, slide]
+    action_authority: full
+    anchor_prefix_range: [0, 450]
+    external_label: none_mixed_wfix_only
+    output_dir: artifacts/source_admission_gate_v1/basketball_s1_step100000
+
+aggregate:
+  output: artifacts/source_admission_gate_v1/gate_report.json
+  mandatory_cells:
+    - hurdle_scratch_s1_step50000
+    - crawl_scratch_s1_step100000
+    - cabinet_formal_s1_step10000_run_composite
+  scientific_go:
+    hurdle: at_least_one_eligible
+    crawl: all_rejected
+    cabinet_regression: all_rejected
+  stop_on_partial_classification: true

@@ -1,0 +1,11 @@
+# sibling-source gate：把在 **stair** 上训练的冻结源用于 **slide** target。
+# 与 h1hand_stair_rbo_slidesrc.yaml 对称，构成双向检验。
+null_option: false
+sources:
+- name: stair
+  manifest: checkpoints/terrain_sources/h1hand_stair/manifest.json
+  obs_adapter: {type: identity, output_dim: 151}
+  action_adapter: {type: passthrough}
+  action_mask: {type: full}
+  compatibility_sigma: 1.5
+  bootstrap: {weight: 0.0, horizon: 25}

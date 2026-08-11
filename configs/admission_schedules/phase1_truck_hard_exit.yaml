@@ -1,0 +1,9 @@
+schema_version: 1
+source_names: [stand, walk, run, hurdle]
+decisions:
+  - step: 0
+    decision_id: truck-admit-bank-hard-exit
+    admitted_sources: [stand, walk, run, hurdle]
+  - step: 30000
+    decision_id: truck-bank-lease-expired
+    admitted_sources: []

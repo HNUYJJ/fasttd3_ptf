@@ -1,0 +1,147 @@
+# P0 — SIV-v2 Counterfactual Lease Oracle 冻结实验矩阵
+# run card: docs/run_card_p0_siv_v2_counterfactual_oracle.md (v2.1.2)
+# 状态: 预注册草案——待 ChatGPT 代码复核通过 + throughput smoke(另行授权)
+#       + δ 冻结 + PI 最终批准后方可执行;执行前本文件 SHA256 冻结。
+# 失败后不得更换 task/L/dose/threshold 挽救(§0 限界条款)。
+
+schema_version: 1
+experiment: p0_siv_v2_lease_oracle
+status: preregistered_draft_awaiting_approval
+date_utc: 2026-07-17
+authority: >-
+  PI 2026-07-16 裁决:仅授权 run card 编写与实现;实验执行需 run card 经
+  ChatGPT 复核后 PI 再次批准。本文件是执行矩阵的预注册载体,不构成执行授权。
+
+estimand: >-
+  U^reset_bank(t=10k, L=3000) = E_seeds[J_sf(lease) - J_sf(abstain)];
+  treatment = 完整 lease 机制(source behavior mass 0.10 + admission-consistent
+  replay 配额 + source-induced occupancy),reset-start 限定。
+
+common:
+  # 与历史 wfix/handoff 相同的训练底座(anchor 与全部分支逐项一致,
+  # 由 train_ptf 的 resume 配置一致性断言强制)。
+  total_timesteps: 100000        # LR 余弦日程语义,不因分支提前停止而压缩
+  num_envs: 128
+  batch_size: 32768
+  buffer_size: 51200
+  learning_starts: 10
+  num_updates: 2
+  eval_interval: 0               # 训练环境不被 eval 打断;评估全部离线
+  render_interval: 0
+  save_interval: 0
+  compile: false                 # PTF 激活时强制关闭(E9)
+  torch_deterministic: true
+  reward_normalization: false    # 冻结(h1hand 历史默认)
+  amp: true                      # 按 anchor 配置冻结(bf16)
+  amp_dtype: bf16
+  wandb: true
+  concurrency_limit: 2           # E2:节点 RAM 上限,双并发
+  seeds: [1, 2, 3]
+
+anchors:                          # 6 个:每任务×seed;空 bank scratch
+  - id: anchor_crawl_s{seed}
+    env_id: h1hand-crawl-v0
+    cli:
+      ptf-anchor-step: 10000
+      ptf-anchor-dir: checkpoints/p0_anchors/crawl_s{seed}
+      ptf-run-stop-step: 10000
+      ptf-anchor-provenance-groups: 3   # crawl 分支组数(优先方案:零重建)
+  - id: anchor_truck_s{seed}
+    env_id: h1hand-truck-v0
+    cli:
+      ptf-anchor-step: 10000
+      ptf-anchor-dir: checkpoints/p0_anchors/truck_s{seed}
+      ptf-run-stop-step: 10000
+      ptf-anchor-provenance-groups: 2   # truck 分支组数(handoff matched 配置)
+
+branch_common:                    # 全部 14 分支共享
+  cli:
+    ptf-run-stop-step: 13000
+    ptf-eval-checkpoint-steps: "10750,11500,12250,13000"
+    ptf-mcg: true
+    ptf-mcg-warmup-mode: admission_bootstrap
+    ptf-mcg-ablation: bootstrap_only       # gate 关,无蒸馏
+    ptf-mcg-warmup-steps: 30000            # warmup 覆盖整个分支段(10k-13k)
+    ptf-mcg-warmup-min-steps: 25           # h=25 锁存
+    ptf-admission-replay-handoff: physical_after_authority
+    ptf-admission-replay-recency-half-life: 0
+    ptf-admission-replay-uniform-mix: 1.0
+    ptf-admission-replay-priority-alpha: 0
+  noise_seed_panel:               # resume_noise_seed = base + seed(配对:两臂同值)
+    base: 77000
+
+cells:
+  - id: crawl_lease_s{seed}       # C1 lease 臂 ×3
+    env_id: h1hand-crawl-v0
+    anchor: checkpoints/p0_anchors/crawl_s{seed}
+    source_bank: configs/source_banks/h1hand_loco_wfix_crawl.yaml
+    cli:
+      ptf-admission-mode: all
+      ptf-admission-student-logit: 16.6823567039   # float64 解析值(配置输入)
+      ptf-admission-expected-source-mass: 0.10     # float32 运行时断言 ±1e-6
+      ptf-mcg-groups: legs_torso,arms,hands        # 历史 WFix 全 61 维
+    prior_label: negative          # historical-concordance 参照(非 ground truth)
+
+  - id: crawl_abstain_s{seed}     # C1 abstain 臂 ×3
+    env_id: h1hand-crawl-v0
+    anchor: checkpoints/p0_anchors/crawl_s{seed}
+    source_bank: configs/source_banks/h1hand_loco_wfix_crawl.yaml   # 同 bank
+    cli:
+      ptf-admission-mode: none                     # exact abstention
+      ptf-admission-student-logit: 16.6823567039
+      ptf-admission-expected-source-mass: 0.0
+      ptf-mcg-groups: legs_torso,arms,hands
+
+  - id: truck_lease_s{seed}       # C2 lease 臂 ×3
+    env_id: h1hand-truck-v0
+    anchor: checkpoints/p0_anchors/truck_s{seed}
+    source_bank: configs/source_banks/h1hand_hurdle4_wfix_truck.yaml
+    cli:
+      ptf-admission-mode: all
+      ptf-admission-student-logit: 16.4139012941
+      ptf-admission-expected-source-mass: 0.10
+      ptf-mcg-groups: legs_torso,arms              # handoff +227.8 matched 配置
+    prior_label: positive
+
+  - id: truck_abstain_s{seed}     # C2 abstain 臂 ×3
+    env_id: h1hand-truck-v0
+    anchor: checkpoints/p0_anchors/truck_s{seed}
+    source_bank: configs/source_banks/h1hand_hurdle4_wfix_truck.yaml
+    cli:
+      ptf-admission-mode: none
+      ptf-admission-student-logit: 16.4139012941
+      ptf-admission-expected-source-mass: 0.0
+      ptf-mcg-groups: legs_torso,arms
+
+  - id: crawl_duplicate_s1        # N1:abstain s1 完全同 seed 重启进程(d_dup)
+    duplicates: crawl_abstain_s1
+  - id: truck_duplicate_s1        # N2
+    duplicates: truck_abstain_s1
+
+# 分支合计: 3+3+3+3+2 = 14 ✓;anchor 6 ✓
+
+evaluation:
+  evaluator: scripts/p0_evaluator.py     # 独立冻结 evaluator(结构性 source-free)
+  eval_seeds: [11, 23, 37, 53]           # ×8 ranks = 32 episodes/checkpoint
+  episode_steps: 1000
+  primary_checkpoint: 13000
+  descriptive_checkpoints: [10750, 11500, 12250]
+
+adjudication:
+  script: scripts/p0_adjudicate.py
+  delta_freeze: scripts/p0_freeze_delta.py   # 执行前冻结,输出拒绝覆盖
+  delta_sources:
+    crawl:
+      - logs/train/tp_20260615T044012Z/crawl_scr_s1.log
+      - logs/train/seed_20260616T000532Z/crawl_scr_s2.log
+      - logs/train/seed_20260616T000532Z/crawl_scr_s3.log
+    truck:       # breadth 实验族 scratch 3 seeds(同 launch 族,窗口数据已核验)
+      - logs/train/br_20260704T015912Z/br_truck_scr_s1.log
+      - logs/train/brseed_20260704T135105Z/bs_truck_scr_s2.log
+      - logs/train/brseed_20260704T135105Z/bs_truck_scr_s3.log
+  t_090_df2: 1.8856
+
+deployment_diagnostics:            # §8 报告项(不进裁决)
+  - latency: 一次完整决策 wallclock vs 3000 步在线时长
+  - cost: 占 100k 训练比例 + (S+1) 外推
+  - scalability: S=3/9 资源表

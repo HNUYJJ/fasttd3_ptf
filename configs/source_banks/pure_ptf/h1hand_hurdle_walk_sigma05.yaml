@@ -1,0 +1,21 @@
+# Signal-gated classic-PTF smoke bank.
+#
+# The only intervention relative to h1hand_hurdle_walk.yaml is the Gaussian
+# compatibility bandwidth: 1.5 -> 0.5. The value was selected before this
+# online run from frozen-rollout support diagnostics, without observing any
+# sigma=0.5 training return.
+null_option:
+  enabled: true
+  name: no_transfer
+
+sources:
+  - name: walk
+    manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+    obs_adapter:
+      type: identity
+      output_dim: 151
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: full
+    compatibility_sigma: 0.5

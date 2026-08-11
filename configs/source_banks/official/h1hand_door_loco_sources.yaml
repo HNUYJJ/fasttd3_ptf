@@ -1,0 +1,50 @@
+# Official FastTD3 h1hand-door source bank.
+# Door observations inherit HumanoidBench Task.get_obs(): full qpos (78)
+# followed by full qvel (77). Extract robot qpos[:76] + qvel[:75]
+# explicitly instead of slicing the first 151 target-observation entries.
+sources:
+  - name: stand
+    manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+    obs_adapter:
+      type: humanoidbench_robot_qpos_qvel
+      qpos_dim: 78
+      robot_dof: 76
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: groups
+      schema: h1hand_default
+      groups: [legs_torso, arms]
+    compatibility_sigma: 0.25
+
+  - name: walk
+    manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+    obs_adapter:
+      type: humanoidbench_robot_qpos_qvel
+      qpos_dim: 78
+      robot_dof: 76
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: groups
+      schema: h1hand_default
+      groups: [legs_torso]
+    compatibility_sigma: 0.25
+
+  - name: run
+    manifest: checkpoints/official_sources/h1hand_run/manifest.json
+    obs_adapter:
+      type: humanoidbench_robot_qpos_qvel
+      qpos_dim: 78
+      robot_dof: 76
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: groups
+      schema: h1hand_default
+      groups: [legs_torso]
+    compatibility_sigma: 0.25
+
+null_option:
+  enabled: true
+  name: no_transfer

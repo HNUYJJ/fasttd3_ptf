@@ -1,0 +1,57 @@
+# Source-bank template grounded in HumanoidBench h1hand_pos.xml actuator order.
+# The reach adapter is valid for h1hand-push because push observations begin with
+# robot proprioception + left_hand + target, matching h1hand-reach observations.
+# For package use h1hand_loco_sources.yaml; for door/window use their
+# target-specific loco banks because their observations are full qpos+qvel.
+sources:
+  - name: stand
+    manifest: checkpoints/sources/h1hand_stand/manifest.json
+    obs_adapter:
+      type: robot_only
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: groups
+      schema: h1hand_default
+      groups: [legs_torso, arms]
+    compatibility_sigma: 0.25
+
+  - name: walk
+    manifest: checkpoints/sources/h1hand_walk/manifest.json
+    obs_adapter:
+      type: robot_only
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: groups
+      schema: h1hand_default
+      groups: [legs_torso]
+    compatibility_sigma: 0.25
+
+  - name: run
+    manifest: checkpoints/sources/h1hand_run/manifest.json
+    obs_adapter:
+      type: robot_only
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: groups
+      schema: h1hand_default
+      groups: [legs_torso]
+    compatibility_sigma: 0.25
+
+  - name: reach
+    manifest: checkpoints/sources/h1hand_reach/manifest.json
+    obs_adapter:
+      type: reach
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: groups
+      schema: h1hand_default
+      groups: [arms, hands]
+    compatibility_sigma: 0.30
+
+null_option:
+  enabled: true
+  name: no_transfer

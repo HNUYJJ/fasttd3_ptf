@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "reference_condition": "scratch",
+  "episode_steps": 1000,
+  "num_envs": 8,
+  "eval_seeds": [7, 1007, 2007, 3007],
+  "train_seeds": [1, 2, 3],
+  "checkpoint_steps": [30000, 100000],
+  "tasks": [
+    {
+      "name": "powerlift",
+      "env_id": "h1hand-powerlift-v0",
+      "episode_steps": 1000,
+      "primary_metric": {"key": "reward_dumbbell_lifted", "reducer": "max", "direction": "max"},
+      "secondary_metrics": [],
+      "stability_metrics": ["stand_reward", "standing", "upright", "small_control"],
+      "fall_mode": "non_success_termination",
+      "conditions": [
+        {"name": "scratch", "checkpoint_glob": "models/h1hand-powerlift-v0__h1hand_powerlift_b2_scr_s{seed}_*__{seed}_{step}.pt", "required": true},
+        {"name": "wfix", "checkpoint_glob": "models/h1hand-powerlift-v0__h1hand_powerlift_b2_wfix_s{seed}_*__{seed}_{step}.pt", "required": true},
+        {"name": "admission_all", "checkpoint_glob": "models/h1hand-powerlift-v0__h1hand_powerlift_admission_v1_all_s{seed}_20260712TFINALV2Z__{seed}_{step}.pt", "required": true}
+      ]
+    },
+    {
+      "name": "basketball",
+      "env_id": "h1hand-basketball-v0",
+      "episode_steps": 500,
+      "primary_metric": {"key": "success", "reducer": "max", "direction": "max"},
+      "secondary_metrics": [
+        {"key": "success_subtasks", "reducer": "max"},
+        {"key": "reward_hand_proximity", "reducer": "max"},
+        {"key": "reward_ball_success", "reducer": "max"}
+      ],
+      "stability_metrics": ["stand_reward", "small_control"],
+      "fall_mode": "unclassified_early_failure",
+      "conditions": [
+        {"name": "scratch", "checkpoint_glob": "models/h1hand-basketball-v0__h1hand_basketball_b2_scr_s{seed}_*__{seed}_{step}.pt", "required": true},
+        {"name": "wfix", "checkpoint_glob": "models/h1hand-basketball-v0__h1hand_basketball_b2_wfix_s{seed}_*__{seed}_{step}.pt", "required": true},
+        {"name": "admission_none", "checkpoint_glob": "models/h1hand-basketball-v0__h1hand_basketball_admission_v1_none_s{seed}_20260712TFINALV2Z__{seed}_{step}.pt", "required": true}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+# Cabinet@10k equal-dose calibration bank (single source).
+# Observation adapter differs from the hurdle/crawl calibration banks by
+# necessity: cabinet observations are 213-dim (qpos 109 + qvel 104), so the
+# frozen 151-dim locomotion sources need the established robot qpos/qvel
+# slice used by every historical cabinet bank.  This is a necessary
+# observation adapter, not an intervention-protocol change.
+null_option: false
+sources:
+- name: stand
+  manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+  obs_adapter: {type: hb_robot_qpos_qvel, qpos_dim: 109, robot_dof: 76, output_dim: 151}
+  action_adapter: {type: passthrough}
+  action_mask: {type: full}
+  compatibility_sigma: 1.5
+  bootstrap: {weight: 0.0, horizon: 25}

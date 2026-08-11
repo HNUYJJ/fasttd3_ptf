@@ -1,0 +1,43 @@
+# Author-released PTF option-set semantics on HumanoidBench.
+#
+# PTF's released code treats the frozen source policies themselves as the
+# complete option set.  There is deliberately no project-specific null/student
+# option here.  The target FastTD3 actor still generates every environment
+# action; source policies provide deterministic distillation targets and
+# action-compatibility support.
+null_option:
+  enabled: false
+
+sources:
+  - name: stand
+    manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+    obs_adapter:
+      type: identity
+      output_dim: 151
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: full
+    compatibility_sigma: 0.5
+
+  - name: walk
+    manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+    obs_adapter:
+      type: identity
+      output_dim: 151
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: full
+    compatibility_sigma: 0.5
+
+  - name: run
+    manifest: checkpoints/official_sources/h1hand_run/manifest.json
+    obs_adapter:
+      type: identity
+      output_dim: 151
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: full
+    compatibility_sigma: 0.5

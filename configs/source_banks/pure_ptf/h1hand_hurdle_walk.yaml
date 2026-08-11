@@ -1,0 +1,20 @@
+# Classic PTF single-source feasibility bank.
+#
+# The frozen walk policy is a whole-policy option.  It never executes actions
+# in this experiment; the target FastTD3 student always controls the target
+# environment and is regularized toward this option only while PTF selects it.
+null_option:
+  enabled: true
+  name: no_transfer
+
+sources:
+  - name: walk
+    manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+    obs_adapter:
+      type: identity
+      output_dim: 151
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: full
+    compatibility_sigma: 1.5

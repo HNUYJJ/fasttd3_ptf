@@ -1,0 +1,14 @@
+# Door@10k equal-dose calibration bank (single source).
+# Door observations are 155-dim (qpos 78 + qvel 77); the frozen 151-dim
+# locomotion sources therefore use the robot qpos/qvel slice already validated
+# by every historical door bank (h1hand_loco_sources_door.yaml).  Identical in
+# structure to the cabinet calibration banks except for qpos_dim.
+null_option: false
+sources:
+- name: run
+  manifest: checkpoints/official_sources/h1hand_run/manifest.json
+  obs_adapter: {type: hb_robot_qpos_qvel, qpos_dim: 78, robot_dof: 76, output_dim: 151}
+  action_adapter: {type: passthrough}
+  action_mask: {type: full}
+  compatibility_sigma: 1.5
+  bootstrap: {weight: 0.0, horizon: 25}

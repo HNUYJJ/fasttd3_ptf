@@ -1,0 +1,7 @@
+# 空教师库:scratch 对照专用(train_ptf.py 空 bank = 纯 FastTD3,PTF/MCG 全部短路)。
+# 存在的意义:训练脚本的 ${SOURCE_BANK:-默认} 会把空字符串替换成默认 bank,
+# 必须给一个真实路径才能跑 scratch。
+sources: []
+null_option:
+  enabled: true
+  name: no_transfer

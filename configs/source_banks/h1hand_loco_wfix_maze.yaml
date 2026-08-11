@@ -1,0 +1,46 @@
+# wfix bank for maze(weighted 源同 safe, horizon 固定 25; 扩任务第一批,
+# 与主表 obrw 口径一致; 由 h1hand_loco_safe_maze.yaml 改 horizon 生成)。
+# per-source bootstrap.weight=target-environment probe 的相对 reward-bearing
+# allocation score（不是校准transfer ROI）；WFix固定h25用于隔离source weighting。
+# warmup_mode=safe_bootstrap 消费。
+null_option: true
+sources:
+- name: stand
+  manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+  obs_adapter:
+    type: identity
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 4.608
+    horizon: 25
+- name: walk
+  manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+  obs_adapter:
+    type: identity
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 6.036
+    horizon: 25
+- name: run
+  manifest: checkpoints/official_sources/h1hand_run/manifest.json
+  obs_adapter:
+    type: identity
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 2.9
+    horizon: 25

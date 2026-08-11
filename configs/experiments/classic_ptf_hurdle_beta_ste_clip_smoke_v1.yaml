@@ -1,0 +1,35 @@
+# Final classic-PTF termination falsification gate.
+# Relative to classic_ptf_hurdle_current_beta_smoke_v1, the only intervention
+# is an STE forward clamp of beta logits at +/-4. A regular torch.clamp is not
+# acceptable because its outside gradient is zero and would create a new lock.
+ptf:
+  source_bank: configs/source_banks/pure_ptf/h1hand_hurdle_walk_sigma05.yaml
+
+  option_hidden_dims: [256, 256]
+  option_lr: 0.0003
+  beta_lr: 0.0001
+  beta_warmup_steps: 0
+  beta_update_mode: current_transition
+  beta_logit_clip: 4.0
+  option_tau: 0.05
+  option_epsilon_start: 0.30
+  option_epsilon_end: 0.05
+  option_epsilon_decay_steps: 50000
+  option_min_steps: 1
+  xi: 0.0
+
+  transfer_lambda_start: 1.0
+  transfer_lambda_end: 0.0
+  transfer_decay_steps: 100000
+  transfer_loss: huber
+  transfer_huber_delta: 1.0
+  beta_weighted_transfer: true
+  update_all_compatible_options: true
+
+  execute_sources: false
+  mcg: false
+  mcg_replay_reweight: false
+  mcg_replay_mode: "off"
+  mcg_abstain_gate: false
+  admission_mode: legacy
+  admission_adaptive: false

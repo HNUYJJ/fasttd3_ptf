@@ -1,0 +1,24 @@
+# 安全对照(RIC-PTF 安全主张另一半): loco 源库 for balance_hard。
+# balance_hard 在 Transfer Map 上是"全员 OOD"任务(所有 loco 源 zero-shot 全摔/负迁移)。
+# SC-MCG 的正确行为=null gate 全关, 退化到≈scratch(不伤害)。这是 negative
+# transfer control 的实证场。obs adapter=hb_robot_qpos_qvel(qpos_dim=nq=90)。
+null_option: true
+sources:
+- name: stand
+  manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+  obs_adapter: {type: hb_robot_qpos_qvel, qpos_dim: 90, output_dim: 151}
+  action_adapter: {type: passthrough}
+  action_mask: {type: full}
+  compatibility_sigma: 1.5
+- name: walk
+  manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+  obs_adapter: {type: hb_robot_qpos_qvel, qpos_dim: 90, output_dim: 151}
+  action_adapter: {type: passthrough}
+  action_mask: {type: full}
+  compatibility_sigma: 1.5
+- name: run
+  manifest: checkpoints/official_sources/h1hand_run/manifest.json
+  obs_adapter: {type: hb_robot_qpos_qvel, qpos_dim: 90, output_dim: 151}
+  action_adapter: {type: passthrough}
+  action_mask: {type: full}
+  compatibility_sigma: 1.5

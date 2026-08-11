@@ -1,0 +1,194 @@
+schema_version: 1
+registry_date: '2026-07-12'
+status: evidence_audited_draft
+scope: paper_core_reconstruction
+
+metric:
+  name: eval_avg_return_auc
+  primary_window_steps: [5000, 95000]
+  estimator: trapezoidal_integral_divided_by_step_span
+  pairing_unit: target_task_and_training_seed
+  caution: Historical tables preserve their originally reported dispersion; batch2_local reports sample SD explicitly.
+
+method_definitions:
+  scratch:
+    code_label: scr
+    source_execution: false
+  random_bootstrap:
+    code_label: rand
+    mcg_ablation: bootstrap_only
+    warmup_teacher_probability: 0.5
+    source_selection: uniform
+    replay_reweighting: off
+  rbo:
+    code_label: wfix
+    paper_name: Reward-weighted Bootstrap
+    role: primary_method
+    mcg_ablation: bootstrap_only
+    warmup_mode: safe_bootstrap
+    warmup_steps: 30000
+    warmup_teacher_probability: 0.5
+    student_segment_probability: 0.5
+    source_selection: softmax_of_static_target_environment_probe_weights
+    source_selection_temperature: 1.0
+    segment_horizon: 25
+    replay_reweighting: off
+    final_evaluation: source_free_student
+    claim_boundary: Static probe weights are allocation heuristics, not calibrated transfer ROI.
+  obrw:
+    code_label: obrw
+    paper_role: optional_online_safety_extension_and_mechanism_ablation
+    mcg_ablation: bootstrap_only
+    warmup_mode: online_bootstrap
+    student_as_arm: true
+    replay_reweighting: symmetric_actor_critic
+    replay_mode: both
+    final_evaluation: source_free_student
+    claim_boundary: Operational reward feedback does not estimate transition data utility and does not universally prevent negative transfer.
+  mcg_distillation:
+    paper_role: supporting_or_appendix
+    primary_method_setting: disabled_by_bootstrap_only
+    reason: bootstrap_only_approximately_full_has_not_established_independent_performance_value
+
+evidence_sets:
+  terrain_wfix_decomposition:
+    source: docs/result_wfix_fallrecovery_20260620.md
+    tasks: [stair, slide, pole, crawl]
+    seeds: [1, 2, 3]
+    methods: [scratch, random_bootstrap, rbo, safe_h50]
+    reported_auc:
+      stair: {scratch: 252.5, random_bootstrap: 169.1, rbo: 174.1, safe_h50: 279.2}
+      slide: {scratch: 271.1, random_bootstrap: 450.2, rbo: 522.7, safe_h50: 504.7}
+      pole: {scratch: 603.3, random_bootstrap: 573.2, rbo: 767.4, safe_h50: 717.9}
+      crawl: {scratch: 812.0, random_bootstrap: 699.6, rbo: 739.2, safe_h50: 656.3}
+    paired_mechanism:
+      rbo_minus_random_bootstrap:
+        mean_delta_across_12_task_seed_pairs: 77.9
+        positive_pairs: 11
+        total_pairs: 12
+        paired_t: 3.08
+      safe_h50_minus_rbo:
+        mean_delta_across_12_task_seed_pairs: -11.4
+        paired_t: -0.46
+    supported_claim: Source weighting is the primary gain in this differentiated source bank; horizon effect is task-dependent.
+
+  online_control_and_replay:
+    source: docs/advisor_feedback_analysis_20260702.md
+    seeds: [1, 2, 3]
+    reported_auc:
+      crawl: {scratch: 812.0, rbo: 739.2, onlineb: 634.8, obrw: 729.5}
+      pole: {scratch: 603.3, rbo: 767.5, onlineb: 761.3, obrw: 755.0}
+      stair: {scratch: 252.5, rbo: 174.1, onlineb: 157.7, obrw: 184.2, safe_h50: 279.2}
+      slide: {scratch: 271.1, rbo: 522.7, onlineb: 551.3, obrw: 614.8}
+    paired_findings:
+      crawl_obrw_minus_onlineb: {mean_delta: 94.7, paired_t: 2.54, positive_seeds: 3}
+      slide_obrw_minus_rbo: {mean_delta: 92.1, paired_t: 14.7}
+    supported_claim: Replay exposure persists after execution adaptation; symmetric actor-critic control is useful in crawl and decisive over static RBO only on slide.
+    limitation: OBRW does not close stair or basketball negative transfer.
+
+  breadth_first_batch_wfix_adjudication:
+    source: docs/breadth_expansion_20260704.md
+    stamp: 20260704T152010Z
+    seeds: [1, 2, 3]
+    reported_auc:
+      maze: {scratch: 267.7, random_bootstrap: 346.1, rbo: 351.0, obrw: 341.7}
+      truck: {scratch: 1156.3, random_bootstrap: 1296.6, rbo: 1191.4, obrw: 1304.8}
+      cabinet: {scratch: 121.0, random_bootstrap: 210.9, rbo: 235.3, obrw: 219.6}
+      door: {scratch: 295.0, rbo: 285.9, obrw: 295.8}
+      spoon: {scratch: 315.4, rbo: 346.9, obrw: 354.2}
+    obrw_minus_rbo_global_ledger:
+      decisive_obrw_win: [slide]
+      small_significant_obrw_win: [spoon]
+      significant_rbo_win: [cabinet]
+      reported_ties: [maze, pole, crawl, stair, door, truck]
+    decision: Static RBO is the primary method; OBRW is not justified as the default algorithm.
+
+  source_bank_expansion:
+    source: docs/breadth_expansion_20260704.md
+    stamp: 20260705T113556Z
+    method: rbo
+    comparison: four_sources_including_hurdle_minus_three_locomotion_sources
+    results:
+      truck: {four_source_auc: 1421.3, three_source_auc: 1191.4, mean_delta: 229.9, paired_t: 3.47}
+      maze: {four_source_auc: 351.3, three_source_auc: 351.0, mean_delta: 0.3, paired_t: 0.16}
+    supported_claim: Probe improvement is not sufficient for downstream gain; source complementarity and target saturation condition its value.
+
+  breadth_second_batch_local:
+    source_artifact: artifacts/breadth_batch2_local_audit/analysis.json
+    source_report: artifacts/breadth_batch2_local_audit/report.md
+    stamps: [20260705T153732Z, 20260705T224905Z]
+    data_quality:
+      discovered_slots: 48
+      attempts: 50
+      valid_run_slots: 48
+      failed_attempts:
+        - {task: balance_hard, method: random_bootstrap, seed: 3, reason: cuda_oom_before_training, recovered: true, recovery_wandb_run_id: sznk9fp0}
+        - {task: balance_hard, method: rbo, seed: 2, reason: cuda_oom_before_training, recovered: true, recovery_wandb_run_id: yt5b0rjw}
+      complete_three_seed_tasks: [bookshelf_simple, basketball, window, powerlift, balance_hard]
+    auc_mean_sample_sd:
+      bookshelf_simple:
+        scratch: {mean: 679.427, sample_sd: 67.436, n: 3}
+        random_bootstrap: {mean: 654.743, sample_sd: 19.883, n: 3}
+        rbo: {mean: 711.561, sample_sd: 50.098, n: 3}
+        rbo_minus_scratch: {mean_delta: 32.134, paired_t: 1.134, n: 3}
+      basketball:
+        scratch: {mean: 188.870, sample_sd: 70.593, n: 3}
+        random_bootstrap: {mean: 116.042, sample_sd: 23.741, n: 3}
+        rbo: {mean: 87.357, sample_sd: 20.583, n: 3}
+        obrw: {mean: 114.835, sample_sd: 20.968, n: 3}
+        rbo_minus_scratch: {mean_delta: -101.514, paired_t: -2.580, n: 3, sign: three_of_three_negative}
+        obrw_minus_scratch: {mean_delta: -74.035, paired_t: -1.768, n: 3, sign: three_of_three_negative}
+      window:
+        scratch: {mean: 269.011, sample_sd: 41.815, n: 3}
+        random_bootstrap: {mean: 206.413, sample_sd: 70.982, n: 3}
+        rbo: {mean: 237.151, sample_sd: 58.119, n: 3}
+        rbo_minus_scratch: {mean_delta: -31.860, paired_t: -0.991, n: 3}
+      powerlift:
+        scratch: {mean: 177.586, sample_sd: 9.565, n: 3}
+        random_bootstrap: {mean: 254.220, sample_sd: 6.023, n: 3}
+        rbo: {mean: 255.200, sample_sd: 0.813, n: 3}
+        rbo_minus_scratch: {mean_delta: 77.614, paired_t: 14.784, n: 3, sign: three_of_three_positive}
+      balance_hard:
+        scratch: {mean: 84.393, sample_sd: 4.921, n: 3}
+        random_bootstrap: {mean: 91.090, sample_sd: 4.234, n: 3}
+        rbo: {mean: 90.455, sample_sd: 15.424, n: 3}
+        rbo_minus_scratch: {mean_delta: 6.062, paired_t: 0.747, n: 3}
+        random_bootstrap_minus_scratch: {mean_delta: 6.697, paired_t: 1.782, n: 3}
+        rbo_minus_random_bootstrap: {mean_delta: -0.635, paired_t: -0.094, n: 3}
+    supported_claims:
+      - Powerlift is a robust return-AUC positive case despite near-zero short probe scores, but lacks current hard-skill evidence.
+      - Basketball is a hard negative-transfer case for both static RBO and OBRW.
+      - Low T0 probe values do not have reliable directional meaning.
+      - Balance-hard is a three-seed null case where all-zero probe weights provide no advantage over uniform allocation.
+
+  cabinet_mechanism_and_shu:
+    sources:
+      - docs/stage_conditioned_source_admission_gate_v1.md
+      - docs/stability_deconfounded_audit_p2_cabinet_run24_findings.md
+    formal_2x2:
+      occupancy_transport_effect: -0.0511
+      update_transport_effect: -0.0304
+      interaction: 0.0331
+      total_transfer: -0.0484
+    shu_mandatory_regression:
+      result: stop_closed_loop
+      contradiction: behavior_and_handoff_positive_but_downstream_update_effect_negative
+    supported_claim: Behavior or handoff utility cannot be reused as replay/update data utility.
+
+paper_claim_policy:
+  supported:
+    - Reward-bearing source execution can improve finite-budget off-policy learning on a substantial but non-universal subset of HumanoidBench tasks.
+    - Static target-environment source weighting has value when the source bank is strongly differentiated.
+    - Better source-bank coverage can dominate additional online algorithmic complexity.
+    - Execution exposure and replay exposure are distinct negative-transfer channels.
+    - Actor and critic replay interventions should use coherent source-conditioned sampling.
+  must_be_narrowed:
+    - T0 is a relative allocation signal, not calibrated source-to-target transferability or ROI.
+    - OBRW is an optional safety extension with one decisive net win, not the primary method.
+    - Improvements are finite-budget sample-efficiency results, not universal asymptotic ceiling gains.
+    - Return-AUC improvement is not target-skill completion; powerlift currently lacks hard-progress support.
+  rejected:
+    - A single behavior or handoff score can safely control both source execution and replay admission.
+    - Student-as-arm or OBRW guarantees exact scratch fallback under harmful source banks.
+    - MCG distillation is an independently established headline contribution.
+    - Low probe score implies negative transfer.

@@ -1,0 +1,53 @@
+# Isolated author-released-code fidelity gate for PTF + FastTD3 on Hurdle.
+#
+# Restored released-code mechanisms:
+# - source-only option set (stand/walk/run; no null option)
+# - one 20-unit ReLU6 trunk, tanh Q_omega, bare-sigmoid beta
+# - current-transition beta before one replay Q update per environment step
+# - unclamped adaptive-xi termination advantage
+# - online beta/argmax with hard target Q, copied every 1000 option updates
+# - immediate reset choice and random-probability schedule 1.0 -> 0.1
+# - no (1-beta) multiplier in transfer loss; released tanh decay shape
+#
+# Necessary FastTD3/HumanoidBench adapters retained:
+# deterministic masked Huber distillation, observation/action adapters,
+# soft high-dimensional action compatibility, vectorized environments, and
+# source-free target-actor evaluation.
+ptf:
+  released_code_fidelity: true
+  source_bank: configs/source_banks/pure_ptf/h1hand_hurdle_loco3_released_fidelity.yaml
+
+  option_hidden_dims: [20]
+  option_lr: 0.0005
+  beta_lr: 0.0005
+  option_batch_size: 32
+  option_grad_clip: 10.0
+  beta_warmup_steps: 0
+  beta_update_mode: current_transition
+  beta_logit_clip: null
+  option_target_update_interval: 1000
+  option_tau: 0.05  # ignored in fidelity mode; retained for complete config capture
+  option_epsilon_start: 1.0
+  option_epsilon_end: 0.1
+  option_epsilon_decay_steps: 100000
+  option_min_steps: 1
+  xi: 0.0
+
+  transfer_schedule: released_tanh
+  # Huber replaces released stochastic cross-entropy, so its explicit scale is
+  # an acknowledged FastTD3 adapter rather than a claim of loss-scale identity.
+  transfer_lambda_start: 1.0
+  transfer_lambda_end: 0.0
+  transfer_decay_steps: 100000
+  transfer_loss: huber
+  transfer_huber_delta: 1.0
+  beta_weighted_transfer: false
+  update_all_compatible_options: true
+
+  execute_sources: false
+  mcg: false
+  mcg_replay_reweight: false
+  mcg_replay_mode: "off"
+  mcg_abstain_gate: false
+  admission_mode: legacy
+  admission_adaptive: false

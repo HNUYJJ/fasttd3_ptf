@@ -1,0 +1,103 @@
+# 扩源 weighted bank for cabinet(7 源+vs-zero weight, horizon=25;
+# weight 来自 transfer_map_v2_bigsrc.jsonl 同批 probe;
+# 由 build_bigsrc_banks.py 自动生成,勿手改)。
+null_option: true
+sources:
+- name: stand
+  manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 109
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 1.4815
+    horizon: 25
+- name: walk
+  manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 109
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.8929
+    horizon: 25
+- name: run
+  manifest: checkpoints/official_sources/h1hand_run/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 109
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 2.3201
+    horizon: 25
+- name: crawl
+  manifest: checkpoints/terrain_sources/h1hand_crawl/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 109
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.0
+    horizon: 25
+- name: pole
+  manifest: checkpoints/terrain_sources/h1hand_pole/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 109
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 2.6203
+    horizon: 25
+- name: slide
+  manifest: checkpoints/terrain_sources/h1hand_slide/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 109
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 4.6114
+    horizon: 25
+- name: stair
+  manifest: checkpoints/terrain_sources/h1hand_stair/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 109
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.0845
+    horizon: 25

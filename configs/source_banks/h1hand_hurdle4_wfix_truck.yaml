@@ -1,0 +1,60 @@
+# hurdle 增量实验 bank for truck(3loco+hurdle, weight=orthosrc 同批 probe, h25;
+# 检验 T⁰ 预判扩源收益: hurdle probe 分数超 walk, 对照 wfix-3src 已有 3seed)。
+null_option: true
+sources:
+- name: stand
+  manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 111
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 5.2
+    horizon: 25
+- name: walk
+  manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 111
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 12.816
+    horizon: 25
+- name: run
+  manifest: checkpoints/official_sources/h1hand_run/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 111
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 12.613
+    horizon: 25
+- name: hurdle
+  manifest: checkpoints/terrain_sources/h1hand_hurdle/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 111
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 13.623
+    horizon: 25

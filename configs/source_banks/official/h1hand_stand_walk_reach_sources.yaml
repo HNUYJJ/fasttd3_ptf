@@ -1,0 +1,40 @@
+sources:
+  - name: stand
+    manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+    obs_adapter:
+      type: robot_only
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: groups
+      schema: h1hand_default
+      groups: [legs_torso, arms]
+    compatibility_sigma: 0.25
+
+  - name: walk
+    manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+    obs_adapter:
+      type: robot_only
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: groups
+      schema: h1hand_default
+      groups: [legs_torso]
+    compatibility_sigma: 0.25
+
+  - name: reach
+    manifest: checkpoints/official_sources/h1hand_reach/manifest.json
+    obs_adapter:
+      type: reach
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: groups
+      schema: h1hand_default
+      groups: [arms, hands]
+    compatibility_sigma: 0.30
+
+null_option:
+  enabled: true
+  name: no_transfer

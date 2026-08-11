@@ -1,0 +1,133 @@
+schema_version: 1
+experiment: hurdle_equal_dose_source_calibration_v1
+status: approved_seed1_gate
+date_utc: '2026-07-23'
+
+research_gate:
+  core_question: teacher_value
+  hypothesis: >-
+    Under the same reward-bearing bootstrap exposure, stand, walk, and run
+    induce different early source-free learning outcomes on Hurdle.
+  positive_decision: >-
+    If at least one source improves both early nAUC and the 30k frozen
+    source-free endpoint, use the observed source ordering as ground-truth
+    calibration data and advance only the leading candidates to seeds 2/3.
+  negative_decision: >-
+    If no source improves both views, stop using Hurdle as the positive RBO
+    transferability calibration task; do not tune the exposure or thresholds.
+  evidence_gap: >-
+    Existing Hurdle evidence establishes walk action-distillation benefit and
+    mixed-bank RBO benefit, but not source-specific RBO intervention value.
+  minimum_test: scratch_plus_three_single_source_arms_seed1_to_30k
+
+common:
+  env_id: h1hand-hurdle-v0
+  seed: 1
+  total_timesteps_for_lr_schedule: 100000
+  run_stop_step: 30000
+  num_envs: 128
+  batch_size: 32768
+  buffer_size: 51200
+  learning_starts: 10
+  num_updates: 2
+  eval_interval: 5000
+  explicit_checkpoint_steps: [30000]
+  amp: true
+  compile: false
+
+source_intervention:
+  mode: admission_bootstrap
+  admission_mode: all
+  source_logit: 0.0
+  student_logit: 0.0
+  expected_candidate_masses: [0.5, 0.5]
+  outer_teacher_bernoulli: false
+  horizon: 25
+  warmup_steps: 30000
+  ablation: bootstrap_only
+  groups: [legs_torso, arms, hands]
+  distillation: false
+  replay:
+    provenance_strata: [source, student]
+    stratum_masses: [0.5, 0.5]
+    within_stratum: uniform
+    recency_half_life: 0
+    priority_alpha: 0
+    handoff: physical_after_authority
+
+arms:
+  scratch:
+    source_bank: configs/source_banks/empty.yaml
+    admission_mode: legacy
+  stand:
+    source_bank: configs/source_banks/calibration/h1hand_hurdle_rbo_stand.yaml
+  walk:
+    source_bank: configs/source_banks/calibration/h1hand_hurdle_rbo_walk.yaml
+  run:
+    source_bank: configs/source_banks/calibration/h1hand_hurdle_rbo_run.yaml
+
+metrics:
+  primary_screen:
+    name: normalized_eval_return_auc
+    steps: [5000, 10000, 15000, 20000, 25000]
+    note: >-
+      A run stopped at completed step 30000 has no in-loop 30000 evaluation,
+      so the online primary window is honestly named 5k-25k.
+  confirmatory:
+    name: frozen_source_free_return
+    checkpoint_step: 30000
+    panel:
+      eval_seeds: [11, 23, 37, 53]
+      ranks: [0, 1, 2, 3, 4, 5, 6, 7]
+      episodes: 32
+  treatment_audit:
+    - source_behavior_share
+    - source_critic_replay_share
+    - candidate_masses
+    - progress_max_dx
+    - episode_length
+
+seed1_decision:
+  advance: >-
+    At least one source must exceed scratch in both 5k-25k nAUC and the 30k
+    frozen endpoint. The same source should lead both views before it is called
+    the provisional top source.
+  ambiguous: >-
+    If at least one source is positive but AUC and endpoint leaders differ,
+    record acceleration and endpoint quality separately; only the leading
+    candidates may receive seeds 2/3.
+  stop: >-
+    If no source exceeds scratch in both views, Hurdle is rejected as the
+    positive source-specific RBO calibration task.
+  claim_boundary: >-
+    Seed 1 is a feasibility screen, not statistical evidence that sources are
+    separable. A stable ranking claim requires paired multi-seed evidence.
+
+preregistered_external_comparison:
+  signal: scaled_classic_ptf_Qomega_multisource_selector_preference
+  observed_preferred_source: walk
+  evidence_boundary: >-
+    This is the argmax preference observed inside one multisource
+    option-termination run. It is not a walk-only causal teacher-value label
+    and does not establish that walk is the true best source.
+  use: comparison_after_labels_only
+  forbidden: tuning_the_intervention_or_metric_from_seed1
+
+multiseed_confirmation:
+  approved_utc: '2026-07-23'
+  seeds: [2, 3]
+  arms: [scratch, walk, run]
+  unchanged_treatment: true
+  primary_hypothesis: >-
+    The seed-1 RBO ordering run > walk > scratch is reproduced in both
+    5k-25k nAUC and the 30k frozen source-free endpoint.
+  full_replication: >-
+    Every seed separately satisfies run > walk > scratch in both views.
+  aggregate_only: >-
+    Both across-seed means preserve run > walk > scratch, but at least one
+    individual seed or view has an inversion.
+  failure: >-
+    Either across-seed mean does not preserve run > walk > scratch.
+  excluded_arm: >-
+    Stand is not rerun because the minimum decision-changing test only needs
+    the provisional top, runner-up, and scratch.

@@ -1,0 +1,282 @@
+# 标准 9 源 weighted bank for basketball(weight=T⁰相对allocation probe,非ROI; h25;
+# build_std9_banks.py 生成, probe=transfer_map_v2_batch2.jsonl)。
+null_option: true
+sources:
+- name: stand
+  manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 83
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 2.738
+    horizon: 25
+- name: walk
+  manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 83
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.428
+    horizon: 25
+- name: run
+  manifest: checkpoints/official_sources/h1hand_run/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 83
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 1.506
+    horizon: 25
+- name: hurdle
+  manifest: checkpoints/terrain_sources/h1hand_hurdle/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 83
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.582
+    horizon: 25
+- name: stair
+  manifest: checkpoints/terrain_sources/h1hand_stair/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 83
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.0
+    horizon: 25
+- name: slide
+  manifest: checkpoints/terrain_sources/h1hand_slide/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 83
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 2.023
+    horizon: 25
+- name: crawl
+  manifest: checkpoints/terrain_sources/h1hand_crawl/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 83
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.0
+    horizon: 25
+- name: pole
+  manifest: checkpoints/terrain_sources/h1hand_pole/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 83
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.857
+    horizon: 25
+- name: reach
+  manifest: checkpoints/official_sources/h1hand_reach/manifest.json
+  obs_adapter:
+    type: slice
+    indices:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+    - 17
+    - 18
+    - 19
+    - 20
+    - 21
+    - 22
+    - 23
+    - 24
+    - 25
+    - 26
+    - 27
+    - 28
+    - 29
+    - 30
+    - 31
+    - 32
+    - 33
+    - 34
+    - 35
+    - 36
+    - 37
+    - 38
+    - 39
+    - 40
+    - 41
+    - 42
+    - 43
+    - 44
+    - 45
+    - 46
+    - 47
+    - 48
+    - 49
+    - 50
+    - 51
+    - 52
+    - 53
+    - 54
+    - 55
+    - 56
+    - 57
+    - 58
+    - 59
+    - 60
+    - 61
+    - 62
+    - 63
+    - 64
+    - 65
+    - 66
+    - 67
+    - 68
+    - 69
+    - 70
+    - 71
+    - 72
+    - 73
+    - 74
+    - 75
+    - 83
+    - 84
+    - 85
+    - 86
+    - 87
+    - 88
+    - 89
+    - 90
+    - 91
+    - 92
+    - 93
+    - 94
+    - 95
+    - 96
+    - 97
+    - 98
+    - 99
+    - 100
+    - 101
+    - 102
+    - 103
+    - 104
+    - 105
+    - 106
+    - 107
+    - 108
+    - 109
+    - 110
+    - 111
+    - 112
+    - 113
+    - 114
+    - 115
+    - 116
+    - 117
+    - 118
+    - 119
+    - 120
+    - 121
+    - 122
+    - 123
+    - 124
+    - 125
+    - 126
+    - 127
+    - 128
+    - 129
+    - 130
+    - 131
+    - 132
+    - 133
+    - 134
+    - 135
+    - 136
+    - 137
+    - 138
+    - 139
+    - 140
+    - 141
+    - 142
+    - 143
+    - 144
+    - 145
+    - 146
+    - 147
+    - 148
+    - 149
+    - 150
+    - 151
+    - 152
+    - 153
+    - 154
+    - 155
+    - 156
+    - 157
+    output_dim: 157
+    allow_pad: true
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.0
+    horizon: 25

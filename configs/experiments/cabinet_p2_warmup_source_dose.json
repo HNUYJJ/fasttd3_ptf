@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "experiment": "stability_deconfounded_audit_p2_cabinet_source_dose",
+  "task": "cabinet",
+  "warmup_step_filter": {
+    "min_inclusive": 0,
+    "max_exclusive": 30000
+  },
+  "share_validation_atol": 1e-08,
+  "expected_seeds": [1, 2, 3],
+  "conditions": [
+    {
+      "name": "run24",
+      "source_names": ["run"],
+      "runs": [
+        {
+          "seed": 1,
+          "wandb_path": "wandb/run-20260711_025928-m7g91tmt/run-m7g91tmt.wandb"
+        },
+        {
+          "seed": 2,
+          "wandb_path": "wandb/run-20260711_025936-hlt3rbbx/run-hlt3rbbx.wandb"
+        },
+        {
+          "seed": 3,
+          "wandb_path": "wandb/run-20260711_030115-1ist9tlb/run-1ist9tlb.wandb"
+        }
+      ]
+    },
+    {
+      "name": "run50",
+      "source_names": ["run"],
+      "runs": [
+        {
+          "seed": 1,
+          "wandb_path": "wandb/run-20260710_121625-x1z4dmxe/run-x1z4dmxe.wandb"
+        },
+        {
+          "seed": 2,
+          "wandb_path": "wandb/run-20260710_154631-e5cd43ij/run-e5cd43ij.wandb"
+        },
+        {
+          "seed": 3,
+          "wandb_path": "wandb/run-20260710_172342-uytlp6ts/run-uytlp6ts.wandb"
+        }
+      ]
+    },
+    {
+      "name": "wfix",
+      "source_names": ["stand", "walk", "run"],
+      "runs": [
+        {
+          "seed": 1,
+          "wandb_path": "wandb/run-20260705_001642-lgqbjerd/run-lgqbjerd.wandb"
+        },
+        {
+          "seed": 2,
+          "wandb_path": "wandb/run-20260705_022520-df4e2nwl/run-df4e2nwl.wandb"
+        },
+        {
+          "seed": 3,
+          "wandb_path": "wandb/run-20260705_051031-ddet8h7t/run-ddet8h7t.wandb"
+        }
+      ]
+    }
+  ]
+}

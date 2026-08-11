@@ -1,0 +1,36 @@
+# Multi-teacher falsification gate for classic PTF termination dynamics.
+# Relative to the single walk+null current-transition gate, the only scientific
+# intervention is replacing one teacher with stand/walk/run (four options with
+# null). No STE clip is used: the question is whether multiple non-greedy
+# options naturally prevent the two-option aggregate down-pressure.
+ptf:
+  source_bank: configs/source_banks/pure_ptf/h1hand_hurdle_loco3_sigma05.yaml
+
+  option_hidden_dims: [256, 256]
+  option_lr: 0.0003
+  beta_lr: 0.0001
+  beta_warmup_steps: 0
+  beta_update_mode: current_transition
+  beta_logit_clip: null
+  option_tau: 0.05
+  option_epsilon_start: 0.30
+  option_epsilon_end: 0.05
+  option_epsilon_decay_steps: 50000
+  option_min_steps: 1
+  xi: 0.0
+
+  transfer_lambda_start: 1.0
+  transfer_lambda_end: 0.0
+  transfer_decay_steps: 100000
+  transfer_loss: huber
+  transfer_huber_delta: 1.0
+  beta_weighted_transfer: true
+  update_all_compatible_options: true
+
+  execute_sources: false
+  mcg: false
+  mcg_replay_reweight: false
+  mcg_replay_mode: "off"
+  mcg_abstain_gate: false
+  admission_mode: legacy
+  admission_adaptive: false

@@ -1,0 +1,22 @@
+# 边界任务 pilot(RIC-PTF): spoon 的 loco 源库(stand/walk/run 跨任务复用)。
+# hb_robot_qpos_qvel adapter 取 qpos[:76]|qvel[:75](qpos_dim=83=nq), 不碰任务字段。
+null_option: true
+sources:
+- name: stand
+  manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+  obs_adapter: {type: hb_robot_qpos_qvel, qpos_dim: 83, output_dim: 151}
+  action_adapter: {type: passthrough}
+  action_mask: {type: full}
+  compatibility_sigma: 1.5
+- name: walk
+  manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+  obs_adapter: {type: hb_robot_qpos_qvel, qpos_dim: 83, output_dim: 151}
+  action_adapter: {type: passthrough}
+  action_mask: {type: full}
+  compatibility_sigma: 1.5
+- name: run
+  manifest: checkpoints/official_sources/h1hand_run/manifest.json
+  obs_adapter: {type: hb_robot_qpos_qvel, qpos_dim: 83, output_dim: 151}
+  action_adapter: {type: passthrough}
+  action_mask: {type: full}
+  compatibility_sigma: 1.5

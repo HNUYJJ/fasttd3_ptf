@@ -1,0 +1,82 @@
+schema_version: 1
+protocol: docs/source_intervention_mechanism_gate_v1.md
+status: preregistered_before_collection
+
+target:
+  env_id: h1hand-cabinet-v0
+  learner_seed: 1
+  stage_vector_steps: 10000
+  num_envs: 128
+  source_bank: configs/source_banks/empty.yaml
+  mcg: false
+  entity_encoder: false
+  eval_interval: 0
+  render_interval: 0
+  anchor_dir: artifacts/anchors/cabinet_scratch_s1_step10000
+
+source_intervention:
+  source_bank: configs/source_banks/audit/h1hand_cabinet_sd_run.yaml
+  source_name: run
+  groups: [legs_torso, arms]
+  student_groups: [hands]
+  source_horizon: 25
+  followup_horizon: 25
+
+state_bank:
+  accepted_anchors: 512
+  reset_seed_start: 410000
+  reserve_seeds: 128
+  prefix_length_rng_seed: 20260711
+  prefix_length_low_inclusive: 0
+  prefix_length_high_exclusive: 950
+  prefix_exploration_noise_seed: 20260712
+  path_exploration_noise_seed: 20260713
+  exploration_scale: anchor_actor_noise_scale_by_anchor_mod_env
+  invalidation: reject_pair_if_either_path_terminates_or_truncates
+  output: artifacts/mechanism_gate/cabinet_s1/state_bank.pt
+
+trajectory_bank:
+  output: artifacts/mechanism_gate/cabinet_s1/trajectory_bank.pt
+  provenance_groups: [legs_torso, arms, hands]
+  behavior_ids:
+    student: -1
+    mixed_run_composite: -2
+
+updates:
+  cells: ["00", "10", "01", "11", duplicate00, d0_only]
+  no_update_control: true
+  critic_updates: 400
+  actor_updates: 200
+  policy_frequency: 2
+  batch_size: 32768
+  batch_fractions:
+    d0: 0.50
+    z: 0.25
+    f: 0.25
+  sampler_seed: 20260721
+  target_noise_seed: 20260722
+  branch_order_seed: 20260723
+  evaluation_updates: [0, 100, 200, 400]
+  primary_update: 400
+  freeze_normalizers: true
+  output_dir: artifacts/mechanism_gate/cabinet_s1/branches
+  save_branch_checkpoints: true
+
+evaluation:
+  source_free: true
+  deterministic_actor: true
+  reset_seed_start: 610000
+  episodes: 64
+  max_steps: 1000
+  primary_metric: max_door_fraction
+  output: artifacts/mechanism_gate/cabinet_s1/results.json
+
+feasibility_gate:
+  practical_effect_floor: 0.10
+  duplicate_noise_multiplier: 3.0
+  endpoint_l2_floor: 0.05
+  action_l2_floor: 0.05
+  require_detectable_occupancy_treatment: true
+  require_hard_threshold_consistency: true
+  reject_posture_only_explanation: true
+  require_full_effect_not_strongly_negative: true

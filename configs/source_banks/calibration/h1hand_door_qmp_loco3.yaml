@@ -1,0 +1,54 @@
+# QMP-fidelity candidate bank (run card docs/run_card_qmp_fidelity_v1.md).
+# 与 door equal-dose calibration gate 完全相同的三个冻结 loco 源,合并为单一 bank,
+# 使 QMP 能在**完整策略**之间做 per-state 选择。每条 spec 逐字段复制自
+# h1hand_door_rbo_{stand,walk,run}.yaml,因此与冻结的 fixed-source 臂逐位同源。
+# null_option 为 false: QMP 的"不迁移"选项就是 student 候选本身,不是 null option。
+# bootstrap.weight/horizon 在 QMP 下不被消费(behavior-only,无 bootstrap 调度),
+# 保留仅为与原 spec 逐字段一致。
+null_option: false
+sources:
+- name: stand
+  manifest: checkpoints/official_sources/h1hand_stand/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 78
+    robot_dof: 76
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.0
+    horizon: 25
+- name: walk
+  manifest: checkpoints/official_sources/h1hand_walk/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 78
+    robot_dof: 76
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.0
+    horizon: 25
+- name: run
+  manifest: checkpoints/official_sources/h1hand_run/manifest.json
+  obs_adapter:
+    type: hb_robot_qpos_qvel
+    qpos_dim: 78
+    robot_dof: 76
+    output_dim: 151
+  action_adapter:
+    type: passthrough
+  action_mask:
+    type: full
+  compatibility_sigma: 1.5
+  bootstrap:
+    weight: 0.0
+    horizon: 25

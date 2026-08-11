@@ -1,0 +1,81 @@
+schema_version: 1
+experiment: stage_conditioned_target_evidence_online_v1
+status: implementation_smoke_pending
+date_utc: '2026-07-26'
+
+research_gate:
+  core_question: teacher_value
+  hypothesis: >-
+    A task-agnostic, stage-conditioned comparison of source intervention
+    against the current student can admit a useful source on Hurdle while
+    exactly abstaining from locomotion sources on Crawl.
+  positive_decision: >-
+    At the frozen 10k and 20k probe boundaries, Hurdle admits a source that is
+    positive in both target return and target-achievement progress, while
+    Crawl exactly abstains; the online Hurdle arm improves over scratch and
+    the Crawl arm does not show material negative transfer.
+  negative_decision: >-
+    If the online decisions contradict the frozen offline bidirectional gate,
+    or exact abstention still produces Crawl degradation beyond ordinary seed
+    variation, stop this metric form without threshold tuning.
+  evidence_gap: >-
+    Offline matched-state probes passed on Hurdle@10k and Crawl@10k, but the
+    same estimator has not yet controlled behavior authority and replay
+    eligibility during a live FastTD3 run.
+  minimum_test: hurdle_and_crawl_online_plus_matching_scratch_seed1_to_30k
+
+generic_mechanism:
+  source_bank: configs/source_banks/calibration/h1hand_loco3_rbo_equal_h25.yaml
+  admission_mode: target_evidence
+  probe_steps: [10000, 20000]
+  probe_horizon: 25
+  panel:
+    reset_seeds: [11001, 23001, 37001, 53001]
+    occupancy_ages: [0, 5, 10, 25, 50, 100, 150, 200]
+  decision: >-
+    Admit the top-1 progress-LCB source among sources with positive return and
+    target-achievement progress LCBs; otherwise exact abstention.
+  behavior_and_replay_mass:
+    admitted_source: 0.5
+    student: 0.5
+  lifecycle: >-
+    Probe data remain quarantined. Rejected or superseded sources have zero
+    behavior probability and immediately leave active replay.
+
+task_semantics_adapters:
+  hurdle: configs/target_evidence/humanoidbench_hurdle_v1.yaml
+  crawl: configs/target_evidence/humanoidbench_crawl_v1.yaml
+  boundary: >-
+    These files define how a target MDP exposes achievement progress and
+    optional hard constraints. They never contain source-specific choices or
+    alter the admission rule.
+
+common_training:
+  total_timesteps_for_lr_schedule: 100000
+  run_stop_step: 30000
+  num_envs: 128
+  batch_size: 32768
+  buffer_size: 51200
+  learning_starts: 10
+  num_updates: 2
+  eval_interval: 5000
+  explicit_checkpoint_steps: [30000]
+  amp: true
+  compile: false
+  mcg_groups: [legs_torso, arms, hands]
+  warmup_steps: 30000
+  warmup_mode: admission_bootstrap
+  warmup_horizon: 25
+  ablation: bootstrap_only
+  distillation: false
+  replay:
+    recency_half_life: 0
+    uniform_mix: 1
+    priority_alpha: 0
+    handoff: physical_after_authority
+
+claim_boundary: >-
+  Passing this gate establishes online feasibility of a generic
+  stage-conditioned admission signal on one positive and one negative task.
+  It does not yet establish a universal transferability metric or cross-family
+  generalization.

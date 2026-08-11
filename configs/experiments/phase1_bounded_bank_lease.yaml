@@ -1,0 +1,48 @@
+schema_version: 1
+experiment: phase1_bounded_bank_lease
+status: pi_authorized_execution
+date_utc: 2026-07-19
+question: >-
+  After source behavior authority ends at 30k, does immediately removing all
+  source provenance from active replay improve or harm later target learning
+  relative to retaining the naturally decaying physical source tail?
+estimand: >-
+  Delta_exit = J(B=0,R=0) - J(B=0,R=physical tail), where J is normalized
+  trapezoidal AUC over completed steps 35k through 80k.
+fixed_design:
+  tasks: [basketball, truck]
+  seeds: [1, 2, 3]
+  source_mass_0_30k: 0.5
+  behavior_authority_end: 30000
+  main_auc_window: [35000, 80000]
+  total_timesteps: 100000
+  num_envs: 128
+  batch_size: 32768
+  buffer_size: 51200
+  learning_starts: 10
+  num_updates: 2
+  eval_interval: 5000
+  save_interval: 0
+  completed_step_checkpoints: [30000, 60000, 80000, 90000, 100000]
+  replay_handoff: physical_after_authority
+  replay_recency_half_life: 0.0
+  replay_uniform_mix: 1.0
+  replay_priority_alpha: 0.0
+  mcg_groups: [legs_torso, arms]
+  mcg_warmup_mode: admission_bootstrap
+  mcg_ablation: bootstrap_only
+  mcg_warmup_min_steps: 25
+frozen_artifacts:
+  gate_a: docs/data/p1_bounded_bank_lease/gate_a_report.json
+  delta: docs/data/p1_bounded_bank_lease/delta_frozen.json
+  gate_b: docs/data/p1_bounded_bank_lease/gate_b_tolerance_frozen.json
+new_runs:
+  - {task: basketball, arm: hard_exit, seeds: [1, 2, 3]}
+  - {task: truck, arm: retention, seeds: [1, 2, 3]}
+  - {task: truck, arm: hard_exit, seeds: [1, 2, 3]}
+historical_reuse:
+  basketball_retention: basketball_static_s1-3
+claim_boundaries:
+  - This experiment tests replay lifecycle after a fixed bank lease; it does not infer transferability.
+  - A hard exit limits future source exposure but cannot undo earlier learner-state or occupancy changes.
+  - Parameters and decision thresholds are frozen before new training results are inspected.

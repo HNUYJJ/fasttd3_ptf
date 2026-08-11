@@ -1,0 +1,29 @@
+schema_version: 1
+name: humanoidbench_hurdle_target_evidence_v1
+env_name: h1hand-hurdle-v0
+
+# The algorithm only sees a maximize-oriented scalar.  This adapter declares
+# how the target MDP exposes it; no source-specific choice appears here.
+progress:
+  kind: sim_state_delta
+  array: qpos
+  index: 0
+  direction: maximize
+  gate_components: [upright_support, obstacle_clearance]
+  gate_reducer: product
+
+feasibility:
+  - name: upright_support
+    info_keys: [stand_reward]
+    step_reducer: min
+    temporal_reducer: mean
+    direction: maximize
+  - name: obstacle_clearance
+    info_keys: [wall_collision_discount]
+    step_reducer: min
+    temporal_reducer: mean
+    direction: maximize
+
+# These reward components shape valid progress, but neither is a strict
+# source veto: the target reward already defines their trade-off with motion.
+hard_constraints: []

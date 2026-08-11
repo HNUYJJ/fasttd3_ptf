@@ -1,0 +1,79 @@
+schema_version: 1
+experiment: crawl_equal_dose_source_calibration_v1
+status: approved_seed1_negative_gate
+date_utc: '2026-07-23'
+
+research_gate:
+  core_question: teacher_value
+  hypothesis: >-
+    The historical crawl bank-level negative transfer contains at least one
+    single locomotion source whose equal-dose RBO intervention does not improve
+    both early nAUC and the 30k frozen source-free endpoint over scratch.
+  positive_decision: >-
+    A non-positive single-source label becomes a negative calibration example
+    for absolute admission. If its old short probe reward was positive, that
+    probe is rejected as a sufficient learning-utility signal.
+  negative_decision: >-
+    If all three single sources are positive in both views, attribute the old
+    negative result to mixture/allocation effects rather than claiming an
+    individually harmful source; do not tune this screen.
+  evidence_gap: >-
+    Existing crawl evidence is bank-level and cannot identify stand, walk, or
+    run as an individually harmful RBO intervention.
+  minimum_test: scratch_plus_three_single_source_arms_seed1_to_30k
+
+common:
+  env_id: h1hand-crawl-v0
+  seed: 1
+  total_timesteps_for_lr_schedule: 100000
+  run_stop_step: 30000
+  num_envs: 128
+  batch_size: 32768
+  buffer_size: 51200
+  learning_starts: 10
+  num_updates: 2
+  eval_interval: 5000
+  explicit_checkpoint_steps: [30000]
+
+source_intervention:
+  mode: admission_bootstrap
+  admission_mode: all
+  source_logit: 0.0
+  student_logit: 0.0
+  expected_candidate_masses: [0.5, 0.5]
+  outer_teacher_bernoulli: false
+  horizon: 25
+  warmup_steps: 30000
+  ablation: bootstrap_only
+  groups: [legs_torso, arms, hands]
+  distillation: false
+  replay:
+    provenance_strata: [source, student]
+    stratum_masses: [0.5, 0.5]
+    within_stratum: uniform
+    recency_half_life: 0
+    priority_alpha: 0
+    handoff: physical_after_authority
+
+arms:
+  scratch: {source_bank: configs/source_banks/empty.yaml, admission_mode: legacy}
+  stand: {source_bank: configs/source_banks/calibration/h1hand_crawl_rbo_stand.yaml}
+  walk: {source_bank: configs/source_banks/calibration/h1hand_crawl_rbo_walk.yaml}
+  run: {source_bank: configs/source_banks/calibration/h1hand_crawl_rbo_run.yaml}
+
+metrics:
+  primary_screen:
+    name: normalized_eval_return_auc
+    steps: [5000, 10000, 15000, 20000, 25000]
+  confirmatory:
+    name: frozen_source_free_return
+    checkpoint_step: 30000
+    episodes: 32
+  treatment_audit:
+    - source_behavior_share
+    - source_critic_replay_share
+    - candidate_masses
+
+claim_boundary: >-
+  Seed 1 only determines whether crawl supplies a source-specific negative
+  calibration example. It does not establish a stable source ordering.

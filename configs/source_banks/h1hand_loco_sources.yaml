@@ -1,0 +1,43 @@
+# Conservative source bank for h1hand targets whose observations already place
+# robot qpos[:76] + qvel[:75] in the first 151 entries, such as package.
+# Door/window inherit full qpos+qvel observations and use target-specific banks.
+sources:
+  - name: stand
+    manifest: checkpoints/sources/h1hand_stand/manifest.json
+    obs_adapter:
+      type: robot_only
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: groups
+      schema: h1hand_default
+      groups: [legs_torso, arms]
+    compatibility_sigma: 0.25
+
+  - name: walk
+    manifest: checkpoints/sources/h1hand_walk/manifest.json
+    obs_adapter:
+      type: robot_only
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: groups
+      schema: h1hand_default
+      groups: [legs_torso]
+    compatibility_sigma: 0.25
+
+  - name: run
+    manifest: checkpoints/sources/h1hand_run/manifest.json
+    obs_adapter:
+      type: robot_only
+    action_adapter:
+      type: passthrough
+    action_mask:
+      type: groups
+      schema: h1hand_default
+      groups: [legs_torso]
+    compatibility_sigma: 0.25
+
+null_option:
+  enabled: true
+  name: no_transfer

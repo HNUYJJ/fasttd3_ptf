@@ -1,0 +1,12 @@
+schema_version: 1
+source_names: [run]
+decisions:
+  - step: 0
+    decision_id: door-run-bridge-admit
+    admitted_sources: [run]
+    source_logits: [0.0]
+    student_logit: 0.0
+  - step: 12000
+    decision_id: door-run-bridge-forget
+    admitted_sources: []
+    student_logit: 0.0
