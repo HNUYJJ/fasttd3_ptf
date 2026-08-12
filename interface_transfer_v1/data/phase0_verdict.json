@@ -1,0 +1,187 @@
+{
+ "prereg": "docs/phase0_prereg_v2_20260812.md",
+ "scope": "工程与方法 positive control，不是迁移结果",
+ "contrast_iface_minus_flat": {
+  "per_seed": [
+   494.289,
+   -53.058,
+   -206.143
+  ],
+  "mean": 78.363,
+  "sd_learner": 368.246,
+  "se_learner": 212.607,
+  "t_reported_only": 0.369,
+  "positive_seeds": 1,
+  "note": "n=3，只报方向与 learner 间 SD，不做显著性声称（M16/M24）"
+ },
+ "per_seed": {
+  "s1": {
+   "flat_return": 56.318,
+   "iface_return": 550.607,
+   "diff": 494.289,
+   "flat_success": 0.34375,
+   "iface_success": 0.65625,
+   "flat_hand_dist": 1.0615,
+   "iface_hand_dist": 0.5776,
+   "flat_target_dist": 0.5376,
+   "iface_target_dist": 0.3081
+  },
+  "s2": {
+   "flat_return": 390.185,
+   "iface_return": 337.127,
+   "diff": -53.058,
+   "flat_success": 0.5,
+   "iface_success": 0.5,
+   "flat_hand_dist": 0.5322,
+   "iface_hand_dist": 0.8472,
+   "flat_target_dist": 0.2737,
+   "iface_target_dist": 0.3437
+  },
+  "s3": {
+   "flat_return": 34.563,
+   "iface_return": -171.58,
+   "diff": -206.143,
+   "flat_success": 0.21875,
+   "iface_success": 0.03125,
+   "flat_hand_dist": 1.1616,
+   "iface_hand_dist": 0.4228,
+   "flat_target_dist": 0.292,
+   "iface_target_dist": 0.367
+  }
+ },
+ "curve_check": {
+  "p0_flat_s1": {
+   "status": "OK",
+   "n": 4,
+   "steps": [
+    80000,
+    85000,
+    90000,
+    95000
+   ],
+   "values": [
+    -22.86,
+    88.38,
+    11.54,
+    88.17
+   ],
+   "deltas": [
+    111.238,
+    -76.838,
+    76.627
+   ],
+   "nondecreasing": false
+  },
+  "p0_flat_s2": {
+   "status": "OK",
+   "n": 4,
+   "steps": [
+    80000,
+    85000,
+    90000,
+    95000
+   ],
+   "values": [
+    275.39,
+    294.54,
+    264.14,
+    266.94
+   ],
+   "deltas": [
+    19.151,
+    -30.401,
+    2.806
+   ],
+   "nondecreasing": false
+  },
+  "p0_flat_s3": {
+   "status": "OK",
+   "n": 4,
+   "steps": [
+    80000,
+    85000,
+    90000,
+    95000
+   ],
+   "values": [
+    -154.01,
+    2.37,
+    -21.77,
+    -131.6
+   ],
+   "deltas": [
+    156.378,
+    -24.137,
+    -109.829
+   ],
+   "nondecreasing": false
+  },
+  "p0_iface_s1": {
+   "status": "OK",
+   "n": 4,
+   "steps": [
+    80000,
+    85000,
+    90000,
+    95000
+   ],
+   "values": [
+    632.29,
+    597.38,
+    618.68,
+    712.2
+   ],
+   "deltas": [
+    -34.911,
+    21.299,
+    93.514
+   ],
+   "nondecreasing": false
+  },
+  "p0_iface_s2": {
+   "status": "OK",
+   "n": 4,
+   "steps": [
+    80000,
+    85000,
+    90000,
+    95000
+   ],
+   "values": [
+    133.07,
+    206.02,
+    273.29,
+    248.33
+   ],
+   "deltas": [
+    72.948,
+    67.265,
+    -24.959
+   ],
+   "nondecreasing": false
+  },
+  "p0_iface_s3": {
+   "status": "OK",
+   "n": 4,
+   "steps": [
+    80000,
+    85000,
+    90000,
+    95000
+   ],
+   "values": [
+    -173.3,
+    -153.36,
+    -147.47,
+    -148.05
+   ],
+   "deltas": [
+    19.936,
+    5.896,
+    -0.582
+   ],
+   "nondecreasing": false
+  }
+ },
+ "verdict": "INTERFACE_NOT_VIABLE"
+}
