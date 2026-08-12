@@ -31,13 +31,32 @@ def load(arm: str, seed: int):
     return d, None
 
 
-def tail_monotone(log_path: Path) -> str:
-    """读训练日志判断最后 20% 是否单调不减。
+#: 曲线来自 wandb 本地 datastore（`eval_avg_return` 在 nested_key 里）。
+#: 这是**补上判据所依赖的数据源**，判据阈值与分支逻辑一字未改：
+#: v2 §3 原文即"两臂在最后 20% 训练步（80k→100k）的 eval return 均单调不减"。
+CURVES = ROOT / "data" / "phase0_curves.json"
+FRAMES_PER_STEP = 128        # num_envs；wandb 的 frame = global_step × num_envs
+TAIL_FROM_STEP = 80000
 
-    train_interface.py 只把 eval return 上报 wandb、不落 stdout，
-    故此处无法从日志重建曲线；返回 'UNAVAILABLE' 由调用方保守处理。
-    """
-    return "UNAVAILABLE"
+
+def load_curves() -> dict:
+    if not CURVES.exists():
+        return {}
+    return json.loads(CURVES.read_text())
+
+
+def tail_nondecreasing(curve: list) -> dict:
+    """最后 20%（global_step ≥ 80k）的 eval return 是否单调不减。"""
+    tail = [(f, v) for f, v in curve if f / FRAMES_PER_STEP >= TAIL_FROM_STEP]
+    if len(tail) < 2:
+        return {"status": "INSUFFICIENT_POINTS", "n": len(tail)}
+    vals = [v for _, v in tail]
+    deltas = [round(b - a, 3) for a, b in zip(vals, vals[1:])]
+    return {"status": "OK", "n": len(tail),
+            "steps": [int(f / FRAMES_PER_STEP) for f, _ in tail],
+            "values": [round(v, 2) for v in vals],
+            "deltas": deltas,
+            "nondecreasing": all(d >= 0 for d in deltas)}
 
 
 def main() -> int:
@@ -91,19 +110,29 @@ def main() -> int:
         "note": "n=3，只报方向与 learner 间 SD，不做显著性声称（M16/M24）",
     }
     report["per_seed"] = per_seed
-    report["curve_check"] = {
-        "status": tail_monotone(ROOT / "logs" / "phase0"),
-        "note": "eval return 只上报 wandb 未落 stdout，无法离线重建曲线",
-    }
+
+    curves = load_curves()
+    checks = {}
+    for arm in ("flat", "iface"):
+        for s in SEEDS:
+            key = f"p0_{arm}_s{s}"
+            checks[key] = tail_nondecreasing(curves.get(key, []))
+    report["curve_check"] = checks
+
+    have_all = all(c.get("status") == "OK" for c in checks.values())
+    all_nondecreasing = have_all and all(c["nondecreasing"] for c in checks.values())
 
     if pos == 3 and mean > 0:
         v = "INTERFACE_VIABLE"
     elif pos == 2:
         v = "INTERFACE_UNRESOLVED"
+    elif not have_all:
+        # §4：缺失不得落进实质裁决分支
+        v = "INCOMPLETE_CURVE_DATA"
+    elif all_nondecreasing:
+        v = "INCONCLUSIVE_BUDGET"          # 两臂都还在涨 → 不关闭路线
     else:
-        # 判据 3 需要曲线证据；曲线不可得时不得擅自判 NOT_VIABLE（§4：
-        # 缺失不能落进实质裁决分支）
-        v = "INCONCLUSIVE_BUDGET_CURVE_UNAVAILABLE"
+        v = "INTERFACE_NOT_VIABLE"         # 至少一臂已平台/下降 → 关闭路线
     report["verdict"] = v
 
     out = ROOT / "data" / "phase0_verdict.json"
